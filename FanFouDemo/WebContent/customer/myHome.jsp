@@ -9,7 +9,7 @@
     <div class="row-fluid" >
       <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav affix">
-          <li><a href="myOrder.jsp" target="content"><i class="icon-chevron-right"></i> 饮食安排</a></li>
+          <li class="active"><a href="myOrder.jsp" target="content"><i class="icon-chevron-right"></i> 饮食安排</a></li>
           <li><a href="#buttonGroups"><i class="icon-chevron-right"></i> 已完成订单</a></li>
           <li><a href="#buttonDropdowns"><i class="icon-chevron-right"></i> 我的账户</a></li>
           
@@ -18,7 +18,7 @@
       
    <iframe class="span9 "
            
-           id="content" style="border-width: 0;height: 700px" >
+           id="content" style="border-width: 0;height: 800px" src="myOrder.jsp" >
    </iframe>
       
     </div>

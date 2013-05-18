@@ -5,7 +5,7 @@
 
 <div class="container">
 	<ul class="thumbnails">
-		<li class="span4">
+		<li class="span4 ">
 			<div class="thumbnail">
 				<a href="#"> <img src="../img/a.png">
 				</a>
