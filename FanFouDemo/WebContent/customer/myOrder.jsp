@@ -1,7 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="navTop.jsp"%>
-
+<%@ include file="jsAndCSS.jsp"%>
+<style>
+body {
+	padding-top: 60px;
+	padding-bottom: 40px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
 <div class="container">
 
    
