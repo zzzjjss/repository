@@ -9,8 +9,10 @@
     <div class="row-fluid" >
       <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav affix">
-          <li id="myOrder" class="active" ><a href="myOrder.jsp" target="content"><i class="icon-chevron-right"></i> 饮食安排</a></li>
-          <li id="completeOrder"><a href="completeOrder.jsp" target="content"><i class="icon-chevron-right"></i> 已完成订单</a></li>
+          <li id="customerManager" class="active"><a href="customerManager.jsp" target="content"><i class="icon-chevron-right"></i> 会员管理</a></li>
+         
+          <li id="myOrder"  ><a href="../customer/myOrder.jsp" target="content"><i class="icon-chevron-right"></i> 饮食安排</a></li>
+          <li id="completeOrder"><a href="../customer/completeOrder.jsp" target="content"><i class="icon-chevron-right"></i> 已完成订单</a></li>
           <li id="myAccount"><a href="myAccount.jsp" target="content"><i class="icon-chevron-right"></i> 我的账户</a></li>
           
         </ul>
@@ -18,7 +20,7 @@
       
    <iframe class="span9 "
            
-           id="content" style="border-width: 0;height: 800px" src="myOrder.jsp" >
+           id="content" style="border-width: 0;height: 800px" src="customerManager.jsp" >
    </iframe>
       
     </div>

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="jsAndCSS.jsp"%>
+<%@ include file="../common/jsAndCSS.jsp"%>
 <style>
 body {
 	padding-top: 10px;
@@ -117,4 +117,4 @@ body {
 	
 </script>
 
-<%@ include file="bottom.jsp"%>
+<%@ include file="../common/bottom.jsp"%>

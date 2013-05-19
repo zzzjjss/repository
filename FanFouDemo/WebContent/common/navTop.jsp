@@ -1,4 +1,5 @@
 
+<%@page import="com.uf.fanfan.common.Constant"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -29,9 +30,9 @@ body {
 				<div class="nav-collapse collapse">
 					<ul class="nav">
 						<li><a style="font-size:30px">FanFan</a></li>
-						<li  id="index"><a href="index.jsp">本期菜谱</a></li>
-						<li id="companyInfo"><a href="companyInfo.jsp">公司简介</a></li>
-						<li id="myHome"><a href="myHome.jsp" >我的饭饭</a></li>
+						<li  id="index"><a href="../common/index.jsp">本期菜谱</a></li>
+						<li id="companyInfo"><a href="../common/companyInfo.jsp">公司简介</a></li>
+						<li id="myHome"><a href="<%=Constant.AGENT_HOME_PATH %>" >我的饭饭</a></li>
 						
 					</ul>
 					<form class="navbar-form pull-right">
