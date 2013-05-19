@@ -9,9 +9,9 @@
     <div class="row-fluid" >
       <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav affix">
-          <li class="active"><a href="myOrder.jsp" target="content"><i class="icon-chevron-right"></i> 饮食安排</a></li>
-          <li><a href="#buttonGroups"><i class="icon-chevron-right"></i> 已完成订单</a></li>
-          <li><a href="#buttonDropdowns"><i class="icon-chevron-right"></i> 我的账户</a></li>
+          <li id="myOrder" class="active" ><a href="myOrder.jsp" target="content"><i class="icon-chevron-right"></i> 饮食安排</a></li>
+          <li id="completeOrder"><a href="completeOrder.jsp" target="content"><i class="icon-chevron-right"></i> 已完成订单</a></li>
+          <li id="myAccount"><a href="myAccount.jsp" target="content"><i class="icon-chevron-right"></i> 我的账户</a></li>
           
         </ul>
       </div>
@@ -29,5 +29,11 @@
 
 $("#myHome").attr("class","active");
 
+$("li").click(function(){
+	$("li.active").removeAttr("class");
+	
+	this.setAttribute("class","active");
+	
+} );
 </script>
 <%@ include file="bottom.jsp"%>

@@ -15,60 +15,63 @@ body {
 			<div class="thumbnail" style="background-color: #EEEEEE;">
 				<a > <img src="../img/a.jpg">
 				</a>
-				<div class="caption" >
-						
-					<h3 align="center">星期一</h3>
-				</div>
+				<h3 align="center">星期一</h3>
+				<p align="center">
+				<button  type="button" class="btn disabled">完成配送</button>
+				</p>
+				
 			</div>
 		</li>
 		<li class="span4 ">
 			<div class="thumbnail" style="background-color: #EEEEEE;">
-				<a > <img src="../img/a.jpg">
+				<a > <img src="../img/noTrade.jpg">
 				</a>
-				<div class="caption">
-					<h3 align="center">星期二</h3>
-				</div>
+				<h3 align="center">星期二</h3>
+				<p align="center">
+				<button  type="button" class="btn disabled">没有订餐</button>
+				</p>
+				
 			</div>
 		</li>
 		<li class="span4 ">
 			<div class="thumbnail" style="background: lime;">
-				
 				<a > <img src="../img/a.jpg">
 				</a>
-				<div class="caption">
-						
-					<h3 align="center">星期三</h3>
-				</div>
+				<h3 align="center">星期三 
+				</h3>
+				<p align="center">
+				<button  type="button" class="btn btn-primary">取消订餐</button>
+				</p>
 			</div>
 		</li>
 		<li class="span4 ">
 			<div class="thumbnail" style="background:lime;">
 				<a > <img src="../img/trade.jpg">
 				</a>
-				<div class="caption">
-						
-					<h3 align="center">星期四</h3>
-				</div>
+				<h3 align="center">星期四</h3>
+				<p align="center">
+				<button  type="button" class="btn btn-primary">订餐</button>
+				</p>
 			</div>
 		</li>
 		<li class="span4 ">
 			<div class="thumbnail" style="background:lime;">
 				<a > <img src="../img/trade.jpg">
 				</a>
-				<div class="caption">
-						
-					<h3 align="center">星期五</h3>
-				</div>
+				<h3 align="center">星期五</h3>
+				<p align="center">
+				<button  type="button" class="btn btn-primary">订餐</button>
+				</p>
 			</div>
 		</li>
 			<li class="span4 ">
 			<div class="thumbnail" style="background:lime;">
 				<a > <img src="../img/trade.jpg">
 				</a>
-				<div class="caption">
-						
-					<h3 align="center">星期六</h3>
-				</div>
+				<h3 align="center">星期六</h3>
+				<p align="center">
+				<button  type="button" class="btn btn-primary">订餐</button>
+				</p>
 			</div>
 		</li>
 		

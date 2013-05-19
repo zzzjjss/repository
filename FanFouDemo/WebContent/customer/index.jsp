@@ -7,7 +7,7 @@
 	<ul class="thumbnails">
 		<li class="span4 ">
 			<div class="thumbnail">
-				<a href="#"> <img src="../img/a.png">
+				<a href="#"> <img src="../img/a.jpg">
 				</a>
 				<div class="caption">
 					<h3>$10</h3>

@@ -1,43 +1,75 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 
-<%@ include file="navTop.jsp"%>
+<%@ include file="jsAndCSS.jsp"%>
+<style>
+body {
+	padding-top: 10px;
+	padding-bottom: 40px;
+	/* 60px to make the container go all the way to the bottom of the topbar */
+}
+</style>
 
 <div class="container">
-	<ul class="thumbnails">
-		<li class="span4">
-			<div class="thumbnail">
-				<a href="#"> <img src="../img/a.png">
-				</a>
-				<div class="caption">
-					<h3>$10</h3>
-					<dl>
-						<dt>简介：</dt>
-						<dd>好的顶顶dd</dd>
-					</dl>
-					<p>
-						<a href="#" class="btn btn-primary">订购</a>
-					</p>
-				</div>
-			</div>
-		</li>
-	</ul>
+	
+  	<table class="table">
+            
+              <tbody>
+                <tr>
+                  <td  >
+                  	<blockquote><strong>用户名：</strong></blockquote>
+                  </td>
+                  <td align="left">
+                  
+                  Jason zhang	    
+                  	
+                  </td>
+                  <td><button class="btn">修改密码</button></td>
+                </tr>
+               
+                <tr>
+                  <td >
+                  <blockquote><strong>剩余金额：</strong></blockquote>
+                  	
+                  </td>
+                  <td align="left">
+                  	100元
+                  </td>
+                  <td></td>
+                </tr>
+                 <tr>
+                  <td  align="right">
+                   <blockquote><strong>共消费金额：</strong></blockquote>
+                  </td>
+                  <td align="left">
+                  	1000元
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td>
+                  <blockquote><strong>所属配送点：</strong></blockquote>
+                  </td>
+                  <td align="left">
+                  	金蝶大厦 8楼 金蝶中间件
+                  </td>
+                  <td></td>
+                </tr>
+                
+                <tr>
+                  <td >
+                  <blockquote><strong>配送点联络人：</strong></blockquote>
+                  </td>
+                  <td align="left">
+                  	qian tai wang
+                  </td>
+                  <td></td>
+                </tr>
+               
+              </tbody>
+            </table>
+	
 </div>
-<div class="navbar navbar-inverse navbar-fixed-bottom">
-	<div class="pagination pagination-large  " align="center">
-		<ul>
-			<li><a href="#"><span>&laquo;</span></a></li>
-			<li class="active"><a href="#">1</a></li>
-			<li class="active"><a href="#">2</a></li>
-			<li class="active"><a href="#">3</a></li>
-			<li><a href="#"><span>&raquo;</span></a></li>
-		</ul>
-	</div>
-</div>
-<script type="text/javascript">
 
-$("#myAccount").attr("class","active");
-
-</script>
 
 <%@ include file="bottom.jsp"%>
