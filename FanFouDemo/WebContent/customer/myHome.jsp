@@ -18,7 +18,7 @@
       
    <iframe class="span9 "
            
-           id="content" style="border-width: 0;height: 800px" src="myOrder.jsp" >
+           id="content" style="border-width: 0;" src="myOrder.jsp" onload="selfAdjustHeight(this)">
    </iframe>
       
     </div>
@@ -26,6 +26,14 @@
   </div>
 
 <script type="text/javascript">
+function selfAdjustHeight(win){
+
+	if (win.contentDocument && win.contentDocument.body.offsetHeight) {
+		win.height = win.contentDocument.body.offsetHeight;
+	}else if(win.Document && win.Document.body.scrollHeight){
+		win.height = win.Document.body.scrollHeight;
+	} 
+}
 
 $("#myHome").attr("class","active");
 
