@@ -70,6 +70,7 @@ body {
                    <td>
         				<button class="btn" > 删除</button>
         				<button class="btn" > 充值</button>
+        				<button class="btn" > 退款</button>
                    </td>
                 </tr>
                
@@ -81,9 +82,9 @@ body {
             <div class="pagination pagination-large  " align="center">
 		<ul>
 			<li><a href="#"><span>&laquo;</span></a></li>
-			<li class="active"><a href="#">1</a></li>
-			<li class="active"><a href="#">2</a></li>
-			<li class="active"><a href="#">3</a></li>
+			<li><a href="#">1</a></li>
+			<li ><a href="#">2</a></li>
+			<li ><a href="#">3</a></li>
 			<li><a href="#"><span>&raquo;</span></a></li>
 		</ul>
 	</div>

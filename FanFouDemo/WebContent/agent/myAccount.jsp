@@ -24,31 +24,65 @@ body {
                   Jason zhang	    
                   	
                   </td>
-                  <td><button class="btn">修改密码</button></td>
+                  <td><button class="btn">修改密码</button>
+                  
+                  </td>
                 </tr>
-               
                 <tr>
                   <td >
-                  <blockquote><strong>剩余金额：</strong></blockquote>
-                  	
+                  <blockquote><strong>姓名：</strong></blockquote>
                   </td>
                   <td align="left">
-                  	100元
+                  	张珊
                   </td>
                   <td></td>
                 </tr>
                  <tr>
-                  <td  align="right">
-                   <blockquote><strong>共消费金额：</strong></blockquote>
+                  <td >
+                  <blockquote><strong>联系电话：</strong></blockquote>
                   </td>
                   <td align="left">
-                  	1000元
+                  	15818590405
                   </td>
                   <td></td>
                 </tr>
                 <tr>
+                  <td >
+                  <blockquote><strong>账户余额：</strong></blockquote>
+                  	
+                  </td>
+                  <td align="left">
+                  	￥100.00 
+                  </td>
                   <td>
-                  <blockquote><strong>所属配送点：</strong></blockquote>
+                  
+                  </td>
+                </tr>
+                 <tr>
+                  <td  align="right">
+                   <blockquote><strong>你消费的金额：</strong></blockquote>
+                  </td>
+                  <td align="left">
+                  	￥1000.00
+                  </td>
+                  <td>
+                  	
+                  </td>
+                </tr>
+                 <tr>
+                  <td  align="right">
+                   <blockquote><strong>返利统计：</strong></blockquote>
+                  </td>
+                  <td align="left">
+                  	￥1000.00
+                  </td>
+                  <td>
+                  	
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                  <blockquote><strong>配送点地址：</strong></blockquote>
                   </td>
                   <td align="left">
                   	金蝶大厦 8楼 金蝶中间件
@@ -56,15 +90,7 @@ body {
                   <td></td>
                 </tr>
                 
-                <tr>
-                  <td >
-                  <blockquote><strong>配送点联络人：</strong></blockquote>
-                  </td>
-                  <td align="left">
-                  	qian tai wang
-                  </td>
-                  <td></td>
-                </tr>
+               
                
               </tbody>
             </table>
