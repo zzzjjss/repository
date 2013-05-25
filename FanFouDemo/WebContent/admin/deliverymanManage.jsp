@@ -6,11 +6,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 </head>
-<frameset rows="40,*" frameborder="no">
-<frame src="navTop.jsp">
-<frameset cols="25%,75%" frameborder="no">
-	<frame src="navLeftBgManage.jsp" id="navLeft">
-	<frame id="content">
-</frameset>
-</frameset>
+<body>
+
+</body>
 </html>

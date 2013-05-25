@@ -5,7 +5,6 @@
 <link href="../bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
 <link href="../bootstrap/css/docs.css" rel="stylesheet">
 <link href="../bootstrap/css/prettify.css" rel="stylesheet">
-<link href="../flexigrid/css/flexigrid.css" rel="stylesheet">
 <script src="../js/jquery.js"></script>
 <script src="../bootstrap/js/bootstrap.min.js"></script>
-<script src="../flexigrid/js/flexigrid.js"></script>
+

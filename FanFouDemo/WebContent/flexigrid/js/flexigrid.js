@@ -447,6 +447,7 @@
 						if (row[p.idProperty]) {
 							tr.id = 'row' + row[p.idProperty];
 						}
+						$(tr).attr("ondblclick","rowDbClick(this)");
 						$('thead tr:first th', g.hDiv).each( //add cell
 							function () {
 								var td = document.createElement('td');
@@ -1545,3 +1546,7 @@
 	return this.each( function() { if (this.grid&&this.p.searchitems) this.grid.doSearch(); });
   }; //end flexSearch
 })(jQuery);
+
+function rowDbClick(tr){
+	
+}

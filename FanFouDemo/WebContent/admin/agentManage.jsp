@@ -4,12 +4,13 @@
 <html>
 <head>
 <link href="../flexigrid/css/flexigrid.css" rel="stylesheet">
+<link href="../flexigrid/css/style.css" rel="stylesheet">
 <script src="../js/jquery.js"></script>
 <script src="../flexigrid/js/flexigrid.js"></script>
 </head>	
 <style>
 body {
-	padding-top: 10px;
+	padding-top: 20px;
 	
 }
 .flexigrid div.fbutton .add {
@@ -23,7 +24,9 @@ body {
 <body>
 
 
-<table class="flexme3" style="display: none"></table>
+<table class="flexme" style="display: none"></table>
+
+</body>
 
 
 <script type="text/javascript">
@@ -31,79 +34,85 @@ body {
 
 
 
-$(".flexme3").flexigrid({
-    url : 'post-xml.php',
-    dataType : 'xml',
+$(".flexme").flexigrid({
+    url : 'GetAllAgent',
+    dataType : 'json',
     colModel : [ {
-        display : 'ISO',
-        name : 'iso',
-        width : 40,
+        display : '代理名称',
+        name : 'agentName',
+        width : 100,
         sortable : true,
-        align : 'center'
+        align : 'left'
         }, {
-            display : 'Name',
-            name : 'name',
-            width : 180,
+            display : '配送地址',
+            name : 'address',
+            width : 280,
             sortable : true,
             align : 'left'
         }, {
-            display : 'Printable Name',
-            name : 'printable_name',
-            width : 120,
+            display : '账户余额',
+            name : 'balance',
+            width : 100,
+            sortable : true,
+            align : 'left'
+        },{
+            display : '提成金额',
+            name : 'backMoney',
+            width : 100,
             sortable : true,
             align : 'left'
         }, {
-            display : 'ISO3',
-            name : 'iso3',
-            width : 130,
+            display : '配送员',
+            name : 'deliverymanName',
+            width : 100,
             sortable : true,
-            align : 'left',
-            hide : true
+            align : 'left'
         }, {
-            display : 'Number Code',
-            name : 'numcode',
+            display : '客户数',
+            name : 'customerNum',
             width : 80,
             sortable : true,
             align : 'right'
     } ],
     buttons : [ {
-        name : 'Add',
+        name : '新增代理',
         bclass : 'add',
         onpress : test
+        },{
+            separator : true
         }, {
-            name : 'Delete',
+            name : '删除代理',
             bclass : 'delete',
             onpress : test
         }, {
             separator : true
     } ],
     searchitems : [ {
-        display : 'ISO',
-        name : 'iso'
+        display : '代理名称',
+        name : 'agentName',
+        isdefault : true
         }, {
-            display : 'Name',
-            name : 'name',
-            isdefault : true
+            display : '配送地址',
+            name : 'address'
     } ],
-    sortname : "iso",
+    sortname : "agentName",
     sortorder : "asc",
     usepager : true,
-    title : 'Countries',
+    title : '代理管理',
     useRp : true,
     rp : 15,
     showTableToggleBtn : true,
    
-    height : 300,
-    maxHeight:400
+    height : 350,
 });      
 
 function test(com, grid) {
-    if (com == 'Delete') {
-        confirm('Delete ' + $('.trSelected', grid).length + ' items?')
-    } else if (com == 'Add') {
-        alert('Add New Item');
-    }
+	alert($('.trSelected', grid).length);
+}
+function rowDbClick(tr){
+	alert(tr.id);
 }
 </script>
 
-<%@ include file="bottom.jsp"%>
+
+</html>
