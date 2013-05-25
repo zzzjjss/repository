@@ -1,12 +1,117 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	pageEncoding="UTF-8"%>
+
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
+<link href="../flexigrid/css/flexigrid.css" rel="stylesheet">
+<link href="../flexigrid/css/style.css" rel="stylesheet">
+<script src="../js/jquery.js"></script>
+<script src="../flexigrid/js/flexigrid.js"></script>
+</head>	
+<style>
+body {
+	padding-top: 25px;
+	
+}
+.flexigrid div.fbutton .add {
+	background: url(images/add.png) no-repeat center left;
+}
+
+.flexigrid div.fbutton .delete {
+	background: url(images/close.png) no-repeat center left;
+}
+</style>
 <body>
-PRODUCT MANAGE
+
+
+<table class="flexme" style="display: none"></table>
+
 </body>
+
+
+<script type="text/javascript">
+
+
+
+
+$(".flexme").flexigrid({
+    url : 'GetAllAgent',
+    dataType : 'json',
+    colModel : [ {
+        display : '菜名',
+        name : 'agentName',
+        width : 300,
+        sortable : true,
+        align : 'left'
+        }, {
+            display : '价格',
+            name : 'address',
+            width : 100,
+            sortable : true,
+            align : 'left'
+        }, {
+            display : '销售份额',
+            name : 'balance',
+            width : 100,
+            sortable : true,
+            align : 'left'
+        },{
+            display : '提成金额',
+            name : 'backMoney',
+            width : 100,
+            sortable : true,
+            align : 'left'
+        }, {
+            display : '配送员',
+            name : 'deliverymanName',
+            width : 100,
+            sortable : true,
+            align : 'left'
+        }, {
+            display : '客户数',
+            name : 'customerNum',
+            width : 80,
+            sortable : true,
+            align : 'right'
+    } ],
+    buttons : [ {
+        name : '添加新菜',
+        bclass : 'add',
+        onpress : test
+        },{
+            separator : true
+        }, {
+            name : '删除菜谱',
+            bclass : 'delete',
+            onpress : test
+        }, {
+            separator : true
+    } ],
+    searchitems : [ {
+        display : '代理名称',
+        name : 'agentName',
+        isdefault : true
+        }, {
+            display : '配送地址',
+            name : 'address'
+    } ],
+    sortname : "agentName",
+    sortorder : "asc",
+    usepager : true,
+    title : '代理管理',
+    useRp : true,
+    rp : 15,
+    showTableToggleBtn : true,
+    height : 350,
+});      
+
+function test(com, grid) {
+	alert($('.trSelected', grid).length);
+}
+function rowDbClick(tr){
+	alert(tr.id);
+}
+</script>
+
+
 </html>

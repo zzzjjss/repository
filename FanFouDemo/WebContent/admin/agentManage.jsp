@@ -10,7 +10,7 @@
 </head>	
 <style>
 body {
-	padding-top: 20px;
+	padding-top: 25px;
 	
 }
 .flexigrid div.fbutton .add {
@@ -102,7 +102,6 @@ $(".flexme").flexigrid({
     useRp : true,
     rp : 15,
     showTableToggleBtn : true,
-   
     height : 350,
 });      
 

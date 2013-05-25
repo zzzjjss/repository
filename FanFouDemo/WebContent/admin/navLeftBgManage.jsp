@@ -8,7 +8,7 @@
       <div class="span3 bs-docs-sidebar">
         <ul class="nav nav-list bs-docs-sidenav affix">
           <li id="productManage" class="active" ><a href="productManage.jsp" target="content"><i class="icon-chevron-right"></i> 菜谱管理</a></li>
-          <li id="currentProductManage"><a href="currentProductManage.jsp" target="content"><i class="icon-chevron-right"></i> 本期菜谱管理</a></li>
+          <li id="currentProductManage"><a href="currentProductManage.jsp" target="content"><i class="icon-chevron-right"></i> 当前菜谱</a></li>
           <li id="agentManage"><a href="agentManage.jsp" target="content"><i class="icon-chevron-right"></i>代理点管理 </a></li>
           <li id="agentManage"><a href="deliverymanManage.jsp" target="content"><i class="icon-chevron-right"></i>配送员管理 </a></li>
           <li id="agentManage"><a href="moneyManage.jsp" target="content"><i class="icon-chevron-right"></i>账款管理 </a></li>
