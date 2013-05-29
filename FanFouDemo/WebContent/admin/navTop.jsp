@@ -17,7 +17,7 @@
 			<div class="container">
 					<ul class="nav">
 						<li><a style="font-size:30px">FanFan</a></li>
-						<li  id="platformManage"><a href="navLeftPlatformManage.jsp" target="navLeft">平台管理</a></li>
+						<li  id="platformManage" class="active"><a href="navLeftPlatformManage.jsp" target="navLeft">平台管理</a></li>
 						<li  id="shopManage"><a href="navLeftShopManage.jsp" target="navLeft">餐馆管理</a></li>
 					</ul>
 					<form class="navbar-form pull-right">
@@ -29,3 +29,13 @@
 		</div>
 	</div>
 	</body>
+	<script type="text/javascript">
+	$("li").click(function(){
+		$("li.active").removeAttr("class");
+		
+		this.setAttribute("class","active");
+		
+	} );
+	
+	
+	</script>

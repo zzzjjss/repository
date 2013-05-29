@@ -9,7 +9,7 @@
 <frameset rows="40,*" frameborder="no">
 <frame src="navTop.jsp">
 <frameset cols="25%,75%" frameborder="no">
-	<frame src="navLeftBgManage.jsp" id="navLeft">
+	<frame src="navLeftPlatformManage.jsp" id="navLeft">
 	<frame id="content">
 </frameset>
 </frameset>
