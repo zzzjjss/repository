@@ -17,7 +17,8 @@
 			<div class="container">
 					<ul class="nav">
 						<li><a style="font-size:30px">FanFan</a></li>
-						<li  id="index"><a href="navLeftBgManage.jsp" target="navLeft">后台管理</a></li>
+						<li  id="platformManage"><a href="navLeftPlatformManage.jsp" target="navLeft">平台管理</a></li>
+						<li  id="shopManage"><a href="navLeftShopManage.jsp" target="navLeft">餐馆管理</a></li>
 					</ul>
 					<form class="navbar-form pull-right">
 						<input class="span2" type="text" placeholder="用户名"> <input

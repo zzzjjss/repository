@@ -1,0 +1,28 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@ include file="jsAndCSS.jsp"%>
+
+<div class="container">
+
+    <div class="row-fluid" >
+      <div class="span3 bs-docs-sidebar">
+        <ul class="nav nav-list bs-docs-sidenav affix">
+          <li id="productManage" class="active" ><a href="productManage.jsp" target="content"><i class="icon-chevron-right"></i> 菜谱管理</a></li>
+          <li id="currentProductManage"><a href="currentProductManage.jsp" target="content"><i class="icon-chevron-right"></i> 当前菜谱</a></li>
+        </ul>
+      </div>
+      
+    </div>
+
+  </div>
+
+<script type="text/javascript">
+
+
+
+$("li").click(function(){
+	$("li.active").removeAttr("class");
+	this.setAttribute("class","active");
+	
+} );
+</script>
