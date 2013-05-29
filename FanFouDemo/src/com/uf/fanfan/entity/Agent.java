@@ -2,8 +2,11 @@ package com.uf.fanfan.entity;
 
 import java.io.Serializable;
 
-import javax.annotation.Generated;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.TableGenerator;
 
 
 /**
@@ -17,7 +20,7 @@ public class Agent implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="Agent_ID_GEN")
-	private int id;
+	private Integer id;
 
 	private String address;
 
@@ -36,11 +39,11 @@ public class Agent implements Serializable {
 	public Agent() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

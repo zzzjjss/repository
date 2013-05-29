@@ -1,6 +1,8 @@
 package com.uf.fanfan.entity;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+
 import javax.persistence.*;
 
 import java.sql.Timestamp;
@@ -17,7 +19,7 @@ public class TradeDetail implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="Tradedetail_ID_GEN")
-	private String id;
+	private BigInteger id;
 
 	private int customerid;
 
@@ -34,11 +36,11 @@ public class TradeDetail implements Serializable {
 	public TradeDetail() {
 	}
 
-	public String getId() {
+	public BigInteger getId() {
 		return this.id;
 	}
 
-	public void setId(String id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
 

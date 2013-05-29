@@ -15,7 +15,7 @@ public class Customer implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="Customer_ID_GEN")
-	private int id;
+	private Integer id;
 
 	private int agentid;
 
@@ -30,11 +30,11 @@ public class Customer implements Serializable {
 	public Customer() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

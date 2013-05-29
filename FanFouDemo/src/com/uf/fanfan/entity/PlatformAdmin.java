@@ -15,7 +15,7 @@ public class PlatformAdmin implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="Platformadmin_ID_GEN")
-	private int id;
+	private Integer id;
 
 	private String name;
 
@@ -24,11 +24,11 @@ public class PlatformAdmin implements Serializable {
 	public PlatformAdmin() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

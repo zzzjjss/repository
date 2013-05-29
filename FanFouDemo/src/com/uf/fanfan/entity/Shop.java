@@ -17,7 +17,7 @@ public class Shop implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.TABLE,generator="Shop_ID_GEN")
-	private int id;
+	private Integer id;
 
 	private String address;
 
@@ -34,11 +34,11 @@ public class Shop implements Serializable {
 	public Shop() {
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
