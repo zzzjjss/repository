@@ -23,7 +23,7 @@ public class Product implements Serializable {
 
 	private String description;
 
-	private Object image;
+	private byte[] image;
 
 	private String imageFileName;
 
@@ -65,11 +65,11 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public Object getImage() {
+	public byte[] getImage() {
 		return this.image;
 	}
 
-	public void setImage(Object image) {
+	public void setImage(byte[] image) {
 		this.image = image;
 	}
 

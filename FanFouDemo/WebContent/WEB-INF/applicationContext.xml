@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -15,22 +14,29 @@ http://www.springframework.org/schema/aop/spring-aop.xsd
 http://www.springframework.org/schema/data/jpa
  http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd">
 
-	<bean id="testDao" class="com.uf.dao.TestDaoImpl"></bean>
-	<bean id="testService" class="com.uf.service.BussinessServiceImpl">
-		<property name="testDao" ref="testDao"></property>
-		<property name="testRepository" ref="testRepository"></property>
+	<context:component-scan base-package="com.uf.fanfan.service"></context:component-scan>
+<!--  
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass" value="com.mysql.jdbc.Driver" />
+		<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/fanfan" />
+		<property name="user" value="root" />
+		<property name="password" value="root" />
 	</bean>
-	<bean id="myEmf" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-<property name="persistenceUnitName" value="testdb"/>
-</bean>
+	-->
 	
+	<bean id="myEmf"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="fanfanDS"/>
+	</bean>
+
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="myEmf" />
 	</bean>
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor"/>
-	
+
 	<aop:config>
-		<aop:pointcut expression="execution(* com.uf.service.*.*(..))"
+		<aop:pointcut expression="execution(* com.uf.fanfan.service.*.*(..))"
 			id="txMethods" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txMethods" />
 	</aop:config>
@@ -40,5 +46,5 @@ http://www.springframework.org/schema/data/jpa
 			<tx:method name="get*" propagation="SUPPORTS" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
-	 <jpa:repositories base-package="com.uf.repository"></jpa:repositories>
+	<jpa:repositories base-package="com.uf.fanfan.repository"></jpa:repositories>
 </beans>
