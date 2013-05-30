@@ -35,45 +35,33 @@ body {
 
 
 $(".flexme").flexigrid({
-    url : 'GetAllAgent',
+    url : 'productManage_getPageShopProducts.action',
     dataType : 'json',
     colModel : [ {
         display : '菜名',
-        name : 'agentName',
+        name : 'productName',
         width : 300,
         sortable : true,
         align : 'left'
         }, {
             display : '价格',
-            name : 'address',
+            name : 'price',
             width : 100,
             sortable : true,
             align : 'left'
         }, {
             display : '销售份额',
-            name : 'balance',
+            name : 'saleSum',
             width : 100,
             sortable : true,
             align : 'left'
         },{
-            display : '提成金额',
-            name : 'backMoney',
+            display : '添加时间',
+            name : 'createTime',
             width : 100,
             sortable : true,
             align : 'left'
-        }, {
-            display : '配送员',
-            name : 'deliverymanName',
-            width : 100,
-            sortable : true,
-            align : 'left'
-        }, {
-            display : '客户数',
-            name : 'customerNum',
-            width : 80,
-            sortable : true,
-            align : 'right'
-    } ],
+        }],
     buttons : [ {
         name : '添加新菜',
         bclass : 'add',
@@ -88,17 +76,14 @@ $(".flexme").flexigrid({
             separator : true
     } ],
     searchitems : [ {
-        display : '代理名称',
-        name : 'agentName',
+        display : '菜名',
+        name : 'productName',
         isdefault : true
-        }, {
-            display : '配送地址',
-            name : 'address'
-    } ],
-    sortname : "agentName",
+        } ],
+    sortname : "productName",
     sortorder : "asc",
     usepager : true,
-    title : '代理管理',
+    title : '菜品管理',
     useRp : true,
     rp : 15,
     showTableToggleBtn : true,
