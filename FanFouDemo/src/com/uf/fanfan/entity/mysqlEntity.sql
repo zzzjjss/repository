@@ -38,6 +38,7 @@ CREATE TABLE `product` (
   `price` double DEFAULT NULL,
   `shopid` int(11) DEFAULT NULL,
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `saleSum` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `product_shop_FK` (`shopid`),
   CONSTRAINT `product_shop_FK` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`)

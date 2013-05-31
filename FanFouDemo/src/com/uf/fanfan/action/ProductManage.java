@@ -8,9 +8,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.entity.Product;
 import com.uf.fanfan.entity.Shop;
 import com.uf.fanfan.service.ProductManageService;
+import com.uf.fanfan.util.PageQueryUtil;
 
 public class ProductManage extends BaseAction {
 	ProductManageService pmService=(ProductManageService)appContext.getBean("productManageService");
@@ -50,22 +52,14 @@ public class ProductManage extends BaseAction {
 	}
 
 	public String getPageShopProducts() {
-		log.info("getPageShopProducts");
 		try{
-			pmService.getPageProductsInShop(rp, page, 1);
+			PageQueryResult<Product> res=pmService.getPageProductsInShop(rp, page, 1);
+			String jsonRes=PageQueryUtil.convertToFlexigridJson(res, new String[]{"name","price","saleSum","createTime"});
+			response.setContentType("text/json");
+			response.setCharacterEncoding("utf-8");
+			response.getOutputStream().write(jsonRes.getBytes("utf-8"));
 		}catch(Exception e){
-			e.printStackTrace();
-		}
-		
-		String res = "{\"page\":1,\"total\":239,\"rows\":[{\"id\":\"1\",\"cell\":[\"土豆烧牛肉\",\"￥15.00\",\"100\",\"2013-01-01\"]},{\"id\":\"2\",\"cell\":[\"土豆烧鸡\",\"￥15.00\",\"103\",\"2013-01-02\"]}]}";
-		response.setContentType("text/json");
-		response.setCharacterEncoding("utf-8");
-		try {
-			response.getOutputStream().write(res.getBytes("utf-8"));
-		} catch (UnsupportedEncodingException e) {
-			log.error("", e);
-		} catch (IOException e) {
-			log.error("", e);
+			log.error("getPageShopProducts error", e);
 		}
 		return null;
 	}

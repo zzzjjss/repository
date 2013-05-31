@@ -1,7 +1,7 @@
 package com.uf.fanfan.service;
 
+import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.entity.Product;
-import com.uf.fanfan.util.PageQueryResult;
 
 public interface ProductManageService {
 	public void  addProduct(Product product);

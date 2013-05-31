@@ -5,10 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.entity.Product;
 import com.uf.fanfan.repository.ProductRepository;
 import com.uf.fanfan.service.ProductManageService;
-import com.uf.fanfan.util.PageQueryResult;
 @Service("productManageService")
 public class ProductManageServiceImpl implements  ProductManageService{
 	@Autowired
@@ -20,12 +20,13 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	}
 	
 	public PageQueryResult<Product> getPageProductsInShop(int pageSize,int pageIndex,int shopid){
-		Page<Product> pages= productRepository.findAll(new PageRequest(pageIndex, pageSize));
+		Page<Product> pages= productRepository.findAll(new PageRequest(pageIndex-1, pageSize));
 		PageQueryResult<Product> res=new PageQueryResult<Product>();
 		res.setPageData(pages.getContent());
 		res.setPageIndex(pageIndex);
 		res.setTotalPage(pages.getTotalPages());
 		res.setPageSize(pageSize);
+		res.setTotalRecord(pages.getTotalElements());
 		return res;
 	}
 	
