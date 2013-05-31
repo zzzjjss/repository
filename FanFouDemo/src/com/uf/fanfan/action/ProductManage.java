@@ -2,11 +2,14 @@ package com.uf.fanfan.action;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.sql.Timestamp;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.uf.fanfan.entity.Product;
+import com.uf.fanfan.entity.Shop;
 import com.uf.fanfan.service.ProductManageService;
 
 public class ProductManage extends BaseAction {
@@ -21,7 +24,20 @@ public class ProductManage extends BaseAction {
 	private String qtype;
 	
 	public String addProduct() {
-		log.info("add product ");
+		try{
+			log.info("add product ");
+			Product pro=new  Product();
+			pro.setName("kaojic");
+			pro.setPrice(15.00);
+			pro.setCreateTime(new Timestamp(System.currentTimeMillis()));
+			Shop s=new Shop();
+			s.setId(1);
+			pro.setShop(s);
+			pmService.addProduct(pro);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
 		return SUCCESS;
 	}
 

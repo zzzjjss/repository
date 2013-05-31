@@ -31,7 +31,6 @@ public class Product implements Serializable {
 
 	private double price;
 
-	private int shopid;
 
 	@ManyToOne
 	 // JoinColumn表示外键的列  
@@ -97,14 +96,7 @@ public class Product implements Serializable {
 		this.price = price;
 	}
 
-	public int getShopid() {
-		return this.shopid;
-	}
-
-	public void setShopid(int shopid) {
-		this.shopid = shopid;
-	}
-
+	
 	public Shop getShop() {
 		return this.shop;
 	}

@@ -39,7 +39,8 @@ CREATE TABLE `product` (
   `shopid` int(11) DEFAULT NULL,
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  CONSTRAINT `product_shop_FK` FOREIGN KEY (`id`) REFERENCES `shop` (`id`) ON UPDATE CASCADE
+  KEY `product_shop_FK` (`shopid`),
+  CONSTRAINT `product_shop_FK` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
