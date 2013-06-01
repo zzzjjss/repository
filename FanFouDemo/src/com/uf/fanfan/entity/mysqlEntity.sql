@@ -95,3 +95,7 @@ insert into id_table values('customer_ID',0);
 insert into id_table values('shopmanager_ID',0);
 insert into id_table values('platformadmin_ID',0);
 insert into id_table values('tradedetail_ID',0);
+
+INSERT INTO fanfan.shop
+(id, name, address, phoneNum, description)
+VALUES(1, 'fanfan', 'kingdee', '15818590405', 'test shop');
