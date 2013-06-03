@@ -20,7 +20,7 @@
             <exception-mapping exception="java.lang.Exception" result="error"/>
         </global-exception-mappings>
 
-        <action name="productManage_*" class="com.uf.fanfan.action.ProductManage" method="{1}">
+        <action name="PM_*" class="com.uf.fanfan.action.ProductManage" method="{1}">
            <result name="success">/success.jsp</result>
         </action>
     </package>
