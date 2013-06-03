@@ -1,8 +1,13 @@
 package com.uf.fanfan.action;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,19 +30,41 @@ public class ProductManage extends BaseAction {
 	private String query;
 	private String qtype;
 	
+	private File uploadImg;
+	private String name;
+	private String description;
+	private double price;
+	
 	public String addProduct() {
+		InputStream is=null;
 		try{
-			log.info("add product ");
+			byte fileContent[]=new byte[(int) uploadImg.length()];
+			is = new FileInputStream(uploadImg);  
+			byte []tmp=new byte[1024];
+			int readLen=0;
+			int desPosition=0;
+			while((readLen=is.read(tmp))>0){
+				System.arraycopy(tmp,0,fileContent,desPosition,readLen);
+				desPosition=desPosition+readLen;
+			}
 			Product pro=new  Product();
-			pro.setName("kaojic");
-			pro.setPrice(15.00);
+			pro.setImage(fileContent);
+			pro.setName(name);
+			pro.setPrice(price);
+			pro.setDescription(description);
 			pro.setCreateTime(new Timestamp(System.currentTimeMillis()));
 			Shop s=new Shop();
 			s.setId(1);
 			pro.setShop(s);
 			pmService.addProduct(pro);
 		}catch(Exception e){
-			e.printStackTrace();
+			log.error("addProduct error", e);
+		}finally{
+			try {
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return SUCCESS;
@@ -62,6 +89,41 @@ public class ProductManage extends BaseAction {
 			log.error("getPageShopProducts error", e);
 		}
 		return null;
+	}
+
+	
+	
+	
+	public File getUploadImg() {
+		return uploadImg;
+	}
+
+	public void setUploadImg(File uploadImg) {
+		this.uploadImg = uploadImg;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 	public int getPage() {

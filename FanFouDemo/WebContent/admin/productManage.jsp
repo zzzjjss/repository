@@ -35,7 +35,7 @@ body {
 
 
 $(".flexme").flexigrid({
-    url : 'productManage_getPageShopProducts.action',
+    url : 'PM_getPageShopProducts.action',
     dataType : 'json',
     colModel : [ {
         display : '菜名',
