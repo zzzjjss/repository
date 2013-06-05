@@ -1,35 +1,43 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
-<form action="PM_addProduct.action" method="post" enctype="multipart/form-data">  
-        <table>  
-            <tr>  
-                <td>name:</td>  
-                <td><input type="text" name="name" ></td>  
-            </tr>  
-             <tr>  
-                <td>price:</td>  
-                <td><input type="text" name="price" ></td>  
-            </tr>  
-             <tr>  
-                <td>description:</td>  
-                <td><input type="text" name="description" ></td>  
-            </tr>  
-            <tr>  
-                <td>上传文件:</td>  
-                <td><input type="file" name="uploadImg"></td>  
-            </tr>  
-            <tr>  
-                <td><input type="submit" value="上传"></td>  
-                <td><input type="reset"></td>  
-            </tr>  
-        </table>  
-      </form>  
-</body>
-</html>
+	pageEncoding="UTF-8"%>
+<%@ include file="jsAndCSS.jsp"%>
+
+<div class="container well">
+
+
+            <ul class="thumbnails ">
+              <li >
+                <div class="thumbnail">
+                  <img data-src="holder.js/300x200"  style="width: 100px; height: 100px;" >
+                  <div class="caption">
+                    
+                    <a href="#" class="btn">Action</a></p>
+                  </div>
+                </div>
+              </li>
+            </ul>
+ <form class="form-horizontal ">
+  <div class="control-group">
+    <label class="control-label" for="inputEmail">Email</label>
+    <div class="controls">
+      <input type="text" id="inputEmail" placeholder="Email">
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="inputPassword">Password</label>
+    <div class="controls">
+      <input type="password" id="inputPassword" placeholder="Password">
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <label class="checkbox">
+        <input type="checkbox"> Remember me
+      </label>
+      <button type="submit" class="btn">Sign in</button>
+    </div>
+  </div>
+</form>
+</div>
+
+

@@ -65,13 +65,13 @@ $(".flexme").flexigrid({
     buttons : [ {
         name : '添加新菜',
         bclass : 'add',
-        onpress : test
+        onpress : addProduct
         },{
             separator : true
         }, {
             name : '删除菜谱',
             bclass : 'delete',
-            onpress : test
+            onpress : deleteProduct
         }, {
             separator : true
     } ],
@@ -90,8 +90,19 @@ $(".flexme").flexigrid({
     height : 350,
 });      
 
+function addProduct(com, grid){
+	window.showModalDialog("addProduct.jsp",null,"dialogWidth=700px;dialogHeight=400px;center:yes");
+	
+}
+
+function deleteProduct(){
+	
+}
+
 function test(com, grid) {
-	alert($('.trSelected', grid).length);
+	//alert($('.trSelected', grid).length);
+	alert("ddd");
+	
 }
 function rowDbClick(tr){
 	alert(tr.id);
