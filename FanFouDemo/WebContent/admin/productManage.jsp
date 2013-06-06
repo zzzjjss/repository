@@ -87,7 +87,7 @@ $(".flexme").flexigrid({
     useRp : true,
     rp : 15,
     showTableToggleBtn : true,
-    height : 350,
+    height : 350
 });      
 
 function addProduct(com, grid){
