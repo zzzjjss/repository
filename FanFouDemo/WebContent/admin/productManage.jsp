@@ -91,8 +91,8 @@ $(".flexme").flexigrid({
 });      
 
 function addProduct(com, grid){
-	window.showModalDialog("addProduct.jsp",null,"dialogWidth=700px;dialogHeight=400px;center:yes");
-	
+	//window.showModalDialog("addProduct.jsp",null,"dialogWidth=700px;dialogHeight=400px;center:yes");
+	window.location.href="addProduct.jsp";
 }
 
 function deleteProduct(){

@@ -34,7 +34,8 @@ public class ProductManage extends BaseAction {
 	private String name;
 	private String description;
 	private double price;
-	
+	private String uploadImgContentType;
+	private String uploadImgFileName;
 	public String addProduct() {
 		InputStream is=null;
 		try{
@@ -57,17 +58,21 @@ public class ProductManage extends BaseAction {
 			s.setId(1);
 			pro.setShop(s);
 			pmService.addProduct(pro);
+			response.setContentType("text/xml");
+			response.setCharacterEncoding("utf-8");
+			String res="<tr><td>1</td><td>"+pro.getName()+"</td><td>"+pro.getPrice()+"</td><td>"+pro.getDescription()+"</td></tr>";
+			response.getOutputStream().write(res.getBytes("utf-8"));
 		}catch(Exception e){
 			log.error("addProduct error", e);
 		}finally{
 			try {
 				is.close();
 			} catch (IOException e) {
-				e.printStackTrace();
+				log.error("addProduct error", e);
 			}
 		}
 		
-		return SUCCESS;
+		return null;
 	}
 
 	public String delProduct() {
@@ -172,6 +177,22 @@ public class ProductManage extends BaseAction {
 
 	public void setQtype(String qtype) {
 		this.qtype = qtype;
+	}
+
+	public String getUploadImgContentType() {
+		return uploadImgContentType;
+	}
+
+	public void setUploadImgContentType(String uploadImgContentType) {
+		this.uploadImgContentType = uploadImgContentType;
+	}
+
+	public String getUploadImgFileName() {
+		return uploadImgFileName;
+	}
+
+	public void setUploadImgFileName(String uploadImgFileName) {
+		this.uploadImgFileName = uploadImgFileName;
 	}
 	
 	
