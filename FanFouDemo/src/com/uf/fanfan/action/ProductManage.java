@@ -2,6 +2,7 @@ package com.uf.fanfan.action;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
@@ -38,6 +39,7 @@ public class ProductManage extends BaseAction {
 	private String uploadImgFileName;
 	public String addProduct() {
 		InputStream is=null;
+		String res="";
 		try{
 			byte fileContent[]=new byte[(int) uploadImg.length()];
 			is = new FileInputStream(uploadImg);  
@@ -58,20 +60,32 @@ public class ProductManage extends BaseAction {
 			s.setId(1);
 			pro.setShop(s);
 			pmService.addProduct(pro);
-			response.setContentType("text/xml");
-			response.setCharacterEncoding("utf-8");
-			String res="<tr><td>1</td><td>"+pro.getName()+"</td><td>"+pro.getPrice()+"</td><td>"+pro.getDescription()+"</td></tr>";
-			response.getOutputStream().write(res.getBytes("utf-8"));
+			File imgPath=new File(request.getServletContext().getRealPath("/")+"productImg");
+			if(!imgPath.exists()){
+				imgPath.mkdir();
+			}
+			File productImg=new File(imgPath,pro.getId()+"."+uploadImgContentType);
+			FileOutputStream  fileOut=new FileOutputStream(productImg);
+			fileOut.write(fileContent);
+			fileOut.close();
+			res="<row><imgPath>productImg/"+productImg.getName()+"</imgPath><name>"+pro.getName()+"</name><price>"+pro.getPrice()+"</price><des>"+pro.getDescription()+"</des></row>";
 		}catch(Exception e){
 			log.error("addProduct error", e);
+			res="<error>"+e.getMessage()+"</error>";
 		}finally{
 			try {
 				is.close();
 			} catch (IOException e) {
 				log.error("addProduct error", e);
 			}
+			response.setContentType("text/xml");
+			response.setCharacterEncoding("utf-8");
+			try {
+				response.getOutputStream().write(res.getBytes("utf-8"));
+			} catch (Exception e) {
+				log.error("addProduct error when write response ", e);
+			} 
 		}
-		
 		return null;
 	}
 

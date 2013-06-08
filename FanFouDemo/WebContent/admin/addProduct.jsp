@@ -77,6 +77,7 @@ body {
 </body>
 <script type="text/javascript">
 	function addProduct(){
+			$("#addProductBtn").addClass("disabled");		
 			var name=$("#productName").val();
 			var price=$("#price").val();
 			var des=$("#description").val();
@@ -101,13 +102,23 @@ body {
 								alert(data.error);
 								
 						}else{
-							var jqueryobj = $(data);
-							
-							 var text = jqueryobj.html();
-							 alert(text);
-							 var result = $("#addedProduct");
-							 result.html(text);
-							
+							var resobj = $(data);
+							if(resobj.find("error")==null){
+								alert("添加出错，原因："+resobj.find("error").text);	
+								return ;
+							}else{
+								//can optimize,the valuc can get from page
+								var imgPath=resobj.find("imgPath").text();
+								var name=resobj.find("name").text();
+								var price resobj.find("price").text();
+								var des=resobj.find("des").text();
+								var result = $("#addedProduct");
+								result.html("<tr><td><img src='"+imgPath+"'></td><td>"+name+"</td><td>"+price+"</td><td>"+des+"</td></tr>");
+								 
+								 	
+							}
+							$("#addProductBtn").removeClass("disabled");
+							 //clean the form.
 						}
 					},
 					error: function (data, status, e)
