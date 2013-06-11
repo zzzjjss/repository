@@ -15,9 +15,11 @@ import org.slf4j.LoggerFactory;
 
 import com.opensymphony.xwork2.ActionSupport;
 import com.uf.fanfan.common.PageQueryResult;
+import com.uf.fanfan.common.ProductState;
 import com.uf.fanfan.entity.Product;
 import com.uf.fanfan.entity.Shop;
 import com.uf.fanfan.service.ProductManageService;
+import com.uf.fanfan.util.FileUtil;
 import com.uf.fanfan.util.PageQueryUtil;
 
 public class ProductManage extends BaseAction {
@@ -37,6 +39,8 @@ public class ProductManage extends BaseAction {
 	private double price;
 	private String uploadImgContentType;
 	private String uploadImgFileName;
+	
+	private  Integer  productId;
 	public String addProduct() {
 		InputStream is=null;
 		String res="";
@@ -53,6 +57,7 @@ public class ProductManage extends BaseAction {
 			Product pro=new  Product();
 			pro.setImage(fileContent);
 			pro.setName(name);
+			pro.setState(ProductState.FRAME_DOWN);
 			pro.setPrice(price);
 			pro.setDescription(description);
 			pro.setCreateTime(new Timestamp(System.currentTimeMillis()));
@@ -64,7 +69,11 @@ public class ProductManage extends BaseAction {
 			if(!imgPath.exists()){
 				imgPath.mkdir();
 			}
-			File productImg=new File(imgPath,pro.getId()+"."+uploadImgContentType);
+			String extend=FileUtil.getFileExtendName(uploadImgFileName);
+			File productImg=new File(imgPath,pro.getId()+extend);
+			if(productImg.exists())
+				productImg.delete();
+			productImg.createNewFile();
 			FileOutputStream  fileOut=new FileOutputStream(productImg);
 			fileOut.write(fileContent);
 			fileOut.close();
@@ -78,19 +87,25 @@ public class ProductManage extends BaseAction {
 			} catch (IOException e) {
 				log.error("addProduct error", e);
 			}
-			response.setContentType("text/xml");
-			response.setCharacterEncoding("utf-8");
-			try {
-				response.getOutputStream().write(res.getBytes("utf-8"));
-			} catch (Exception e) {
-				log.error("addProduct error when write response ", e);
-			} 
+			writeResultToClient("text/xml",res);
+		
 		}
 		return null;
 	}
 
 	public String delProduct() {
-		return "ajaxSuccess";
+		String res="";
+		try{
+			System.out.println("..........."+productId);
+			pmService.deleteProduct(productId);
+			res="success";
+		}catch(Exception e){
+			log.error("delProduct error", e);
+			res="error";
+		}finally{
+			writeResultToClient("text/plain",res);
+		}
+		return null;
 	}
 
 	public String modifyProduct() {
@@ -100,12 +115,11 @@ public class ProductManage extends BaseAction {
 	public String getPageShopProducts() {
 		try{
 			PageQueryResult<Product> res=pmService.getPageProductsInShop(rp, page, 1);
-			String jsonRes=PageQueryUtil.convertToFlexigridJson(res, new String[]{"name","price","saleSum","createTime"});
-			response.setContentType("text/json");
-			response.setCharacterEncoding("utf-8");
-			response.getOutputStream().write(jsonRes.getBytes("utf-8"));
+			String jsonRes=PageQueryUtil.convertToFlexigridJson(res, new String[]{"name","price","saleSum","createTime"},"删除");
+			writeResultToClient("text/json",jsonRes);
 		}catch(Exception e){
 			log.error("getPageShopProducts error", e);
+			return "error";
 		}
 		return null;
 	}
@@ -207,6 +221,14 @@ public class ProductManage extends BaseAction {
 
 	public void setUploadImgFileName(String uploadImgFileName) {
 		this.uploadImgFileName = uploadImgFileName;
+	}
+
+	public Integer getProductId() {
+		return productId;
+	}
+
+	public void setProductId(Integer productId) {
+		this.productId = productId;
 	}
 	
 	

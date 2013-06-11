@@ -61,6 +61,12 @@ $(".flexme").flexigrid({
             width : 100,
             sortable : true,
             align : 'left'
+        },{
+            display : '操作',
+            name : 'action',
+            width : 100,
+            sortable : false,
+            align : 'center'
         }],
     buttons : [ {
         name : '添加新菜',
@@ -68,11 +74,7 @@ $(".flexme").flexigrid({
         onpress : addProduct
         },{
             separator : true
-        }, {
-            name : '删除菜谱',
-            bclass : 'delete',
-            onpress : deleteProduct
-        }, {
+        },  {
             separator : true
     } ],
     searchitems : [ {
@@ -98,8 +100,27 @@ function addProduct(com, grid){
 function deleteProduct(){
 	
 }
+function rowProcessAction(rowid) {
+	var res=window.confirm("确定删除该产品？");
+	if(res){
+		$.ajax({url:"PM_delProduct.action",async:false,
+			data:{productId:rowid},
+			type:"POST",
+			dataType:"text",
+		success:function(data){
+			if(data=="success"){
+				$("#row"+rowid).remove();
+			}else{
+				alert("删除失败");
+			}
+		}
+		});
+	}
+}
 
 function test(com, grid) {
+	
+	
 	//alert($('.trSelected', grid).length);
 	alert("ddd");
 	

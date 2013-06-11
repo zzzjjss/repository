@@ -19,7 +19,9 @@ body {
 
 
 	<div class="container well center">
-
+<ul class="nav nav-pills">
+  <li ><a onclick="backParent()" href="#">&lt;&lt;返回</a></li>
+</ul>
 
 		<div class="form-horizontal "   >
 			<div class="control-group">
@@ -55,6 +57,8 @@ body {
 				</div>
 			</div>
 	</div>
+	
+	</div>
 	<div class="container well">
 
 		<table class="table table-hover ">
@@ -72,24 +76,32 @@ body {
 			</tbody>
 		</table>
 
-	</div>
-	</div>
+	</div>	
+
 </body>
 <script type="text/javascript">
+
+	function backParent(){
+		window.location.href="productManage.jsp";
+	}
+
+
 	function addProduct(){
-			$("#addProductBtn").addClass("disabled");		
-			var name=$("#productName").val();
-			var price=$("#price").val();
-			var des=$("#description").val();
-			$.ajaxFileUpload
-			(
+		$("#addProductBtn").addClass("disabled");		
+		var name=$("#productName").val();
+		var price=$("#price").val();
+		var des=$("#description").val();
+		if(name==""||price==""||des==""||$("#uploadImg").val()==""){
+			alert("输入项不能为空");
+			return;
+		}
+		$.ajaxFileUpload(
 				{
 					url:'PM_addProduct.action',
 					secureuri:false,
 					fileElementId:'uploadImg',
 					data:{name:name,price:price,description:des},
-					dataType: 'xml',
-					
+					dataType: 'xml',					
 					complete:function()
 					{
 						$("#loading").hide();
@@ -107,18 +119,14 @@ body {
 								alert("添加出错，原因："+resobj.find("error").text);	
 								return ;
 							}else{
-								//can optimize,the valuc can get from page
 								var imgPath=resobj.find("imgPath").text();
-								var name=resobj.find("name").text();
-								var price resobj.find("price").text();
-								var des=resobj.find("des").text();
 								var result = $("#addedProduct");
-								result.html("<tr><td><img src='"+imgPath+"'></td><td>"+name+"</td><td>"+price+"</td><td>"+des+"</td></tr>");
-								 
-								 	
+								result.after("<tr><td><img src='../"+imgPath+"'></td><td>"+name+"</td><td>"+price+"</td><td>"+des+"</td></tr>");
 							}
 							$("#addProductBtn").removeClass("disabled");
-							 //clean the form.
+							$("#productName").val("");
+							$("#price").val("");
+							$("#description").val("");
 						}
 					},
 					error: function (data, status, e)
@@ -126,13 +134,7 @@ body {
 						alert(e);
 					}
 				}
-			)
-			
-			return false;
-
-		
-		
-	}
-	
+			);
+	}	
 </script>
 </html>

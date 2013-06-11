@@ -11,7 +11,7 @@ import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.entity.Product;
 
 public class PageQueryUtil {
-	public static String convertToFlexigridJson(PageQueryResult<?> result,String fields[]){
+	public static String convertToFlexigridJson(PageQueryResult<?> result,String fields[],String actionContent){
 		StringBuilder res=new StringBuilder();
 		res.append("{");
 		res.append("\"page\":"+result.getPageIndex()+",\"total\":"+result.getTotalRecord());
@@ -26,7 +26,8 @@ public class PageQueryUtil {
 					Field idField=row.getClass().getDeclaredField("id");
 					idField.setAccessible(true);
 					Object id=idField.get(row);
-					res.append("\"id\":\""+objectToString(id)+"\"");
+					String rowID=objectToString(id);
+					res.append("\"id\":\""+rowID+"\"");
 					int fieldLen=fields.length;
 					if(fieldLen>0){
 						res.append(",\"cell\":[");
@@ -38,6 +39,10 @@ public class PageQueryUtil {
 							res.append("\""+strValue+"\"");
 							if(i<fieldLen-1){
 								res.append(",");
+							}else{
+								if(!StringUtil.isEmpty(actionContent)){
+									res.append(","+"\"<a onclick='rowProcessAction("+rowID+")' href='#'>[&nbsp;"+actionContent+"&nbsp;]</a>\"");
+								}
 							}
 						}
 						res.append("]");
@@ -103,6 +108,6 @@ public class PageQueryUtil {
 		re.setPageSize(1);
 		re.setTotalPage(2);
 		re.setTotalRecord(100);
-		System.out.println(convertToFlexigridJson(re,new String[]{"createTime","description","name","price"}));
+		System.out.println(convertToFlexigridJson(re,new String[]{"createTime","description","name","price"},"删除"));
 	}
 }

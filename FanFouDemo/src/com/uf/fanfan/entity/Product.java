@@ -3,6 +3,8 @@ package com.uf.fanfan.entity;
 import java.io.Serializable;
 import javax.persistence.*;
 
+import com.uf.fanfan.common.ProductState;
+
 import java.sql.Timestamp;
 
 
@@ -32,6 +34,8 @@ public class Product implements Serializable {
 	private double price;
 
 	private Integer saleSum;
+	
+	private ProductState state;
 
 	@ManyToOne
 	 // JoinColumn表示外键的列  
@@ -112,6 +116,14 @@ public class Product implements Serializable {
 
 	public void setSaleSum(Integer saleSum) {
 		this.saleSum = saleSum;
+	}
+	@Column(name = "state")	@Enumerated(EnumType.STRING)
+	public ProductState getState() {
+		return state;
+	}
+
+	public void setState(ProductState state) {
+		this.state = state;
 	}
 	
 }
