@@ -4,6 +4,7 @@ drop table IF EXISTS shop;
 drop table IF EXISTS customer ;
 drop table IF EXISTS shopmanager;
 drop table IF EXISTS platformadmin ;
+drop table IF EXISTS deliveryman ;
 drop table IF EXISTS tradedetail ;
 drop table IF EXISTS id_table;
 
@@ -71,6 +72,12 @@ CREATE TABLE `platformadmin` (
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `deliveryman` (
+  `id` int(11) NOT NULL,
+  `name` varchar(100) NOT NULL,
+  `password` varchar(100) DEFAULT NULL,
+   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tradedetail` (
   `id` bigint(20) NOT NULL,
@@ -95,8 +102,9 @@ insert into id_table values('shop_ID',0);
 insert into id_table values('customer_ID',0);
 insert into id_table values('shopmanager_ID',0);
 insert into id_table values('platformadmin_ID',0);
+insert into id_table values('deliveryman_ID',0);
 insert into id_table values('tradedetail_ID',0);
 
 INSERT INTO fanfan.shop
 (id, name, address, phoneNum, description)
-VALUES(1, 'fanfan', 'kingdee', '15818590405', 'test shop');
+VALUES(0, 'fanfan', 'kingdee', '15818590405', 'test shop');

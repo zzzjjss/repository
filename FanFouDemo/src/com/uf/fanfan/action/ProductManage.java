@@ -45,6 +45,7 @@ public class ProductManage extends BaseAction {
 		InputStream is=null;
 		String res="";
 		try{
+			String extend=FileUtil.getFileExtendName(uploadImgFileName);
 			byte fileContent[]=new byte[(int) uploadImg.length()];
 			is = new FileInputStream(uploadImg);  
 			byte []tmp=new byte[1024];
@@ -57,6 +58,7 @@ public class ProductManage extends BaseAction {
 			Product pro=new  Product();
 			pro.setImage(fileContent);
 			pro.setName(name);
+			pro.setImageFileName(extend);
 			pro.setState(ProductState.FRAME_DOWN);
 			pro.setPrice(price);
 			pro.setDescription(description);
@@ -69,7 +71,6 @@ public class ProductManage extends BaseAction {
 			if(!imgPath.exists()){
 				imgPath.mkdir();
 			}
-			String extend=FileUtil.getFileExtendName(uploadImgFileName);
 			File productImg=new File(imgPath,pro.getId()+extend);
 			if(productImg.exists())
 				productImg.delete();
@@ -77,6 +78,7 @@ public class ProductManage extends BaseAction {
 			FileOutputStream  fileOut=new FileOutputStream(productImg);
 			fileOut.write(fileContent);
 			fileOut.close();
+			
 			res="<row><imgPath>productImg/"+productImg.getName()+"</imgPath><name>"+pro.getName()+"</name><price>"+pro.getPrice()+"</price><des>"+pro.getDescription()+"</des></row>";
 		}catch(Exception e){
 			log.error("addProduct error", e);
