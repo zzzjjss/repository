@@ -1,15 +1,26 @@
 package com.uf.fanfan.service.impl;
 
+import java.util.Collection;
 import java.util.List;
+
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Path;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Selection;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.common.ProductState;
 import com.uf.fanfan.entity.Product;
+import com.uf.fanfan.entity.Shop;
 import com.uf.fanfan.entity.TradeDetail;
 import com.uf.fanfan.repository.ProductRepository;
 import com.uf.fanfan.repository.TradeDetailRepository;
@@ -25,8 +36,20 @@ public class ProductManageServiceImpl implements  ProductManageService{
 		productRepository.save(product);
 	}
 	
-	public PageQueryResult<Product> getPageProductsInShop(int pageSize,int pageIndex,int shopid){
-		Page<Product> pages= productRepository.findAll(new PageRequest(pageIndex-1, pageSize));
+	public PageQueryResult<Product> getPageProductsInShop(int pageSize,int pageIndex,final int shopid,final String qtype,final String queryKey){
+		
+		Page<Product> pages =productRepository.findAll(new Specification<Product>() {
+			
+			@Override
+			public Predicate toPredicate(Root<Product> root, CriteriaQuery<?> query,
+					CriteriaBuilder cb) {
+				root =query.from(Product.class);
+				Path<String> p_name=root.get(qtype);
+				Path<Shop> shop=root.get("shop");
+				Path<Integer> shopId=shop.get("id");
+				return cb.and(cb.equal(shopId, shopid),cb.like(p_name, "%"+queryKey+"%"));
+			}
+		}, new PageRequest(pageIndex-1, pageSize));
 		PageQueryResult<Product> res=new PageQueryResult<Product>();
 		res.setPageData(pages.getContent());
 		res.setPageIndex(pageIndex);

@@ -116,7 +116,7 @@ public class ProductManage extends BaseAction {
 
 	public String getPageShopProducts() {
 		try{
-			PageQueryResult<Product> res=pmService.getPageProductsInShop(rp, page, 1);
+			PageQueryResult<Product> res=pmService.getPageProductsInShop(rp, page, 1,qtype,query);
 			String jsonRes=PageQueryUtil.convertToFlexigridJson(res, new String[]{"name","price","saleSum","createTime"},"删除");
 			writeResultToClient("text/json",jsonRes);
 		}catch(Exception e){
