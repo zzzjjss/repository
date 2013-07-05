@@ -1,11 +1,20 @@
 package com.uf.fanfan.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.TableGenerator;
 
 import com.uf.fanfan.common.ProductState;
-
-import java.sql.Timestamp;
 
 
 /**
@@ -27,7 +36,7 @@ public class Product implements Serializable {
 
 	private byte[] image;
 
-	private String imageFileName;
+	private String imageFileExtName;
 
 	private String name;
 
@@ -36,6 +45,7 @@ public class Product implements Serializable {
 	private Integer saleSum;
 	
 	private ProductState state;
+	
 
 	@ManyToOne
 	 // JoinColumn表示外键的列  
@@ -77,12 +87,12 @@ public class Product implements Serializable {
 		this.image = image;
 	}
 
-	public String getImageFileName() {
-		return this.imageFileName;
+	public String getImageFileExtName() {
+		return this.imageFileExtName;
 	}
 
-	public void setImageFileName(String imageFileName) {
-		this.imageFileName = imageFileName;
+	public void setImageFileExtName(String imageFileExtName) {
+		this.imageFileExtName = imageFileExtName;
 	}
 
 	public String getName() {
@@ -125,5 +135,14 @@ public class Product implements Serializable {
 	public void setState(ProductState state) {
 		this.state = state;
 	}
+
+	public String getImageFileName() {
+		if(id==null||imageFileExtName==null)
+			return "";
+		else
+			return id.toString()+imageFileExtName;
+	}
+
+	
 	
 }

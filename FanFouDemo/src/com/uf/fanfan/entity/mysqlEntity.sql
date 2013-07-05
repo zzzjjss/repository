@@ -34,7 +34,7 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `image` mediumblob,
-  `imageFileName` varchar(100) DEFAULT NULL,
+  `imageFileExtName` varchar(100) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `shopid` int(11) DEFAULT NULL,

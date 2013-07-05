@@ -58,7 +58,7 @@ public class ProductManage extends BaseAction {
 			Product pro=new  Product();
 			pro.setImage(fileContent);
 			pro.setName(name);
-			pro.setImageFileName(extend);
+			pro.setImageFileExtName(extend);
 			pro.setState(ProductState.FRAME_DOWN);
 			pro.setPrice(price);
 			pro.setDescription(description);
@@ -113,7 +113,10 @@ public class ProductManage extends BaseAction {
 	public String modifyProduct() {
 		return SUCCESS;
 	}
-
+	/**
+	 * get one page products in the shop 
+	 * @return
+	 */
 	public String getPageShopProducts() {
 		try{
 			PageQueryResult<Product> res=pmService.getPageProductsInShop(rp, page, 1,qtype,query);

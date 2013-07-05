@@ -11,6 +11,7 @@ import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
+import org.picketbox.util.StringUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,7 +36,6 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	public void  addProduct(Product product){
 		productRepository.save(product);
 	}
-	
 	public PageQueryResult<Product> getPageProductsInShop(int pageSize,int pageIndex,final int shopid,final String qtype,final String queryKey){
 		
 		Page<Product> pages =productRepository.findAll(new Specification<Product>() {
@@ -47,7 +47,11 @@ public class ProductManageServiceImpl implements  ProductManageService{
 				Path<String> p_name=root.get(qtype);
 				Path<Shop> shop=root.get("shop");
 				Path<Integer> shopId=shop.get("id");
-				return cb.and(cb.equal(shopId, shopid),cb.like(p_name, "%"+queryKey+"%"));
+				if(StringUtil.isNullOrEmpty(queryKey)){
+					return cb.equal(shopId, shopid);
+				}else{
+					return cb.and(cb.equal(shopId, shopid),cb.like(p_name, "%"+queryKey+"%"));
+				}
 			}
 		}, new PageRequest(pageIndex-1, pageSize));
 		PageQueryResult<Product> res=new PageQueryResult<Product>();
