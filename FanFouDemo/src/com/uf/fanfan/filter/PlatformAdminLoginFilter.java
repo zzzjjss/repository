@@ -1,13 +1,13 @@
 package com.uf.fanfan.filter;
 
 import java.io.IOException;
+
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -36,7 +36,11 @@ public class PlatformAdminLoginFilter implements Filter {
 
 		// pass the request along the filter chain
 		HttpServletRequest  req=(HttpServletRequest)request;
-		req.getSession().getAttribute("admin");
+		Object admin=req.getSession().getAttribute("admin");
+		if(admin==null){
+			response.getWriter().write("please login !");
+			return;
+		}
 		chain.doFilter(request, response);
 	}
 
