@@ -22,11 +22,17 @@
 						<li  id="shopManage"><a href="admin/navLeftShopManage.jsp" target="navLeft">餐馆管理</a></li>
 						</c:if>
 					</ul>
-					<form class="navbar-form pull-right" onsubmit="login()" >
+					<c:if test="${sessionScop.user!=null}">
+						welcome ${sessionScop.user.name}
+					</c:if>
+					<c:if test="${sessionScop.user==null}">
+						<form class="navbar-form pull-right" onsubmit="login()" >
 						<input id="name"  class="span2" type="text" placeholder="用户名"> 
 						<input id="passwd" class="span2" type="password" placeholder="密码">
 						<button type="submit" class="btn" id="loginBtn">登 录</button>
-					</form>
+						</form>
+					</c:if>
+					
 			</div>
 		</div>
 	</div>
@@ -55,5 +61,7 @@
 		}
 		});
 	}
-	
+	if($("#shopManage")!=null){
+		$("#shopManage").click();
+	}
 	</script>
