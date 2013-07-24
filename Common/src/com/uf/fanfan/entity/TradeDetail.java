@@ -26,7 +26,9 @@ public class TradeDetail implements Serializable {
 	private String evaluation;
 
 	private int productid;
-
+	
+	private int tradeAmount;
+	
 	private float tradeprice;
 
 	private short tradestate;
@@ -34,6 +36,7 @@ public class TradeDetail implements Serializable {
 	private Timestamp tradetime;
 
 	private Timestamp arriveTime;
+	
 	
 	public TradeDetail() {
 	}
@@ -101,5 +104,15 @@ public class TradeDetail implements Serializable {
 	public void setArriveTime(Timestamp arriveTime) {
 		this.arriveTime = arriveTime;
 	}
+
+	public int getTradeAmount() {
+		return tradeAmount;
+	}
+
+	public void setTradeAmount(int tradeAmount) {
+		this.tradeAmount = tradeAmount;
+	}
+
+	
 	
 }
