@@ -1,6 +1,7 @@
 package com.uf.fanfan.repository;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,4 +14,6 @@ import com.uf.fanfan.entity.TradeDetail;
 public interface TradeDetailRepository extends JpaRepository<TradeDetail, BigInteger> {
 	@Query( " select t from TradeDetail t where t.productid = :id " )
 	public  List<TradeDetail>  findByProductid(@Param("id")Integer productid);
+	@Query("select t from TradeDetail t where t.arriveTime>:begin and t.arriveTime<:end and t.customerid=:cusId")
+	public List<TradeDetail> findBetweenArriveTime(@Param("begin") Date begin,@Param("end") Date end,@Param("cusId") int customerId);
 }

@@ -87,6 +87,7 @@ CREATE TABLE `tradedetail` (
   `arrivetime` timestamp NOT NULL,
   `tradestate` smallint(6) DEFAULT NULL,
   `tradeprice` float DEFAULT NULL,
+  'tradeAmount' int(11) NOT NULL,
   `evaluation` varchar(200) DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
