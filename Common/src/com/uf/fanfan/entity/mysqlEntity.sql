@@ -33,8 +33,6 @@ CREATE TABLE `shop` (
 CREATE TABLE `product` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `image` mediumblob,
-  `imageFileExtName` varchar(100) DEFAULT NULL,
   `description` varchar(100) DEFAULT NULL,
   `price` double DEFAULT NULL,
   `shopid` int(11) DEFAULT NULL,
@@ -46,6 +44,12 @@ CREATE TABLE `product` (
   CONSTRAINT `product_shop_FK` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE 'productImage' (
+	'id' int(11) NOT NULL,
+	'productid' int(11) NOT NULL,
+	`image` mediumblob,
+	`imageFileExtName` varchar(100) DEFAULT NULL,
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `customer` (
   `id` int(11) NOT NULL,

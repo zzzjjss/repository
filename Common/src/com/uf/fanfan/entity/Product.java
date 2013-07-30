@@ -34,10 +34,6 @@ public class Product implements Serializable {
 
 	private String description;
 
-	private byte[] image;
-
-	private String imageFileExtName;
-
 	private String name;
 
 	private double price;
@@ -79,21 +75,9 @@ public class Product implements Serializable {
 		this.description = description;
 	}
 
-	public byte[] getImage() {
-		return this.image;
-	}
+	
 
-	public void setImage(byte[] image) {
-		this.image = image;
-	}
-
-	public String getImageFileExtName() {
-		return this.imageFileExtName;
-	}
-
-	public void setImageFileExtName(String imageFileExtName) {
-		this.imageFileExtName = imageFileExtName;
-	}
+	
 
 	public String getName() {
 		return this.name;
@@ -136,12 +120,7 @@ public class Product implements Serializable {
 		this.state = state;
 	}
 
-	public String getImageFileName() {
-		if(id==null||imageFileExtName==null)
-			return "";
-		else
-			return id.toString()+imageFileExtName;
-	}
+	
 
 	
 	
