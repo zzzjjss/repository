@@ -1,5 +1,6 @@
 package com.uf.fanfan.util;
 
+import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -8,7 +9,7 @@ import java.util.Locale;
 import com.uf.fanfan.common.WeekEnum;
 
 public class DateUtil {
-	//获取本周最后一天（周六）的日期  ，如Sat Jul 27 23:59:59 CST 2013
+	//鑾峰彇鏈懆鏈�鍚庝竴澶╋紙鍛ㄥ叚锛夌殑鏃ユ湡  锛屽Sat Jul 27 23:59:59 CST 2013
 	public static Date getThisWeekSaturdayDate(){
 		int dayOfWeek=Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		GregorianCalendar calen=new GregorianCalendar(Locale.CHINA);
@@ -20,7 +21,7 @@ public class DateUtil {
 		System.out.println(date);
 		return date;
 	}
-	//获取本周第一天（周日）的日期 ，如 Sat Jul 20 00:00:00 CST 2013
+	//鑾峰彇鏈懆绗竴澶╋紙鍛ㄦ棩锛夌殑鏃ユ湡 锛屽 Sat Jul 20 00:00:00 CST 2013
 	public static Date getThisWeekSundayDate(){
 		int dayOfWeek=Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
 		GregorianCalendar calen=new GregorianCalendar(Locale.CHINA);
@@ -48,6 +49,7 @@ public class DateUtil {
 		return null;
 		
 	}
+	
 	public static void main(String[] args) {
 		getThisWeekSaturdayDate();
 		getThisWeekSundayDate();

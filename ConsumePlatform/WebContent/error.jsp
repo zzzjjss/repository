@@ -7,6 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-服务器错误
+服务器错误  
 </body>
 </html>

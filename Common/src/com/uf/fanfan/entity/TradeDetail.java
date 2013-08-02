@@ -29,7 +29,7 @@ public class TradeDetail implements Serializable {
 	
 	private int tradeAmount;
 	
-	private float tradeprice;
+	private double tradeprice;
 
 	private short tradestate;
 
@@ -73,11 +73,11 @@ public class TradeDetail implements Serializable {
 		this.productid = productid;
 	}
 
-	public float getTradeprice() {
+	public double getTradeprice() {
 		return this.tradeprice;
 	}
 
-	public void setTradeprice(float tradeprice) {
+	public void setTradeprice(double tradeprice) {
 		this.tradeprice = tradeprice;
 	}
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uf.fanfan.entity.Customer;
 import com.uf.fanfan.entity.ShopManager;
 import com.uf.fanfan.service.LoginService;
 
@@ -51,9 +52,9 @@ public class Login extends BaseAction{
 			}
 			boolean res=loginService.login(userName, password, userType);
 			if(res){
-				ShopManager shopMana=new ShopManager();
-				shopMana.setName(userName);
-				this.session.setAttribute("user", shopMana);
+				Customer customer=new Customer();
+				customer.setName(userName);
+				this.session.setAttribute("user", customer);
 				this.writeResultToClient("text/plain", "success");
 			}else{
 				if(preLoginTime[1]>=noVerifycodeLoginTime)

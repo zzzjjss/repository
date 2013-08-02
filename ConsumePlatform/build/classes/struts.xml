@@ -25,6 +25,7 @@
         </action>
          <action name="Product_*" class="com.uf.fanfan.action.ProductShowAction" method="{1}">
            <result name="showProduct">/index/product.jsp</result>
+           <result name="loginPage">/index/login.jsp</result>
         </action>
     </package>
 

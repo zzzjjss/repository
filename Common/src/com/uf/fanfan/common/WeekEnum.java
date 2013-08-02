@@ -1,7 +1,7 @@
 package com.uf.fanfan.common;
 
 public enum WeekEnum {
-	SUNDAY("ĞÇÆÚÌì"),MONDAY("ĞÇÆÚÒ»"),TUESDAY("ĞÇÆÚ¶ş"),WEDNESDAY("ĞÇÆÚÈı"),THURSDAY("ĞÇÆÚËÄ"),FRIDAY("ĞÇÆÚÎå"),SATURDAY("ĞÇÆÚÁù") ;
+	SUNDAY("æ˜ŸæœŸå¤©"),MONDAY("æ˜ŸæœŸä¸€"),TUESDAY("æ˜ŸæœŸäºŒ"),WEDNESDAY("æ˜ŸæœŸä¸‰"),THURSDAY("æ˜ŸæœŸå››"),FRIDAY("æ˜ŸæœŸäº”"),SATURDAY("æ˜ŸæœŸå…­") ;
 	private String name;
 	private WeekEnum(String name){
 		this.name=name;
