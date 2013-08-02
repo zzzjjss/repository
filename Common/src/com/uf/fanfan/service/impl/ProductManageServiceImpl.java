@@ -78,5 +78,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 		this.productRepository = productRep;
 	}
 	
-	
+	public Product getProduct(Integer id){
+		return this.productRepository.findOne(id);
+	}
 }

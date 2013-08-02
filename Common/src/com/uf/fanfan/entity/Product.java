@@ -2,6 +2,7 @@ package com.uf.fanfan.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.TableGenerator;
 
 import com.uf.fanfan.common.ProductState;
@@ -42,7 +44,9 @@ public class Product implements Serializable {
 	
 	private ProductState state;
 	
-
+	@OneToMany(mappedBy="product")
+	private List<ProductImage> images;
+	
 	@ManyToOne
 	 // JoinColumn表示外键的列  
     @JoinColumn(name="shopid")  
@@ -120,8 +124,13 @@ public class Product implements Serializable {
 		this.state = state;
 	}
 
-	
+	public List<ProductImage> getImages() {
+		return images;
+	}
 
+	public void setImages(List<ProductImage> images) {
+		this.images = images;
+	}
 	
 	
 }
