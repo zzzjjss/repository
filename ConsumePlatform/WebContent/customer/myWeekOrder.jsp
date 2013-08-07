@@ -12,7 +12,18 @@ body {
 
 	<ul class="thumbnails ">
 		<li class="span4 ">
-			<div class="thumbnail" style="background-color: #EEEEEE;">
+			<div class="thumbnail" style="background-color: #EEEEEE;"  id="day1">
+				<a > <img src="../img/a.jpg">
+				</a>
+				<h3 align="center">星期天</h3>
+				<p align="center">
+				<button  type="button" class="btn disabled">完成配送</button>
+				</p>
+				
+			</div>
+		</li>
+		<li class="span4 " >
+			<div class="thumbnail" style="background-color: #EEEEEE;" id="day2">
 				<a > <img src="../img/a.jpg">
 				</a>
 				<h3 align="center">星期一</h3>
@@ -22,8 +33,8 @@ body {
 				
 			</div>
 		</li>
-		<li class="span4 ">
-			<div class="thumbnail" style="background-color: #EEEEEE;">
+		<li class="span4 " >
+			<div class="thumbnail" style="background-color: #EEEEEE;" id="day3">
 				<a > <img src="../img/noTrade.jpg">
 				</a>
 				<h3 align="center">星期二</h3>
@@ -33,8 +44,8 @@ body {
 				
 			</div>
 		</li>
-		<li class="span4 ">
-			<div class="thumbnail" style="background: lime;">
+		<li class="span4 " >
+			<div class="thumbnail" style="background: lime;" id="day4">
 				<a > <img src="../img/a.jpg">
 				</a>
 				<h3 align="center">星期三 
@@ -44,8 +55,8 @@ body {
 				</p>
 			</div>
 		</li>
-		<li class="span4 ">
-			<div class="thumbnail" style="background:lime;">
+		<li class="span4 " >
+			<div class="thumbnail" style="background:lime;" id="day5">
 				<a > <img src="../img/trade.jpg">
 				</a>
 				<h3 align="center">星期四</h3>
@@ -54,8 +65,8 @@ body {
 				</p>
 			</div>
 		</li>
-		<li class="span4 ">
-			<div class="thumbnail" style="background:lime;">
+		<li class="span4 " >
+			<div class="thumbnail" style="background:lime;"  id="day6">
 				<a > <img src="../img/trade.jpg">
 				</a>
 				<h3 align="center">星期五</h3>
@@ -64,8 +75,8 @@ body {
 				</p>
 			</div>
 		</li>
-			<li class="span4 ">
-			<div class="thumbnail" style="background:lime;">
+			<li class="span4 " >
+			<div class="thumbnail" style="background:lime;" id="day7">
 				<a > <img src="../img/trade.jpg">
 				</a>
 				<h3 align="center">星期六</h3>
@@ -78,6 +89,11 @@ body {
 	</ul>
 </div>
 
-
+<script type="text/javascript">
+	var today=${today};
+	for(var i=1;i<today;i++){
+		$("#day"+i).attr("style","background-color: #EEEEEE");
+	}
+</script>
 
 <%@ include file="../index/bottom.jsp"%>
