@@ -1,6 +1,5 @@
 package com.uf.fanfan.util;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -51,8 +50,6 @@ public class DateUtil {
 	}
 	
 	public static void main(String[] args) {
-		getThisWeekSaturdayDate();
-		getThisWeekSundayDate();
-		System.out.println(getWeekdayByDate(new Date(System.currentTimeMillis())).getName());
+	
 	}
 }

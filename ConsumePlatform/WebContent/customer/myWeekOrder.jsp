@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ include file="../index/jsAndCSS.jsp"%>
 <style>
 body {
@@ -14,9 +15,13 @@ body {
 		<li class="span4 ">
 			<div class="thumbnail" style="background-color: #EEEEEE;"  id="day1">
 				<a > <img src="../img/a.jpg">
+				
 				</a>
 				<h3 align="center">星期天</h3>
 				<p align="center">
+				<c:forEach items="${SUNDAY}" var="tradeDetail">
+					<span>${tradeDetail.productid}</span>
+				</c:forEach>
 				<button  type="button" class="btn disabled">完成配送</button>
 				</p>
 				

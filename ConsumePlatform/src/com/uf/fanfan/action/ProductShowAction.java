@@ -12,6 +12,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.uf.fanfan.common.Constant;
 import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.common.TradeState;
 import com.uf.fanfan.common.WeekEnum;
@@ -46,10 +47,15 @@ public class ProductShowAction extends BaseAction{
 		if(cus==null){
 			return "loginPage";
 		}else{
+			Timestamp arrive=Timestamp.valueOf(arriveTime);
+			if(arrive.before(getLatestArriveTime())){
+				writeResultToClient("text/plain", "outOfDate");
+				return null;
+			}
 			Product product=pmService.getProduct(productId);
 			TradeDetail td=new TradeDetail();
 			td.setCustomerid(cus.getId());
-			td.setArriveTime(Timestamp.valueOf(arriveTime));
+			td.setArriveTime(arrive);
 			td.setProductid(productId);
 			td.setTradeAmount(tradeAmount);
 			td.setTradeprice(product.getPrice());
@@ -81,11 +87,24 @@ public class ProductShowAction extends BaseAction{
 			int dayOfWeek=calen.get(Calendar.DAY_OF_WEEK);
 			Calendar cal = Calendar.getInstance();
 			int house=cal.get(Calendar.HOUR_OF_DAY);
-			if(house>=9){
+			//当前时间超过了当天订餐时间，则 可订餐时间推后一天。
+			if(house>=Constant.STOP_CONSUME_HOUSE){
 				dayOfWeek++;
 			}
 			request.setAttribute("today", dayOfWeek);
 			return "weekOrder";
 		}
+	}
+	
+	private Date getLatestArriveTime(){
+		Calendar cal = Calendar.getInstance();
+		int house = cal.get(Calendar.HOUR_OF_DAY);
+		if (house >= Constant.STOP_CONSUME_HOUSE) {
+			cal.add(Calendar.DAY_OF_MONTH, 1);
+			cal.set(Calendar.HOUR_OF_DAY, 0);
+			cal.set(Calendar.MINUTE, 0);
+			cal.set(Calendar.SECOND, 0);
+		}
+		return cal.getTime();
 	}
 }
