@@ -14,13 +14,13 @@ import com.uf.fanfan.repository.CustomerRepository;
 import com.uf.fanfan.repository.DeliveryManRepository;
 import com.uf.fanfan.repository.PlatformAdminRepository;
 import com.uf.fanfan.repository.ShopManagerRepository;
-import com.uf.fanfan.service.LoginService;
-@Service("loginService")
-public class LoginServiceImpl implements LoginService{
+import com.uf.fanfan.service.UserService;
+@Service("userService")
+public class UserServiceImpl implements UserService{
 	@Autowired
-	private AgentRepository  agent;
+	private AgentRepository  agentRes;
 	@Autowired
-	private CustomerRepository customer;
+	private CustomerRepository customerRes;
 	@Autowired
 	private PlatformAdminRepository platformAdmin;
 	@Autowired
@@ -30,11 +30,11 @@ public class LoginServiceImpl implements LoginService{
 	
 	public boolean login(String userName,String password,String userType){
 		if(UserType.AGENT.getName().equalsIgnoreCase(userType)){
-			Agent user=agent.findByName(userName);
+			Agent user=agentRes.findByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 				
 		} else if(UserType.CUSTOMER.getName().equalsIgnoreCase(userType)){
-				Customer user=customer.findByName(userName);
+				Customer user=customerRes.findByName(userName);
 				return user!=null&&password!=null&&password.equals(user.getPassword());
 		} else if(UserType.PLATFORM_ADMIN.getName().equalsIgnoreCase(userType)){
 			PlatformAdmin user=platformAdmin.findByName(userName);
@@ -49,5 +49,11 @@ public class LoginServiceImpl implements LoginService{
 		return false;
 		
 		
+	}
+	public Agent getAgentById(int agentId){
+		return agentRes.findOne(agentId);
+	}
+	public void addCustomer(Customer customer){
+		customerRes.saveAndFlush(customer);
 	}
 }

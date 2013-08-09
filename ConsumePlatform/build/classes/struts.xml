@@ -14,6 +14,7 @@
 
         <global-results>
             <result name="error">/error.jsp</result>
+            <result name="loginPage">/index/login.jsp</result>
         </global-results>
 
         <global-exception-mappings>
@@ -25,7 +26,10 @@
         </action>
          <action name="Product_*" class="com.uf.fanfan.action.ProductShowAction" method="{1}">
            <result name="showProduct">/index/product.jsp</result>
-           <result name="loginPage">/index/login.jsp</result>
+        </action>
+        
+         <action name="Consume_*" class="com.uf.fanfan.action.CustomerConsumeAction" method="{1}">
+           <result name="weekOrder">/customer/myWeekOrder.jsp</result>
         </action>
     </package>
 

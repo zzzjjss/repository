@@ -15,11 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.uf.fanfan.entity.Customer;
-import com.uf.fanfan.entity.ShopManager;
-import com.uf.fanfan.service.LoginService;
+import com.uf.fanfan.service.UserService;
 
 public class Login extends BaseAction{
-	LoginService loginService=(LoginService)appContext.getBean("loginService");
+	UserService userService=(UserService)appContext.getBean("userService");
 	Logger log = LoggerFactory.getLogger(Login.class);
 	final int noVerifycodeLoginTime=5;
 	
@@ -27,7 +26,8 @@ public class Login extends BaseAction{
 	private String password;
 	private String userType;
 	private String verifyCode;
-	
+	private String agentId;
+	private String agentPhone;
 	
 	public String login(){
 		try{
@@ -50,7 +50,7 @@ public class Login extends BaseAction{
 					}
 				}
 			}
-			boolean res=loginService.login(userName, password, userType);
+			boolean res=userService.login(userName, password, userType);
 			if(res){
 				Customer customer=new Customer();
 				customer.setName(userName);
@@ -70,7 +70,13 @@ public class Login extends BaseAction{
 		return null;
 		
 	}
-
+	
+	
+	public String RegisterNewUser(){
+		Customer cus=new Customer();
+		userService.addCustomer(cus);
+		return null;
+	}
 	public String generateVerifyCode() {
 		response.setHeader("Pragma", "No-cache");
 		response.setHeader("Cache-Control", "no-cache");
