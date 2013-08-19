@@ -18,7 +18,7 @@ import com.uf.fanfan.common.PageQueryResult;
 import com.uf.fanfan.common.ProductState;
 import com.uf.fanfan.entity.Product;
 import com.uf.fanfan.entity.Shop;
-import com.uf.fanfan.entity.TradeDetail;
+import com.uf.fanfan.entity.OrderDetail;
 import com.uf.fanfan.repository.ProductRepository;
 import com.uf.fanfan.repository.TradeDetailRepository;
 import com.uf.fanfan.service.ProductManageService;
@@ -61,7 +61,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	}
 	
 	public void deleteProduct(Integer id){
-		List<TradeDetail> tradeDetail=tradeDetailRes.findByProductid(id);
+		List<OrderDetail> tradeDetail=tradeDetailRes.findByProductid(id);
 		if(tradeDetail==null||tradeDetail.size()==0){
 			productRepository.delete(id);
 		}else{

@@ -5,7 +5,8 @@ drop table IF EXISTS customer ;
 drop table IF EXISTS shopmanager;
 drop table IF EXISTS platformadmin ;
 drop table IF EXISTS deliveryman ;
-drop table IF EXISTS tradedetail ;
+drop table IF EXISTS order_detail ;
+drop table IF EXISTS customer_order;
 drop table IF EXISTS id_table;
 
 CREATE TABLE `agent` (
@@ -44,11 +45,11 @@ CREATE TABLE `product` (
   CONSTRAINT `product_shop_FK` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE 'productImage' (
-	'id' int(11) NOT NULL,
-	'productid' int(11) NOT NULL,
-	`image` mediumblob,
-	`imageFileExtName` varchar(100) DEFAULT NULL,
+CREATE TABLE `productImage` (
+	`id` int(11) NOT NULL,
+	`productid` int(11) NOT NULL,
+	`bit_image` mediumblob ,
+	`imageFileExtName` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `customer` (
@@ -83,17 +84,25 @@ CREATE TABLE `deliveryman` (
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `tradedetail` (
+CREATE TABLE `customer_order` (
   `id` bigint(20) NOT NULL,
-  `productid` int(11) NOT NULL,
   `customerid` int(11) NOT NULL,
-  `tradetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `arrivetime` timestamp NOT NULL,
   `tradestate` smallint(6) DEFAULT NULL,
-  `tradeprice` float DEFAULT NULL,
-  'tradeAmount' int(11) NOT NULL,
-  `evaluation` varchar(200) DEFAULT NULL,
+  `sumMoney` float DEFAULT NULL,
    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `order_detail` (
+  `id` bigint(20) NOT NULL,
+  `orderid` bigint(20) NOT NULL,
+  `productid` int(11) NOT NULL,
+  `tradeprice` float DEFAULT NULL,
+  `tradeAmount` int(11) NOT NULL,
+  `tradetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `evaluation` varchar(200) DEFAULT NULL,
+   PRIMARY KEY (`id`),
+   CONSTRAINT `detail_order_FK` FOREIGN KEY (`orderid`) REFERENCES `customer_order` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `id_table` (
@@ -109,7 +118,8 @@ insert into id_table values('customer_ID',0);
 insert into id_table values('shopmanager_ID',0);
 insert into id_table values('platformadmin_ID',0);
 insert into id_table values('deliveryman_ID',0);
-insert into id_table values('tradedetail_ID',0);
+insert into id_table values('order_detail_ID',0);
+insert into id_table values('customer_order_ID',0);
 
 INSERT INTO fanfan.shop
 (id, name, address, phoneNum, description)

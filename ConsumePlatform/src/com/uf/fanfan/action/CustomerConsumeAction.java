@@ -13,14 +13,15 @@ import org.slf4j.LoggerFactory;
 import com.uf.fanfan.common.Constant;
 import com.uf.fanfan.common.TradeState;
 import com.uf.fanfan.entity.Customer;
+import com.uf.fanfan.entity.CustomerOrder;
+import com.uf.fanfan.entity.OrderDetail;
 import com.uf.fanfan.entity.Product;
-import com.uf.fanfan.entity.TradeDetail;
 import com.uf.fanfan.service.ProductManageService;
-import com.uf.fanfan.service.TradeDetailManagerService;
+import com.uf.fanfan.service.TradeService;
 
 public class CustomerConsumeAction extends BaseAction{
 	ProductManageService pmService=(ProductManageService)appContext.getBean("productManageService");
-	TradeDetailManagerService tdService=(TradeDetailManagerService)appContext.getBean("tradeDetailManageService");
+	TradeService tdService=(TradeService)appContext.getBean("tradeService");
 	Logger log = LoggerFactory.getLogger(CustomerConsumeAction.class);
 	private String arriveTime;
 	private int productId;
@@ -37,17 +38,25 @@ public class CustomerConsumeAction extends BaseAction{
 				return null;
 			}
 			Product product=pmService.getProduct(productId);
-			TradeDetail td=new TradeDetail();
-			td.setCustomerid(cus.getId());
-			td.setArriveTime(arrive);
+			CustomerOrder order=null;
+			List<CustomerOrder> orders=tdService.getCustomerOrdersByArriveDay(cus.getId(),arrive);
+			if(orders==null||orders.size()==0)
+				order=new CustomerOrder();
+			else 
+				order=orders.get(0);
+			order.setCustomerid(cus.getId());
+			order.setArrivetime(arrive);
+			order.setTradestate(TradeState.PROCESSING);
+			OrderDetail td=new OrderDetail();
 			td.setProductid(productId);
 			td.setTradeAmount(tradeAmount);
-			td.setTradeprice(product.getPrice());
-			td.setTradestate(TradeState.PROCESSING);
+			td.setTradeprice((float)product.getPrice());
 			td.setTradetime(new Timestamp(System.currentTimeMillis()));
-			List<TradeDetail> tds=new ArrayList<TradeDetail>();
+			List<OrderDetail> tds=order.getOrderDetails();
+			if(tds==null)
+				tds=new ArrayList<OrderDetail>();
 			tds.add(td);
-			tdService.purchaseProducts(tds);
+			tdService.purchaseProducts(order);
 			this.writeResultToClient("text/plain", "success");
 		}
 		return null;
