@@ -24,7 +24,6 @@ http://www.springframework.org/schema/data/jpa
 		<property name="password" value="root" />
 	</bean>
 	-->
-	
 	<bean id="myEmf"
 		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="fanfanDS"/>
