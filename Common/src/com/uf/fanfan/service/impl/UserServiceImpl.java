@@ -4,46 +4,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uf.fanfan.common.UserType;
+import com.uf.fanfan.dao.AgentDao;
+import com.uf.fanfan.dao.CustomerDao;
+import com.uf.fanfan.dao.DeliveryManDao;
+import com.uf.fanfan.dao.PlatformAdminDao;
+import com.uf.fanfan.dao.ShopManagerDao;
 import com.uf.fanfan.entity.Agent;
 import com.uf.fanfan.entity.Customer;
 import com.uf.fanfan.entity.DeliveryMan;
 import com.uf.fanfan.entity.PlatformAdmin;
 import com.uf.fanfan.entity.ShopManager;
-import com.uf.fanfan.repository.AgentRepository;
-import com.uf.fanfan.repository.CustomerRepository;
-import com.uf.fanfan.repository.DeliveryManRepository;
-import com.uf.fanfan.repository.PlatformAdminRepository;
-import com.uf.fanfan.repository.ShopManagerRepository;
 import com.uf.fanfan.service.UserService;
 @Service("userService")
 public class UserServiceImpl implements UserService{
 	@Autowired
-	private AgentRepository  agentRes;
+	private AgentDao  agentDao;
 	@Autowired
-	private CustomerRepository customerRes;
+	private CustomerDao customerDao;
 	@Autowired
-	private PlatformAdminRepository platformAdmin;
+	private PlatformAdminDao platformAdminDao;
 	@Autowired
-	private  ShopManagerRepository  shopManager;
+	private  ShopManagerDao  shopManagerDao;
 	@Autowired
-	private DeliveryManRepository  deliveryman;
+	private DeliveryManDao  deliverymanDao;
 	
 	public boolean login(String userName,String password,String userType){
 		if(UserType.AGENT.getName().equalsIgnoreCase(userType)){
-			Agent user=agentRes.findByName(userName);
+			Agent user=agentDao.findAgentByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 				
 		} else if(UserType.CUSTOMER.getName().equalsIgnoreCase(userType)){
-				Customer user=customerRes.findByName(userName);
+				Customer user=customerDao.findCustomerByName(userName);
 				return user!=null&&password!=null&&password.equals(user.getPassword());
 		} else if(UserType.PLATFORM_ADMIN.getName().equalsIgnoreCase(userType)){
-			PlatformAdmin user=platformAdmin.findByName(userName);
+			PlatformAdmin user=platformAdminDao.findByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 		}else if(UserType.SHOP_Manager.getName().equalsIgnoreCase(userType)){
-			ShopManager user=shopManager.findByName(userName);
+			ShopManager user=shopManagerDao.findByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 		}else if(UserType.DELIVERY_MAN.getName().equalsIgnoreCase(userType)){
-			DeliveryMan user=deliveryman.findByName(userName);
+			DeliveryMan user=deliverymanDao.findByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 		}
 		return false;
@@ -51,9 +51,10 @@ public class UserServiceImpl implements UserService{
 		
 	}
 	public Agent getAgentById(int agentId){
-		return agentRes.findOne(agentId);
+		//return agentDao.findOne(agentId);
+		return null;
 	}
 	public void addCustomer(Customer customer){
-		customerRes.saveAndFlush(customer);
+		//customerDao.saveAndFlush(customer);
 	}
 }

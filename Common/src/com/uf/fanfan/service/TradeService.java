@@ -10,9 +10,9 @@ import com.uf.fanfan.entity.CustomerOrder;
 import com.uf.fanfan.entity.OrderDetail;
 
 public interface TradeService {
-	public void purchaseProducts(CustomerOrder order);
-	public Map<WeekEnum,List<CustomerOrder>> getCustomerThisWeekOrders(int customerId);
-	public void cancelOrder(BigInteger tradeDetailId);
-	public void updateOrder(OrderDetail td);
-	public List<CustomerOrder> getCustomerOrdersByArriveDay(Integer customerId,Timestamp arriveTime);
+//	public void purchaseProducts(CustomerOrder order);
+//	public Map<WeekEnum,List<CustomerOrder>> getCustomerThisWeekOrders(int customerId);
+//	public void cancelOrder(BigInteger tradeDetailId);
+//	public void updateOrder(OrderDetail td);
+//	public List<CustomerOrder> getCustomerOrdersByArriveDay(Integer customerId,Timestamp arriveTime);
 }
