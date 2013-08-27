@@ -1,0 +1,612 @@
+DEBUG main org.hibernate.id.factory.DefaultIdentifierGeneratorFactory - Setting dialect [org.hibernate.dialect.MySQL5InnoDBDialect]
+DEBUG main org.hibernate.persister.entity.AbstractPropertyMapping - Skipping duplicate registration of path [name], existing type = [org.hibernate.type.StringType@1ab11b0], incoming type = [org.hibernate.type.StringType@1ab11b0]
+DEBUG main org.hibernate.persister.entity.AbstractPropertyMapping - Skipping duplicate registration of path [id], existing type = [org.hibernate.type.IntegerType@f07355], incoming type = [org.hibernate.type.IntegerType@f07355]
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister - Static SQL for entity: com.uf.fanfan.entity.Shop
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Version select: select id from SHOP where id =?
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Snapshot select: select shop_.id, shop_.name as name0_ from SHOP shop_ where shop_.id=?
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Insert 0: insert into SHOP (name, id) values (?, ?)
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Update 0: update SHOP set name=? where id=?
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Delete 0: delete from SHOP where id=?
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister -  Identity insert: insert into SHOP (name) values (?)
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [NONE]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [READ]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [UPGRADE]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=? for update
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [UPGRADE_NOWAIT]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=? for update
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [FORCE]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=? for update
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [PESSIMISTIC_READ]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=? lock in share mode
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [PESSIMISTIC_WRITE]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=? for update
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [PESSIMISTIC_FORCE_INCREMENT]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=? for update
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [OPTIMISTIC]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for entity com.uf.fanfan.entity.Shop [OPTIMISTIC_FORCE_INCREMENT]: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for action ACTION_MERGE on entity com.uf.fanfan.entity.Shop: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.loader.entity.EntityLoader - Static select for action ACTION_REFRESH on entity com.uf.fanfan.entity.Shop: select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.impl.SessionFactoryObjectFactory - initializing class SessionFactoryObjectFactory
+DEBUG main org.hibernate.impl.SessionFactoryObjectFactory - registered: 6c46e026-912e-42d3-9ac9-2e2379de11ba (unnamed)
+INFO main org.hibernate.impl.SessionFactoryObjectFactory - Not binding factory to JNDI, no JNDI name configured
+DEBUG main org.hibernate.impl.SessionFactoryImpl - instantiated session factory
+DEBUG main org.hibernate.impl.SessionFactoryImpl - Checking 0 named HQL queries
+DEBUG main org.hibernate.impl.SessionFactoryImpl - Checking 0 named SQL queries
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'sessionFactory'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Invoking afterPropertiesSet() on bean with name 'hibernateTemplate'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'hibernateTemplate'
+DEBUG main org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor - Autowiring by type from bean name 'shopDao' to bean named 'hibernateTemplate'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'shopDao'
+DEBUG main org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor - Autowiring by type from bean name 'shopManagerService' to bean named 'shopDao'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'txAdvice'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'txAdvice'
+DEBUG main org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator - Did not attempt to auto-proxy infrastructure class [org.springframework.transaction.interceptor.TransactionInterceptor]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'txAdvice' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Getting BeanInfo for class [org.springframework.transaction.interceptor.TransactionInterceptor]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Caching PropertyDescriptors for class [org.springframework.transaction.interceptor.TransactionInterceptor]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'beanFactory' of type [org.springframework.beans.factory.BeanFactory]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'class' of type [java.lang.Class]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionAttributeSource' of type [org.springframework.transaction.interceptor.TransactionAttributeSource]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionAttributeSources' of type [[Lorg.springframework.transaction.interceptor.TransactionAttributeSource;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionAttributes' of type [java.util.Properties]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionManager' of type [org.springframework.transaction.PlatformTransactionManager]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionManagerBeanName' of type [java.lang.String]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'transactionManager'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'transactionManager'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'transactionManager' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Getting BeanInfo for class [org.springframework.orm.hibernate3.HibernateTransactionManager]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Caching PropertyDescriptors for class [org.springframework.orm.hibernate3.HibernateTransactionManager]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'autodetectDataSource' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'beanFactory' of type [org.springframework.beans.factory.BeanFactory]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'class' of type [java.lang.Class]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'dataSource' of type [javax.sql.DataSource]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'defaultTimeout' of type [int]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'earlyFlushBeforeCommit' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'entityInterceptor' of type [org.hibernate.Interceptor]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'entityInterceptorBeanName' of type [java.lang.String]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'failEarlyOnGlobalRollbackOnly' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'globalRollbackOnParticipationFailure' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'hibernateManagedSession' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'jdbcExceptionTranslator' of type [org.springframework.jdbc.support.SQLExceptionTranslator]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'nestedTransactionAllowed' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'prepareConnection' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'resourceFactory' of type [java.lang.Object]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'rollbackOnCommitFailure' of type [boolean]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'sessionFactory' of type [org.hibernate.SessionFactory]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionSynchronization' of type [int]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transactionSynchronizationName' of type [java.lang.String]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'validateExistingTransaction' of type [boolean]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'sessionFactory'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Invoking afterPropertiesSet() on bean with name 'transactionManager'
+INFO main org.springframework.orm.hibernate3.HibernateTransactionManager - Using DataSource [org.apache.commons.dbcp.BasicDataSource@152bdc7] of Hibernate SessionFactory for HibernateTransactionManager
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'transactionManager'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean '(inner bean)'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Getting BeanInfo for class [org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Caching PropertyDescriptors for class [org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'class' of type [java.lang.Class]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'nameMap' of type [java.util.Map]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'properties' of type [java.util.Properties]
+DEBUG main org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource - Adding transactional method [*] with attribute [PROPAGATION_REQUIRED,ISOLATION_DEFAULT]
+DEBUG main org.springframework.transaction.interceptor.NameMatchTransactionAttributeSource - Adding transactional method [get*] with attribute [PROPAGATION_SUPPORTS,ISOLATION_DEFAULT,readOnly]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean '(inner bean)'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Invoking afterPropertiesSet() on bean with name 'txAdvice'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'txAdvice'
+DEBUG main org.springframework.aop.aspectj.autoproxy.AspectJAwareAdvisorAutoProxyCreator - Creating implicit proxy for bean 'shopManagerService' with 0 common interceptors and 2 specific interceptors
+DEBUG main org.springframework.aop.framework.JdkDynamicAopProxy - Creating JDK dynamic proxy: target source is SingletonTargetSource for target object [com.uf.fanfan.service.impl.ShopManagerServiceImpl@df4bfc]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'shopManagerService'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'tradeService'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'tradeService'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'tradeService' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Getting BeanInfo for class [com.uf.fanfan.service.impl.TradeServiceImpl]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Caching PropertyDescriptors for class [com.uf.fanfan.service.impl.TradeServiceImpl]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'class' of type [java.lang.Class]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'tradeService'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.context.annotation.internalRequiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.context.annotation.internalPersistenceAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'productDao'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'productDao'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.annotation.InjectionMetadata - Registered injected element on class [com.uf.fanfan.dao.impl.ProductDaoImpl]: AutowiredFieldElement for private org.springframework.orm.hibernate3.HibernateTemplate com.uf.fanfan.dao.impl.CommonDaoImpl.hibernateTemplate
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'productDao' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Getting BeanInfo for class [com.uf.fanfan.dao.impl.ProductDaoImpl]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Caching PropertyDescriptors for class [com.uf.fanfan.dao.impl.ProductDaoImpl]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'class' of type [java.lang.Class]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'hibernateTemplate' of type [org.springframework.orm.hibernate3.HibernateTemplate]
+DEBUG main org.springframework.beans.factory.annotation.InjectionMetadata - Processing injected method of bean 'productDao': AutowiredFieldElement for private org.springframework.orm.hibernate3.HibernateTemplate com.uf.fanfan.dao.impl.CommonDaoImpl.hibernateTemplate
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'hibernateTemplate'
+DEBUG main org.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor - Autowiring by type from bean name 'productDao' to bean named 'hibernateTemplate'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'productDao'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'shopDao'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'myDataSource'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'sessionFactory'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'transactionManager'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'hibernateTemplate'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.config.internalAutoProxyCreator'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'txAdvice'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'org.springframework.context.annotation.ConfigurationClassPostProcessor.importAwareProcessor'
+DEBUG main org.springframework.context.support.ClassPathXmlApplicationContext - Unable to locate LifecycleProcessor with name 'lifecycleProcessor': using default [org.springframework.context.support.DefaultLifecycleProcessor@c5577c]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'lifecycleProcessor'
+DEBUG main org.springframework.context.support.ClassPathXmlApplicationContext - Publishing event in org.springframework.context.support.ClassPathXmlApplicationContext@f84386: org.springframework.context.event.ContextRefreshedEvent[source=org.springframework.context.support.ClassPathXmlApplicationContext@f84386: startup date [Tue Aug 27 21:33:46 CST 2013]; root of context hierarchy]
+DEBUG main org.springframework.core.env.PropertySourcesPropertyResolver - getProperty("spring.liveBeansView.mbeanDomain", String)
+DEBUG main org.springframework.core.env.PropertySourcesPropertyResolver - Searching for key 'spring.liveBeansView.mbeanDomain' in [systemProperties]
+DEBUG main org.springframework.core.env.PropertySourcesPropertyResolver - Searching for key 'spring.liveBeansView.mbeanDomain' in [systemEnvironment]
+DEBUG main org.springframework.core.env.SystemEnvironmentPropertySource - PropertySource [systemEnvironment] does not contain 'spring.liveBeansView.mbeanDomain'
+DEBUG main org.springframework.core.env.SystemEnvironmentPropertySource - PropertySource [systemEnvironment] does not contain 'spring_liveBeansView_mbeanDomain'
+DEBUG main org.springframework.core.env.SystemEnvironmentPropertySource - PropertySource [systemEnvironment] does not contain 'SPRING.LIVEBEANSVIEW.MBEANDOMAIN'
+DEBUG main org.springframework.core.env.SystemEnvironmentPropertySource - PropertySource [systemEnvironment] does not contain 'SPRING_LIVEBEANSVIEW_MBEANDOMAIN'
+DEBUG main org.springframework.core.env.PropertySourcesPropertyResolver - Could not find key 'spring.liveBeansView.mbeanDomain' in any property source. Returning [null]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Returning cached instance of singleton bean 'shopManagerService'
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Creating new transaction with name [com.uf.fanfan.service.impl.ShopManagerServiceImpl.findShopById]: PROPAGATION_REQUIRED,ISOLATION_DEFAULT
+DEBUG main org.hibernate.impl.SessionImpl - opened session at timestamp: 13776104288
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Opened new Session [org.hibernate.impl.SessionImpl@1abdac9] for Hibernate transaction
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Preparing JDBC Connection of Hibernate Session [org.hibernate.impl.SessionImpl@1abdac9]
+DEBUG main org.hibernate.transaction.JDBCTransaction - begin
+DEBUG main org.hibernate.jdbc.ConnectionManager - opening JDBC connection
+DEBUG main org.hibernate.transaction.JDBCTransaction - current autocommit status: true
+DEBUG main org.hibernate.transaction.JDBCTransaction - disabling autocommit
+DEBUG main org.hibernate.jdbc.JDBCContext - after transaction begin
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Exposing Hibernate transaction as JDBC transaction [jdbc:mysql://127.0.0.1:3306, UserName=root@localhost, MySQL-AB JDBC Driver]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Bound value [org.springframework.jdbc.datasource.ConnectionHolder@1a73d30] for key [org.apache.commons.dbcp.BasicDataSource@152bdc7] to thread [main]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Bound value [org.springframework.orm.hibernate3.SessionHolder@a22671] for key [org.hibernate.impl.SessionFactoryImpl@180b22e] to thread [main]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Initializing transaction synchronization
+DEBUG main org.springframework.transaction.interceptor.TransactionInterceptor - Getting transaction for [com.uf.fanfan.service.impl.ShopManagerServiceImpl.findShopById]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Retrieved value [org.springframework.orm.hibernate3.SessionHolder@a22671] for key [org.hibernate.impl.SessionFactoryImpl@180b22e] bound to thread [main]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Retrieved value [org.springframework.orm.hibernate3.SessionHolder@a22671] for key [org.hibernate.impl.SessionFactoryImpl@180b22e] bound to thread [main]
+DEBUG main org.springframework.orm.hibernate3.HibernateTemplate - Found thread-bound Session for HibernateTemplate
+DEBUG main org.hibernate.event.def.DefaultLoadEventListener - loading entity: [com.uf.fanfan.entity.Shop#0]
+DEBUG main org.hibernate.event.def.DefaultLoadEventListener - attempting to resolve: [com.uf.fanfan.entity.Shop#0]
+DEBUG main org.hibernate.event.def.DefaultLoadEventListener - object not resolved in any cache: [com.uf.fanfan.entity.Shop#0]
+DEBUG main org.hibernate.persister.entity.AbstractEntityPersister - Fetching entity: [com.uf.fanfan.entity.Shop#0]
+DEBUG main org.hibernate.loader.Loader - loading entity: [com.uf.fanfan.entity.Shop#0]
+DEBUG main org.hibernate.jdbc.AbstractBatcher - about to open PreparedStatement (open PreparedStatements: 0, globally: 0)
+DEBUG main org.hibernate.SQL - select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?
+DEBUG main org.hibernate.jdbc.AbstractBatcher - preparing statement
+DEBUG main org.hibernate.type.descriptor.sql.BasicBinder - binding parameter [1] as [INTEGER] - 0
+DEBUG main org.hibernate.loader.Loader - Bound [2] parameters total
+DEBUG main org.hibernate.jdbc.AbstractBatcher - about to close PreparedStatement (open PreparedStatements: 1, globally: 1)
+DEBUG main org.hibernate.jdbc.AbstractBatcher - closing statement
+DEBUG main org.hibernate.util.JDBCExceptionReporter - could not load an entity: [com.uf.fanfan.entity.Shop#0] [select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?]
+java.sql.SQLException: No database selected
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1073)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3597)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3529)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1990)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2151)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2625)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2119)
+	at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2281)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+	at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:208)
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:1953)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:802)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:274)
+	at org.hibernate.loader.Loader.loadEntity(Loader.java:2037)
+	at org.hibernate.loader.entity.AbstractEntityLoader.load(AbstractEntityLoader.java:86)
+	at org.hibernate.loader.entity.AbstractEntityLoader.load(AbstractEntityLoader.java:76)
+	at org.hibernate.persister.entity.AbstractEntityPersister.load(AbstractEntityPersister.java:3294)
+	at org.hibernate.event.def.DefaultLoadEventListener.loadFromDatasource(DefaultLoadEventListener.java:496)
+	at org.hibernate.event.def.DefaultLoadEventListener.doLoad(DefaultLoadEventListener.java:477)
+	at org.hibernate.event.def.DefaultLoadEventListener.load(DefaultLoadEventListener.java:227)
+	at org.hibernate.event.def.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:285)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:152)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.springframework.orm.hibernate3.HibernateTemplate$1.doInHibernate(HibernateTemplate.java:524)
+	at org.springframework.orm.hibernate3.HibernateTemplate.doExecute(HibernateTemplate.java:408)
+	at org.springframework.orm.hibernate3.HibernateTemplate.executeWithNativeSession(HibernateTemplate.java:376)
+	at org.springframework.orm.hibernate3.HibernateTemplate.get(HibernateTemplate.java:516)
+	at org.springframework.orm.hibernate3.HibernateTemplate.get(HibernateTemplate.java:509)
+	at com.uf.fanfan.dao.impl.CommonDaoImpl.loadById(CommonDaoImpl.java:33)
+	at com.uf.fanfan.service.impl.ShopManagerServiceImpl.findShopById(ShopManagerServiceImpl.java:17)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:98)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:262)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:95)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:207)
+	at $Proxy9.findShopById(Unknown Source)
+	at com.uf.fanfan.test.ShopServiceTest.test(ShopServiceTest.java:24)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+WARN main org.hibernate.util.JDBCExceptionReporter - SQL Error: 1046, SQLState: 3D000
+ERROR main org.hibernate.util.JDBCExceptionReporter - No database selected
+INFO main org.hibernate.event.def.DefaultLoadEventListener - Error performing load command
+org.hibernate.exception.GenericJDBCException: could not load an entity: [com.uf.fanfan.entity.Shop#0]
+	at org.hibernate.exception.SQLStateConverter.handledNonSpecificException(SQLStateConverter.java:140)
+	at org.hibernate.exception.SQLStateConverter.convert(SQLStateConverter.java:128)
+	at org.hibernate.exception.JDBCExceptionHelper.convert(JDBCExceptionHelper.java:66)
+	at org.hibernate.loader.Loader.loadEntity(Loader.java:2041)
+	at org.hibernate.loader.entity.AbstractEntityLoader.load(AbstractEntityLoader.java:86)
+	at org.hibernate.loader.entity.AbstractEntityLoader.load(AbstractEntityLoader.java:76)
+	at org.hibernate.persister.entity.AbstractEntityPersister.load(AbstractEntityPersister.java:3294)
+	at org.hibernate.event.def.DefaultLoadEventListener.loadFromDatasource(DefaultLoadEventListener.java:496)
+	at org.hibernate.event.def.DefaultLoadEventListener.doLoad(DefaultLoadEventListener.java:477)
+	at org.hibernate.event.def.DefaultLoadEventListener.load(DefaultLoadEventListener.java:227)
+	at org.hibernate.event.def.DefaultLoadEventListener.proxyOrLoad(DefaultLoadEventListener.java:285)
+	at org.hibernate.event.def.DefaultLoadEventListener.onLoad(DefaultLoadEventListener.java:152)
+	at org.hibernate.impl.SessionImpl.fireLoad(SessionImpl.java:1090)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:1005)
+	at org.hibernate.impl.SessionImpl.get(SessionImpl.java:998)
+	at org.springframework.orm.hibernate3.HibernateTemplate$1.doInHibernate(HibernateTemplate.java:524)
+	at org.springframework.orm.hibernate3.HibernateTemplate.doExecute(HibernateTemplate.java:408)
+	at org.springframework.orm.hibernate3.HibernateTemplate.executeWithNativeSession(HibernateTemplate.java:376)
+	at org.springframework.orm.hibernate3.HibernateTemplate.get(HibernateTemplate.java:516)
+	at org.springframework.orm.hibernate3.HibernateTemplate.get(HibernateTemplate.java:509)
+	at com.uf.fanfan.dao.impl.CommonDaoImpl.loadById(CommonDaoImpl.java:33)
+	at com.uf.fanfan.service.impl.ShopManagerServiceImpl.findShopById(ShopManagerServiceImpl.java:17)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:317)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:190)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:157)
+	at org.springframework.transaction.interceptor.TransactionInterceptor$1.proceedWithInvocation(TransactionInterceptor.java:98)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:262)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:95)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:179)
+	at org.springframework.aop.framework.JdkDynamicAopProxy.invoke(JdkDynamicAopProxy.java:207)
+	at $Proxy9.findShopById(Unknown Source)
+	at com.uf.fanfan.test.ShopServiceTest.test(ShopServiceTest.java:24)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(Unknown Source)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(Unknown Source)
+	at java.lang.reflect.Method.invoke(Unknown Source)
+	at org.junit.runners.model.FrameworkMethod$1.runReflectiveCall(FrameworkMethod.java:45)
+	at org.junit.internal.runners.model.ReflectiveCallable.run(ReflectiveCallable.java:15)
+	at org.junit.runners.model.FrameworkMethod.invokeExplosively(FrameworkMethod.java:42)
+	at org.junit.internal.runners.statements.InvokeMethod.evaluate(InvokeMethod.java:20)
+	at org.junit.runners.ParentRunner.runLeaf(ParentRunner.java:263)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:68)
+	at org.junit.runners.BlockJUnit4ClassRunner.runChild(BlockJUnit4ClassRunner.java:47)
+	at org.junit.runners.ParentRunner$3.run(ParentRunner.java:231)
+	at org.junit.runners.ParentRunner$1.schedule(ParentRunner.java:60)
+	at org.junit.runners.ParentRunner.runChildren(ParentRunner.java:229)
+	at org.junit.runners.ParentRunner.access$000(ParentRunner.java:50)
+	at org.junit.runners.ParentRunner$2.evaluate(ParentRunner.java:222)
+	at org.junit.internal.runners.statements.RunBefores.evaluate(RunBefores.java:28)
+	at org.junit.runners.ParentRunner.run(ParentRunner.java:300)
+	at org.eclipse.jdt.internal.junit4.runner.JUnit4TestReference.run(JUnit4TestReference.java:50)
+	at org.eclipse.jdt.internal.junit.runner.TestExecution.run(TestExecution.java:38)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:467)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.runTests(RemoteTestRunner.java:683)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.run(RemoteTestRunner.java:390)
+	at org.eclipse.jdt.internal.junit.runner.RemoteTestRunner.main(RemoteTestRunner.java:197)
+Caused by: java.sql.SQLException: No database selected
+	at com.mysql.jdbc.SQLError.createSQLException(SQLError.java:1073)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3597)
+	at com.mysql.jdbc.MysqlIO.checkErrorPacket(MysqlIO.java:3529)
+	at com.mysql.jdbc.MysqlIO.sendCommand(MysqlIO.java:1990)
+	at com.mysql.jdbc.MysqlIO.sqlQueryDirect(MysqlIO.java:2151)
+	at com.mysql.jdbc.ConnectionImpl.execSQL(ConnectionImpl.java:2625)
+	at com.mysql.jdbc.PreparedStatement.executeInternal(PreparedStatement.java:2119)
+	at com.mysql.jdbc.PreparedStatement.executeQuery(PreparedStatement.java:2281)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+	at org.apache.commons.dbcp.DelegatingPreparedStatement.executeQuery(DelegatingPreparedStatement.java:96)
+	at org.hibernate.jdbc.AbstractBatcher.getResultSet(AbstractBatcher.java:208)
+	at org.hibernate.loader.Loader.getResultSet(Loader.java:1953)
+	at org.hibernate.loader.Loader.doQuery(Loader.java:802)
+	at org.hibernate.loader.Loader.doQueryAndInitializeNonLazyCollections(Loader.java:274)
+	at org.hibernate.loader.Loader.loadEntity(Loader.java:2037)
+	... 58 more
+DEBUG main org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+INFO main org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [org/springframework/jdbc/support/sql-error-codes.xml]
+DEBUG main org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+DEBUG main org.springframework.beans.factory.xml.BeansDtdResolver - Trying to resolve XML entity with public ID [-//SPRING//DTD BEAN 2.0//EN] and system ID [http://www.springframework.org/dtd/spring-beans-2.0.dtd]
+DEBUG main org.springframework.beans.factory.xml.BeansDtdResolver - Trying to locate [spring-beans-2.0.dtd] in Spring jar
+DEBUG main org.springframework.beans.factory.xml.BeansDtdResolver - Found beans DTD [http://www.springframework.org/dtd/spring-beans-2.0.dtd] in classpath: spring-beans-2.0.dtd
+DEBUG main org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'DB2'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'DB2'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'DB2' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Getting BeanInfo for class [org.springframework.jdbc.support.SQLErrorCodes]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Caching PropertyDescriptors for class [org.springframework.jdbc.support.SQLErrorCodes]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'badSqlGrammarCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'cannotAcquireLockCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'cannotSerializeTransactionCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'class' of type [java.lang.Class]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'customSqlExceptionTranslator' of type [org.springframework.jdbc.support.SQLExceptionTranslator]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'customSqlExceptionTranslatorClass' of type [java.lang.Class]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'customTranslations' of type [[Lorg.springframework.jdbc.support.CustomSQLErrorCodesTranslation;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'dataAccessResourceFailureCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'dataIntegrityViolationCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'databaseProductName' of type [java.lang.String]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'databaseProductNames' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'deadlockLoserCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'duplicateKeyCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'invalidResultSetAccessCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'permissionDeniedCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'transientDataAccessResourceCodes' of type [[Ljava.lang.String;]
+DEBUG main org.springframework.beans.CachedIntrospectionResults - Found bean property 'useSqlStateForTranslation' of type [boolean]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6ef7ba]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6ef7ba]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6ef7ba]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6ef7ba]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6ef7ba]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@6ef7ba]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'DB2'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'Derby'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Derby'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'Derby' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [boolean] using property editor [org.springframework.beans.propertyeditors.CustomBooleanEditor@13c53a8]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1984a9d]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1984a9d]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1984a9d]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1984a9d]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1984a9d]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1984a9d]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Derby'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'H2'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'H2'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'H2' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@14aa2db]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@14aa2db]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@14aa2db]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@14aa2db]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@14aa2db]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'H2'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'HSQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'HSQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'HSQL' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@109da93]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@109da93]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@109da93]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@109da93]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'HSQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'Informix'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Informix'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'Informix' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1ed1dbe]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1ed1dbe]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1ed1dbe]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Informix'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'MS-SQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'MS-SQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'MS-SQL' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@12549c4]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'MS-SQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'MySQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'MySQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'MySQL' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@10df4e2]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@10df4e2]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@10df4e2]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@10df4e2]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@10df4e2]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@10df4e2]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'MySQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'Oracle'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Oracle'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'Oracle' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@1485542]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Oracle'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'PostgreSQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'PostgreSQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'PostgreSQL' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [boolean] using property editor [org.springframework.beans.propertyeditors.CustomBooleanEditor@1d59d3c]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@145e5a6]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'PostgreSQL'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'Sybase'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'Sybase'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'Sybase' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@3c9314]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@3c9314]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@3c9314]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@3c9314]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@3c9314]
+DEBUG main org.springframework.beans.TypeConverterDelegate - Converting String to [class [Ljava.lang.String;] using property editor [org.springframework.beans.propertyeditors.StringArrayPropertyEditor@3c9314]
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'Sybase'
+INFO main org.springframework.jdbc.support.SQLErrorCodesFactory - SQLErrorCodes loaded: [DB2, Derby, H2, HSQL, Informix, MS-SQL, MySQL, Oracle, PostgreSQL, Sybase]
+DEBUG main org.springframework.jdbc.support.SQLErrorCodesFactory - Looking up default SQLErrorCodes for DataSource [org.apache.commons.dbcp.BasicDataSource@152bdc7]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@1a73d30] for key [org.apache.commons.dbcp.BasicDataSource@152bdc7] bound to thread [main]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Retrieved value [org.springframework.jdbc.datasource.ConnectionHolder@1a73d30] for key [org.apache.commons.dbcp.BasicDataSource@152bdc7] bound to thread [main]
+DEBUG main org.springframework.jdbc.support.SQLErrorCodesFactory - Database product name cached for DataSource [org.apache.commons.dbcp.BasicDataSource@152bdc7]: name is 'MySQL'
+DEBUG main org.springframework.jdbc.support.SQLErrorCodesFactory - SQL error codes for 'MySQL' found
+DEBUG main org.springframework.jdbc.support.SQLErrorCodeSQLExceptionTranslator - Unable to translate SQLException with Error code '1046', will now try the fallback translator
+DEBUG main org.springframework.jdbc.support.SQLStateSQLExceptionTranslator - Extracted SQL state class '3D' from value '3D000'
+DEBUG main org.springframework.orm.hibernate3.HibernateTemplate - Not closing pre-bound Hibernate Session after HibernateTemplate
+DEBUG main org.springframework.transaction.interceptor.TransactionInterceptor - Completing transaction for [com.uf.fanfan.service.impl.ShopManagerServiceImpl.findShopById] after exception: org.springframework.jdbc.UncategorizedSQLException: Hibernate operation: could not load an entity: [com.uf.fanfan.entity.Shop#0]; uncategorized SQLException for SQL [select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?]; SQL state [3D000]; error code [1046]; No database selected; nested exception is java.sql.SQLException: No database selected
+DEBUG main org.springframework.transaction.interceptor.RuleBasedTransactionAttribute - Applying rules to determine whether transaction should rollback on org.springframework.jdbc.UncategorizedSQLException: Hibernate operation: could not load an entity: [com.uf.fanfan.entity.Shop#0]; uncategorized SQLException for SQL [select shop0_.id as id0_0_, shop0_.name as name0_0_ from SHOP shop0_ where shop0_.id=?]; SQL state [3D000]; error code [1046]; No database selected; nested exception is java.sql.SQLException: No database selected
+DEBUG main org.springframework.transaction.interceptor.RuleBasedTransactionAttribute - Winning rollback rule is: null
+DEBUG main org.springframework.transaction.interceptor.RuleBasedTransactionAttribute - No relevant rollback rule found: applying default rules
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Triggering beforeCompletion synchronization
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Initiating transaction rollback
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Rolling back Hibernate transaction on Session [org.hibernate.impl.SessionImpl@1abdac9]
+DEBUG main org.hibernate.transaction.JDBCTransaction - rollback
+DEBUG main org.hibernate.transaction.JDBCTransaction - re-enabling autocommit
+DEBUG main org.hibernate.transaction.JDBCTransaction - rolled back JDBC Connection
+DEBUG main org.hibernate.jdbc.JDBCContext - after transaction completion
+DEBUG main org.hibernate.jdbc.ConnectionManager - transaction completed on session with on_close connection release mode; be sure to close the session to release JDBC resources!
+DEBUG main org.hibernate.impl.SessionImpl - after transaction completion
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Triggering afterCompletion synchronization
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Clearing transaction synchronization
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Removed value [org.springframework.orm.hibernate3.SessionHolder@a22671] for key [org.hibernate.impl.SessionFactoryImpl@180b22e] from thread [main]
+DEBUG main org.springframework.transaction.support.TransactionSynchronizationManager - Removed value [org.springframework.jdbc.datasource.ConnectionHolder@1a73d30] for key [org.apache.commons.dbcp.BasicDataSource@152bdc7] from thread [main]
+DEBUG main org.springframework.orm.hibernate3.HibernateTransactionManager - Closing Hibernate Session [org.hibernate.impl.SessionImpl@1abdac9] after transaction
+DEBUG main org.springframework.orm.hibernate3.SessionFactoryUtils - Closing Hibernate Session
+DEBUG main org.hibernate.impl.SessionImpl - closing session
+DEBUG main org.hibernate.jdbc.ConnectionManager - performing cleanup
+DEBUG main org.hibernate.jdbc.ConnectionManager - releasing JDBC connection [ (open PreparedStatements: 0, globally: 0) (open ResultSets: 0, globally: 0)]
+DEBUG main org.hibernate.jdbc.JDBCContext - after transaction completion
+DEBUG main org.hibernate.jdbc.ConnectionManager - transaction completed on session with on_close connection release mode; be sure to close the session to release JDBC resources!
+DEBUG main org.hibernate.impl.SessionImpl - after transaction completion
+DEBUG main org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+INFO main org.springframework.context.support.ClassPathXmlApplicationContext - Refreshing org.springframework.context.support.ClassPathXmlApplicationContext@13caecd: startup date [Tue Aug 27 21:34:58 CST 2013]; root of context hierarchy
+DEBUG main org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+INFO main org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loading XML bean definitions from class path resource [applicationContext.xml]
+DEBUG main org.springframework.beans.factory.xml.DefaultDocumentLoader - Using JAXP provider [com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Trying to resolve XML entity with public id [null] and system id [http://www.springframework.org/schema/beans/spring-beans.xsd]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Loading schema mappings from [META-INF/spring.schemas]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Loaded schema mappings: {http://www.springframework.org/schema/util/spring-util.xsd=org/springframework/beans/factory/xml/spring-util-3.2.xsd, http://www.springframework.org/schema/jee/spring-jee-3.2.xsd=org/springframework/ejb/config/spring-jee-3.2.xsd, http://www.springframework.org/schema/task/spring-task.xsd=org/springframework/scheduling/config/spring-task-3.2.xsd, http://www.springframework.org/schema/beans/spring-beans-3.1.xsd=org/springframework/beans/factory/xml/spring-beans-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache.xsd=org/springframework/cache/config/spring-cache-3.2.xsd, http://www.springframework.org/schema/aop/spring-aop-3.0.xsd=org/springframework/aop/config/spring-aop-3.0.xsd, http://www.springframework.org/schema/task/spring-task-3.1.xsd=org/springframework/scheduling/config/spring-task-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop-2.0.xsd=org/springframework/aop/config/spring-aop-2.0.xsd, http://www.springframework.org/schema/tool/spring-tool-2.5.xsd=org/springframework/beans/factory/xml/spring-tool-2.5.xsd, http://www.springframework.org/schema/beans/spring-beans.xsd=org/springframework/beans/factory/xml/spring-beans-3.2.xsd, http://www.springframework.org/schema/jee/spring-jee-2.5.xsd=org/springframework/ejb/config/spring-jee-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.1.xsd=org/springframework/jdbc/config/spring-jdbc-3.1.xsd, http://www.springframework.org/schema/tool/spring-tool-3.1.xsd=org/springframework/beans/factory/xml/spring-tool-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-3.1.xsd=org/springframework/ejb/config/spring-jee-3.1.xsd, http://www.springframework.org/schema/aop/spring-aop.xsd=org/springframework/aop/config/spring-aop-3.2.xsd, http://www.springframework.org/schema/tx/spring-tx-3.2.xsd=org/springframework/transaction/config/spring-tx-3.2.xsd, http://www.springframework.org/schema/context/spring-context-3.2.xsd=org/springframework/context/config/spring-context-3.2.xsd, http://www.springframework.org/schema/beans/spring-beans-2.0.xsd=org/springframework/beans/factory/xml/spring-beans-2.0.xsd, http://www.springframework.org/schema/util/spring-util-3.2.xsd=org/springframework/beans/factory/xml/spring-util-3.2.xsd, http://www.springframework.org/schema/lang/spring-lang-3.2.xsd=org/springframework/scripting/config/spring-lang-3.2.xsd, http://www.springframework.org/schema/beans/spring-beans-3.0.xsd=org/springframework/beans/factory/xml/spring-beans-3.0.xsd, http://www.springframework.org/schema/cache/spring-cache-3.2.xsd=org/springframework/cache/config/spring-cache-3.2.xsd, http://www.springframework.org/schema/task/spring-task-3.0.xsd=org/springframework/scheduling/config/spring-task-3.0.xsd, http://www.springframework.org/schema/data/repository/spring-repository-1.5.xsd=org/springframework/data/repository/config/spring-repository-1.5.xsd, http://www.springframework.org/schema/tx/spring-tx-2.5.xsd=org/springframework/transaction/config/spring-tx-2.5.xsd, http://www.springframework.org/schema/context/spring-context-2.5.xsd=org/springframework/context/config/spring-context-2.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd=org/springframework/jdbc/config/spring-jdbc-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool-3.0.xsd=org/springframework/beans/factory/xml/spring-tool-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx.xsd=org/springframework/transaction/config/spring-tx-3.2.xsd, http://www.springframework.org/schema/lang/spring-lang.xsd=org/springframework/scripting/config/spring-lang-3.2.xsd, http://www.springframework.org/schema/tool/spring-tool-2.0.xsd=org/springframework/beans/factory/xml/spring-tool-2.0.xsd, http://www.springframework.org/schema/util/spring-util-2.5.xsd=org/springframework/beans/factory/xml/spring-util-2.5.xsd, http://www.springframework.org/schema/lang/spring-lang-2.5.xsd=org/springframework/scripting/config/spring-lang-2.5.xsd, http://www.springframework.org/schema/aop/spring-aop-3.2.xsd=org/springframework/aop/config/spring-aop-3.2.xsd, http://www.springframework.org/schema/jee/spring-jee-3.0.xsd=org/springframework/ejb/config/spring-jee-3.0.xsd, http://www.springframework.org/schema/tx/spring-tx-3.1.xsd=org/springframework/transaction/config/spring-tx-3.1.xsd, http://www.springframework.org/schema/jee/spring-jee-2.0.xsd=org/springframework/ejb/config/spring-jee-2.0.xsd, http://www.springframework.org/schema/context/spring-context-3.1.xsd=org/springframework/context/config/spring-context-3.1.xsd, http://www.springframework.org/schema/util/spring-util-3.1.xsd=org/springframework/beans/factory/xml/spring-util-3.1.xsd, http://www.springframework.org/schema/lang/spring-lang-3.1.xsd=org/springframework/scripting/config/spring-lang-3.1.xsd, http://www.springframework.org/schema/cache/spring-cache-3.1.xsd=org/springframework/cache/config/spring-cache-3.1.xsd, http://www.springframework.org/schema/context/spring-context.xsd=org/springframework/context/config/spring-context-3.2.xsd, http://www.springframework.org/schema/jee/spring-jee.xsd=org/springframework/ejb/config/spring-jee-3.2.xsd, http://www.springframework.org/schema/data/repository/spring-repository-1.4.xsd=org/springframework/data/repository/config/spring-repository-1.4.xsd, http://www.springframework.org/schema/aop/spring-aop-2.5.xsd=org/springframework/aop/config/spring-aop-2.5.xsd, http://www.springframework.org/schema/data/repository/spring-repository.xsd=org/springframework/data/repository/config/spring-repository-1.5.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc.xsd=org/springframework/jdbc/config/spring-jdbc-3.2.xsd, http://www.springframework.org/schema/data/repository/spring-repository-1.0.xsd=org/springframework/data/repository/config/spring-repository-1.0.xsd, http://www.springframework.org/schema/beans/spring-beans-3.2.xsd=org/springframework/beans/factory/xml/spring-beans-3.2.xsd, http://www.springframework.org/schema/tx/spring-tx-2.0.xsd=org/springframework/transaction/config/spring-tx-2.0.xsd, http://www.springframework.org/schema/aop/spring-aop-3.1.xsd=org/springframework/aop/config/spring-aop-3.1.xsd, http://www.springframework.org/schema/task/spring-task-3.2.xsd=org/springframework/scheduling/config/spring-task-3.2.xsd, http://www.springframework.org/schema/tx/spring-tx-3.0.xsd=org/springframework/transaction/config/spring-tx-3.0.xsd, http://www.springframework.org/schema/context/spring-context-3.0.xsd=org/springframework/context/config/spring-context-3.0.xsd, http://www.springframework.org/schema/tool/spring-tool.xsd=org/springframework/beans/factory/xml/spring-tool-3.2.xsd, http://www.springframework.org/schema/util/spring-util-3.0.xsd=org/springframework/beans/factory/xml/spring-util-3.0.xsd, http://www.springframework.org/schema/lang/spring-lang-3.0.xsd=org/springframework/scripting/config/spring-lang-3.0.xsd, http://www.springframework.org/schema/util/spring-util-2.0.xsd=org/springframework/beans/factory/xml/spring-util-2.0.xsd, http://www.springframework.org/schema/lang/spring-lang-2.0.xsd=org/springframework/scripting/config/spring-lang-2.0.xsd, http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd=org/springframework/jdbc/config/spring-jdbc-3.2.xsd, http://www.springframework.org/schema/tool/spring-tool-3.2.xsd=org/springframework/beans/factory/xml/spring-tool-3.2.xsd, http://www.springframework.org/schema/beans/spring-beans-2.5.xsd=org/springframework/beans/factory/xml/spring-beans-2.5.xsd}
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/beans/spring-beans.xsd] in classpath: org/springframework/beans/factory/xml/spring-beans-3.2.xsd
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Trying to resolve XML entity with public id [null] and system id [http://www.springframework.org/schema/context/spring-context.xsd]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/context/spring-context.xsd] in classpath: org/springframework/context/config/spring-context-3.2.xsd
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Trying to resolve XML entity with public id [null] and system id [http://www.springframework.org/schema/tool/spring-tool-3.2.xsd]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/tool/spring-tool-3.2.xsd] in classpath: org/springframework/beans/factory/xml/spring-tool-3.2.xsd
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Trying to resolve XML entity with public id [null] and system id [http://www.springframework.org/schema/aop/spring-aop.xsd]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/aop/spring-aop.xsd] in classpath: org/springframework/aop/config/spring-aop-3.2.xsd
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Trying to resolve XML entity with public id [null] and system id [http://www.springframework.org/schema/tx/spring-tx.xsd]
+DEBUG main org.springframework.beans.factory.xml.PluggableSchemaResolver - Found XML schema [http://www.springframework.org/schema/tx/spring-tx.xsd] in classpath: org/springframework/transaction/config/spring-tx-3.2.xsd
+DEBUG main org.springframework.beans.factory.xml.DefaultBeanDefinitionDocumentReader - Loading bean definitions
+DEBUG main org.springframework.beans.factory.xml.DefaultNamespaceHandlerResolver - Loaded NamespaceHandler mappings: {http://www.springframework.org/schema/p=org.springframework.beans.factory.xml.SimplePropertyNamespaceHandler, http://www.springframework.org/schema/util=org.springframework.beans.factory.xml.UtilNamespaceHandler, http://www.springframework.org/schema/jee=org.springframework.ejb.config.JeeNamespaceHandler, http://www.springframework.org/schema/aop=org.springframework.aop.config.AopNamespaceHandler, http://www.springframework.org/schema/jdbc=org.springframework.jdbc.config.JdbcNamespaceHandler, http://www.springframework.org/schema/data/repository=org.springframework.data.repository.config.RepositoryNameSpaceHandler, http://www.springframework.org/schema/cache=org.springframework.cache.config.CacheNamespaceHandler, http://www.springframework.org/schema/c=org.springframework.beans.factory.xml.SimpleConstructorNamespaceHandler, http://www.springframework.org/schema/tx=org.springframework.transaction.config.TxNamespaceHandler, http://www.springframework.org/schema/task=org.springframework.scheduling.config.TaskNamespaceHandler, http://www.springframework.org/schema/lang=org.springframework.scripting.config.LangNamespaceHandler, http://www.springframework.org/schema/context=org.springframework.context.config.ContextNamespaceHandler}
+DEBUG main org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service] for files matching pattern [G:/FanFou/gitRepository/repository/Common/bin/com/uf/fanfan/service/**/*.class]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl] for files matching pattern [G:/FanFou/gitRepository/repository/Common/bin/com/uf/fanfan/service/**/*.class]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/uf/fanfan/service/**/*.class] to resources [file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\ProductManageServiceImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\ShopManagerServiceImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\TradeServiceImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\UserServiceImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\ProductManageService.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\ShopManagerService.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\TradeService.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\UserService.class]]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\ProductManageServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\ProductManageServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\ShopManagerServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\ShopManagerServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\TradeServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\TradeServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\UserServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\impl\UserServiceImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\ProductManageService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\ProductManageService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\ShopManagerService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\ShopManagerService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\TradeService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\TradeService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\UserService.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\service\UserService.class]
+DEBUG main org.springframework.core.env.StandardEnvironment - Initializing new StandardEnvironment
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemProperties] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Adding [systemEnvironment] PropertySource with lowest search precedence
+DEBUG main org.springframework.core.env.StandardEnvironment - Initialized StandardEnvironment with PropertySources [systemProperties,systemEnvironment]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Looking for matching resources in directory tree [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao] for files matching pattern [G:/FanFou/gitRepository/repository/Common/bin/com/uf/fanfan/dao/**/*.class]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Searching directory [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl] for files matching pattern [G:/FanFou/gitRepository/repository/Common/bin/com/uf/fanfan/dao/**/*.class]
+DEBUG main org.springframework.core.io.support.PathMatchingResourcePatternResolver - Resolved location pattern [classpath*:com/uf/fanfan/dao/**/*.class] to resources [file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\AgentDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CommonDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CustomerDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CustomerOrderDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\DeliveryManDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\CommonDaoImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\ProductDaoImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\ShopDaoImpl.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\PlatformAdminDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ProductDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ShopDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ShopManagerDao.class], file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\TradeDetailDao.class]]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\AgentDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\AgentDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CommonDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CommonDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CustomerDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CustomerDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CustomerOrderDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\CustomerOrderDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\DeliveryManDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\DeliveryManDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\CommonDaoImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\CommonDaoImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\ProductDaoImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\ProductDaoImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\ShopDaoImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Identified candidate component class: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\impl\ShopDaoImpl.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\PlatformAdminDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\PlatformAdminDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ProductDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ProductDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ShopDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ShopDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ShopManagerDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\ShopManagerDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Scanning file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\TradeDetailDao.class]
+DEBUG main org.springframework.context.annotation.ClassPathBeanDefinitionScanner - Ignored because not matching any filter: file [G:\FanFou\gitRepository\repository\Common\bin\com\uf\fanfan\dao\TradeDetailDao.class]
+DEBUG main org.springframework.beans.factory.xml.XmlBeanDefinitionReader - Loaded 17 bean definitions from location pattern [applicationContext.xml]
+DEBUG main org.springframework.context.support.ClassPathXmlApplicationContext - Bean factory for org.springframework.context.support.ClassPathXmlApplicationContext@13caecd: org.springframework.beans.factory.support.DefaultListableBeanFactory@17e121c: defining beans [shopManagerService,tradeService,org.springframework.context.annotation.internalConfigurationAnnotationProcessor,org.springframework.context.annotation.internalAutowiredAnnotationProcessor,org.springframework.context.annotation.internalRequiredAnnotationProcessor,org.springframework.context.annotation.internalCommonAnnotationProcessor,org.springframework.context.annotation.internalPersistenceAnnotationProcessor,productDao,shopDao,myDataSource,sessionFactory,transactionManager,hibernateTemplate,org.springframework.aop.config.internalAutoProxyCreator,txMethods,org.springframework.aop.support.DefaultBeanFactoryPointcutAdvisor#0,txAdvice]; root of factory hierarchy
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'org.springframework.context.annotation.internalConfigurationAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'org.springframework.context.annotation.internalAutowiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalRequiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'org.springframework.context.annotation.internalRequiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'org.springframework.context.annotation.internalRequiredAnnotationProcessor' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'org.springframework.context.annotation.internalRequiredAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'org.springframework.context.annotation.internalCommonAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating shared instance of singleton bean 'org.springframework.context.annotation.internalPersistenceAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Creating instance of bean 'org.springframework.context.annotation.internalPersistenceAnnotationProcessor'
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Eagerly caching bean 'org.springframework.context.annotation.internalPersistenceAnnotationProcessor' to allow for resolving potential circular references
+DEBUG main org.springframework.beans.factory.support.DefaultListableBeanFactory - Finished creating instance of bean 'org.springframework.context.annotation.internalPersistenceAnnotationProcessor'

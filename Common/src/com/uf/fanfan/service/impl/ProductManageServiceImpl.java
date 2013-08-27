@@ -12,7 +12,7 @@ import com.uf.fanfan.dao.TradeDetailDao;
 import com.uf.fanfan.entity.OrderDetail;
 import com.uf.fanfan.entity.Product;
 import com.uf.fanfan.service.ProductManageService;
-@Service("productManageService")
+
 public class ProductManageServiceImpl implements  ProductManageService{
 	@Autowired
 	private ProductDao productDao;

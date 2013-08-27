@@ -18,7 +18,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/fanfan" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -27,7 +27,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="dataSource" ref="myDataSource" />
 		<property name="mappingResources">
 			<list>
-				<value>com/uf/fanfan/entity/Product.hbm.xml</value>
+				<value>com/uf/fanfan/entity/Shop.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

@@ -30,7 +30,7 @@ public class CommonDaoImpl<T> implements CommonDao<T>{
 
 	@Override
 	public T loadById(Class<T> entityClass, Serializable id) {
-		T entity=(T)hibernateTemplate.load(entityClass, id);
+		T entity=(T)hibernateTemplate.get(entityClass, id);
 		return entity;
 	}
 	

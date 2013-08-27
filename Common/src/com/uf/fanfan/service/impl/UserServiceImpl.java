@@ -15,7 +15,7 @@ import com.uf.fanfan.entity.DeliveryMan;
 import com.uf.fanfan.entity.PlatformAdmin;
 import com.uf.fanfan.entity.ShopManager;
 import com.uf.fanfan.service.UserService;
-@Service("userService")
+
 public class UserServiceImpl implements UserService{
 	@Autowired
 	private AgentDao  agentDao;

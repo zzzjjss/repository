@@ -7,6 +7,7 @@ drop table IF EXISTS platformadmin ;
 drop table IF EXISTS deliveryman ;
 drop table IF EXISTS order_detail ;
 drop table IF EXISTS customer_order;
+drop table IF EXISTS order_detail;
 drop table IF EXISTS id_table;
 
 CREATE TABLE `agent` (
