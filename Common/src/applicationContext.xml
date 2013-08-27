@@ -27,10 +27,15 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="dataSource" ref="myDataSource" />
 		<property name="mappingResources">
 			<list>
-				<value>hibernate.cfg.xml</value>
+				<value>com/uf/fanfan/entity/Product.hbm.xml</value>
 			</list>
 		</property>
-
+		<property name="hibernateProperties">
+			<value>
+				hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
+				hibernate.show_sql=true
+			</value>
+		</property>
 	</bean>
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
