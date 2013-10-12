@@ -1,8 +1,8 @@
 package com.uf.fanfan.dao;
 
-import com.uf.fanfan.entity.DeliveryMan;
+import com.uf.fanfan.entity.Deliveryman;
 
 public interface DeliveryManDao  {
 	//@Query("select t from DeliveryMan t where t.name=:name")
-	public DeliveryMan findByName(String name);
+	public Deliveryman findByName(String name);
 }

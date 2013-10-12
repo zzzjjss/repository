@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class catalog="fanfan" name="com.uf.fanfan.entity.TradeDetail" table="tradedetail">
+  <id name="id" type="long">
+   <column name="id"/>
+   <generator class="assigned"/>
+  </id>
+  <property generated="never" lazy="false" name="productid" type="int">
+   <column name="productid" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="customerid" type="int">
+   <column name="customerid" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="tradetime" type="timestamp">
+   <column length="19" name="tradetime" not-null="true"/>
+  </property>
+  <property generated="never" lazy="false" name="tradestate" type="java.lang.Short">
+   <column name="tradestate"/>
+  </property>
+  <property generated="never" lazy="false" name="tradeprice" type="java.lang.Float">
+   <column name="tradeprice" precision="12" scale="0"/>
+  </property>
+  <property generated="never" lazy="false" name="evaluation" type="string">
+   <column length="200" name="evaluation"/>
+  </property>
+ </class>
+</hibernate-mapping>

@@ -11,7 +11,7 @@ import com.uf.fanfan.dao.PlatformAdminDao;
 import com.uf.fanfan.dao.ShopManagerDao;
 import com.uf.fanfan.entity.Agent;
 import com.uf.fanfan.entity.Customer;
-import com.uf.fanfan.entity.DeliveryMan;
+import com.uf.fanfan.entity.Deliveryman;
 import com.uf.fanfan.entity.PlatformAdmin;
 import com.uf.fanfan.entity.ShopManager;
 import com.uf.fanfan.service.UserService;
@@ -43,7 +43,7 @@ public class UserServiceImpl implements UserService{
 			ShopManager user=shopManagerDao.findByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 		}else if(UserType.DELIVERY_MAN.getName().equalsIgnoreCase(userType)){
-			DeliveryMan user=deliverymanDao.findByName(userName);
+			Deliveryman user=deliverymanDao.findByName(userName);
 			return user!=null&&password!=null&&password.equals(user.getPassword());
 		}
 		return false;

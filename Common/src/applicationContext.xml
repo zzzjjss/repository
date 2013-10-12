@@ -28,6 +28,16 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="mappingResources">
 			<list>
 				<value>com/uf/fanfan/entity/Shop.hbm.xml</value>
+				<value> com/uf/fanfan/entity/CustomerOrder.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/Agent.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/ProductImage.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/OrderDetail.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/PlatformAdmin.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/Deliveryman.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/TradeDetail.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/Customer.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/ShopManager.hbm.xml </value>
+		        <value>com/uf/fanfan/entity/Product.hbm.xml </value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

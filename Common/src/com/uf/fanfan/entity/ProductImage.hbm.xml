@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+                                   "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+ <class catalog="fanfan" name="com.uf.fanfan.entity.ProductImage" table="productimage">
+  <id column="id" name="id" type="int">
+   <generator class="assigned"/>
+  </id>
+  <many-to-one class="com.uf.fanfan.entity.Product" name="product">
+   <column name="productid"/>
+  </many-to-one>
+  <property column="bit_image" generated="never" lazy="false"
+   name="bitImage" type="blob"/>
+  <property column="imageFileExtName" name="imageFileExtName" type="string"/>
+ </class>
+</hibernate-mapping>

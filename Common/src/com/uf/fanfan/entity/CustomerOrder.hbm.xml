@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.fanfan.entity.CustomerOrder" table="customer_order" catalog="fanfan">
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="customerid" type="int">
+            <column name="customerid" not-null="true" />
+        </property>
+        <property name="arrivetime" type="timestamp">
+            <column name="arrivetime" length="19" not-null="true" />
+        </property>
+        <property name="tradestate" type="java.lang.Short">
+            <column name="tradestate" />
+        </property>
+        <property name="sumMoney" type="java.lang.Float">
+            <column name="sumMoney" precision="12" scale="0" />
+        </property>
+        <set name="orderDetails" table="order_detail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="orderid" not-null="true" />
+            </key>
+            <one-to-many class="com.uf.fanfan.entity.OrderDetail" />
+        </set>
+    </class>
+</hibernate-mapping>
