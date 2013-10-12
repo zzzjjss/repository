@@ -12,7 +12,7 @@ import com.uf.fanfan.entity.Product;
 public class ProductDaoImpl extends CommonDaoImpl<Product> implements ProductDao{
 	
 	public PageQueryResult<Product> getPageProductsInShopByNameQuery(int pageSize,int pageIndex,final int shopid,final String nameQuery){
-		StringBuilder hql=new StringBuilder("select p from Product p where p.Shop.id=:shopid and p.name like:name ");
+		StringBuilder hql=new StringBuilder("select p from Product p where p.shop.id=:shopid and p.name like:name ");
 		Map<String, Object> paramValue=new HashMap<String, Object>();
 		paramValue.put("shopid", new Integer(shopid));
 		paramValue.put("name", nameQuery);
@@ -20,5 +20,11 @@ public class ProductDaoImpl extends CommonDaoImpl<Product> implements ProductDao
 		return result;
 		}
 		 
-	
+	public PageQueryResult<Product> getPageProductsInShopByShopId(int pageSize,int pageIndex,final int shopid){
+		StringBuilder hql=new StringBuilder("select p from Product p where p.shop.id=:shopid  ");
+		Map<String, Object> paramValue=new HashMap<String, Object>();
+		paramValue.put("shopid", new Integer(shopid));
+		PageQueryResult<Product> result=queryPageEntity(pageSize, pageIndex, hql.toString(), paramValue);
+		return result;
+	}
 }

@@ -57,8 +57,8 @@ public class CommonDaoImpl<T> implements CommonDao<T> {
 						countQuery.setParameter(param, paramValue.get(param));
 					}
 				}
-				Integer totalRow = (Integer) countQuery.list().get(0);
-				int totalPage = countTotalPage(totalRow, pageSize);
+				Long totalRow = (Long) countQuery.list().get(0);
+				int totalPage = countTotalPage(totalRow.intValue(), pageSize);
 				query.setMaxResults(pageSize);
 				query.setFirstResult(pageSize * (pageIndex - 1));
 				result.setPageData(query.list());
