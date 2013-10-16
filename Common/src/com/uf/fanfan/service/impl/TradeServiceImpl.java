@@ -20,19 +20,16 @@ import com.uf.fanfan.util.DateUtil;
 
 @Service("tradeService")
 public class TradeServiceImpl implements TradeService{
-//	@Autowired
-//	private TradeDetailDao tradeDetailDao;
-//	private CustomerOrderDao orderDao;
-//	@Override
-//	public void purchaseProducts(CustomerOrder order) {
-//		orderRes.saveAndFlush(order);
-//		List<OrderDetail> tradeDetails=order.getOrderDetails();
-//		for(OrderDetail t:tradeDetails){
-//			tradeDetailRes.saveAndFlush(t);
-//		}
-//		
-//		
-//	}
+	@Autowired
+	private TradeDetailDao tradeDetailDao;
+	private CustomerOrderDao orderDao;
+	@Override
+	public void purchaseProducts(CustomerOrder order) {
+		
+		
+		
+		
+	}
 //
 //	@Override
 //	public Map<WeekEnum, List<CustomerOrder>> getCustomerThisWeekOrders(

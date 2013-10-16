@@ -1,4 +1,5 @@
 drop table IF EXISTS agent ;
+drop table if exists productImage;
 drop table IF EXISTS product ;
 drop table IF EXISTS shop;
 drop table IF EXISTS customer ;
@@ -89,7 +90,7 @@ CREATE TABLE `customer_order` (
   `id` bigint(20) NOT NULL,
   `customerid` int(11) NOT NULL,
   `arrivetime` timestamp NOT NULL,
-  `tradestate` smallint(6) DEFAULT NULL,
+  `tradestate` varchar(20) DEFAULT NULL,
   `sumMoney` float DEFAULT NULL,
    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

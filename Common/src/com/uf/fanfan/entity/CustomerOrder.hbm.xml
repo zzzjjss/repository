@@ -14,8 +14,13 @@
         <property name="arrivetime" type="timestamp">
             <column name="arrivetime" length="19" not-null="true" />
         </property>
-        <property name="tradestate" type="java.lang.Short">
-            <column name="tradestate" />
+        <property name="tradestate" column="tradestate" > 
+       		 <type name="org.hibernate.type.EnumType">
+	        	<param name="enumClass">
+	        		com.uf.fanfan.common.TradeState
+	        	</param>
+	        	<param name="type">12</param>
+	        </type>       	
         </property>
         <property name="sumMoney" type="java.lang.Float">
             <column name="sumMoney" precision="12" scale="0" />

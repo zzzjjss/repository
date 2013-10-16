@@ -28,27 +28,32 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private DeliveryManDao  deliverymanDao;
 	
-	public boolean login(String userName,String password,String userType){
-		if(UserType.AGENT.getName().equalsIgnoreCase(userType)){
-			Agent user=agentDao.findAgentByName(userName);
-			return user!=null&&password!=null&&password.equals(user.getPassword());
-				
-		} else if(UserType.CUSTOMER.getName().equalsIgnoreCase(userType)){
-				Customer user=customerDao.findCustomerByName(userName);
-				return user!=null&&password!=null&&password.equals(user.getPassword());
-		} else if(UserType.PLATFORM_ADMIN.getName().equalsIgnoreCase(userType)){
-			PlatformAdmin user=platformAdminDao.findByName(userName);
-			return user!=null&&password!=null&&password.equals(user.getPassword());
-		}else if(UserType.SHOP_Manager.getName().equalsIgnoreCase(userType)){
-			ShopManager user=shopManagerDao.findByName(userName);
-			return user!=null&&password!=null&&password.equals(user.getPassword());
-		}else if(UserType.DELIVERY_MAN.getName().equalsIgnoreCase(userType)){
-			Deliveryman user=deliverymanDao.findByName(userName);
-			return user!=null&&password!=null&&password.equals(user.getPassword());
+	public boolean login(String userName, String password, UserType userType) {
+
+		switch (userType) {
+		case AGENT: {
+			Agent user = agentDao.findAgentByName(userName);
+			return user != null && password != null&& password.equals(user.getPassword());
+		}
+		case CUSTOMER: {
+			Customer user = customerDao.findCustomerByName(userName);
+			return user != null && password != null&& password.equals(user.getPassword());
+		}
+		case PLATFORM_ADMIN: {
+			PlatformAdmin user = platformAdminDao.findByName(userName);
+			return user != null && password != null&& password.equals(user.getPassword());
+		}
+		case SHOP_Manager: {
+			ShopManager user = shopManagerDao.findByName(userName);
+			return user != null && password != null&& password.equals(user.getPassword());
+		}
+		case DELIVERY_MAN: {
+			Deliveryman user = deliverymanDao.findByName(userName);
+			return user != null && password != null&& password.equals(user.getPassword());
+		}
 		}
 		return false;
-		
-		
+
 	}
 	public Agent getAgentById(int agentId){
 		//return agentDao.findOne(agentId);
