@@ -27,6 +27,10 @@ public class CustomerConsumeAction extends BaseAction{
 	private int productId;
 	private int tradeAmount;
 	private String tradeDetailId;
+	/**
+	 * 
+	 * @return
+	 */
 	public String buyProduct(){
 		Customer cus=(Customer)session.getAttribute("user");
 		if(cus==null){

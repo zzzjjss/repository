@@ -3,8 +3,9 @@ package com.uf.fanfan.dao;
 import java.util.List;
 
 import com.uf.fanfan.entity.OrderDetail;
+import com.uf.fanfan.entity.TradeDetail;
 
-public interface TradeDetailDao {
-	//@Query( " select t from OrderDetail t where t.productid = :id " )
+public interface TradeDetailDao extends CommonDao<TradeDetail>{
+	
 	public  List<OrderDetail>  findByProductid(Integer productid);
 }

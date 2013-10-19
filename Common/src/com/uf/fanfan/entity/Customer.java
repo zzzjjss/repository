@@ -12,7 +12,7 @@ public class Customer implements java.io.Serializable {
 	private String password;
 	private Float balance;
 	private Float totalConsume;
-	private Integer agentid;
+	private Agent agent;
 
 	public Customer() {
 	}
@@ -23,13 +23,13 @@ public class Customer implements java.io.Serializable {
 	}
 
 	public Customer(int id, String name, String password, Float balance,
-			Float totalConsume, Integer agentid) {
+			Float totalConsume, Agent agent) {
 		this.id = id;
 		this.name = name;
 		this.password = password;
 		this.balance = balance;
 		this.totalConsume = totalConsume;
-		this.agentid = agentid;
+		this.agent = agent;
 	}
 
 	public int getId() {
@@ -72,12 +72,12 @@ public class Customer implements java.io.Serializable {
 		this.totalConsume = totalConsume;
 	}
 
-	public Integer getAgentid() {
-		return this.agentid;
+	public Agent getAgent() {
+		return this.agent;
 	}
 
-	public void setAgentid(Integer agentid) {
-		this.agentid = agentid;
+	public void setAgent(Agent agent) {
+		this.agent = agent;
 	}
 
 }

@@ -1,5 +1,8 @@
 package com.uf.fanfan.entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 // Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1
 
 /**
@@ -15,7 +18,7 @@ public class Agent implements java.io.Serializable {
 	private Float balance;
 	private Float backMoney;
 	private String realName;
-
+	private Set<Customer> customers = new HashSet<Customer>(0);
 	public Agent() {
 	}
 
@@ -100,4 +103,12 @@ public class Agent implements java.io.Serializable {
 		this.realName = realName;
 	}
 
+	public Set<Customer> getCustomers() {
+		return customers;
+	}
+
+	public void setCustomers(Set<Customer> customers) {
+		this.customers = customers;
+	}
+	
 }

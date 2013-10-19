@@ -20,8 +20,10 @@
         <property name="totalConsume" type="java.lang.Float">
             <column name="totalConsume" precision="12" scale="0" />
         </property>
-        <property name="agentid" type="java.lang.Integer">
+        
+        <many-to-one name="agent" class="com.uf.fanfan.entity.Agent" fetch="select">
             <column name="agentid" />
-        </property>
+        </many-to-one>
+        
     </class>
 </hibernate-mapping>

@@ -11,7 +11,7 @@ import com.uf.fanfan.common.ProductState;
  */
 public class Product implements java.io.Serializable {
 
-	private int id;
+	private Integer id;
 	private Shop shop;
 	private String name;
 	private String description;
@@ -41,11 +41,11 @@ public class Product implements java.io.Serializable {
 		this.state = state;
 	}
 
-	public int getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

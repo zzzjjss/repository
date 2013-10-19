@@ -30,12 +30,15 @@ public class CommonDaoImpl<T> implements CommonDao<T> {
 	public void save(T obj) {
 		hibernateTemplate.save(obj);
 	}
-
+	
 	@Override
 	public void delete(T entity) {
 		hibernateTemplate.delete(entity);
 	}
-
+	@Override
+	public void update(T obj){
+		hibernateTemplate.update(obj);
+	}
 	@Override
 	public T loadById(Class<T> entityClass, Serializable id) {
 		T entity = (T) hibernateTemplate.get(entityClass, id);

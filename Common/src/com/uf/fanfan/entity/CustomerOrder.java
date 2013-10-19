@@ -14,7 +14,7 @@ import com.uf.fanfan.common.TradeState;
 public class CustomerOrder implements java.io.Serializable {
 
 	private long id;
-	private int customerid;
+	private Customer customer;
 	private Date arrivetime;
 	private TradeState tradestate;
 	private Float sumMoney;
@@ -22,23 +22,10 @@ public class CustomerOrder implements java.io.Serializable {
 
 	public CustomerOrder() {
 	}
-
-	public CustomerOrder(long id, int customerid, Date arrivetime) {
-		this.id = id;
-		this.customerid = customerid;
-		this.arrivetime = arrivetime;
+	public String toString(){
+		return  "{订单id:"+id+";客户id:"+customer.getId()+";送达时间："+arrivetime.toString()+"}";
 	}
-
-	public CustomerOrder(long id, int customerid, Date arrivetime,
-			TradeState tradestate, Float sumMoney, Set<OrderDetail> orderDetails) {
-		this.id = id;
-		this.customerid = customerid;
-		this.arrivetime = arrivetime;
-		this.tradestate = tradestate;
-		this.sumMoney = sumMoney;
-		this.orderDetails = orderDetails;
-	}
-
+	
 	public long getId() {
 		return this.id;
 	}
@@ -47,12 +34,12 @@ public class CustomerOrder implements java.io.Serializable {
 		this.id = id;
 	}
 
-	public int getCustomerid() {
-		return this.customerid;
+	public Customer getCustomer() {
+		return this.customer;
 	}
 
-	public void setCustomerid(int customerid) {
-		this.customerid = customerid;
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
 	}
 
 	public Date getArrivetime() {
@@ -86,5 +73,5 @@ public class CustomerOrder implements java.io.Serializable {
 	public void setOrderDetails(Set<OrderDetail> orderDetails) {
 		this.orderDetails = orderDetails;
 	}
-
+	
 }

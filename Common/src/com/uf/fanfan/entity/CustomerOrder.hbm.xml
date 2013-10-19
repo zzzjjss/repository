@@ -8,9 +8,9 @@
             <column name="id" />
             <generator class="assigned" />
         </id>
-        <property name="customerid" type="int">
-            <column name="customerid" not-null="true" />
-        </property>
+        <many-to-one name="customer" class="com.uf.fanfan.entity.Customer" fetch="select">
+            <column name="customerid" />
+        </many-to-one>
         <property name="arrivetime" type="timestamp">
             <column name="arrivetime" length="19" not-null="true" />
         </property>

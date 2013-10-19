@@ -24,11 +24,12 @@ public class TradeServiceImpl implements TradeService{
 	private TradeDetailDao tradeDetailDao;
 	private CustomerOrderDao orderDao;
 	@Override
-	public void purchaseProducts(CustomerOrder order) {
-		
-		
-		
-		
+	public void purchaseProducts(List<CustomerOrder> orders) {
+		if(orders!=null){
+			for(CustomerOrder order:orders){
+				orderDao.save(order);
+			}
+		}
 	}
 //
 //	@Override
@@ -67,5 +68,31 @@ public class TradeServiceImpl implements TradeService{
 //	public List<CustomerOrder> getCustomerOrdersByArriveDay(Integer customerId,Timestamp arriveTime){
 //		return null;
 //	}
+	@Override
+	public void deletePurchasedProduct(int orderDetailId) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void modifyPurchasedProductNum(int orderDetailId, int number) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void cancelOrder(int orderId) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public Map<WeekEnum, CustomerOrder> getCustomerThisWeekOrders(int customerId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public CustomerOrder getCustomerOrderByArriveDay(Integer customerId,
+			Timestamp arriveTime) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
 

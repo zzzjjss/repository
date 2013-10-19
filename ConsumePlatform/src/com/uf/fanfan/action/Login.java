@@ -15,10 +15,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.uf.fanfan.entity.Customer;
-import com.uf.fanfan.service.UserService;
+import com.uf.fanfan.service.UserManageService;
 
 public class Login extends BaseAction{
-	UserService userService=(UserService)appContext.getBean("userService");
+	UserManageService userService=(UserManageService)appContext.getBean("userService");
 	Logger log = LoggerFactory.getLogger(Login.class);
 	final int noVerifycodeLoginTime=5;
 	

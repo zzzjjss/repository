@@ -29,5 +29,11 @@
         <property name="realName" type="string">
             <column name="realName" length="100" />
         </property>
+         <set name="customers" table="customer" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="agentid" />
+            </key>
+            <one-to-many class="com.uf.fanfan.entity.Customer" />
+        </set>
     </class>
 </hibernate-mapping>

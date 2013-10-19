@@ -1,7 +1,6 @@
 package com.uf.fanfan.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.uf.fanfan.common.UserType;
 import com.uf.fanfan.dao.AgentDao;
@@ -14,9 +13,9 @@ import com.uf.fanfan.entity.Customer;
 import com.uf.fanfan.entity.Deliveryman;
 import com.uf.fanfan.entity.PlatformAdmin;
 import com.uf.fanfan.entity.ShopManager;
-import com.uf.fanfan.service.UserService;
+import com.uf.fanfan.service.LoginService;
 
-public class UserServiceImpl implements UserService{
+public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private AgentDao  agentDao;
 	@Autowired
@@ -27,7 +26,6 @@ public class UserServiceImpl implements UserService{
 	private  ShopManagerDao  shopManagerDao;
 	@Autowired
 	private DeliveryManDao  deliverymanDao;
-	
 	public boolean login(String userName, String password, UserType userType) {
 
 		switch (userType) {
@@ -55,11 +53,5 @@ public class UserServiceImpl implements UserService{
 		return false;
 
 	}
-	public Agent getAgentById(int agentId){
-		//return agentDao.findOne(agentId);
-		return null;
-	}
-	public void addCustomer(Customer customer){
-		//customerDao.saveAndFlush(customer);
-	}
+
 }
