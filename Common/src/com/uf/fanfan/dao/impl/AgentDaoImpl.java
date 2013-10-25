@@ -10,14 +10,16 @@ import com.uf.fanfan.entity.Agent;
 public class AgentDaoImpl extends CommonDaoImpl<Agent> implements AgentDao{
 
 	@Override
-	public Agent findAgentByName(String name) {
-		return null;
+	public Agent getAgentByName(String name) {
+		String hql="selecct a from Agent a where a.name=:name";
+		List<Agent> agents=getHibernateTemplate().findByNamedParam(hql, "name", name);
+		return (agents!=null&&agents.size()>0)?agents.get(0):null;
+		
 	}
 
 	@Override
 	public List<Agent> getAllAgents() {
-		// TODO Auto-generated method stub
-		return null;
+		return getHibernateTemplate().find("select a from Agent a");
 	}
 
 }

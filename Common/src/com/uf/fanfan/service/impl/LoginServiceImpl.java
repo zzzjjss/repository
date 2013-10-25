@@ -30,7 +30,7 @@ public class LoginServiceImpl implements LoginService{
 
 		switch (userType) {
 		case AGENT: {
-			Agent user = agentDao.findAgentByName(userName);
+			Agent user = agentDao.getAgentByName(userName);
 			return user != null && password != null&& password.equals(user.getPassword());
 		}
 		case CUSTOMER: {

@@ -26,5 +26,5 @@ public interface CustomerOrderDao extends CommonDao<CustomerOrder>{
 	 * @return
 	 */
 	public List<CustomerOrder> getShopOnedayOrdersInAgent(Shop shop ,Agent agent,Date date);
-	public CustomerOrder getCustomerOrderByArriveTime(Integer customerId,Timestamp arriveTime);
+	public List<CustomerOrder> getCustomerOnedayOrders(Integer customerId,Date date);
 }

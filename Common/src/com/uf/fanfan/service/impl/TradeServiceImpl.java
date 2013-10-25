@@ -65,9 +65,9 @@ public class TradeServiceImpl implements TradeService{
 		return weekDetail;
 	}
 	@Override
-	public CustomerOrder getCustomerOrderByArriveTime(Integer customerId,
+	public List<CustomerOrder> getCustomerOnedayOrders(Integer customerId,
 			Timestamp arriveTime) {
-		return customerOrderDao.getCustomerOrderByArriveTime(customerId, arriveTime);
+		return customerOrderDao.getCustomerOnedayOrders(customerId, arriveTime);
 	}
 }
 
