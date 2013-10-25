@@ -11,7 +11,7 @@ import com.uf.fanfan.common.ProductState;
 import com.uf.fanfan.dao.CustomerOrderDao;
 import com.uf.fanfan.dao.ProductDao;
 import com.uf.fanfan.dao.ProductImageDao;
-import com.uf.fanfan.dao.TradeDetailDao;
+import com.uf.fanfan.dao.OrderDetailDao;
 import com.uf.fanfan.entity.CustomerOrder;
 import com.uf.fanfan.entity.OrderDetail;
 import com.uf.fanfan.entity.Product;
@@ -23,7 +23,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	@Autowired
 	private ProductDao productDao;
 	@Autowired
-	private TradeDetailDao tradeDetailDao;
+	private OrderDetailDao tradeDetailDao;
 	@Autowired
 	private CustomerOrderDao customerOrderDao;
 	@Autowired
@@ -39,7 +39,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 			result.setResult(OperationResult.Result.FAIL);
 			result.setMessage("产品不存在，无法下线");
 		}
-		List<CustomerOrder> orders=customerOrderDao.findInProcessingOrderByProductid(product.getId());
+		List<CustomerOrder> orders=customerOrderDao.getInProcessingOrderByProductid(product.getId());
 		if(orders!=null&&orders.size()>0){
 			result.setResult(OperationResult.Result.FAIL);
 			String orderLists=Arrays.toString(orders.toArray());
@@ -102,10 +102,10 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
-	public TradeDetailDao getTradeDetailDao() {
+	public OrderDetailDao getTradeDetailDao() {
 		return tradeDetailDao;
 	}
-	public void setTradeDetailDao(TradeDetailDao tradeDetailDao) {
+	public void setTradeDetailDao(OrderDetailDao tradeDetailDao) {
 		this.tradeDetailDao = tradeDetailDao;
 	}
 	public CustomerOrderDao getCustomerOrderDao() {

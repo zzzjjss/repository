@@ -1,9 +1,12 @@
 package com.uf.fanfan.dao;
 
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import com.uf.fanfan.entity.Agent;
 import com.uf.fanfan.entity.CustomerOrder;
+import com.uf.fanfan.entity.Shop;
 
 public interface CustomerOrderDao extends CommonDao<CustomerOrder>{
 	
@@ -13,5 +16,15 @@ public interface CustomerOrderDao extends CommonDao<CustomerOrder>{
 	 * @param productid
 	 * @return
 	 */
-	public  List<CustomerOrder>  findInProcessingOrderByProductid(Integer productid);
+	public  List<CustomerOrder>  getInProcessingOrderByProductid(Integer productid);
+	
+	public List<CustomerOrder> getOneDayOrdersInShop(Shop shop, Date date) ;
+	/**
+	 * 获取商店某代理点某天的所以的订单
+	 * @param agent
+	 * @param date
+	 * @return
+	 */
+	public List<CustomerOrder> getShopOnedayOrdersInAgent(Shop shop ,Agent agent,Date date);
+	public CustomerOrder getCustomerOrderByArriveTime(Integer customerId,Timestamp arriveTime);
 }

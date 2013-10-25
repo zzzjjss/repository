@@ -20,13 +20,7 @@ public interface ShopManageService {
 	 * @return
 	 */
 	public List<CustomerOrder> getOneDayOrdersInShop(Shop shop,Date date);
-	/**
-	 * 获取某天所有代理点的订单
-	 * @param shop
-	 * @param date
-	 * @return
-	 */
-	public Map<Agent,List<CustomerOrder>> getOneDayAllAgentOrderInShop(Shop shop,Date date);
+	
 	/**
 	 * 获取某天某个代理点在该店的订单
 	 * @param agent

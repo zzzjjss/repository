@@ -44,5 +44,5 @@ public interface TradeService {
 	 * @param arriveTime
 	 * @return
 	 */
-	public CustomerOrder getCustomerOrderByArriveDay(Integer customerId,Timestamp arriveTime);
+	public CustomerOrder getCustomerOrderByArriveTime(Integer customerId,Timestamp arriveTime);
 }
