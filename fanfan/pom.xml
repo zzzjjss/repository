@@ -4,4 +4,9 @@
   <artifactId>fanfan</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <modules>
+  	<module>shop-manage</module>
+  	<module>common</module>
+  	<module>consume-platform</module>
+  </modules>
 </project>
