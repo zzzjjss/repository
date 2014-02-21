@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.fanfan.entity.Shop" table="shop" catalog="fanfan">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="name" length="100" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="address" length="100" />
+        </property>
+        <property name="phoneNum" type="string">
+            <column name="phoneNum" length="100" />
+        </property>
+        <property name="description" type="string">
+            <column name="description" length="1000" />
+        </property>
+        <set name="products" table="product" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="shopid" />
+            </key>
+            <one-to-many class="com.uf.fanfan.entity.Product" />
+        </set>
+    </class>
+</hibernate-mapping>
