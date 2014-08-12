@@ -5,5 +5,5 @@ import com.uf.fanfan.entity.Customer;
 
 public interface LoginService {
 	public boolean login(String userName,String password,UserType userType);
-	
+	 
 }
