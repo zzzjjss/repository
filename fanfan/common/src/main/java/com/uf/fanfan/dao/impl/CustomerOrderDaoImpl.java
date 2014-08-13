@@ -8,13 +8,14 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.springframework.stereotype.Component;
 
 import com.uf.fanfan.dao.CustomerOrderDao;
 import com.uf.fanfan.entity.Agent;
 import com.uf.fanfan.entity.CustomerOrder;
 import com.uf.fanfan.entity.Shop;
 import com.uf.fanfan.util.DateUtil;
-
+@Component("customerOrderDao")
 public class CustomerOrderDaoImpl  extends CommonDaoImpl<CustomerOrder> implements CustomerOrderDao{
 
 	@Override

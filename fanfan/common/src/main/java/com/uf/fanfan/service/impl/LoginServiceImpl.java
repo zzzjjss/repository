@@ -1,6 +1,7 @@
 package com.uf.fanfan.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.uf.fanfan.common.UserType;
 import com.uf.fanfan.dao.AgentDao;

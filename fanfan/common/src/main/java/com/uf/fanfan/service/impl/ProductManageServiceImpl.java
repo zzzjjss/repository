@@ -23,7 +23,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	@Autowired
 	private ProductDao productDao;
 	@Autowired
-	private OrderDetailDao tradeDetailDao;
+	private OrderDetailDao orderDetailDao;
 	@Autowired
 	private CustomerOrderDao customerOrderDao;
 	@Autowired
@@ -69,7 +69,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	}
 	
 	public OperationResult deleteProductById(Integer id){
-		List<OrderDetail> tradeDetail=tradeDetailDao.findByProductid(id);
+		List<OrderDetail> tradeDetail=orderDetailDao.findByProductid(id);
 		if(tradeDetail==null||tradeDetail.size()==0){
 			Product pro=new Product();
 			pro.setId(id);
@@ -102,11 +102,12 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	public void setProductDao(ProductDao productDao) {
 		this.productDao = productDao;
 	}
-	public OrderDetailDao getTradeDetailDao() {
-		return tradeDetailDao;
+	
+	public OrderDetailDao getOrderDetailDao() {
+		return orderDetailDao;
 	}
-	public void setTradeDetailDao(OrderDetailDao tradeDetailDao) {
-		this.tradeDetailDao = tradeDetailDao;
+	public void setOrderDetailDao(OrderDetailDao orderDetailDao) {
+		this.orderDetailDao = orderDetailDao;
 	}
 	public CustomerOrderDao getCustomerOrderDao() {
 		return customerOrderDao;

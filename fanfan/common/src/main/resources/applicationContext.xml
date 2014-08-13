@@ -34,7 +34,6 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		        <value>com/uf/fanfan/entity/OrderDetail.hbm.xml </value>
 		        <value>com/uf/fanfan/entity/PlatformAdmin.hbm.xml </value>
 		        <value>com/uf/fanfan/entity/Deliveryman.hbm.xml </value>
-		        <value>com/uf/fanfan/entity/TradeDetail.hbm.xml </value>
 		        <value>com/uf/fanfan/entity/Customer.hbm.xml </value>
 		        <value>com/uf/fanfan/entity/ShopManager.hbm.xml </value>
 		        <value>com/uf/fanfan/entity/Product.hbm.xml </value>
@@ -61,6 +60,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<aop:config>
 		<aop:pointcut expression="execution(* com.uf.fanfan.service.*.*(..))"
 			id="txMethods" />
+		
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txMethods" />
 	</aop:config>
 	<tx:advice id="txAdvice" transaction-manager="transactionManager">

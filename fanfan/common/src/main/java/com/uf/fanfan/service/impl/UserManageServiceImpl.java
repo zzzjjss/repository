@@ -14,7 +14,7 @@ import com.uf.fanfan.dao.ShopManagerDao;
 import com.uf.fanfan.entity.Agent;
 import com.uf.fanfan.entity.Customer;
 import com.uf.fanfan.service.UserManageService;
-@Service("userManageService")
+
 public class UserManageServiceImpl implements UserManageService{
 	@Autowired
 	private AgentDao  agentDao;
@@ -24,8 +24,7 @@ public class UserManageServiceImpl implements UserManageService{
 	private PlatformAdminDao platformAdminDao;
 	@Autowired
 	private  ShopManagerDao  shopManagerDao;
-	@Autowired
-	private DeliveryManDao  deliverymanDao;
+	
 	@Override
 	public boolean registerCustomer(Customer customer) {
 		// TODO Auto-generated method stub
