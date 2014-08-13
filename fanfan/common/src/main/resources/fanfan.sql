@@ -149,4 +149,5 @@ CREATE TABLE fanfan.`tradedetail` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
-
+ALTER TABLE `fanfan`.`shop` 
+ADD COLUMN `status` VARCHAR(45) NULL AFTER `description`;

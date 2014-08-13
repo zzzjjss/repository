@@ -27,7 +27,7 @@ public class CommonDaoImpl<T> implements CommonDao<T> {
 	}
 
 	@Override
-	public void save(T obj) {
+	public void insert(T obj) {
 		hibernateTemplate.save(obj);
 	}
 	

@@ -26,7 +26,7 @@ public class TradeServiceImpl implements TradeService{
 	public void purchaseProducts(List<CustomerOrder> orders) {
 		if(orders!=null){
 			for(CustomerOrder order:orders){
-				customerOrderDao.save(order);
+				customerOrderDao.insert(order);
 			}
 		}
 	}

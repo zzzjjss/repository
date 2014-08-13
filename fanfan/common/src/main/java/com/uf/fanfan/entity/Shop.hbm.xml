@@ -20,6 +20,14 @@
         <property name="description" type="string">
             <column name="description" length="1000" />
         </property>
+        <property name="status" column="status">
+	        <type name="org.hibernate.type.EnumType">
+	        	<param name="enumClass">
+	        		com.uf.fanfan.common.ShopStatus
+	        	</param>
+	        	<param name="type">12</param>  
+	        </type>
+        </property>
         <set name="products" table="product" inverse="true" lazy="true" fetch="select">
             <key>
                 <column name="shopid" />

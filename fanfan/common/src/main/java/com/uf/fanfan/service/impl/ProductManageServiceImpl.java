@@ -16,6 +16,7 @@ import com.uf.fanfan.entity.CustomerOrder;
 import com.uf.fanfan.entity.OrderDetail;
 import com.uf.fanfan.entity.Product;
 import com.uf.fanfan.entity.ProductImage;
+import com.uf.fanfan.entity.Shop;
 import com.uf.fanfan.service.ProductManageService;
 import com.uf.fanfan.util.OperationResult;
 @Service("productManageService")
@@ -30,7 +31,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	private ProductImageDao productImageDao;
 	
 	public void  addProduct(Product product){
-		productDao.save(product);
+		productDao.insert(product);
 	}
 	public OperationResult offLineProduct(Product product){
 		OperationResult result=new OperationResult();
@@ -84,7 +85,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	}
 	
 	public void addProductImage(ProductImage image) {
-		productImageDao.save(image);
+		productImageDao.insert(image);
 	}
 	
 	public void deleteProductImage(int imageId){
@@ -114,6 +115,14 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	}
 	public void setCustomerOrderDao(CustomerOrderDao customerOrderDao) {
 		this.customerOrderDao = customerOrderDao;
+	}
+	@Override
+	public PageQueryResult<Product> getPageProductsInShop(int pageSize, int pageIndex, Shop shop) {
+		PageQueryResult<Product> res=new PageQueryResult<Product>();
+		if(shop!=null&&shop.getId()!=null){
+			res= productDao.getPageProductsInShopByShopId(pageSize, pageIndex, shop.getId());	
+		}
+		return res;
 	}
 	
 	
