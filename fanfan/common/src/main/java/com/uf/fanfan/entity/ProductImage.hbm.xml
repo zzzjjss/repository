@@ -5,7 +5,7 @@
 <hibernate-mapping>
  <class catalog="fanfan" name="com.uf.fanfan.entity.ProductImage" table="productimage">
   <id column="id" name="id" type="int">
-   <generator class="assigned"/>
+   <generator class="identity"/>
   </id>
   <many-to-one class="com.uf.fanfan.entity.Product" name="product">
    <column name="productid"/>

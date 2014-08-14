@@ -20,7 +20,7 @@ public class ShopManageServiceImpl implements ShopManageService {
 	
 	@Override
 	public Shop findShopById(Integer id) {
-		Shop shop=shopDao.loadById(Shop.class, 0);
+		Shop shop=shopDao.loadById(Shop.class, id);
 		return shop;
 	}
 	

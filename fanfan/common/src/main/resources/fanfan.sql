@@ -51,15 +51,6 @@ CREATE TABLE fanfan.`deliveryman` (
 
 delimiter $$
 
-CREATE TABLE fanfan.`id_table` (
-  `id_key` varchar(100) NOT NULL,
-  `id_value` bigint(20) NOT NULL,
-  PRIMARY KEY (`id_key`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
-
-
-delimiter $$
-
 CREATE TABLE fanfan.`order_detail` (
   `id` bigint(20) NOT NULL,
   `orderid` bigint(20) NOT NULL,
@@ -68,9 +59,7 @@ CREATE TABLE fanfan.`order_detail` (
   `tradeAmount` int(11) NOT NULL,
   `tradetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `evaluation` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `detail_order_FK` (`orderid`),
-  CONSTRAINT `detail_order_FK` FOREIGN KEY (`orderid`) REFERENCES `customer_order` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
 
@@ -107,9 +96,7 @@ CREATE TABLE fanfan.`product` (
   `createTime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `saleSum` int(11) DEFAULT NULL,
   `state` varchar(100) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `product_shop_FK` (`shopid`),
-  CONSTRAINT `product_shop_FK` FOREIGN KEY (`shopid`) REFERENCES `shop` (`id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
 
@@ -151,3 +138,47 @@ CREATE TABLE fanfan.`tradedetail` (
 
 ALTER TABLE `fanfan`.`shop` 
 ADD COLUMN `status` VARCHAR(45) NULL AFTER `description`;
+
+ALTER TABLE `fanfan`.`agent` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`customer` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`customer_order` 
+CHANGE COLUMN `id` `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`deliveryman` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`order_detail` 
+CHANGE COLUMN `id` `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`platformadmin` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`product` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`productimage` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`shop` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`shopmanager` 
+CHANGE COLUMN `id` `id` INT(11) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);
+
+ALTER TABLE `fanfan`.`tradedetail` 
+CHANGE COLUMN `id` `id` BIGINT(20) NOT NULL AUTO_INCREMENT ,
+ADD UNIQUE INDEX `id_UNIQUE` (`id` ASC);

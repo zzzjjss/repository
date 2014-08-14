@@ -6,7 +6,7 @@
  <class catalog="fanfan" name="com.uf.fanfan.entity.PlatformAdmin" table="platformadmin">
   <id name="id" type="int">
    <column name="id"/>
-   <generator class="assigned"/>
+   <generator class="identity"/>
   </id>
   <property generated="never" lazy="false" name="name" type="string">
    <column length="100" name="name" not-null="true"/>

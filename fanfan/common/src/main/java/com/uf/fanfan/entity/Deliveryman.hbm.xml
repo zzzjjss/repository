@@ -6,7 +6,7 @@
     <class name="com.uf.fanfan.entity.Deliveryman" table="deliveryman" catalog="fanfan">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="name" type="string">
             <column name="name" length="100" not-null="true" />

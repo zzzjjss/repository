@@ -6,7 +6,7 @@
     <class name="com.uf.fanfan.entity.Product" table="product" catalog="fanfan">
         <id name="id" type="int">
             <column name="id" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="shop" class="com.uf.fanfan.entity.Shop" fetch="select">
             <column name="shopid" />
