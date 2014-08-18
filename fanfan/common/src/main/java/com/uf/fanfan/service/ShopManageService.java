@@ -3,6 +3,7 @@ package com.uf.fanfan.service;
 import java.util.List;
 
 import com.uf.fanfan.entity.Shop;
+import com.uf.fanfan.entity.ShopManager;
 
 public interface ShopManageService {
 	public Shop findShopById(Integer id);
@@ -12,5 +13,6 @@ public interface ShopManageService {
 	public void deleteShop(Shop  shop);
 	public  List<Shop> findAllShops();
 	public void modifyShop(Shop shop);
+	public void addShopManager(ShopManager shopManager);
 	
 }

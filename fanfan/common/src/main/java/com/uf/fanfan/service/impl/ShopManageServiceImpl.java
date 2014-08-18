@@ -10,14 +10,17 @@ import com.uf.fanfan.dao.AgentDao;
 import com.uf.fanfan.dao.CustomerOrderDao;
 import com.uf.fanfan.dao.ProductDao;
 import com.uf.fanfan.dao.ShopDao;
+import com.uf.fanfan.dao.ShopManagerDao;
 import com.uf.fanfan.entity.Shop;
+import com.uf.fanfan.entity.ShopManager;
 import com.uf.fanfan.service.ShopManageService;
 
 @Service("shopManagerService")
 public class ShopManageServiceImpl implements ShopManageService {
 	@Autowired
 	private ShopDao shopDao;
-	
+	@Autowired
+	private ShopManagerDao shopManagerDao;
 	@Override
 	public Shop findShopById(Integer id) {
 		Shop shop=shopDao.loadById(Shop.class, id);
@@ -73,4 +76,7 @@ public class ShopManageServiceImpl implements ShopManageService {
 		
 	}
 	
+	public void addShopManager(ShopManager shopManager){
+		shopManagerDao.addShopManager(shopManager);
+	}
 }
