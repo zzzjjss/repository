@@ -6,5 +6,5 @@ public interface  CommonDao<T> {
 	public void insert(T obj);
 	public void delete(T obj);
 	public void update(T obj);
-	public T loadById(Class<T> entity,Serializable id);
+	public T findById(Class<T> entity,Serializable id);
 }

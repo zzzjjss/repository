@@ -40,7 +40,7 @@ public class TradeServiceImpl implements TradeService{
 	}
 	@Override
 	public void modifyPurchasedProductNum(int orderDetailId, int number) {
-		OrderDetail detail=orderDetailDao.loadById(OrderDetail.class, orderDetailId);
+		OrderDetail detail=orderDetailDao.findById(OrderDetail.class, orderDetailId);
 		detail.setTradeAmount(number);
 		orderDetailDao.update(detail);
 	}

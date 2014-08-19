@@ -35,7 +35,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 	}
 	public OperationResult offLineProduct(Product product){
 		OperationResult result=new OperationResult();
-		product=productDao.loadById(Product.class, product.getId());
+		product=productDao.findById(Product.class, product.getId());
 		if(product==null){
 			result.setResult(OperationResult.Result.FAIL);
 			result.setMessage("产品不存在，无法下线");
@@ -94,7 +94,7 @@ public class ProductManageServiceImpl implements  ProductManageService{
 		productImageDao.delete(image);
 	}
 	public Product getProductById(Integer id){
-		return this.productDao.loadById(Product.class, id);
+		return this.productDao.findById(Product.class, id);
 	}
 	
 	public ProductDao getProductDao() {

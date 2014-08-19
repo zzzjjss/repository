@@ -11,8 +11,12 @@
   <property generated="never" lazy="false" name="name" type="string">
    <column length="100" name="name" not-null="true"/>
   </property>
+  
   <property generated="never" lazy="false" name="password" type="string">
    <column length="100" name="password"/>
   </property>
+   <many-to-one name="shop" class="com.uf.fanfan.entity.Shop" >
+            <column name="shopId" />
+   </many-to-one>
  </class>
 </hibernate-mapping>

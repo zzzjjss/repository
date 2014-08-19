@@ -119,6 +119,7 @@ CREATE TABLE fanfan.`shopmanager` (
   `id` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
   `password` varchar(100) DEFAULT NULL,
+  `shopid` int(11) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 

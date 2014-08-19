@@ -10,7 +10,7 @@ public class ShopManager implements java.io.Serializable {
 	private int id;
 	private String name;
 	private String password;
-
+	private Shop  shop;
 	public ShopManager() {
 	}
 
@@ -47,6 +47,14 @@ public class ShopManager implements java.io.Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public Shop getShop() {
+		return shop;
+	}
+
+	public void setShop(Shop shop) {
+		this.shop = shop;
 	}
 
 }

@@ -14,5 +14,7 @@ public interface ShopManageService {
 	public  List<Shop> findAllShops();
 	public void modifyShop(Shop shop);
 	public void addShopManager(ShopManager shopManager);
-	
+	public void deleteShopManager(ShopManager shopManager);
+	public void resetShopManagerPassword(int  shopManagerId,String newPassword)throws Exception;
+	public ShopManager findShopManager(int shopId);
 }

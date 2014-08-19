@@ -1,5 +1,6 @@
 package com.uf.fanfan.service.impl;
 
+import java.security.MessageDigest;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ public class ShopManageServiceImpl implements ShopManageService {
 	private ShopManagerDao shopManagerDao;
 	@Override
 	public Shop findShopById(Integer id) {
-		Shop shop=shopDao.loadById(Shop.class, id);
+		Shop shop=shopDao.findById(Shop.class, id);
 		return shop;
 	}
 	
@@ -78,5 +79,21 @@ public class ShopManageServiceImpl implements ShopManageService {
 	
 	public void addShopManager(ShopManager shopManager){
 		shopManagerDao.addShopManager(shopManager);
+	}
+	public void deleteShopManager(ShopManager shopManager){
+		shopManagerDao.delete(shopManager);
+	}
+	public void resetShopManagerPassword(int  shopManagerId,String newPassword)throws Exception{
+		ShopManager shopManager=shopManagerDao.findById(ShopManager.class,shopManagerId);
+		MessageDigest md5=MessageDigest.getInstance("MD5");
+		String pwd=new String(md5.digest(newPassword.getBytes()));
+		shopManagerDao.updatePassword(shopManagerId, pwd);
+	}
+	public ShopManager findShopManager(int shopId){
+		List<ShopManager> shopManager=shopManagerDao.findByShopId(shopId);
+		if(shopManager!=null)
+			return shopManager.get(0);
+		else 
+			return null;
 	}
 }

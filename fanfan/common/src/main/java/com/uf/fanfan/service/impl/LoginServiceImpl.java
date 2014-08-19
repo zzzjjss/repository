@@ -42,10 +42,10 @@ public class LoginServiceImpl implements LoginService{
 			PlatformAdmin user = platformAdminDao.findByName(userName);
 			return user != null && password != null&& password.equals(user.getPassword());
 		}
-		case SHOP_Manager: {
-			ShopManager user = shopManagerDao.findByName(userName);
-			return user != null && password != null&& password.equals(user.getPassword());
-		}
+//		case SHOP_Manager: {
+//			ShopManager user = shopManagerDao.findByName(userName);
+//			return user != null && password != null&& password.equals(user.getPassword());
+//		}
 		case DELIVERY_MAN: {
 			Deliveryman user = deliverymanDao.findByName(userName);
 			return user != null && password != null&& password.equals(user.getPassword());
