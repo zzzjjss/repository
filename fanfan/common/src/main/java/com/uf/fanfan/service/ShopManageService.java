@@ -16,5 +16,5 @@ public interface ShopManageService {
 	public void addShopManager(ShopManager shopManager);
 	public void deleteShopManager(ShopManager shopManager);
 	public void resetShopManagerPassword(int  shopManagerId,String newPassword)throws Exception;
-	public ShopManager findShopManager(int shopId);
+	public ShopManager findShopManagerByShopId(int shopId);
 }

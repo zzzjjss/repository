@@ -13,7 +13,7 @@ public interface TradeService {
 	 * 几天一起提交购买时，放到一个事务中处理。
 	 * @param orders
 	 */
-	public void purchaseProducts(List<CustomerOrder> orders);
+	public void purchaseProducts(CustomerOrder orders);
 	/**
 	 * 删除某天订单中预定的某个菜
 	 * @param orderDetailId

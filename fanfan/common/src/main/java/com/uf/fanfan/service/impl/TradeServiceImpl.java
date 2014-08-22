@@ -23,12 +23,9 @@ public class TradeServiceImpl implements TradeService{
 	@Autowired
 	private CustomerOrderDao customerOrderDao;
 	@Override
-	public void purchaseProducts(List<CustomerOrder> orders) {
-		if(orders!=null){
-			for(CustomerOrder order:orders){
-				customerOrderDao.insert(order);
-			}
-		}
+	public void purchaseProducts(CustomerOrder order) {
+		if(order!=null)
+			customerOrderDao.insert(order);
 	}
 
 

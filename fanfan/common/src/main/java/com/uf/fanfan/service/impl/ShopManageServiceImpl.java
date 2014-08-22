@@ -89,7 +89,7 @@ public class ShopManageServiceImpl implements ShopManageService {
 		String pwd=new String(md5.digest(newPassword.getBytes()));
 		shopManagerDao.updatePassword(shopManagerId, pwd);
 	}
-	public ShopManager findShopManager(int shopId){
+	public ShopManager findShopManagerByShopId(int shopId){
 		List<ShopManager> shopManager=shopManagerDao.findByShopId(shopId);
 		if(shopManager!=null)
 			return shopManager.get(0);
