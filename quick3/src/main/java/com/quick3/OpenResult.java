@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class OpenResult {
 	private int id;
+	private int dateIndex;
 	private Date opendate;
 	private int  result;
 	public int getId() {
@@ -24,6 +25,12 @@ public class OpenResult {
 	}
 	public void setResult(int result) {
 		this.result = result;
+	}
+	public int getDateIndex() {
+		return dateIndex;
+	}
+	public void setDateIndex(int dateIndex) {
+		this.dateIndex = dateIndex;
 	}
 	
 }
