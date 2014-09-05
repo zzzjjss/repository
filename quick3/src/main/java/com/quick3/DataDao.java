@@ -30,7 +30,6 @@ public class DataDao {
 		}
 	}
 	
-	
 	public void createTable(){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		try {
@@ -83,18 +82,56 @@ public class DataDao {
 		}
 		return all;
 	}
-	public List<OpenResult> findLastDaysData(int days){
+	
+	public int  deleteDataByDate(java.util.Date date){
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		int res=0;
+		try {
+			Connection conn = DriverManager.getConnection(connectionURL);
+			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+			String day=format.format(date);
+			PreparedStatement preStatement=conn.prepareStatement("delete  from openResult where opendate = DATE('"+day+"')");
+			 res=preStatement.executeUpdate();
+			conn.close();
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return res;
+	}
+	public  Map<Integer,OpenResult> findOneDayData(java.util.Date date){
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		Map<Integer,OpenResult> all=new HashMap<Integer, OpenResult>();
+		try {
+			Connection conn = DriverManager.getConnection(connectionURL);
+			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+			String day=format.format(date);
+			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult where opendate =  DATE('"+day+"')");
+			ResultSet set=preStatement.executeQuery();
+			
+			while(set.next()){
+				OpenResult  openResult=new OpenResult();
+				Date  opendate=set.getDate("opendate");
+				int result=set.getInt("result");
+				int  id=set.getInt("id");
+				int  dateIndex=set.getInt("dateIndex");
+				openResult.setOpendate(opendate);
+				openResult.setResult(result);
+				openResult.setId(id);
+				openResult.setDateIndex(dateIndex);
+				all.put(openResult.getDateIndex(), openResult);
+			}
+			conn.close();
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return all;
+	}
+	public List<OpenResult> findLastDayData(){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		List<OpenResult> all=new ArrayList<OpenResult>();
 		try {
 			Connection conn = DriverManager.getConnection(connectionURL);
-			Calendar calendar=Calendar.getInstance();
-			calendar.setTime(new Date(System.currentTimeMillis()));
-			calendar.add(Calendar.DAY_OF_YEAR, 0-days);
-			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
-			String day=format.format(calendar.getTime());
-			
-			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult where opendate > DATE('"+day+"')");
+			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult where opendate = (select MAX(opendate) from openResult )");
 			ResultSet set=preStatement.executeQuery();
 			
 			while(set.next()){
@@ -115,7 +152,39 @@ public class DataDao {
 		}
 		return all;
 	}
-	public Map<Integer,Integer> groupLastDaysData(int days){
+	public List<OpenResult> findDataBeforeToday(int days){
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		List<OpenResult> all=new ArrayList<OpenResult>();
+		try {
+			Connection conn = DriverManager.getConnection(connectionURL);
+			Calendar calendar=Calendar.getInstance();
+			calendar.setTime(new Date(System.currentTimeMillis()));
+			calendar.add(Calendar.DAY_OF_YEAR, 0-days);
+			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+			String day=format.format(calendar.getTime());
+			
+			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult where opendate >= DATE('"+day+"')");
+			ResultSet set=preStatement.executeQuery();
+			
+			while(set.next()){
+				OpenResult  openResult=new OpenResult();
+				Date  date=set.getDate("opendate");
+				int result=set.getInt("result");
+				int  id=set.getInt("id");
+				int  dateIndex=set.getInt("dateIndex");
+				openResult.setOpendate(date);
+				openResult.setResult(result);
+				openResult.setId(id);
+				openResult.setDateIndex(dateIndex);
+				all.add(openResult);
+			}
+			conn.close();
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return all;
+	}
+	public Map<Integer,Integer> groupDataBeforeToday(int days){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		Map<Integer,Integer> result=new HashMap<Integer, Integer>();
 		try {
@@ -125,7 +194,7 @@ public class DataDao {
 			calendar.add(Calendar.DAY_OF_YEAR, 0-days);
 			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
 			String day=format.format(calendar.getTime());
-			PreparedStatement preStatement=conn.prepareStatement("select  count(*) as allcount,result from openResult  where opendate> DATE('"+day+"') group by result");
+			PreparedStatement preStatement=conn.prepareStatement("select  count(*) as allcount,result from openResult  where opendate>= DATE('"+day+"') group by result");
 			ResultSet set=preStatement.executeQuery();
 			
 			while(set.next()){
@@ -161,7 +230,7 @@ public class DataDao {
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
 //		dao.dropTable();
-//		dao.createTable();
+		dao.createTable();
 		
 //		OpenResult  result=new OpenResult();
 //		SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
@@ -179,12 +248,12 @@ public class DataDao {
 //		Map<Integer,Integer> map=dao.groupLastDaysData(2);
 //		System.out.println(map.toString());
 		
-	List<OpenResult> results=dao.findLastDaysData(1);	
-	SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
-	for(OpenResult r:results){
-		String date=format.format(r.getOpendate());
-		System.out.println(date+":"+r.getResult());
-	}
+//	List<OpenResult> results=dao.findLastDayData();	
+//	SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+//	for(OpenResult r:results){
+//		String date=format.format(r.getOpendate());
+//		System.out.println(date+":"+r.getResult());
+//	}
 		
 //		int all=dao.findAll().size();
 //		Map<Integer,Integer> sum=dao.groupAll();
