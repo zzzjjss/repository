@@ -38,9 +38,10 @@ public class AutoSynch implements Runnable{
 					Map<Integer,Float> allStatistic=tool.allDataStatistics();
 					Map<Integer,Float> todayStatistic=tool.statisticsBeforToday(0);
 					printStatistic(allStatistic,todayStatistic,"today");
-					System.out.println("|   | \n |    | \n |    | \n\\/    \\/");
+					System.out.println(" |   |\n |   |\n |   |\n\\/   \\/");
 					Map<Integer,Float> befor1=tool.statisticsBeforToday(1);
 					printStatistic(allStatistic,befor1,"latest 2 days ");
+					System.out.println(" |   |\n |   |\n |   |\n\\/   \\/");
 					Map<Integer,Float> befor2=tool.statisticsBeforToday(2);
 					printStatistic(allStatistic,befor2,"latest 3 days ");
 					Thread.sleep(5*60*1000);
@@ -56,19 +57,19 @@ public class AutoSynch implements Runnable{
 	
 	public void printStatistic(Map<Integer,Float> allStatistic,Map<Integer,Float> statistic,String day){
 		System.out.println("-----------------"+day+" begin---------------");
-		Map<Integer,Float> result=new TreeMap<Integer, Float>();
+		Map<Integer,String> result=new TreeMap<Integer, String>();
 		for(Integer key:allStatistic.keySet()){
 			float globalPercent=allStatistic.get(key);
 			Float todayPercent=statistic.get(key);
 			if(todayPercent==null){
-				result.put(key, globalPercent);
+				result.put(key, "("+globalPercent+"-0)==>"+(globalPercent*100)+"%");
 			}else{
-				result.put(key, globalPercent-todayPercent);
+				result.put(key, "("+globalPercent+"-"+todayPercent+")==>"+((globalPercent-todayPercent)*100)+"%");
 			}
 		}
 		for(Integer key:result.keySet()){
-			Float percent=result.get(key);
-			System.out.println(key+"------->"+(percent*100)+"%");
+			String str=result.get(key);
+			System.out.println(key+"------->"+str);
 		}
 		
 		System.out.println("-----------------"+day+" end ---------------");
