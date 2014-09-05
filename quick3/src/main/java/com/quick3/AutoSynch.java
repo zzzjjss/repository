@@ -58,13 +58,16 @@ public class AutoSynch implements Runnable{
 	public void printStatistic(Map<Integer,Float> allStatistic,Map<Integer,Float> statistic,String day){
 		System.out.println("-----------------"+day+" begin---------------");
 		Map<Integer,String> result=new TreeMap<Integer, String>();
+		Map<Integer,Float> resultValue=new TreeMap<Integer, Float>();
 		for(Integer key:allStatistic.keySet()){
 			float globalPercent=allStatistic.get(key);
 			Float todayPercent=statistic.get(key);
 			if(todayPercent==null){
+				resultValue.put(key, globalPercent);
 				result.put(key, "("+globalPercent+"-0)==>"+(globalPercent*100)+"%");
 			}else{
 				result.put(key, "("+globalPercent+"-"+todayPercent+")==>"+((globalPercent-todayPercent)*100)+"%");
+				resultValue.put(key, globalPercent-todayPercent);
 			}
 		}
 		for(Integer key:result.keySet()){
