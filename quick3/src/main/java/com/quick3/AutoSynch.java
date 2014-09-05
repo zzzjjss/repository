@@ -38,6 +38,7 @@ public class AutoSynch implements Runnable{
 					Map<Integer,Float> allStatistic=tool.allDataStatistics();
 					Map<Integer,Float> todayStatistic=tool.statisticsBeforToday(0);
 					printStatistic(allStatistic,todayStatistic,"today");
+					System.out.println("|   | \n |    | \n |    | \n\\/    \\/");
 					Map<Integer,Float> befor1=tool.statisticsBeforToday(1);
 					printStatistic(allStatistic,befor1,"latest 2 days ");
 					Map<Integer,Float> befor2=tool.statisticsBeforToday(2);
@@ -65,22 +66,11 @@ public class AutoSynch implements Runnable{
 				result.put(key, globalPercent-todayPercent);
 			}
 		}
-		float all=0.0f;
 		for(Integer key:result.keySet()){
-			Float  percent=result.get(key);
-			all+=percent;
-		}
-		Map<Integer,Float> result2=new TreeMap<Integer, Float>();
-		
-		for(Integer key:result.keySet()){
-			Float  percent=result.get(key);
-			result2.put(key, percent/all);
+			Float percent=result.get(key);
+			System.out.println(key+"------->"+(percent*100)+"%");
 		}
 		
-		for(Integer key:result2.keySet()){
-			float percent=result2.get(key);
-			System.out.println(key+"--------->"+(percent*100)+"%");
-		}
 		System.out.println("-----------------"+day+" end ---------------");
 	}
 	

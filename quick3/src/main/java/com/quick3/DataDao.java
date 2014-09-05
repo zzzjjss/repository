@@ -229,7 +229,7 @@ public class DataDao {
 	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
-//		dao.dropTable();
+		dao.dropTable();
 		dao.createTable();
 		
 //		OpenResult  result=new OpenResult();

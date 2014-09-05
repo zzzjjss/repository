@@ -51,14 +51,14 @@ public class DataSynchronizer {
 			try {
 				calendar.setTime(from);
 				String res=synchOneDateData(from);
-				calendar.add(GregorianCalendar.DAY_OF_YEAR, 1);
-				from=calendar.getTime();
-				fromInt = Integer.valueOf(format.format(from));
 				// System.out.println(res);
-				List<OpenResult> openResults = parsePage(calendar.getTime(), res);
+				List<OpenResult> openResults = parsePage(from, res);
 				for (OpenResult result : openResults) {
 					dao.insertOpenResult(result);
 				}
+				calendar.add(GregorianCalendar.DAY_OF_YEAR, 1);
+				from=calendar.getTime();
+				fromInt = Integer.valueOf(format.format(from));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
