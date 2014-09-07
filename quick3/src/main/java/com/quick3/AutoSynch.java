@@ -59,6 +59,8 @@ public class AutoSynch implements Runnable{
 		System.out.println("-----------------"+day+" begin---------------");
 		Map<Integer,String> result=new TreeMap<Integer, String>();
 		Map<Integer,Float> resultValue=new TreeMap<Integer, Float>();
+		Float  subValue=0.00000f;
+		Float validTotal=0.00000f;
 		for(Integer key:allStatistic.keySet()){
 			float globalPercent=allStatistic.get(key);
 			Float todayPercent=statistic.get(key);
@@ -66,14 +68,39 @@ public class AutoSynch implements Runnable{
 				resultValue.put(key, globalPercent);
 				result.put(key, "("+globalPercent+"-0)==>"+(globalPercent*100)+"%");
 			}else{
-				result.put(key, "("+globalPercent+"-"+todayPercent+")==>"+((globalPercent-todayPercent)*100)+"%");
-				resultValue.put(key, globalPercent-todayPercent);
+				float  tmp=globalPercent-todayPercent;
+				if(tmp<0){
+					subValue+=todayPercent;
+				}else{
+					subValue+=tmp;
+					validTotal+=globalPercent;
+				}
+				result.put(key, "("+globalPercent*100+"-"+todayPercent*100+")==>"+(tmp*100)+"%");
+				resultValue.put(key, tmp);
 			}
 		}
+		
+		Map<Integer,Float> percentResult=new TreeMap<Integer, Float>();
+		for(Integer key:resultValue.keySet()){
+			Float tmp=resultValue.get(key);
+			if(tmp<0){
+				percentResult.put(key, 0f);
+			}else{
+				Float a=allStatistic.get(key);
+				Float b=(a/validTotal)*100*subValue;
+				percentResult.put(key, tmp+b);
+						
+			}
+		}
+		
+		
+		
 		for(Integer key:result.keySet()){
 			String str=result.get(key);
-			System.out.println(key+"------->"+str);
+			System.out.println(key+"------->"+str+" --------->"+percentResult.get(key)+"%");
 		}
+		
+		
 		
 		System.out.println("-----------------"+day+" end ---------------");
 	}
