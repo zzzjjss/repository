@@ -30,10 +30,19 @@ public class DataDao {
 		}
 	}
 	
-	public void createTable(){
+	public void createTableIfNotExist(){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		try {
 			Connection conn = DriverManager.getConnection(connectionURL);
+			PreparedStatement preStatement=conn.prepareStatement("select  * from sys.SYSTABLES ");
+			ResultSet set=preStatement.executeQuery();
+			while(set.next()){
+				String tablesName=set.getString("TABLENAME");
+				if(tablesName.equalsIgnoreCase("openResult")){
+					return;
+				}
+			}
+			preStatement.close();
 			Statement statement=conn.createStatement();
 			statement.execute("create table openResult (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) ,opendate DATE not NULL,dateIndex INTEGER NOT NULL,result INTEGER NOT NULL, PRIMARY KEY (id) )");
 			statement.close();
@@ -42,6 +51,7 @@ public class DataDao {
 		   e.printStackTrace();
 		}
 	}
+	
 	public void dropTable(){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		try {
@@ -229,8 +239,9 @@ public class DataDao {
 	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
+		dao.createTableIfNotExist();
 		//dao.dropTable();
-		dao.createTable();
+		//dao.createTable();
 		
 //		OpenResult  result=new OpenResult();
 //		SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");

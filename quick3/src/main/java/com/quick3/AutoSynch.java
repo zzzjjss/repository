@@ -16,6 +16,7 @@ public class AutoSynch implements Runnable{
 	public void run() {
 		try{
 			DataDao dao=new DataDao();
+			dao.createTableIfNotExist();
 			List<OpenResult> lastDayData=dao.findLastDayData();
 			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
 			Date lastDate=format.parse("2012-12-01");
