@@ -1,8 +1,10 @@
 package com.quick3;
 
 import java.lang.management.ManagementFactory;
+import java.util.List;
 import java.util.Map;
 
+import javax.management.AttributeChangeNotification;
 import javax.management.MBeanServer;
 import javax.management.Notification;
 import javax.management.NotificationListener;
@@ -22,6 +24,13 @@ public class Main {
 			mbs.addNotificationListener(name, new NotificationListener() {
 				
 				public void handleNotification(Notification notification, Object arg1) {
+					if(notification instanceof AttributeChangeNotification){
+						AttributeChangeNotification noti=(AttributeChangeNotification)notification;
+						List<OpenResult> newOpens =(List<OpenResult>)noti.getNewValue();	
+						for(OpenResult open:newOpens){
+							System.out.println(open.getDateIndex()+":"+open.getResult());
+						}
+					}
 					StatisticsTool tool=new StatisticsTool();
 					int days=0;
 					Map<Integer,Float> allStatistic=tool.allDataStatistics();

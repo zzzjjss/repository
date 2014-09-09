@@ -28,6 +28,8 @@ public class AutoSynch implements Runnable{
 			Date today=new Date(System.currentTimeMillis());
 			syn.synchAndSaveData(lastDate, today);
 			MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+			ObjectName name = new ObjectName("com.quick3:type=LatestOpenResult"); 
+			mbs.setAttribute(name,new Attribute("LatestOpenResults", dao.findLastDayData()));
 			while(true){
 				try{
 					today=new Date(System.currentTimeMillis());
@@ -43,8 +45,7 @@ public class AutoSynch implements Runnable{
 						}
 					}
 					if(newOpens.size()>0){
-						ObjectName name = new ObjectName("com.quick3:type=LatestOpenResult"); 
-						mbs.setAttribute(name,new Attribute("latestOpenResults", newOpens));
+						mbs.setAttribute(name,new Attribute("LatestOpenResults", newOpens));
 					}
 					
 					Thread.sleep(5*60*1000);
