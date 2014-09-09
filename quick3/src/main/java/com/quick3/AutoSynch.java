@@ -46,9 +46,8 @@ public class AutoSynch implements Runnable{
 						ObjectName name = new ObjectName("com.quick3:type=LatestOpenResult"); 
 						mbs.setAttribute(name,new Attribute("latestOpenResults", newOpens));
 					}
-					ObjectName name = new ObjectName("com.quick3:type=LatestOpenResult"); 
-					mbs.setAttribute(name,new Attribute("LatestOpenResults", newOpens));
-					Thread.sleep(5*1000);
+					
+					Thread.sleep(5*60*1000);
 				}catch(Exception e){
 					e.printStackTrace();
 				}

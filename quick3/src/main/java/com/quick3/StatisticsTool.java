@@ -38,7 +38,6 @@ public class StatisticsTool {
 	public Map<Integer,StatisticResult> getStatistic(Map<Integer,Float> allStatistic,Map<Integer,Float> statistic,int day){
 		Map<Integer,StatisticResult> returnRes=new HashMap<Integer, StatisticResult>();
 		Map<Integer,Float> resultValue=new TreeMap<Integer, Float>();
-		Float  subValue=0.00000f;
 		Float validTotal=1f;
 		for(Integer key:allStatistic.keySet()){
 			StatisticResult sta=new StatisticResult();
@@ -49,38 +48,28 @@ public class StatisticsTool {
 			Float todayPercent=statistic.get(key);
 			returnRes.put(key, sta);
 			if(todayPercent==null){
-				resultValue.put(key, globalPercent);
-				sta.setDaysPercent(0.0000f);
+				todayPercent=0.00f;
+			}
+			sta.setDaysPercent(todayPercent);
+			float  tmp=globalPercent-todayPercent;
+			resultValue.put(key, tmp);
+			if(tmp<=0){
+				validTotal-=globalPercent;
 			}else{
-				sta.setDaysPercent(todayPercent);
-				float  tmp=globalPercent-todayPercent;
-				if(tmp<0){
-					subValue+=globalPercent;
-					validTotal-=globalPercent;
-				}else{
-					subValue+=tmp;
-					validTotal-=todayPercent;
-				}
-				
-				resultValue.put(key, tmp);
+				validTotal-=todayPercent;
 			}
 		}
 		
-		Map<Integer,Float> percentResult=new TreeMap<Integer, Float>();
 		for(Integer key:resultValue.keySet()){
 			StatisticResult statis=returnRes.get(key);
 			
 			Float tmp=resultValue.get(key);
-			if(tmp<0){
-				percentResult.put(key, 0f);
+			if(tmp<=0){
 				statis.setNextOpenPercent(0f);
 			}else{
-				Float a=allStatistic.get(key);
-				Float b=(a/validTotal)*100*subValue;
+				Float b=(tmp/validTotal)*(1-validTotal);
 				float nextOpenPercent=tmp+b;
 				statis.setNextOpenPercent(nextOpenPercent);
-				percentResult.put(key, nextOpenPercent);
-				
 			}
 		}
 		

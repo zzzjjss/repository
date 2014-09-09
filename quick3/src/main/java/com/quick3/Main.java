@@ -33,7 +33,8 @@ public class Main {
 						float  global=statistic.getGlobalPercent();
 						float  daysPercent=statistic.getDaysPercent();
 						float sub=global-daysPercent;
-						System.out.println(key+"---->("+global+"-"+daysPercent+"="+sub+")--------->"+statistic.getNextOpenPercent());
+						float nextPercent=statistic.getNextOpenPercent();
+						System.out.println(key+"---->("+global*100+"%-"+daysPercent*100+"% ="+sub*100+"% )--------->"+nextPercent*100+"%");
 					}
 					System.out.println("----------------------befor today "+days+" end--------------------");
 				}

@@ -3,9 +3,9 @@ package com.quick3.bean;
 public class StatisticResult {
 	int days;
 	int openResult;
-	float nextOpenPercent;
-	float globalPercent;
-	float daysPercent;
+	Float nextOpenPercent;
+	Float globalPercent;
+	Float daysPercent;
 	public int getDays() {
 		return days;
 	}
@@ -18,22 +18,22 @@ public class StatisticResult {
 	public void setOpenResult(int openResult) {
 		this.openResult = openResult;
 	}
-	public float getNextOpenPercent() {
+	public Float getNextOpenPercent() {
 		return nextOpenPercent;
 	}
-	public void setNextOpenPercent(float nextOpenPercent) {
+	public void setNextOpenPercent(Float nextOpenPercent) {
 		this.nextOpenPercent = nextOpenPercent;
 	}
-	public float getGlobalPercent() {
+	public Float getGlobalPercent() {
 		return globalPercent;
 	}
-	public void setGlobalPercent(float globalPercent) {
+	public void setGlobalPercent(Float globalPercent) {
 		this.globalPercent = globalPercent;
 	}
-	public float getDaysPercent() {
+	public Float getDaysPercent() {
 		return daysPercent;
 	}
-	public void setDaysPercent(float daysPercent) {
+	public void setDaysPercent(Float daysPercent) {
 		this.daysPercent = daysPercent;
 	}
 	
