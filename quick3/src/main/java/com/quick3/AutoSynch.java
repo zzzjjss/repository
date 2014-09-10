@@ -49,7 +49,7 @@ public class AutoSynch implements Runnable{
 						mbs.setAttribute(name,new Attribute("LatestOpenResults", newOpens));
 					}
 					
-					Thread.sleep(5*60*1000);
+					Thread.sleep(2*60*1000);
 				}catch(Exception e){
 					e.printStackTrace();
 				}

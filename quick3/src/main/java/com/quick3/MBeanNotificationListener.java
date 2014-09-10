@@ -58,7 +58,7 @@ public class MBeanNotificationListener implements NotificationListener{
 			float sub=global-daysPercent;
 			float nextPercent=statistic.getNextOpenPercent();
 			String outInfo=statistic.getOpenResult()+"---->("+global*100+"%-"+daysPercent*100+"% ="+sub*100+"% )--------->"+nextPercent*100+"%";
-			if(nextPercent>=0.4){
+			if(nextPercent>=0.3){
 				importInfo.append("(before today"+daysBeforeToday+")--->"+outInfo+"\n");
 			}
 			System.out.println(outInfo);
