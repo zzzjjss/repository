@@ -19,18 +19,18 @@ public class TestQuick3 {
 				}
 			}
 		}
-		allCount.put("32", 1);
-		allCount.put("33", 1);
-		allCount.put("34", 1);
-		allCount.put("35", 1);
+//		allCount.put("32", 1);
+//		allCount.put("33", 1);
+//		allCount.put("34", 1);
+//		allCount.put("35", 1);
 		
 		int  all=6*6*6;
 		
 		for(String key:allCount.keySet()){
 			Integer value=allCount.get(key);
-			if(key.equals("6")||key.equals("9")||key.equals("12")||key.equals("15")){
-				value=value-1;	
-			}
+//			if(key.equals("6")||key.equals("9")||key.equals("12")||key.equals("15")){
+//				value=value-1;	
+//			}
 			float percent=((float)value)/(float)all;
 			float  money=0;
 			if(key.equals("4")||key.equals("17")){

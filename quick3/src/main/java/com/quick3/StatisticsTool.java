@@ -22,6 +22,31 @@ public class StatisticsTool {
 		return statistics;
 		
 	}
+	public Map<Integer,Float> theoryStatistics(){
+		Map<Integer,Float>  result=new HashMap<Integer,Float>();
+		Map<String,Integer>  allCount=new HashMap<String, Integer>();
+		for(int i=1;i<=6;i++){
+			for(int j=1;j<=6;j++){
+				for(int k=1;k<=6;k++){
+					String sum=String.valueOf(i+j+k);
+					Integer count=allCount.get(sum);
+					if(count==null){
+						allCount.put(sum, 1);
+					}else{
+						allCount.put(sum, count+1);
+					}
+				}
+			}
+		}
+		
+		int  all=6*6*6;
+		for(String key:allCount.keySet()){
+			Integer value=allCount.get(key);
+			float percent=((float)value)/(float)all;
+			result.put(Integer.valueOf(key), percent);
+		}
+		return result;
+	}
 	public Map<Integer,Float> statisticsBeforToday(int days){
 		Map<Integer,Float>  statistics=new TreeMap<Integer, Float>();
 		Map<Integer,Integer> numberCount=dao.groupDataBeforeToday(days);

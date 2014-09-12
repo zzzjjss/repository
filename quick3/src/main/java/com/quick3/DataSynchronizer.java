@@ -105,24 +105,24 @@ public class DataSynchronizer {
 		int  end=line.indexOf("</td>");
 		String tmp=line.substring(begin+1, end);
 		StringTokenizer  token=new StringTokenizer(tmp," ");
-		Set<String> elsHash=new HashSet<String>(); 
+		//Set<String> elsHash=new HashSet<String>(); 
 		List<String> els=new ArrayList<String>(); 
 		while(token.hasMoreElements()){
 			String el=token.nextToken();
 			els.add(el);
-			elsHash.add(el);
+			//elsHash.add(el);
 		}
-		if(elsHash.size()==1){
-			if(els.contains("2")){
-				return 32;
-			}else if(els.contains("3")){
-				return 33;
-			}else if(els.contains("4")){
-				return 34;
-			}else if(els.contains("5")){
-				return 35;
-			}
-		}
+//		if(elsHash.size()==1){
+//			if(els.contains("2")){
+//				return 32;
+//			}else if(els.contains("3")){
+//				return 33;
+//			}else if(els.contains("4")){
+//				return 34;
+//			}else if(els.contains("5")){
+//				return 35;
+//			}
+//		}
 		int result=0;
 		for(String e:els){
 			int value=Integer.valueOf(e);
