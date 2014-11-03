@@ -14,6 +14,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.uf.stock.dao.CompanyInfoDao;
 import com.uf.stock.util.HttpUnit;
 
 public class GetStockCodesTask implements Callable<Object>{
@@ -38,7 +39,14 @@ public class GetStockCodesTask implements Callable<Object>{
 					Pattern pattern=Pattern.compile(".*<li><a target=[\"]_blank[\"] href=[\"]http://quote[.]eastmoney[.]com.*</a></li>.*");
 					Matcher match=pattern.matcher(line);
 					if(match.find()){
-						System.out.println(line);
+						int end=line.indexOf(".html");
+						String code=line.substring(68, end);
+						System.out.println(code);
+						String nameAndCode=line.substring(83, line.length()-9);
+						int a=nameAndCode.indexOf("(");
+						String name=nameAndCode.substring(0, a);
+						CompanyInfoDao  dao=new CompanyInfoDao();
+						//dao.addStockCode(code);
 					}
 					
 				}
