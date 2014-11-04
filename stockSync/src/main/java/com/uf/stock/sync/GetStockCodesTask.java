@@ -33,7 +33,7 @@ public class GetStockCodesTask implements Callable<List<String>>{
 		try {
 			responese = client.execute(getMethod);
 			HttpEntity entity = responese.getEntity();
-			BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+			BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent(),"gb2312"));
 			
 			String line = null;
 			int i=0;

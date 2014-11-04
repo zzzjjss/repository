@@ -31,39 +31,44 @@ public class GetStockInfoTask implements Callable<Object> {
 		String url = "http://cj.gw.com.cn/news/stock/" + stockCode + "/gsjs.shtml";
 		HttpGet getMethod = new HttpGet(url);
 		CloseableHttpResponse responese = null;
-		try {
-			responese = client.execute(getMethod);
-			HttpEntity entity = responese.getEntity();
-			BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
-			String line = null;
-			while ((line = br.readLine()) != null) {
-				Pattern pattern = Pattern.compile(".*<td class=[\"]graybg[\"]>主营范围:</td>.*");
-				Matcher match = pattern.matcher(line);
-				if (match.find()) {
-					StringBuilder content = new StringBuilder();
-					while ((line = br.readLine()) != null) {
-						Pattern pattern2 = Pattern.compile(".*</td>.*");
-						Matcher match2 = pattern2.matcher(line);
-						if (!match2.find()) {
-							content.append(line);
-						} else {
-							content.append(line);
-							break;
-						}
-					}
-					String contentString=content.toString();
-					CompanyInfoDao  dao=new CompanyInfoDao();
-					dao.addCompanyBusinessContet(stockCode,contentString.substring(contentString.indexOf(">")+1,contentString.lastIndexOf("<")));
-					break;
-				}
-			}
-		} catch (Exception e) {
-			logger.error("GetStockInfo from webservice error:[" + stockCode + "] ", e);
-		} finally {
+		for(int i=0;i<3;i++){
 			try {
-				responese.close();
-			} catch (IOException e) {
-				e.printStackTrace();
+				responese = client.execute(getMethod);
+				HttpEntity entity = responese.getEntity();
+				BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+				String line = null;
+				while ((line = br.readLine()) != null) {
+					Pattern pattern = Pattern.compile(".*<td class=[\"]graybg[\"]>主营范围:</td>.*");
+					Matcher match = pattern.matcher(line);
+					if (match.find()) {
+						StringBuilder content = new StringBuilder();
+						while ((line = br.readLine()) != null) {
+							Pattern pattern2 = Pattern.compile(".*</td>.*");
+							Matcher match2 = pattern2.matcher(line);
+							if (!match2.find()) {
+								content.append(line);
+							} else {
+								content.append(line);
+								break;
+							}
+						}
+						String contentString=content.toString();
+						CompanyInfoDao  dao=new CompanyInfoDao();
+						String contentStr=contentString.substring(contentString.indexOf(">")+1,contentString.lastIndexOf("<"));
+						System.out.println(contentStr);
+						dao.addCompanyBusinessContet(stockCode,contentStr);
+						break;
+					}
+				}
+				break;
+			} catch (Exception e) {
+				logger.error("GetStockInfo from webservice error:[" + stockCode + "], try again ", e);
+			} finally {
+				try {
+					responese.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 		return true;
