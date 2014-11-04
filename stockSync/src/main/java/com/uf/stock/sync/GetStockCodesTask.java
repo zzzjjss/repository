@@ -3,6 +3,8 @@ package com.uf.stock.sync;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,20 +19,22 @@ import org.apache.logging.log4j.Logger;
 import com.uf.stock.dao.CompanyInfoDao;
 import com.uf.stock.util.HttpUnit;
 
-public class GetStockCodesTask implements Callable<Object>{
+public class GetStockCodesTask implements Callable<List<String>>{
 	private CloseableHttpClient client;
 	private Logger logger = LogManager.getLogger(GetStockCodesTask.class);
 	public GetStockCodesTask(CloseableHttpClient client){
 		this.client=client;
 	}
-	public Object call() throws Exception {
+	public List<String> call() throws Exception {
 		String url = "http://quote.eastmoney.com/stocklist.html";
 		HttpGet getMethod=new HttpGet(url);
 		CloseableHttpResponse responese=null;
+		List<String> codes=new ArrayList<String>();
 		try {
 			responese = client.execute(getMethod);
 			HttpEntity entity = responese.getEntity();
 			BufferedReader br = new BufferedReader(new InputStreamReader(entity.getContent()));
+			
 			String line = null;
 			int i=0;
 			while ((line = br.readLine()) != null) {
@@ -46,7 +50,8 @@ public class GetStockCodesTask implements Callable<Object>{
 						int a=nameAndCode.indexOf("(");
 						String name=nameAndCode.substring(0, a);
 						CompanyInfoDao  dao=new CompanyInfoDao();
-						//dao.addStockCode(code);
+						dao.addStockCodeAndName(code, name);
+						codes.add(code);
 					}
 					
 				}
@@ -60,7 +65,7 @@ public class GetStockCodesTask implements Callable<Object>{
 				e.printStackTrace();
 			}
 		}
-		return true;
+		return codes;
 	}
 public static void main(String[] args) {
 	GetStockCodesTask task=new GetStockCodesTask(HttpUnit.createHttpClient());

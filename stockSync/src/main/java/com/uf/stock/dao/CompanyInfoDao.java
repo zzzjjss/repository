@@ -5,13 +5,14 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
 public class CompanyInfoDao {
-	public void addStockCode(String  stockCode){
+	public void addStockCodeAndName(String  stockCode,String name){
 		Connection con=null;
 		PreparedStatement preState=null;
 		try {
 			con=DBConnectionUtil.getDBConnection();
-			preState=con.prepareStatement("insert into company_info(stock_code) values(?) ");
+			preState=con.prepareStatement("insert into company_info(stock_code,company_name) values(?,?) ");
 			preState.setString(1, stockCode);
+			preState.setString(2, name);
 			preState.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -28,13 +29,14 @@ public class CompanyInfoDao {
 		}
 		
 	}
-	public void addCompanyBusinessContet(String  businessContent){
+	public void addCompanyBusinessContet(String stockCode,String  businessContent){
 		Connection con=null;
 		PreparedStatement preState=null;
 		try {
 			con=DBConnectionUtil.getDBConnection();
-			preState=con.prepareStatement(" update company_info set stock_code=? ");
+			preState=con.prepareStatement(" update company_info set business_content=? where stock_code=?");
 			preState.setString(1, businessContent);
+			preState.setString(2, stockCode);
 			preState.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -14,6 +14,7 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.uf.stock.dao.CompanyInfoDao;
 import com.uf.stock.util.HttpUnit;
 
 public class GetStockInfoTask implements Callable<Object> {
@@ -51,7 +52,8 @@ public class GetStockInfoTask implements Callable<Object> {
 						}
 					}
 					String contentString=content.toString();
-					System.out.println(contentString.substring(contentString.indexOf(">")+1,contentString.lastIndexOf("<")));
+					CompanyInfoDao  dao=new CompanyInfoDao();
+					dao.addCompanyBusinessContet(stockCode,contentString.substring(contentString.indexOf(">")+1,contentString.lastIndexOf("<")));
 					break;
 				}
 			}
@@ -68,7 +70,7 @@ public class GetStockInfoTask implements Callable<Object> {
 	}
 
 	public static void main(String[] args) {
-		GetStockInfoTask task = new GetStockInfoTask("sz002396", HttpUnit.createHttpClient());
+		GetStockInfoTask task = new GetStockInfoTask("sz300347", HttpUnit.createHttpClient());
 		task.call();
 	}
 }
