@@ -2,7 +2,12 @@ package com.uf.stock.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.uf.stock.bean.CompanyInfo;
 
 public class CompanyInfoDao {
 	public void addStockCodeAndName(String  stockCode,String name){
@@ -52,5 +57,42 @@ public class CompanyInfoDao {
 				}
 		}
 		
+	}
+	public List<CompanyInfo> findAll(){
+		Connection con=null;
+		PreparedStatement preState=null;
+		List<CompanyInfo>  infos=new ArrayList<CompanyInfo>();
+		try {
+			con=DBConnectionUtil.getDBConnection();
+			preState=con.prepareStatement(" select * from company_info ");
+			ResultSet result=preState.executeQuery();
+			
+			while(result.next()){
+				String stockCode=result.getString("stock_code");
+				String name=result.getString("company_name");
+				String content=result.getString("business_content");
+				if(content!=null){
+					CompanyInfo info=new CompanyInfo();
+					info.setStockCode(stockCode);
+					info.setCompanyName(name);
+					info.setBusinessContent(content);
+					infos.add(info);
+				}
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}finally{
+				try {
+					if(preState!=null)
+						preState.close();
+					if(con!=null)
+						con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		return infos;
 	}
 }
