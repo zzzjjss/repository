@@ -1,5 +1,6 @@
 package com.uf.stockshow.dao;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import net.sf.json.JSONObject;
@@ -9,6 +10,7 @@ import org.neo4j.graphdb.Node;
 import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.traversal.Traverser;
+import org.neo4j.tooling.GlobalGraphOperations;
 
 import com.uf.stockshow.bean.Business;
 import com.uf.stockshow.bean.BusinessRalationship;
@@ -21,7 +23,15 @@ public class Neo4jDao {
 	}
 	
 	public List<Business> findAllNodes(){
-		return null;
+		List<Business> result=new ArrayList<Business>();
+		GlobalGraphOperations global=GlobalGraphOperations.at(db);
+		for(Node node:global.getAllNodes()){
+			Business business=new Business();
+			business.setName((String)node.getProperty("name"));
+			result.add(business);
+			
+		}
+		return result;
 	}
 	
 	public void addNodeRelationship(Business from ,List<Business> to,BusinessRalationship raltionship){
