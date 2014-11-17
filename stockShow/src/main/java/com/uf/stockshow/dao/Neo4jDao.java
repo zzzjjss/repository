@@ -7,7 +7,6 @@ import net.sf.json.JSONObject;
 
 import org.neo4j.graphdb.GraphDatabaseService;
 import org.neo4j.graphdb.Node;
-import org.neo4j.graphdb.Path;
 import org.neo4j.graphdb.Relationship;
 import org.neo4j.graphdb.traversal.Traverser;
 import org.neo4j.tooling.GlobalGraphOperations;
@@ -19,7 +18,10 @@ import com.uf.stockshow.bean.NetGraph;
 public class Neo4jDao {
 	private  GraphDatabaseService db =DbFactory.getDb();
 	public void addBusinessNodes(List<Business> businesses){
-		
+		for(Business bus:businesses){
+			Node node=db.createNode();
+			node.setProperty("name", bus.getName());
+		}
 	}
 	
 	public List<Business> findAllNodes(){
@@ -35,7 +37,11 @@ public class Neo4jDao {
 	}
 	
 	public void addNodeRelationship(Business from ,List<Business> to,BusinessRalationship raltionship){
-		
+		Node node = db.getNodeById(from.getId());
+		for(Business bus:to){
+			Node toNode=db.getNodeById(bus.getId());
+			node.createRelationshipTo(toNode, raltionship);
+		}
 	}
 	
 	public NetGraph getNodeNetGraph(long nodeId){
