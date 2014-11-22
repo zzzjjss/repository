@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/vis/vis.js"></script>
+<script type="text/javascript" src="js/chosen/chosen.jquery.js"></script>
+<link href="js/vis/vis.css" type="text/css" rel="stylesheet">
+<link href="js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
+<link href="js/chosen/chosen.css" type="text/css" rel="stylesheet">
+<title>Insert title here</title>
+</head>
+<body>
+	<div class="container-fluid" style="margin-top: 10px;">
+		<div class="row">
+			<div class="col-md-2">
+				<ul class="nav nav-pills nav-stacked">
+					<li role="presentation" class="active" id="contentMain"><a href="#"  >ContentMain</a></li>
+					<li role="presentation" id="relationshipMain"><a href="#"  >relationshipMain</a></li>
+					<li role="presentation" id="relationshipShow"><a href="#" >relationshipShow</a></li>
+				</ul>
+			</div>
+			<div class="col-md-10" id="content"></div>
+		</div>
+
+	</div>
+
+
+
+</body>
+<script type="text/javascript">
+$(document).ready(function(){
+	$("li ").click(function(){
+		$("li").removeClass("active");
+		$(this).addClass("active");
+		var id=$(this).attr("id");
+		
+		$("#content").empty();
+		$("#content").load(id+".html");
+		
+		
+	});
+});
+	</script>
+</html>

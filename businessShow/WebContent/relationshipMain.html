@@ -1,0 +1,27 @@
+<div class="panel panel-default">
+   	<div class="panel-body " style="height: 800px;">
+			<div class="row">
+				<div class="col-lg-6">
+					<div class="input-group">
+						<select id="busFrom">
+							<option>ab</option>
+						</select>
+						
+						<select id="ralationship">
+							<option>contain</option>
+							<option>denpend</option>
+						</select>
+						
+						<select  multiple >
+							<option>bb</option>
+							<option>cc</option>
+						</select>
+							<button class="btn btn-default" type="button">Sure</button>
+					</div>
+				</div>
+			</div>
+   	</div>
+</div>
+$(document).ready(function(){
+	$("#busFrom").chosen();
+});
