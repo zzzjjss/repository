@@ -1,17 +1,15 @@
-<meta charset="UTF-8">
-
 <div class="panel panel-default">
 	<div class="panel-body">
-		<select id="bussiness">
+		<select id="business">
 			<option>ab</option>
 		</select>
 		<div id="businessGraph" style="width: 100%; height: 800px;"></div>
 	</div>
 </div>
 
-
 <script type="text/javascript">
 $(document).ready(function(){
+	$("#business").select2();
 	showGraph();
 });
 
@@ -37,7 +35,7 @@ function showGraph() {
 	var edges = [ {
 		from : 1,
 		to : 2,
-		label : "依赖"
+		label : "contain"
 	}, {
 		from : 1,
 		to : 3
