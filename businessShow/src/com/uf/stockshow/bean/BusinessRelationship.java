@@ -2,7 +2,7 @@ package com.uf.stockshow.bean;
 
 import org.neo4j.graphdb.RelationshipType;
 
-public enum BusinessRalationship implements RelationshipType{
+public enum BusinessRelationship implements RelationshipType{
 	COMPETITIVE,DEPEND,INCLUDE
 
 }
