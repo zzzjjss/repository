@@ -19,26 +19,18 @@ $(document).ready(function(){
 });
 function showAllBusiness(){
 	var url="/businessShow/findAllNodes.do";
-	$.ajax
-	(
+	var  nodeData="a",relationData="b";
+	$.ajax(
 		{
 			type: "POST",
 			url: url,
 			cache: false,
 			dataType: "json",
+			async :false,
 			success: 
 				function(nodes)
 				{   
-					var container = document.getElementById('allBusiness');
-					var data = {
-						nodes : nodes
-					};
-					var options = {
-						width : '100%',
-						height : '100%'
-					};
-					var network = new vis.Network(container, data, options);
-								
+					nodeData=nodes;
 				},
 			error: 
 				function(jqXHR, textStatus, errorThrown )
@@ -47,6 +39,37 @@ function showAllBusiness(){
 				}
 		}
 	);
+	var getRela="/businessShow/findAllRelationship.do";
+	$.ajax(
+		{
+			type: "POST",
+			url: getRela,
+			cache: false,
+			dataType: "json",
+			async :false,
+			success: 
+				function(relations)
+				{   
+					relationData=relations;
+				},
+			error: 
+				function(jqXHR, textStatus, errorThrown )
+				{
+					alert(errorThrown); 
+				}
+		}
+	);
+	var container = document.getElementById('allBusiness');
+	var data = {
+		nodes : nodeData,
+		edges:relationData
+	};
+	var options = {
+		width : '100%',
+		height : '100%'
+	};
+	var network = new vis.Network(container, data, options);
+	
 }
 
 	function addBusiness(){
