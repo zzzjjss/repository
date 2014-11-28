@@ -6,13 +6,13 @@
 			<div class="row">
 				<div class="col-lg-10">
 					<div class="input-group">
-						<select id="busFrom" style="width: 100px;">
+						<select id="busFrom" style="width: 100px;" onchange="showNodeGraph()">
 							<c:forEach items="${nodes}" var="element" >
 								<option value="${element.id}">${element.name}</option>
 							</c:forEach>
 						</select>
 						
-						<select id="relationship" style="margin-left: 30px;width:100px">
+						<select id="relationship" style="margin-left: 30px;width:100px" onchange="showNodeGraph()">
 							<c:forEach items="${relations}" var="element">
 								<option value="${element}">${element}</option>
 							</c:forEach>
@@ -35,13 +35,20 @@ $(document).ready(function(){
 	$("#busFrom").select2();
 	$("#relationship").select2();
 	$("#busTo").select2();
-	showAllBusiness();
+	showNodeGraph();
 });
 
 function addRelation(){
 	var busFrom=$("#busFrom").val();
 	var busTo=$("#busTo").val();
+	if(busTo==null){
+		busTo="";
+	}
 	var relation=$("#relationship").val();
+	if(busFrom==""||relation==""){
+		alert("please select  busFrom and  relationship");
+		return;
+	}
 	console.log(busFrom+"-->"+busTo+"-->"+relation);
 	var url="/businessShow/addRelation.do";
 	$.ajax
@@ -55,7 +62,7 @@ function addRelation(){
 				function(result)
 				{   
 					if(result=="ok"){
-						showAllBusiness();
+						showNodeGraph();
 					}else{
 						alert(result);
 					}
@@ -70,20 +77,23 @@ function addRelation(){
 	);
 }
 
-function showAllBusiness(){
-	var url="/businessShow/findAllNodes.do";
-	var  nodeData="a",relationData="b";
+function showNodeGraph(){
+	var url="/businessShow/getNodeOneDepthRelationGraph.do";
+	var busFrom=$("#busFrom").val();
+	var relation=$("#relationship").val();
+	var  nodeData,relationData;
 	$.ajax(
 		{
 			type: "POST",
-			url: url,
+			url: url+"?nodeId="+busFrom+"&relation="+relation,
 			cache: false,
 			dataType: "json",
 			async :false,
 			success: 
-				function(nodes)
+				function(result)
 				{   
-					nodeData=nodes;
+					nodeData=result.nodes;
+					relationData=result.edges;
 				},
 			error: 
 				function(jqXHR, textStatus, errorThrown )
@@ -92,26 +102,18 @@ function showAllBusiness(){
 				}
 		}
 	);
-	var getRela="/businessShow/findAllRelationship.do";
-	$.ajax(
-		{
-			type: "POST",
-			url: getRela,
-			cache: false,
-			dataType: "json",
-			async :false,
-			success: 
-				function(relations)
-				{   
-					relationData=relations;
-				},
-			error: 
-				function(jqXHR, textStatus, errorThrown )
-				{
-					alert(errorThrown); 
-				}
-		}
-	);
+	var  toNodes=new Array();
+	
+	for(var i=0;i<nodeData.length;i++){
+		var nodeId=nodeData[i].id;
+		console.log(nodeId);
+		if(nodeId!=busFrom){
+			console.log(nodeId);
+			toNodes.push(nodeId);
+		}	
+	}
+	$("#busTo").select2("val",toNodes);
+	
 	var container = document.getElementById('allBusiness');
 	var data = {
 		nodes : nodeData,
@@ -119,7 +121,11 @@ function showAllBusiness(){
 	};
 	var options = {
 		width : '100%',
-		height : '100%'
+		height : '100%',
+		edges : {
+			style : "arrow-center"
+		},
+		hierarchicalLayout: true
 	};
 	var network = new vis.Network(container, data, options);
 	

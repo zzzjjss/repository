@@ -1,6 +1,7 @@
 package com.uf.stockshow.bean;
 
 import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 public class NetGraph {
 	private JSONArray nodes;
@@ -17,5 +18,10 @@ public class NetGraph {
 	public void setEdges(JSONArray edges) {
 		this.edges = edges;
 	}
-	
+	public String toString(){
+		JSONObject  obj=new JSONObject();
+		obj.put("nodes", nodes);
+		obj.put("edges", edges);
+		return obj.toString();
+	}
 }

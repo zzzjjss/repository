@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uf.stockshow.bean.Business;
 import com.uf.stockshow.bean.BusinessRelationship;
+import com.uf.stockshow.bean.NetGraph;
 import com.uf.stockshow.bean.RelationShip;
 import com.uf.stockshow.dao.Neo4jDao;
+import com.uf.stockshow.unit.StringUtil;
 
 @Controller
 public class BusinessController {
@@ -39,7 +41,9 @@ public class BusinessController {
 		return "relationshipMain";
 	}
 	@RequestMapping("/relationshipShow")
-	public String relationshipShow(){
+	public String relationshipShow(ModelMap model){
+		List<Business> allBusiness=dao.findAllNodes();
+		model.addAttribute("nodes", allBusiness);
 		return "relationshipShow";
 	}
 	
@@ -50,16 +54,18 @@ public class BusinessController {
 		String busTo=allRequestParams.get("busTo");
 		String relation=allRequestParams.get("relationship");
 		
-		
-		List<String> busTos=Arrays.asList(busTo.split(","));
 		Business  fromBus=new Business();
 		fromBus.setId(Long.parseLong(busFrom));
 		List<Business> allToBuss=new ArrayList<Business>();
-		for(String to:busTos){
-			Business  toBus=new Business();
-			toBus.setId(Long.parseLong(to));
-			allToBuss.add(toBus);
+		if(!StringUtil.isNullOrEmpty(busTo)){
+			List<String> busTos=Arrays.asList(busTo.split(","));
+			for(String to:busTos){
+				Business  toBus=new Business();
+				toBus.setId(Long.parseLong(to));
+				allToBuss.add(toBus);
+			}
 		}
+		
 		BusinessRelationship rela=getBusinessRelationshipByName(relation);
 		dao.addNodeRelationship(fromBus, allToBuss,rela);
 		return "ok";
@@ -94,6 +100,32 @@ public class BusinessController {
 		
 		return "ok";
 	}
+	
+	@RequestMapping("/getNodeOneDepthRelationGraph")
+	@ResponseBody
+	public String getNodeOneDepthRelationGraph(@RequestParam Map<String,String> allRequestParams){
+		String nodeId=allRequestParams.get("nodeId");
+		BusinessRelationship rela=getBusinessRelationshipByName(allRequestParams.get("relation"));
+		if(!StringUtil.isNullOrEmpty(nodeId)){
+			NetGraph graph=dao.getNodeRelationNetGraph(Long.parseLong(nodeId),rela,1);
+			return graph.toString();
+		}
+		return null;
+	}
+	
+	
+	@RequestMapping("/getNodeGraph")
+	@ResponseBody
+	public String getNodeGraph(@RequestParam Map<String,String> allRequestParams){
+		String nodeId=allRequestParams.get("nodeId");
+		if(!StringUtil.isNullOrEmpty(nodeId)){
+			NetGraph graph=dao.getNodeNetGraph(Long.parseLong(nodeId));
+			return graph.toString();
+		}
+		return null;
+	}
+	
+	
 	@RequestMapping("/findAllNodes")
 	@ResponseBody
 	public String findAllNodes(){

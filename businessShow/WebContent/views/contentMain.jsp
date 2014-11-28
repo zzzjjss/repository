@@ -66,7 +66,10 @@ function showAllBusiness(){
 	};
 	var options = {
 		width : '100%',
-		height : '100%'
+		height : '100%',
+		edges : {
+			style : "arrow-center"
+		}
 	};
 	var network = new vis.Network(container, data, options);
 	

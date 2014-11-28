@@ -1,7 +1,12 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="panel panel-default">
 	<div class="panel-body">
-		<select id="business">
-			<option>ab</option>
+		<select id="business" onchange="showNodeGraph()">
+			<c:forEach items="${nodes}" var="element">
+				<option value="${element.id}">${element.name}</option>
+			</c:forEach>
 		</select>
 		<div id="businessGraph" style="width: 100%; height: 800px;"></div>
 	</div>
@@ -10,42 +15,34 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#business").select2();
-	showGraph();
+	showNodeGraph();
 });
 
-function showGraph() {
-	var nodes = [ {
-		"id" : "1",
-		label : 'Node 1'
-	}, {
-		id : 2,
-		label : 'Node 2'
-	}, {
-		id : 3,
-		label : 'Node 3'
-	}, {
-		id : 4,
-		label : 'Node 4'
-	}, {
-		id : 5,
-		label : 'Node 5'
-	} ];
-
-	// create an array with edges
-	var edges = [ {
-		from : 1,
-		to : 2,
-		label : "contain"
-	}, {
-		from : 1,
-		to : 3
-	}, {
-		from : 2,
-		to : 4
-	}, {
-		from : 2,
-		to : 5
-	} ];
+function showNodeGraph() {
+	var  nodeId=$("#business").val();
+	var url="/businessShow/getNodeGraph.do";
+	var nodes,edges;
+	$.ajax
+	(
+		{
+			type: "POST",
+			url: url+"?nodeId="+nodeId,
+			cache: false,
+			dataType: "json",
+			async :false,
+			success: 
+				function(result)
+				{   
+					nodes=result.nodes;
+					edges=result.edges;
+				},
+			error: 
+				function(jqXHR, textStatus, errorThrown )
+				{
+					alert(errorThrown); 
+				}
+		}
+	);
 
 	// create a network
 	var container = document.getElementById('businessGraph');
@@ -58,6 +55,13 @@ function showGraph() {
 		height : '100%',
 		edges : {
 			style : "arrow-center"
+		},
+		hierarchicalLayout: {
+			 enabled:false,
+		      levelSeparation: 150,
+		      nodeSpacing: 100,
+		      direction: "UD",
+		      layout: "hubsize"
 		}
 	};
 	var network = new vis.Network(container, data, options);
