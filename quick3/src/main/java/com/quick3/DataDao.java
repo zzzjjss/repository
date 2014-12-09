@@ -15,8 +15,54 @@ import java.util.Map;
 
 public class DataDao {
 	String dbName="quick3";
+	public Map<Integer,Integer>  stepStatistic(int openResult){
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		Map<Integer,Integer> result=new HashMap<Integer, Integer>();
+		try {
+			Connection conn = DriverManager.getConnection(connectionURL);
+			PreparedStatement preStatement=conn.prepareStatement("select  * from openresult  o where o.RESULT=? order by o.OPENDATE asc , o.DATEINDEX asc");
+			preStatement.setInt(1, openResult);
+			ResultSet set=preStatement.executeQuery();
+			Date  preDate=null;
+			int preIndex=0;
+			SimpleDateFormat  format=new SimpleDateFormat("YYYY-MM-dd");
+			while(set.next()){
+				Date  date=set.getDate("opendate");
+				int index=set.getInt("dateindex");
+				int step=0;
+				if(preDate==null)
+					preDate=date;
+				
+				if(date.getTime()>preDate.getTime()){
+					step=(77-preIndex)+index;
+				}else{
+					step=index-preIndex;
+				}
+				if(step==0||step==-1||step>30){
+					System.out.println(format.format(date)+"-->"+step);
+				}
+				
+				if(result.get(step)==null){
+					result.put(step, 1);
+				}else{
+					Integer num=result.get(step);
+					result.put(step, (num.intValue())+1);
+				}
+				
+				preDate=date;
+				preIndex=index;
+				
+			}
+			conn.close();
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return result;
+	}
 	public void insertOpenResult(OpenResult openResult){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		if(openResult.getDateIndex()>77)
+			return  ;
 		try {
 			Connection conn = DriverManager.getConnection(connectionURL);
 			PreparedStatement preStatement=conn.prepareStatement("insert into openResult(opendate,result,dateIndex) values(?,?,?)");
@@ -239,7 +285,22 @@ public class DataDao {
 	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
-		dao.createTableIfNotExist();
+		Map<Integer,Integer> statis=dao.stepStatistic(14);
+		int sum=0;
+		for(Integer key:statis.keySet()){
+			int value=statis.get(key);
+			sum=sum+value;
+		}
+		double sumRation=0.0d;
+		for(Integer key:statis.keySet()){
+			int value=statis.get(key);
+			double ration=((double)value/(double)sum)*100;
+			sumRation=sumRation+ration;
+			System.out.println("key:"+key+"--->"+value+"--->"+ration);
+			System.out.println(sumRation);
+		}
+		
+		//dao.createTableIfNotExist();
 		//dao.dropTable();
 		//dao.createTable();
 		
