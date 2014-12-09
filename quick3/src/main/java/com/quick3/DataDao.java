@@ -59,6 +59,33 @@ public class DataDao {
 		}
 		return result;
 	}
+	public OpenResult findLastOpenResult(int openNumber){
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		try {
+			Connection conn = DriverManager.getConnection(connectionURL);
+			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.OPENDATE desc  FETCH FIRST 1 ROWS ONLY;");
+			preStatement.setInt(1, openNumber);
+			ResultSet set=preStatement.executeQuery();
+			
+			if(set.next()){
+				OpenResult  openResult=new OpenResult();
+				Date  date=set.getDate("opendate");
+				int result=set.getInt("result");
+				int  id=set.getInt("id");
+				int  dateIndex=set.getInt("dateIndex");
+				openResult.setOpendate(date);
+				openResult.setResult(result);
+				openResult.setId(id);
+				openResult.setDateIndex(dateIndex);
+				conn.close();
+				return openResult;
+			}
+			
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return null;
+	}
 	public void insertOpenResult(OpenResult openResult){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		if(openResult.getDateIndex()>77)
