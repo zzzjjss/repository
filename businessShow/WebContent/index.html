@@ -5,10 +5,10 @@
 <script type="text/javascript" src="js/jquery-2.1.1.js"></script>
 <script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="js/vis/vis.js"></script>
-<script type="text/javascript" src="js/chosen/chosen.jquery.js"></script>
+<script type="text/javascript" src="js/select2/select2.js"></script>
 <link href="js/vis/vis.css" type="text/css" rel="stylesheet">
 <link href="js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
-<link href="js/chosen/chosen.css" type="text/css" rel="stylesheet">
+<link href="js/select2/select2.css" type="text/css" rel="stylesheet">
 <title>Insert title here</title>
 </head>
 <body>
@@ -37,7 +37,7 @@ $(document).ready(function(){
 		var id=$(this).attr("id");
 		
 		$("#content").empty();
-		$("#content").load(id+".html");
+		$("#content").load(id+".do");
 		
 		
 	});
