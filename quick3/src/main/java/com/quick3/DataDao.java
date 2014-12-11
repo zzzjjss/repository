@@ -13,12 +13,13 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class DataDao {
 	String dbName="quick3";
 	public Map<Integer,Integer>  stepStatistic(int openResult){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
-		Map<Integer,Integer> result=new HashMap<Integer, Integer>();
+		Map<Integer,Integer> result=new TreeMap<Integer, Integer>();
 		try {
 			Connection conn = DriverManager.getConnection(connectionURL);
 			PreparedStatement preStatement=conn.prepareStatement("select  * from openresult  o where o.RESULT=? order by o.OPENDATE asc , o.DATEINDEX asc");
@@ -94,7 +95,7 @@ public class DataDao {
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		try {
 			Connection conn = DriverManager.getConnection(connectionURL);
-			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.OPENDATE desc  FETCH FIRST 1 ROWS ONLY;");
+			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.OPENDATE desc  FETCH FIRST 1 ROWS ONLY");
 			preStatement.setInt(1, openNumber);
 			ResultSet set=preStatement.executeQuery();
 			
@@ -339,21 +340,53 @@ public class DataDao {
 		}
 		return result;
 	}
+	public int findLatestOpenResultToNextStep(int openNumber){
+		OpenResult preOpen=findLastOpenResult(openNumber);
+		Date preDate=preOpen.getOpendate();
+		int preIndex=preOpen.getDateIndex();
+		GregorianCalendar todayCal=new GregorianCalendar();
+		todayCal.setTime(new Date());
+		todayCal.set(Calendar.HOUR_OF_DAY, 0);
+		todayCal.set(Calendar.MINUTE, 0);
+		todayCal.set(Calendar.SECOND, 0);
+		int step=0;
+		int dateDif=countDateDiff(preDate,todayCal.getTime());
+		if(dateDif>1){
+			int dayOpen=findOpenSum(preDate);
+			step=(dayOpen-preIndex)+findOpenSum(todayCal.getTime());
+			for(int i=1;i<dateDif;i++){
+				GregorianCalendar cal=new GregorianCalendar();
+				cal.setTime(preDate);
+				cal.add(Calendar.DAY_OF_MONTH, i);
+				int sum=findOpenSum(cal.getTime());
+				step=step+sum;
+			}
+		}else if(dateDif==1){
+			int dayOpen=findOpenSum(preDate);
+			step=(dayOpen-preIndex)+findOpenSum(todayCal.getTime());
+		}else{
+			step=79-preIndex-1;
+		}
+		return step;
+	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
-		Map<Integer,Integer> statis=dao.stepStatistic(13);
-		int sum=0;
-		for(Integer key:statis.keySet()){
-			int value=statis.get(key);
-			sum=sum+value;
-		}
-		double sumRation=0.0d;
-		for(Integer key:statis.keySet()){
-			int value=statis.get(key);
-			double ration=((double)value/(double)sum)*100;
-			sumRation=sumRation+ration;
-			System.out.println("key:"+key+"--->"+value+"--->"+ration);
-			System.out.println(sumRation);
+//		Map<Integer,Integer> statis=dao.stepStatistic(3);
+//		int sum=0;
+//		for(Integer key:statis.keySet()){
+//			int value=statis.get(key);
+//			sum=sum+value;
+//		}
+//		double sumRation=0.0d;
+//		for(Integer key:statis.keySet()){
+//			int value=statis.get(key);
+//			double ration=((double)value/(double)sum)*100;
+//			sumRation=sumRation+ration;
+//			System.out.println("key:"+key+"--->"+value+"--->"+ration);
+//			System.out.println(sumRation);
+//		}
+		for(int i=3;i<=18;i++){
+			System.out.println(i+"--->"+dao.findLatestOpenResultToNextStep(i));
 		}
 		
 		//dao.createTableIfNotExist();
