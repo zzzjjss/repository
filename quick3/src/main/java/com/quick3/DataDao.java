@@ -1,7 +1,6 @@
 package com.quick3;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -9,6 +8,8 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,14 +33,22 @@ public class DataDao {
 				int step=0;
 				if(preDate==null)
 					preDate=date;
-				
-				if(date.getTime()>preDate.getTime()){
-					step=(77-preIndex)+index;
+				int dateDif=countDateDiff(preDate,date);
+				if(dateDif>1){
+					int dayOpen=findOpenSum(preDate);
+					step=(dayOpen-preIndex)+index;
+					for(int i=1;i<dateDif;i++){
+						GregorianCalendar cal=new GregorianCalendar();
+						cal.setTime(preDate);
+						cal.add(Calendar.DAY_OF_MONTH, i);
+						int sum=findOpenSum(cal.getTime());
+						step=step+sum;
+					}
+				}else if(dateDif==1){
+					int dayOpen=findOpenSum(preDate);
+					step=(dayOpen-preIndex)+index;
 				}else{
-					step=index-preIndex;
-				}
-				if(step==0||step==-1||step>30){
-					System.out.println(format.format(date)+"-->"+step);
+					step=index-preIndex-1;
 				}
 				
 				if(result.get(step)==null){
@@ -58,6 +67,28 @@ public class DataDao {
 		   e.printStackTrace();
 		}
 		return result;
+	}
+	private int countDateDiff(Date pre,Date end){
+		long diff=end.getTime()-pre.getTime();
+		return (int)Math.abs(diff) / (60 * 60 * 1000 * 24);
+	}
+	public int findOpenSum(java.util.Date date){
+		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+		try {
+			Connection conn = DriverManager.getConnection(connectionURL);
+			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+			String day=format.format(date);
+			PreparedStatement preStatement=conn.prepareStatement("select count(*)  from openResult where opendate = DATE('"+day+"')");
+			 ResultSet result=preStatement.executeQuery();
+			 if(result.next()){
+				return  result.getInt(1);
+			 }
+			 
+			conn.close();
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return 0;
 	}
 	public OpenResult findLastOpenResult(int openNumber){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
@@ -88,12 +119,10 @@ public class DataDao {
 	}
 	public void insertOpenResult(OpenResult openResult){
 		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
-		if(openResult.getDateIndex()>77)
-			return  ;
 		try {
 			Connection conn = DriverManager.getConnection(connectionURL);
 			PreparedStatement preStatement=conn.prepareStatement("insert into openResult(opendate,result,dateIndex) values(?,?,?)");
-			preStatement.setDate(1, new Date(openResult.getOpendate().getTime()));
+			preStatement.setDate(1, new java.sql.Date(openResult.getOpendate().getTime()));
 			preStatement.setInt(2, openResult.getResult());
 			preStatement.setInt(3, openResult.getDateIndex());
 			preStatement.execute();
@@ -312,7 +341,7 @@ public class DataDao {
 	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
-		Map<Integer,Integer> statis=dao.stepStatistic(14);
+		Map<Integer,Integer> statis=dao.stepStatistic(13);
 		int sum=0;
 		for(Integer key:statis.keySet()){
 			int value=statis.get(key);
