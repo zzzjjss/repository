@@ -12,6 +12,7 @@ import javax.management.NotificationListener;
 import com.quick3.bean.StatisticResult;
 import com.quick3.mail.MailSender;
 import com.quick3.statistic.RateStatistic;
+import com.quick3.statistic.StepStatistic;
 
 public class MBeanNotificationListener implements NotificationListener {
 
@@ -25,7 +26,8 @@ public class MBeanNotificationListener implements NotificationListener {
 				openResult.append(open.getDateIndex() + ":" + open.getResult() + "\n");
 				System.out.println(open.getDateIndex() + ":" + open.getResult());
 			}
-			RateStatistic stat = new RateStatistic();
+			//RateStatistic stat = new RateStatistic();
+			StepStatistic stat=new StepStatistic(); 
 			String result = stat.parseNewOpenResults(newOpens);
 			if (!result.toString().trim().equals("")) {
 				MailSender sender = new MailSender();

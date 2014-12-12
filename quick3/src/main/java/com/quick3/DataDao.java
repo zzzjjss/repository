@@ -365,12 +365,20 @@ public class DataDao {
 			int dayOpen=findOpenSum(preDate);
 			step=(dayOpen-preIndex)+findOpenSum(todayCal.getTime());
 		}else{
-			step=79-preIndex-1;
+			int dayOpen=findOpenSum(preDate);
+			step=dayOpen-preIndex;
 		}
 		return step;
 	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
+		Map<Integer,Map<Integer,Integer>> allNumberStepStatistic=new TreeMap<Integer, Map<Integer,Integer>>();
+		long begin=System.currentTimeMillis();
+		for(int i=3;i<=18;i++){
+			Map<Integer,Integer> statistic=dao.stepStatistic(i);
+			allNumberStepStatistic.put(i, statistic);
+			System.out.println((System.currentTimeMillis()-begin)/1000);
+		}
 //		Map<Integer,Integer> statis=dao.stepStatistic(3);
 //		int sum=0;
 //		for(Integer key:statis.keySet()){
@@ -385,9 +393,9 @@ public class DataDao {
 //			System.out.println("key:"+key+"--->"+value+"--->"+ration);
 //			System.out.println(sumRation);
 //		}
-		for(int i=3;i<=18;i++){
-			System.out.println(i+"--->"+dao.findLatestOpenResultToNextStep(i));
-		}
+//		for(int i=3;i<=18;i++){
+//			System.out.println(i+"--->"+dao.findLatestOpenResultToNextStep(i));
+//		}
 		
 		//dao.createTableIfNotExist();
 		//dao.dropTable();
