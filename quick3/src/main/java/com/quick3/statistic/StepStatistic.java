@@ -19,7 +19,7 @@ public class StepStatistic {
 	}
 	
 	public String parseNewOpenResults(List<OpenResult> newOpens){
-		
+		StringBuilder resultInfo=new StringBuilder();
 		for(OpenResult open:newOpens){
 			int openNumber=open.getResult();
 			Map<Integer,Integer> statistic=dao.stepStatistic(openNumber);
@@ -59,10 +59,14 @@ public class StepStatistic {
 					rateSum=rateSum+rate;
 				}
 			}
-			System.out.println(i+"---->nextOpenStep->"+nextOpenStep+"  nextOpenRate----> "+rateSum);
+			String info=i+"---->nextOpenStep->"+nextOpenStep+"  nextOpenRate----> "+rateSum;
+			System.out.println(info);
+			if(rateSum>99){
+				resultInfo.append(info+"\n");
+			}
 		}
 		
-		return null;
+		return resultInfo.toString();
 	}
 	
 }
