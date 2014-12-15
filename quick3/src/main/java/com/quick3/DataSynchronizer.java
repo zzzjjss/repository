@@ -2,6 +2,7 @@ package com.quick3;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
@@ -30,7 +31,18 @@ public class DataSynchronizer {
 	}
 	public List<OpenResult> synchOneDateSeqData(Date date)throws Exception{
 		String html=synchOneDateData(date);
-		return parsePage(date, html);
+		SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+		int maxTotal=0;
+		if(!format.format(date).equals("2012-12-01")){
+//			GregorianCalendar cal=new GregorianCalendar();
+//			cal.setTime(date);
+//			cal.add(Calendar.DAY_OF_MONTH, -1);
+//			int count=dao.countOneDayData(cal.getTime());
+			
+			maxTotal=dao.getPreMaxTotalIndex(date);
+		}
+		
+		return parsePage(maxTotal,date, html);
 		
 	}
 	
@@ -48,9 +60,8 @@ public class DataSynchronizer {
 		do {
 			try {
 				calendar.setTime(from);
-				String res=synchOneDateData(from);
 				// System.out.println(res);
-				List<OpenResult> openResults = parsePage(from, res);
+				List<OpenResult> openResults = synchOneDateSeqData(from);
 				for (OpenResult result : openResults) {
 					dao.insertOpenResult(result);
 				}
@@ -63,7 +74,7 @@ public class DataSynchronizer {
 		} while (fromInt <= endInt);
 	}
 
-	public List<OpenResult> parsePage(Date date, String pageHtml) {
+	private List<OpenResult> parsePage(int maxTotal,Date date, String pageHtml) {
 		List<OpenResult> result=new ArrayList<OpenResult>();
 		StringTokenizer token = new StringTokenizer(pageHtml, "\r\n");
 		Pattern pattern = Pattern.compile(".*<td.+class=\"start\".+data-win-number=.+data-period=.+>.+</td>.*");
@@ -88,6 +99,7 @@ public class DataSynchronizer {
 				OpenResult openResult = new OpenResult();
 				openResult.setOpendate(date);
 				openResult.setDateIndex(dateIndex);
+				openResult.setTotalIndex(dateIndex+maxTotal);
 				openResult.setResult(resultInt);
 				result.add(openResult);
 			}

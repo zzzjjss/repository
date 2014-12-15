@@ -8,6 +8,7 @@ public class OpenResult {
 	private int dateIndex;
 	private Date opendate;
 	private int  result;
+	private int totalIndex;
 	public int getId() {
 		return id;
 	}
@@ -31,6 +32,12 @@ public class OpenResult {
 	}
 	public void setDateIndex(int dateIndex) {
 		this.dateIndex = dateIndex;
+	}
+	public int getTotalIndex() {
+		return totalIndex;
+	}
+	public void setTotalIndex(int totalIndex) {
+		this.totalIndex = totalIndex;
 	}
 	
 }

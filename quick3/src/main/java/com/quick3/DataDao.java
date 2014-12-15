@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -15,53 +16,68 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
+
 public class DataDao {
 	String dbName="quick3";
+	private Connection conn=null;
+	
+	protected void finalize() throws Throwable { 
+		if(conn!=null){
+			conn.close();
+		}
+	}
+	private Connection getConnection() {
+		try {
+			if (conn == null || conn.isClosed()) {
+				MysqlDataSource ds = new MysqlDataSource();
+				ds.setUrl("jdbc:mysql://localhost:3306/quick3");
+				ds.setUser("root");
+				ds.setPassword("root");
+				conn=ds.getConnection();
+//				String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+//				Connection conn = DriverManager.getConnection(connectionURL);
+			}
+			return conn;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	public int getPreMaxTotalIndex(Date date){
+		try {
+			Connection conn =getConnection();
+			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+			String day=format.format(date);
+			PreparedStatement preStatement=conn.prepareStatement("select max(total_index) from openResult where opendate < DATE('"+day+"')");
+			 ResultSet result=preStatement.executeQuery();
+			 if(result.next()){
+				return  result.getInt(1);
+			 }
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return 0;
+	}
 	public Map<Integer,Integer>  stepStatistic(int openResult){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		Map<Integer,Integer> result=new TreeMap<Integer, Integer>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn =getConnection();
 			PreparedStatement preStatement=conn.prepareStatement("select  * from openresult  o where o.RESULT=? order by o.OPENDATE asc , o.DATEINDEX asc");
 			preStatement.setInt(1, openResult);
 			ResultSet set=preStatement.executeQuery();
-			Date  preDate=null;
-			int preIndex=0;
-			SimpleDateFormat  format=new SimpleDateFormat("YYYY-MM-dd");
+			int preTotalIndex=0;
 			while(set.next()){
-				Date  date=set.getDate("opendate");
-				int index=set.getInt("dateindex");
-				int step=0;
-				if(preDate==null)
-					preDate=date;
-				int dateDif=countDateDiff(preDate,date);
-				if(dateDif>1){
-					int dayOpen=findOpenSum(preDate);
-					step=(dayOpen-preIndex)+index;
-					for(int i=1;i<dateDif;i++){
-						GregorianCalendar cal=new GregorianCalendar();
-						cal.setTime(preDate);
-						cal.add(Calendar.DAY_OF_MONTH, i);
-						int sum=findOpenSum(cal.getTime());
-						step=step+sum;
-					}
-				}else if(dateDif==1){
-					int dayOpen=findOpenSum(preDate);
-					step=(dayOpen-preIndex)+index;
-				}else{
-					step=index-preIndex-1;
-				}
+				int totalIndex=set.getInt("total_index");
+				int step=totalIndex-preTotalIndex;
 				
+				preTotalIndex=totalIndex;
 				if(result.get(step)==null){
 					result.put(step, 1);
 				}else{
 					Integer num=result.get(step);
 					result.put(step, (num.intValue())+1);
 				}
-				
-				preDate=date;
-				preIndex=index;
-				
 			}
 			conn.close();
 		}  catch (Throwable e)  {   
@@ -74,9 +90,8 @@ public class DataDao {
 		return (int)Math.abs(diff) / (60 * 60 * 1000 * 24);
 	}
 	public int findOpenSum(java.util.Date date){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn =getConnection();
 			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
 			String day=format.format(date);
 			PreparedStatement preStatement=conn.prepareStatement("select count(*)  from openResult where opendate = DATE('"+day+"')");
@@ -84,18 +99,16 @@ public class DataDao {
 			 if(result.next()){
 				return  result.getInt(1);
 			 }
-			 
-			conn.close();
 		}  catch (Throwable e)  {   
 		   e.printStackTrace();
 		}
 		return 0;
 	}
 	public OpenResult findLastOpenResult(int openNumber){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
-			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.OPENDATE desc  FETCH FIRST 1 ROWS ONLY");
+			Connection conn = getConnection();
+			//PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.OPENDATE desc  FETCH FIRST 1 ROWS ONLY");
+			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.total_index desc  limit 1");
 			preStatement.setInt(1, openNumber);
 			ResultSet set=preStatement.executeQuery();
 			
@@ -105,10 +118,12 @@ public class DataDao {
 				int result=set.getInt("result");
 				int  id=set.getInt("id");
 				int  dateIndex=set.getInt("dateIndex");
+				int totalIndex=set.getInt("total_index");
 				openResult.setOpendate(date);
 				openResult.setResult(result);
 				openResult.setId(id);
 				openResult.setDateIndex(dateIndex);
+				openResult.setTotalIndex(totalIndex);
 				conn.close();
 				return openResult;
 			}
@@ -118,14 +133,28 @@ public class DataDao {
 		}
 		return null;
 	}
-	public void insertOpenResult(OpenResult openResult){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+	
+	public int findMaxTotalIndex(){
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
-			PreparedStatement preStatement=conn.prepareStatement("insert into openResult(opendate,result,dateIndex) values(?,?,?)");
+			Connection conn =getConnection();
+			PreparedStatement preStatement=conn.prepareStatement("select max(total_index)  from openResult ");
+			 ResultSet result=preStatement.executeQuery();
+			 if(result.next()){
+				return  result.getInt(1);
+			 }
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return 0;
+	}
+	public void insertOpenResult(OpenResult openResult){
+		try {
+			Connection conn =getConnection();
+			PreparedStatement preStatement=conn.prepareStatement("insert into openResult(opendate,result,dateIndex,total_index) values(?,?,?,?)");
 			preStatement.setDate(1, new java.sql.Date(openResult.getOpendate().getTime()));
 			preStatement.setInt(2, openResult.getResult());
 			preStatement.setInt(3, openResult.getDateIndex());
+			preStatement.setInt(4, openResult.getTotalIndex());
 			preStatement.execute();
 			conn.close();
 		}  catch (Throwable e)  {   
@@ -147,7 +176,7 @@ public class DataDao {
 			}
 			preStatement.close();
 			Statement statement=conn.createStatement();
-			statement.execute("create table openResult (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) ,opendate DATE not NULL,dateIndex INTEGER NOT NULL,result INTEGER NOT NULL, PRIMARY KEY (id) )");
+			statement.execute("create table openResult (id INTEGER not NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1) ,opendate DATE not NULL,dateIndex INTEGER NOT NULL,result INTEGER NOT NULL,total_index INTEGER NOT NULL,PRIMARY KEY (id) )");
 			statement.close();
 			conn.close();
 		}  catch (Throwable e)  {   
@@ -170,10 +199,9 @@ public class DataDao {
 	
 	
 	public List<OpenResult> findAll(){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		List<OpenResult> all=new ArrayList<OpenResult>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn = getConnection();
 			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult");
 			ResultSet set=preStatement.executeQuery();
 			
@@ -183,9 +211,11 @@ public class DataDao {
 				int result=set.getInt("result");
 				int  id=set.getInt("id");
 				int  dateIndex=set.getInt("dateIndex");
+				int  totalIndex=set.getInt("total_index");
 				openResult.setOpendate(date);
 				openResult.setResult(result);
 				openResult.setId(id);
+				openResult.setTotalIndex(totalIndex);
 				openResult.setDateIndex(dateIndex);
 				all.add(openResult);
 			}
@@ -197,10 +227,9 @@ public class DataDao {
 	}
 	
 	public int  deleteDataByDate(java.util.Date date){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		int res=0;
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn = getConnection();
 			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
 			String day=format.format(date);
 			PreparedStatement preStatement=conn.prepareStatement("delete  from openResult where opendate = DATE('"+day+"')");
@@ -211,11 +240,28 @@ public class DataDao {
 		}
 		return res;
 	}
+	public int countOneDayData(Date date){
+		try {
+			Connection conn = getConnection();
+			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
+			String day=format.format(date);
+			PreparedStatement preStatement=conn.prepareStatement("select  count(*) from openResult where opendate =  DATE('"+day+"')");
+			ResultSet set=preStatement.executeQuery();
+			
+			while(set.next()){
+				return set.getInt(1);
+			}
+			conn.close();
+		}  catch (Throwable e)  {   
+		   e.printStackTrace();
+		}
+		return 0;
+	}
+	
 	public  Map<Integer,OpenResult> findOneDayData(java.util.Date date){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		Map<Integer,OpenResult> all=new HashMap<Integer, OpenResult>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn = getConnection();
 			SimpleDateFormat  format=new SimpleDateFormat("yyyy-MM-dd");
 			String day=format.format(date);
 			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult where opendate =  DATE('"+day+"')");
@@ -227,10 +273,12 @@ public class DataDao {
 				int result=set.getInt("result");
 				int  id=set.getInt("id");
 				int  dateIndex=set.getInt("dateIndex");
+				int  totalIndex=set.getInt("total_index");
 				openResult.setOpendate(opendate);
 				openResult.setResult(result);
 				openResult.setId(id);
 				openResult.setDateIndex(dateIndex);
+				openResult.setTotalIndex(totalIndex);
 				all.put(openResult.getDateIndex(), openResult);
 			}
 			conn.close();
@@ -240,10 +288,9 @@ public class DataDao {
 		return all;
 	}
 	public List<OpenResult> findLastDayData(){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		List<OpenResult> all=new ArrayList<OpenResult>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn =getConnection();
 			PreparedStatement preStatement=conn.prepareStatement("select  * from openResult where opendate = (select MAX(opendate) from openResult )");
 			ResultSet set=preStatement.executeQuery();
 			
@@ -253,10 +300,12 @@ public class DataDao {
 				int result=set.getInt("result");
 				int  id=set.getInt("id");
 				int  dateIndex=set.getInt("dateIndex");
+				int  totalIndex=set.getInt("total_index");
 				openResult.setOpendate(date);
 				openResult.setResult(result);
 				openResult.setId(id);
 				openResult.setDateIndex(dateIndex);
+				openResult.setTotalIndex(totalIndex);
 				all.add(openResult);
 			}
 			conn.close();
@@ -266,10 +315,9 @@ public class DataDao {
 		return all;
 	}
 	public List<OpenResult> findDataBeforeToday(int days){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		List<OpenResult> all=new ArrayList<OpenResult>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn = getConnection();
 			Calendar calendar=Calendar.getInstance();
 			calendar.setTime(new Date(System.currentTimeMillis()));
 			calendar.add(Calendar.DAY_OF_YEAR, 0-days);
@@ -285,10 +333,12 @@ public class DataDao {
 				int result=set.getInt("result");
 				int  id=set.getInt("id");
 				int  dateIndex=set.getInt("dateIndex");
+				int  totalIndex=set.getInt("total_index");
 				openResult.setOpendate(date);
 				openResult.setResult(result);
 				openResult.setId(id);
 				openResult.setDateIndex(dateIndex);
+				openResult.setTotalIndex(totalIndex);
 				all.add(openResult);
 			}
 			conn.close();
@@ -298,10 +348,9 @@ public class DataDao {
 		return all;
 	}
 	public Map<Integer,Integer> groupDataBeforeToday(int days){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		Map<Integer,Integer> result=new HashMap<Integer, Integer>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn = getConnection();
 			Calendar calendar=Calendar.getInstance();
 			calendar.setTime(new Date(System.currentTimeMillis()));
 			calendar.add(Calendar.DAY_OF_YEAR, 0-days);
@@ -322,10 +371,9 @@ public class DataDao {
 		return result;
 	}
 	public Map<Integer,Integer> groupAll(){
-		String connectionURL = "jdbc:derby:" + dbName + ";create=true";
 		Map<Integer,Integer> result=new HashMap<Integer, Integer>();
 		try {
-			Connection conn = DriverManager.getConnection(connectionURL);
+			Connection conn =getConnection();
 			PreparedStatement preStatement=conn.prepareStatement("select  count(*) as allcount,result from openResult group by result");
 			ResultSet set=preStatement.executeQuery();
 			
@@ -342,36 +390,12 @@ public class DataDao {
 	}
 	public int findLatestOpenResultToNextStep(int openNumber){
 		OpenResult preOpen=findLastOpenResult(openNumber);
-		Date preDate=preOpen.getOpendate();
-		int preIndex=preOpen.getDateIndex();
-		GregorianCalendar todayCal=new GregorianCalendar();
-		todayCal.setTime(new Date());
-		todayCal.set(Calendar.HOUR_OF_DAY, 0);
-		todayCal.set(Calendar.MINUTE, 0);
-		todayCal.set(Calendar.SECOND, 0);
-		int step=0;
-		int dateDif=countDateDiff(preDate,todayCal.getTime());
-		if(dateDif>1){
-			int dayOpen=findOpenSum(preDate);
-			step=(dayOpen-preIndex)+findOpenSum(todayCal.getTime());
-			for(int i=1;i<dateDif;i++){
-				GregorianCalendar cal=new GregorianCalendar();
-				cal.setTime(preDate);
-				cal.add(Calendar.DAY_OF_MONTH, i);
-				int sum=findOpenSum(cal.getTime());
-				step=step+sum;
-			}
-		}else if(dateDif==1){
-			int dayOpen=findOpenSum(preDate);
-			step=(dayOpen-preIndex)+findOpenSum(todayCal.getTime());
-		}else{
-			int dayOpen=findOpenSum(preDate);
-			step=dayOpen-preIndex;
-		}
-		return step;
+		int maxTotalIndex=findMaxTotalIndex();
+		return maxTotalIndex-preOpen.getTotalIndex();
 	}
 	public static void main(String[] args) {
 		DataDao dao=new DataDao();
+//		dao.getConnection();
 		Map<Integer,Map<Integer,Integer>> allNumberStepStatistic=new TreeMap<Integer, Map<Integer,Integer>>();
 		long begin=System.currentTimeMillis();
 		for(int i=3;i<=18;i++){

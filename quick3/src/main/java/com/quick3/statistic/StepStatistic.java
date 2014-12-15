@@ -24,6 +24,7 @@ public class StepStatistic {
 			int openNumber=open.getResult();
 			Map<Integer,Integer> statistic=dao.stepStatistic(openNumber);
 			allNumberStepStatistic.put(openNumber, statistic);
+			System.out.println("step statistic-->"+openNumber);
 		}
 		Map<Integer,Integer> stepSum=new HashMap<Integer, Integer>();
 		for(Integer key:allNumberStepStatistic.keySet()){
@@ -41,8 +42,8 @@ public class StepStatistic {
 			Map<Integer,Double> rateMap=new TreeMap<Integer, Double>();
 			for(Integer step:numbemStepStatistic.keySet()){
 				int stepNumber=numbemStepStatistic.get(step);
-				double ration=((double)stepNumber/(double)sumStep)*100;
-				rateMap.put(sumStep,ration);
+				double ration=(double)(((double)stepNumber/(double)sumStep)*100.00d);
+				rateMap.put(step,ration);
 			}
 			allNumberStepRate.put(key, rateMap);
 		}
