@@ -30,13 +30,13 @@ public class DataDao {
 	private Connection getConnection() {
 		try {
 			if (conn == null || conn.isClosed()) {
-				MysqlDataSource ds = new MysqlDataSource();
-				ds.setUrl("jdbc:mysql://localhost:3306/quick3");
-				ds.setUser("root");
-				ds.setPassword("root");
-				conn=ds.getConnection();
-//				String connectionURL = "jdbc:derby:" + dbName + ";create=true";
-//				Connection conn = DriverManager.getConnection(connectionURL);
+//				MysqlDataSource ds = new MysqlDataSource();
+//				ds.setUrl("jdbc:mysql://localhost:3306/quick3");
+//				ds.setUser("root");
+//				ds.setPassword("root");
+//				conn=ds.getConnection();
+				String connectionURL = "jdbc:derby:" + dbName + ";create=true";
+				conn = DriverManager.getConnection(connectionURL);
 			}
 			return conn;
 		} catch (SQLException e) {
@@ -107,8 +107,8 @@ public class DataDao {
 	public OpenResult findLastOpenResult(int openNumber){
 		try {
 			Connection conn = getConnection();
-			//PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.OPENDATE desc  FETCH FIRST 1 ROWS ONLY");
-			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.total_index desc  limit 1");
+			PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.total_index desc  FETCH FIRST 1 ROWS ONLY");
+			//PreparedStatement preStatement=conn.prepareStatement("select * from openresult o where o.RESULT=?  order by o.total_index desc  limit 1");
 			preStatement.setInt(1, openNumber);
 			ResultSet set=preStatement.executeQuery();
 			
