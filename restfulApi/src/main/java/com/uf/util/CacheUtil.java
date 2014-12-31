@@ -3,12 +3,27 @@ package com.uf.util;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
+import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.Configuration;
+import net.sf.ehcache.config.DiskStoreConfiguration;
+import net.sf.ehcache.config.MemoryUnit;
+import net.sf.ehcache.config.PersistenceConfiguration;
+import net.sf.ehcache.config.PersistenceConfiguration.Strategy;
 
 public class CacheUtil {
-	private static CacheManager cacheManager=CacheManager.getInstance();
+	private static CacheManager cacheManager;
 	private static String cacheName="testCache";
 	static {
-		Cache cache = new Cache(cacheName, 0, true, false, 60*10, 60*2);
+		Configuration cacheManagerConfig = new Configuration()
+	    .diskStore(new DiskStoreConfiguration().path("c:/jason/data"));
+		cacheManager=new CacheManager(cacheManagerConfig);
+		CacheConfiguration config=new CacheConfiguration();
+		config.persistence(new PersistenceConfiguration().strategy(Strategy.LOCALTEMPSWAP));
+		config.name(cacheName);
+		config.maxBytesLocalHeap(300, MemoryUnit.MEGABYTES);
+		config.timeToLiveSeconds(60*10);
+		config.timeToIdleSeconds(60*2);
+		Cache cache = new Cache(config);
 		cacheManager.addCache(cache);
 		
 	}
@@ -28,5 +43,11 @@ public class CacheUtil {
 	public static void removeObj(Object key){
 		Cache cache=cacheManager.getCache(cacheName);
 		cache.remove(key);
+	}
+	public static void main(String[] args) {
+		for(int i=0;i<10000;i++){
+			System.out.println(CacheUtil.getObj(i));
+		}
+		
 	}
 }
