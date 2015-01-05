@@ -13,12 +13,14 @@ import javax.ws.rs.core.MediaType;
 import net.sf.json.JSONObject;
 
 import com.uf.rest.bean.AuthenticateResponseData;
+import com.uf.rest.bean.Constant;
 import com.uf.rest.bean.IsUserExistResponseData;
 import com.uf.rest.bean.RegistResponseData;
 import com.uf.rest.bean.Response;
 import com.uf.rest.bean.ResponseError;
 import com.uf.rest.bean.Session;
 import com.uf.rest.entity.User;
+import com.uf.rest.exception.UserExistException;
 import com.uf.rest.service.ServiceFactory;
 import com.uf.rest.service.UserService;
 import com.uf.rest.util.CacheUtil;
@@ -44,11 +46,21 @@ public class Login {
 				data.setToken(uid);
 				response.setData(data);
 				response.setSuccess(true);
+			}else if(user==null){
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_EXIST_CODE);
+				error.setMsg("user not exist!");
+				response.setError(error);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.PST_WRONG_CODE);
+				error.setMsg("password is wrong!");
+				response.setError(error);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
-			error.setCode("002");
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
 			response.setError(error);
 			response.setSuccess(false);
@@ -86,15 +98,25 @@ public class Login {
 				}else{
 					response.setSuccess(false);
 					ResponseError error=new ResponseError();
-					error.setCode("100");
-					error.setMsg("user doesn't exist or  old psd is wrong!");
+					if(user==null){
+						error.setCode(Constant.USER_NOT_EXIST_CODE);
+						error.setMsg("user doesn't exist ");
+					}else{
+						error.setCode(Constant.OLD_PST_WRONG_CODE);
+						error.setMsg("old password is wrong! ");
+					}
 					response.setError(error);
 				}
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login,don't allow to change password!");
+				response.setError(error);
 			}
 		}catch(Exception e){
 			e.printStackTrace();
 			ResponseError error=new ResponseError();
-			error.setCode("101");
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
 			response.setSuccess(false);
 			response.setError(error);
@@ -125,11 +147,17 @@ public class Login {
 			RegistResponseData data=new RegistResponseData();
 			data.setToken(uid);
 			response.setData(data);
-		} catch (Exception e) {
+		} catch(UserExistException e){
+			response.setSuccess(false);
+			ResponseError error=new ResponseError();
+			error.setCode(Constant.USER_EXIST_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}catch (Exception e) {
 			e.printStackTrace();
 			response.setSuccess(false);
-			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
-			error.setCode("001");
+			ResponseError error=new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
 			response.setError(error);
 		}
@@ -153,7 +181,7 @@ public class Login {
 			e.printStackTrace();
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
-			error.setCode("002");
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
 			response.setError(error);
 		}

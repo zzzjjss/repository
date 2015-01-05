@@ -3,7 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.uf.rest.entity.User" table="user" catalog="rest">
+    <class name="com.uf.rest.entity.User" table="user" >
         <id name="id" type="int">
             <column name="id" />
             <generator class="identity" />

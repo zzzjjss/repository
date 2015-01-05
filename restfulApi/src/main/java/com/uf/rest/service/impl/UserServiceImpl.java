@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.uf.rest.dao.UserDao;
 import com.uf.rest.entity.User;
+import com.uf.rest.exception.UserExistException;
 import com.uf.rest.service.UserService;
 
 @Service("userService")
@@ -19,9 +20,9 @@ public class UserServiceImpl implements  UserService{
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;
 	}
-	public void registUser(User user) throws Exception {
+	public void registUser(User user) throws UserExistException {
 		if(userDao.findByName(user.getName())!=null){
-			throw new Exception("user has  exist");
+			throw new UserExistException("user has  existed!");
 		}
 		userDao.insert(user);
 	}
