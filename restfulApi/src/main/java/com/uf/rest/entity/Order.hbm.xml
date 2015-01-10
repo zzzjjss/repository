@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.rest.entity.Order" table="order" >
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="orderState" type="int">
+            <column name="order_state" />
+        </property>
+        <property name="paymentType" type="int">
+            <column name="payment_type" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" />
+        </property>
+        
+        <many-to-one name="shop"  unique="true"
+			class="com.uf.rest.entity.Shop" column="shop_id" />
+			
+        <many-to-one name="user"  unique="true"
+			class="com.uf.rest.entity.User" column="user_id" />
+			
+		<many-to-one name="pickAddress"  unique="true"
+			class="com.uf.rest.entity.OrderAddress" column="pck_address_id" />
+			
+		<many-to-one name="deliverAddress"  unique="true"
+			class="com.uf.rest.entity.OrderAddress" column="deliver_address_id" />
+			
+		<set name="orderDetails" table="order_detail" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="order_id" not-null="true" />
+            </key>
+            <one-to-many class="com.uf.rest.entity.OrderDetail" />
+        </set>	
+		
+    </class>
+</hibernate-mapping>

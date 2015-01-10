@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.rest.entity.ShopUser" table="shop_user" >
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="userName" type="string">
+            <column name="user_name" length="100" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="password" length="100" />
+        </property>
+        <property name="registType" type="int">
+            <column name="regist_type" />
+        </property>
+        <property name="platform" type="int">
+            <column name="platform" />
+        </property>
+        <property name="createDate" type="timestamp">
+            <column name="create_date" />
+        </property>
+        
+        <property name="realName" type="string">
+            <column name="real_name" />
+        </property>
+        
+        <property name="idCard" type="string">
+            <column name="id_card" />
+        </property>
+         <property name="idCardPhotoPath" type="string">
+            <column name="idCardPhotoPath" />
+        </property>
+         <property name="balance" type="java.lang.Double">
+            <column name="balance" />
+        </property>
+    </class>
+</hibernate-mapping>

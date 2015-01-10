@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+	<class name="com.uf.rest.entity.Shop" table="shop">
+		<id name="id" type="int">
+			<column name="id" />
+			<generator class="identity" />
+		</id>
+		<property name="name" type="string">
+			<column name="name" length="100" not-null="true" />
+		</property>
+		<property name="shopPhotoPath" type="string">
+			<column name="shop_photo_path" length="100" />
+		</property>
+		<property name="shopIntroducePhotoPath" type="string">
+			<column name="shopIntroducePhotoPath" length="1000" />
+		</property>
+		<property name="contactStyle" type="string">
+			<column name="contact_style" />
+		</property>
+		<property name="country" type="string">
+			<column name="country" />
+		</property>
+		<property name="province" type="string">
+			<column name="province" />
+		</property>
+		<property name="city" type="string">
+			<column name="city" />
+		</property>
+		<property name="address" type="string">
+			<column name="address" length="300" />
+		</property>
+		<property name="longitude" type="double">
+			<column name="longitude" />
+		</property>
+		<property name="latitude" type="double">
+			<column name="latitude" />
+		</property>
+		<property name="createTime" type="timestamp">
+			<column name="createTime" />
+		</property>
+		<property name="mark" type="float">
+			<column name="mark" />
+		</property>
+		
+		<property name="isOpen" type="boolean">
+			<column name="is_open" />
+		</property>
+		
+		<many-to-one name="shopUser"  unique="true"
+			class="com.uf.rest.entity.ShopUser" column="shop_user_id" />
+		<!-- 
+			<many-to-one name="businessType"  unique="true"
+			class="com.uf.rest.entity.BusinessType" column="business_type_id" />
+		
+		 -->
+		
+		
+	</class>
+</hibernate-mapping>
