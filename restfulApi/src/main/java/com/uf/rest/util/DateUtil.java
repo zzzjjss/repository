@@ -5,8 +5,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import com.uf.rest.bean.WeekEnum;
-
 public class DateUtil {
 	public static Date getThisWeekSaturdayDate(){
 		int dayOfWeek=Calendar.getInstance().get(Calendar.DAY_OF_WEEK);
@@ -30,22 +28,7 @@ public class DateUtil {
 		System.out.println(date);
 		return null;
 	}
-	public static WeekEnum getWeekdayByDate(Date date){
-		GregorianCalendar calen=new GregorianCalendar(Locale.CHINA);
-		calen.setTime(date);
-		int dayOfWeek=calen.get(Calendar.DAY_OF_WEEK);
-		switch(dayOfWeek){
-			case Calendar.SUNDAY:return WeekEnum.SUNDAY;
-			case Calendar.MONDAY:return WeekEnum.MONDAY;
-			case Calendar.TUESDAY:return WeekEnum.TUESDAY;
-			case Calendar.THURSDAY:return WeekEnum.THURSDAY;
-			case Calendar.WEDNESDAY:return WeekEnum.WEDNESDAY;
-			case Calendar.FRIDAY:return WeekEnum.FRIDAY;
-			case Calendar.SATURDAY:return WeekEnum.SATURDAY;
-		}
-		return null;
-		
-	}
+	
 	public static Date getDateBegin(Date date){
 		Calendar cal=Calendar.getInstance();
 		cal.setTime(date);

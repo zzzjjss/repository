@@ -18,7 +18,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/rest" />
+		<property name="url" value="jdbc:mysql://127.0.0.1:3306/cleaner?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -28,6 +28,13 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="mappingResources">
 			<list>
 				<value>com/uf/rest/entity/User.hbm.xml</value>
+				<value>com/uf/rest/entity/ShopUser.hbm.xml</value>
+				<value>com/uf/rest/entity/Shop.hbm.xml</value>
+				<value>com/uf/rest/entity/Order.hbm.xml</value>
+				<value>com/uf/rest/entity/OrderAddress.hbm.xml</value>
+				<value>com/uf/rest/entity/OrderDetail.hbm.xml</value>
+				<value>com/uf/rest/entity/Product.hbm.xml</value>
+				<value>com/uf/rest/entity/ProductClass.hbm.xml</value>
 			</list>
 		</property>
 		
@@ -36,6 +43,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 				hibernate.show_sql=true
 				javax.persistence.validation.mode=none
+				hibernate.hbm2ddl.auto=update
 			</value>
 		</property>
 	</bean>
