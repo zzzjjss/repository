@@ -3,8 +3,6 @@ package com.uf.rest.entity;
 public class Product {
 	private Integer id;
 	private String name;
-	private Float price;
-	private Shop shop;
 	private ProductClass productClass;
 	public Integer getId() {
 		return id;
@@ -24,18 +22,5 @@ public class Product {
 	public void setProductClass(ProductClass productClass) {
 		this.productClass = productClass;
 	}
-	public Float getPrice() {
-		return price;
-	}
-	public void setPrice(Float price) {
-		this.price = price;
-	}
-	public Shop getShop() {
-		return shop;
-	}
-	public void setShop(Shop shop) {
-		this.shop = shop;
-	}
-	
 	
 }

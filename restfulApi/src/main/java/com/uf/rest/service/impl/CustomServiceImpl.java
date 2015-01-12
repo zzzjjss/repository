@@ -1,19 +1,93 @@
 package com.uf.rest.service.impl;
 
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.rest.dao.OrderAddressDao;
+import com.uf.rest.dao.OrderDao;
+import com.uf.rest.dao.OrderDetailDao;
+import com.uf.rest.dao.ProductClassDao;
+import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
+import com.uf.rest.dao.ShopProductPriceDao;
+import com.uf.rest.entity.Order;
+import com.uf.rest.entity.OrderDetail;
+import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
+import com.uf.rest.entity.ShopProductPrice;
 import com.uf.rest.service.CustomService;
 
 @Service("customService")
 public class CustomServiceImpl implements CustomService{
 	@Autowired
 	private ShopDao shopDao;
+	@Autowired
+	private OrderDao orderDao;
+	@Autowired
+	private OrderDetailDao orderDetailDao;
 	
+	@Autowired
+	private OrderAddressDao orderAddressDao;
+	
+	@Autowired
+	private ProductClassDao productClssDao;
+	@Autowired
+	private ProductDao productDao;
+	@Autowired
+	private ShopProductPriceDao shopProductPriceDao;
+	
+	
+	public ShopProductPriceDao getShopProductPriceDao() {
+		return shopProductPriceDao;
+	}
+
+	public void setShopProductPriceDao(ShopProductPriceDao shopProductPriceDao) {
+		this.shopProductPriceDao = shopProductPriceDao;
+	}
+
+	public ProductDao getProductDao() {
+		return productDao;
+	}
+
+	public void setProductDao(ProductDao productDao) {
+		this.productDao = productDao;
+	}
+
+	public OrderDao getOrderDao() {
+		return orderDao;
+	}
+
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
+	}
+
+	public OrderDetailDao getOrderDetailDao() {
+		return orderDetailDao;
+	}
+
+	public void setOrderDetailDao(OrderDetailDao orderDetailDao) {
+		this.orderDetailDao = orderDetailDao;
+	}
+
+	public OrderAddressDao getOrderAddressDao() {
+		return orderAddressDao;
+	}
+
+	public void setOrderAddressDao(OrderAddressDao orderAddressDao) {
+		this.orderAddressDao = orderAddressDao;
+	}
+
+	public ProductClassDao getProductClssDao() {
+		return productClssDao;
+	}
+
+	public void setProductClssDao(ProductClassDao productClssDao) {
+		this.productClssDao = productClssDao;
+	}
+
 	public ShopDao getShopDao() {
 		return shopDao;
 	}
@@ -26,5 +100,46 @@ public class CustomServiceImpl implements CustomService{
 	public List<Shop> findNearShops(int start, int count,Double longitude,Double latitude) {
 		return shopDao.findNearShops(start, count, longitude, latitude);
 	}
-
+	
+	public int findUserProcessingOrderCount(int userId){
+		return orderDao.findUserProcessingOrderCount(userId);
+	}
+	public List<Shop> findShops(int start,int count){
+		return shopDao.findShops(start, count);
+	}
+	public void saveOrder(Order order,Set<OrderDetail> details){
+		orderDao.insert(order);
+		for(OrderDetail detail:details){
+			detail.setOrder(order);
+			orderDetailDao.insert(detail);
+		}
+		
+	}
+	public void updateOrder(Order order,Set<OrderDetail> details){
+		orderDetailDao.deleteByOrderId(order.getId());
+		orderDao.update(order);
+		for(OrderDetail detail:details){
+			detail.setOrder(order);
+			orderDetailDao.insert(detail);
+		}
+	}
+	public void deleteOrderById(int orderId){
+		orderDetailDao.deleteByOrderId(orderId);
+		Order order=new Order();
+		order.setId(orderId);
+		orderDao.delete(order);
+	}
+	
+	public List<Product> findAllProducts(){
+		return productDao.findByHql("select * from Product ", null);
+	}
+	public List<ShopProductPrice> findShopProductPricesByProductIdsAndShopId(List<Integer> productIds,Integer shopId){
+		return shopProductPriceDao.findShopProductPriceByGoodIds(productIds, shopId);
+	}
+	public Order findOrderById(Integer orderId){
+		return orderDao.findById(Order.class, orderId);
+	}
+	public List<Order>  findPagedOrdersByState(Integer userId,Integer state,Integer start,Integer count){
+		return orderDao.findPagedOrdersByState(userId, state, start, count);
+	}
 }

@@ -12,12 +12,6 @@
         <property name="name" type="string">
             <column name="name" length="100" not-null="true" />
         </property>
-        
-        <property name="price" type="float">
-            <column name="price"  />
-        </property>
-         <many-to-one name="shop"  unique="true"
-			class="com.uf.rest.entity.Shop" column="shop_id" />
 			
 		 <many-to-one name="productClass"  unique="true"
 			class="com.uf.rest.entity.ProductClass" column="product_class_id" />

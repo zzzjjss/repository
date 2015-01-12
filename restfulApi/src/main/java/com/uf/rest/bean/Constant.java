@@ -10,6 +10,7 @@ public class Constant {
 	public static final String USER_NOT_LOGIN_CODE="20005";
 	public static final String SHOP_NOT_EXIST="20006";
 	public static final String VALUE_NOT_EXIST="20007";
+	public static final String GOOD_NOT_EXIST="20008";
 	
 	
 	

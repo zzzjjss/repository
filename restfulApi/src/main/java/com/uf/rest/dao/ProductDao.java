@@ -1,5 +1,8 @@
 package com.uf.rest.dao;
 
-public interface ProductDao {
+import com.uf.rest.entity.Product;
+
+public interface ProductDao extends CommonDao<Product>{
+	
 
 }

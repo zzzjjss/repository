@@ -3,21 +3,20 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 <!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
-    <class name="com.uf.rest.entity.OrderDetail" table="order_detail" >
+    <class name="com.uf.rest.entity.ShopProductPrice" table="shop_product_price" >
         <id name="id" type="int">
             <column name="id" />
             <generator class="identity" />
         </id>
-        <property name="count" type="int">
-            <column name="count" />
-        </property>
+        
         <property name="price" type="float">
             <column name="price" />
         </property>
-        <many-to-one name="product"  unique="true"
+			
+		 <many-to-one name="product"  unique="true"
 			class="com.uf.rest.entity.Product" column="product_id" />
 			
-		<many-to-one name="order"  unique="true"
-			class="com.uf.rest.entity.Order" column="order_id" />
+		<many-to-one name="shop"  unique="true"
+			class="com.uf.rest.entity.Shop" column="shop_id" />
     </class>
 </hibernate-mapping>

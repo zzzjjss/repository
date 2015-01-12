@@ -2,7 +2,6 @@ package com.uf.rest.entity;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 public class Order {
@@ -10,6 +9,7 @@ public class Order {
 	private Shop shop;
 	private User user;
 	private Date createTime;
+	private Date updateTime;
 	private OrderAddress pickAddress;
 	private OrderAddress deliverAddress;
 	private Set<OrderDetail> orderDetails=new HashSet<OrderDetail>();
@@ -23,6 +23,12 @@ public class Order {
 		this.id = id;
 	}
 	
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
 	public Shop getShop() {
 		return shop;
 	}

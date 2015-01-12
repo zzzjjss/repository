@@ -18,7 +18,14 @@ public class ShopDaoImpl extends CommonDaoImpl<Shop> implements ShopDao{
 		return (List<Shop>)tmp.find(hql, values);
 		
 	}
-	
+	public List<Shop>  findShops(int start, int count){
+		Session session=getHibernateTemplate().getSessionFactory().getCurrentSession();
+		String hql="from Shop ";
+		Query query=session.createQuery(hql);
+		query.setFirstResult(start);
+		query.setMaxResults(count);
+		return query.list();
+	}
 	
 	public List<Shop>  findNearShops(int start, int count,Double longitude,Double latitude){
 		Session session=getHibernateTemplate().getSessionFactory().getCurrentSession();

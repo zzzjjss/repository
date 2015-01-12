@@ -8,8 +8,17 @@ public class ResponseShop {
 	private String time;
 	private ResponseLocation  location;
 	private String mark;
+	private ResponseCoordinate coordinate;
 	private String[] phone;
 	private String type;
+	
+	
+	public ResponseCoordinate getCoordinate() {
+		return coordinate;
+	}
+	public void setCoordinate(ResponseCoordinate coordinate) {
+		this.coordinate = coordinate;
+	}
 	public Integer getId() {
 		return id;
 	}

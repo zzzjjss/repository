@@ -1,5 +1,8 @@
 package com.uf.rest.test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
@@ -8,14 +11,19 @@ import javax.ws.rs.core.MediaType;
 
 import net.sf.json.JSONObject;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import com.uf.rest.bean.request.CreateOrderRequest;
 import com.uf.rest.bean.request.CustomHomeRequest;
 import com.uf.rest.bean.request.RegistUserRequest;
+import com.uf.rest.bean.request.RequestGood;
 import com.uf.rest.bean.request.UserChangePasswordRequest;
 import com.uf.rest.bean.request.UserLoginRequest;
 import com.uf.rest.bean.request.UserLogoutRequest;
+import com.uf.rest.bean.response.CreateOrderResponse;
 import com.uf.rest.bean.response.CustomHomeResponse;
+import com.uf.rest.bean.response.CustomProcessOrderCountResponse;
 import com.uf.rest.bean.response.IsUserExistResponse;
 import com.uf.rest.bean.response.UserChangePasswordResponse;
 import com.uf.rest.bean.response.UserLoginResponse;
@@ -23,7 +31,20 @@ import com.uf.rest.bean.response.UserLogoutResponse;
 import com.uf.rest.bean.response.UserRegistResponse;
 
 public class CustomActionTest {
-
+	 private static String token;
+	@BeforeClass
+	public static void setToken(){
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://localhost:8080/cleaner/custom/account/login");
+		UserLoginRequest request=new UserLoginRequest();
+		request.setName("hello");
+		request.setPassword("hello");
+		request.setP("1");
+		UserLoginResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),UserLoginResponse.class);
+		token=response.getData().getToken();
+		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	
 	@Test
 	public void testRegist() throws Exception{
 		Client client = ClientBuilder.newClient();
@@ -87,6 +108,33 @@ public class CustomActionTest {
 		request.setStart(0);
 		request.setToken("tt");
 		CustomHomeResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),CustomHomeResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+		
+		WebTarget target1 = client.target("http://localhost:8080/cleaner/custom/order/process?token="+token);
+		CustomProcessOrderCountResponse response1=target1.request(MediaType.APPLICATION_JSON).get(CustomProcessOrderCountResponse.class);
+		System.out.println(JSONObject.fromObject(response1).toString());
+	}
+	
+	@Test
+	public void testCreateOrder()throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://localhost:8080/cleaner/custom/order/add");
+		CreateOrderRequest request=new CreateOrderRequest();
+		request.setDeliver_address_id(1);
+		request.setP(1);
+		request.setPayment(1);
+		request.setPick_address_id(2);
+		request.setShop_id(1);
+		request.setToken(token);
+		RequestGood good=new RequestGood();
+		good.setCount(3);
+		good.setId(1);
+		good.setName("yifu");
+		good.setPrice(22.2f);
+		List<RequestGood> goods=new ArrayList<RequestGood>();
+		goods.add(good);
+		request.setGood(goods);
+		CreateOrderResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),CreateOrderResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
 	}
 	
