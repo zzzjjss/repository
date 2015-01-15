@@ -25,20 +25,25 @@ import com.uf.rest.bean.Constant;
 import com.uf.rest.bean.ResponseError;
 import com.uf.rest.bean.Session;
 import com.uf.rest.bean.request.AddAddressRequest;
+import com.uf.rest.bean.request.AddBankCardRequest;
 import com.uf.rest.bean.request.CreateOrderRequest;
 import com.uf.rest.bean.request.CustomHomeRequest;
 import com.uf.rest.bean.request.DeleteAddressRequest;
+import com.uf.rest.bean.request.DeleteBankCardRequest;
 import com.uf.rest.bean.request.RemoveOrderRequest;
 import com.uf.rest.bean.request.GoodPriceRequest;
 import com.uf.rest.bean.request.RegistUserRequest;
 import com.uf.rest.bean.request.RequestGood;
 import com.uf.rest.bean.request.UpdateAddressRequest;
+import com.uf.rest.bean.request.UpdateBankCardRequest;
 import com.uf.rest.bean.request.UpdateOrderRequest;
 import com.uf.rest.bean.request.UserChangePasswordRequest;
 import com.uf.rest.bean.request.UserLoginRequest;
 import com.uf.rest.bean.request.UserLogoutRequest;
 import com.uf.rest.bean.response.AddAddressResponse;
 import com.uf.rest.bean.response.AddAddressResponseData;
+import com.uf.rest.bean.response.AddBankCardResponse;
+import com.uf.rest.bean.response.AddBankCardResponseData;
 import com.uf.rest.bean.response.CreateOrderResponse;
 import com.uf.rest.bean.response.CreateOrderResponseData;
 import com.uf.rest.bean.response.CustomHomeResponse;
@@ -46,6 +51,9 @@ import com.uf.rest.bean.response.CustomHomeResponseData;
 import com.uf.rest.bean.response.CustomProcessOrderCountResponse;
 import com.uf.rest.bean.response.CustomProcessOrderCountResponseData;
 import com.uf.rest.bean.response.DeleteAddressResponse;
+import com.uf.rest.bean.response.DeleteBankCardResponse;
+import com.uf.rest.bean.response.QueryBankCardResponse;
+import com.uf.rest.bean.response.QueryBankCardResponseData;
 import com.uf.rest.bean.response.QueryUserAddressResponse;
 import com.uf.rest.bean.response.QueryUserAddressResponseData;
 import com.uf.rest.bean.response.RemoveOrderResponse;
@@ -59,6 +67,7 @@ import com.uf.rest.bean.response.OrderResponseGood;
 import com.uf.rest.bean.response.QueryOrderResponse;
 import com.uf.rest.bean.response.QueryOrderResponseData;
 import com.uf.rest.bean.response.ResponseAddress;
+import com.uf.rest.bean.response.ResponseBankCard;
 import com.uf.rest.bean.response.ResponseClassGoods;
 import com.uf.rest.bean.response.ResponseCoordinate;
 import com.uf.rest.bean.response.ResponseGood;
@@ -67,6 +76,7 @@ import com.uf.rest.bean.response.ResponseOrder;
 import com.uf.rest.bean.response.ResponseShop;
 import com.uf.rest.bean.response.ShopGoodsPrice;
 import com.uf.rest.bean.response.UpdateAddressResponse;
+import com.uf.rest.bean.response.UpdateBankCardResponse;
 import com.uf.rest.bean.response.UpdateOrderResponse;
 import com.uf.rest.bean.response.UserChangePasswordResponse;
 import com.uf.rest.bean.response.UserLoginResponse;
@@ -74,6 +84,7 @@ import com.uf.rest.bean.response.UserLoginResponseData;
 import com.uf.rest.bean.response.UserLogoutResponse;
 import com.uf.rest.bean.response.UserRegistResponse;
 import com.uf.rest.bean.response.UserRegistResponseData;
+import com.uf.rest.entity.BankCard;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
@@ -888,7 +899,166 @@ public class CustomAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/card/add")
+    public String bankCardAdd(AddBankCardRequest request) {
+		AddBankCardResponse response=new AddBankCardResponse(); 
+		try{
+			User user=getUserByToken(request.getToken());
+			if(user!=null){
+				Date date=new Date();
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				BankCard card=new BankCard();
+				card.setAddTime(date);
+				card.setBankName(request.getBank());
+				card.setCardNumber(request.getCard());
+				card.setUser(user);
+				card.setUserName(request.getName());
+				customService.addUserBankCard(card);
+				AddBankCardResponseData data=new AddBankCardResponseData();
+				data.setId(card.getId());
+				data.setTime(format.format(date));
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
 	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/card/update")
+    public String bankCardUpdate(UpdateBankCardRequest request) {
+		UpdateBankCardResponse response=new UpdateBankCardResponse(); 
+		try{
+			User user=getUserByToken(request.getToken());
+			if(user!=null){
+				BankCard card=customService.findBankCardById(request.getCard_id());
+				if(card!=null){
+					card.setBankName(request.getBank());
+					card.setCardNumber(request.getCard());
+					card.setUserName(request.getName());
+					customService.updateUserBankCard(card);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("bank card not exist");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/card/remove")
+    public String cardRemove(DeleteBankCardRequest request) {
+		DeleteBankCardResponse  response=new DeleteBankCardResponse();
+		try{
+			User user=getUserByToken(request.getToken());
+			if(user!=null){
+				customService.deleteUserBankCard(request.getCard_id());
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/card")
+	public String card(@QueryParam("token")String token,@QueryParam("p")String p,@QueryParam("start")String start,@QueryParam("count")String count){
+		QueryBankCardResponse response=new QueryBankCardResponse(); 
+		User user=getUserByToken(token);
+		try{
+			if(user!=null){
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				List<BankCard> bankCards=customService.findPagedBankCards(user.getId(), Integer.parseInt(start), Integer.parseInt(count));
+				if(bankCards!=null&&bankCards.size()>0){
+					QueryBankCardResponseData data=new QueryBankCardResponseData(); 
+					List<ResponseBankCard> resBankCard=new ArrayList<ResponseBankCard>();
+					for(BankCard card:bankCards){
+						ResponseBankCard resCard=new ResponseBankCard();
+						resCard.setBank(card.getBankName());
+						resCard.setCard(card.getCardNumber());
+						resCard.setId(card.getId());
+						resCard.setName(card.getUserName());
+						resCard.setTime(format.format(card.getAddTime()));
+						resBankCard.add(resCard);
+					}
+					data.setBankcard(resBankCard);
+					data.setCount(bankCards.size());
+					data.setCursor_next(Integer.parseInt(start)+bankCards.size());
+					response.setData(data);
+				}
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
 	
 	private User getUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);

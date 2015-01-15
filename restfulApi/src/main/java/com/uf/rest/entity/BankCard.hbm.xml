@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.rest.entity.BankCard" table="bank_card" >
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="userName" type="string">
+            <column name="user_name" />
+        </property>
+        <property name="bankName" type="string">
+            <column name="bank_name" />
+        </property>
+        <property name="cardNumber" type="string">
+            <column name="card_number" />
+        </property>
+
+        <many-to-one name="user"  lazy="false"
+			class="com.uf.rest.entity.User" column="user_id" />
+			
+        
+        <property name="addTime" type="timestamp">
+            <column name="add_time" />
+        </property>
+    </class>
+</hibernate-mapping>

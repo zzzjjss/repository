@@ -16,23 +16,29 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.uf.rest.bean.request.AddAddressRequest;
+import com.uf.rest.bean.request.AddBankCardRequest;
 import com.uf.rest.bean.request.CreateOrderRequest;
 import com.uf.rest.bean.request.CustomHomeRequest;
 import com.uf.rest.bean.request.DeleteAddressRequest;
+import com.uf.rest.bean.request.DeleteBankCardRequest;
 import com.uf.rest.bean.request.RemoveOrderRequest;
 import com.uf.rest.bean.request.GoodPriceRequest;
 import com.uf.rest.bean.request.RegistUserRequest;
 import com.uf.rest.bean.request.RequestGood;
 import com.uf.rest.bean.request.UpdateAddressRequest;
+import com.uf.rest.bean.request.UpdateBankCardRequest;
 import com.uf.rest.bean.request.UpdateOrderRequest;
 import com.uf.rest.bean.request.UserChangePasswordRequest;
 import com.uf.rest.bean.request.UserLoginRequest;
 import com.uf.rest.bean.request.UserLogoutRequest;
 import com.uf.rest.bean.response.AddAddressResponse;
+import com.uf.rest.bean.response.AddBankCardResponse;
 import com.uf.rest.bean.response.CreateOrderResponse;
 import com.uf.rest.bean.response.CustomHomeResponse;
 import com.uf.rest.bean.response.CustomProcessOrderCountResponse;
 import com.uf.rest.bean.response.DeleteAddressResponse;
+import com.uf.rest.bean.response.DeleteBankCardResponse;
+import com.uf.rest.bean.response.QueryBankCardResponse;
 import com.uf.rest.bean.response.QueryUserAddressResponse;
 import com.uf.rest.bean.response.RemoveOrderResponse;
 import com.uf.rest.bean.response.GetGoodsResponse;
@@ -40,6 +46,7 @@ import com.uf.rest.bean.response.GoodPriceResponse;
 import com.uf.rest.bean.response.IsUserExistResponse;
 import com.uf.rest.bean.response.QueryOrderResponse;
 import com.uf.rest.bean.response.UpdateAddressResponse;
+import com.uf.rest.bean.response.UpdateBankCardResponse;
 import com.uf.rest.bean.response.UpdateOrderResponse;
 import com.uf.rest.bean.response.UserChangePasswordResponse;
 import com.uf.rest.bean.response.UserLoginResponse;
@@ -273,5 +280,52 @@ public class CustomActionTest {
 		System.out.println(JSONObject.fromObject(response).toString());
 		
 	}
+	
+	@Test
+	public void testAddCard()throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://"+ip+"/cleaner/custom/card/add");
+		AddBankCardRequest request= new AddBankCardRequest();
+		request.setBank("acbc");
+		request.setCard("33455555");
+		request.setName("jason");
+		request.setP(1);
+		request.setToken(token);
+		AddBankCardResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),AddBankCardResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	@Test
+	public void testUpdateBankCard()throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://"+ip+"/cleaner/custom/card/update");
+		UpdateBankCardRequest request= new UpdateBankCardRequest();
+		request.setBank("acbc");
+		request.setCard("33455555");
+		request.setName("jason zhang");
+		request.setP(1);
+		request.setCard_id(1);
+		request.setToken(token);
+		UpdateBankCardResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),UpdateBankCardResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	@Test
+	public void testQueryCard()throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://"+ip+"/cleaner/custom/card?start=0&count=10&token="+token);
+		QueryBankCardResponse response=target.request(MediaType.APPLICATION_JSON).get(QueryBankCardResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	@Test
+	public void testRemoveBankCard()throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://"+ip+"/cleaner/custom/card/remove");
+		DeleteBankCardRequest request=new DeleteBankCardRequest();
+		request.setCard_id(1);
+		request.setToken(token);
+		request.setP(1);
+		DeleteBankCardResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),DeleteBankCardResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	
 	
 }

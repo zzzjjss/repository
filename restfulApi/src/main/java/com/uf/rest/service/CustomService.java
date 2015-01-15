@@ -3,6 +3,7 @@ package com.uf.rest.service;
 import java.util.List;
 import java.util.Set;
 
+import com.uf.rest.entity.BankCard;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
@@ -26,4 +27,9 @@ public interface CustomService {
 	public void updateUserAddress(OrderAddress address);
 	public void deleteUserAddressById(Integer addressId);
 	public List<OrderAddress> findPagedOrderAddress(Integer userId,Integer start,Integer count);
+	public List<BankCard> findPagedBankCards(Integer userId,Integer start,Integer count);
+	public BankCard findBankCardById(Integer bankCardId);
+	public void addUserBankCard(BankCard bankCard);
+	public void updateUserBankCard(BankCard bankCard);
+	public void deleteUserBankCard(Integer bankCardId);
 }

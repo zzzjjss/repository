@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.uf.rest.bean.Constant;
+import com.uf.rest.dao.BankCardDao;
 import com.uf.rest.dao.OrderAddressDao;
 import com.uf.rest.dao.OrderDao;
 import com.uf.rest.dao.OrderDetailDao;
@@ -14,6 +15,7 @@ import com.uf.rest.dao.ProductClassDao;
 import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
 import com.uf.rest.dao.ShopProductPriceDao;
+import com.uf.rest.entity.BankCard;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
@@ -40,7 +42,8 @@ public class CustomServiceImpl implements CustomService{
 	private ProductDao productDao;
 	@Autowired
 	private ShopProductPriceDao shopProductPriceDao;
-	
+	@Autowired
+	private BankCardDao bankCardDao;
 	
 	public ShopProductPriceDao getShopProductPriceDao() {
 		return shopProductPriceDao;
@@ -162,5 +165,22 @@ public class CustomServiceImpl implements CustomService{
 	}
 	public List<OrderAddress> findPagedOrderAddress(Integer userId,Integer start,Integer count){
 		return orderAddressDao.findPagedUserOrderAddress(userId, start, count);
+	}
+	public List<BankCard> findPagedBankCards(Integer userId,Integer start,Integer count){
+		return bankCardDao.findPagedUserBankCards(userId, start, count);
+	}
+	public void addUserBankCard(BankCard bankCard){
+		bankCardDao.insert(bankCard);
+	}
+	public void updateUserBankCard(BankCard bankCard){
+		bankCardDao.update(bankCard);
+	}
+	public void deleteUserBankCard(Integer bankCardId){
+		BankCard card=new BankCard();
+		card.setId(bankCardId);
+		bankCardDao.delete(card);
+	}
+	public BankCard findBankCardById(Integer bankCardId){
+		return bankCardDao.findById(BankCard.class, bankCardId);
 	}
 }
