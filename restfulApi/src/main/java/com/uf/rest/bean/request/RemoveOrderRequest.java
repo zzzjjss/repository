@@ -1,6 +1,6 @@
 package com.uf.rest.bean.request;
 
-public class DeleteOrderRequest {
+public class RemoveOrderRequest {
 	private String token;
 	private Integer p;
 	private Integer order_id;

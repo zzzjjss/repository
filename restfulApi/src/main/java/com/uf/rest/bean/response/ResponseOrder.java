@@ -10,7 +10,7 @@ public class ResponseOrder {
 	private Integer pick_address_id;
 	private Integer deliver_address_id;
 	private ResponseShop shop;
-	private List<ResponseGood> good;
+	private List<OrderResponseGood> good;
 	public Integer getId() {
 		return id;
 	}
@@ -53,10 +53,10 @@ public class ResponseOrder {
 	public void setShop(ResponseShop shop) {
 		this.shop = shop;
 	}
-	public List<ResponseGood> getGood() {
+	public List<OrderResponseGood> getGood() {
 		return good;
 	}
-	public void setGood(List<ResponseGood> good) {
+	public void setGood(List<OrderResponseGood> good) {
 		this.good = good;
 	}
 	

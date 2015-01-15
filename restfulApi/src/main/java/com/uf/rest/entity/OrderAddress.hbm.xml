@@ -8,8 +8,36 @@
             <column name="id" />
             <generator class="identity" />
         </id>
+        <property name="name" type="string">
+            <column name="name" />
+        </property>
+        <property name="phone" type="string">
+            <column name="phone" />
+        </property>
+        <property name="post" type="string">
+            <column name="post" />
+        </property>
+        <property name="controy" type="string">
+            <column name="controy" />
+        </property>
+        <property name="province" type="string">
+            <column name="province" />
+        </property>
+        
+        <property name="city" type="string">
+            <column name="city" />
+        </property>
+        <property name="district" type="string">
+            <column name="district" />
+        </property>
+        <many-to-one name="user"  lazy="false"
+			class="com.uf.rest.entity.User" column="user_id" />
+			
         <property name="address" type="string">
             <column name="address" />
+        </property>
+        <property name="createTime" type="timestamp">
+            <column name="create_time" />
         </property>
     </class>
 </hibernate-mapping>

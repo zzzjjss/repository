@@ -2,7 +2,7 @@ package com.uf.rest.bean.response;
 
 import com.uf.rest.bean.ResponseError;
 
-public class DeleteOrderResponse {
+public class RemoveOrderResponse {
 	private boolean success;
 	private ResponseError error;
 	public boolean isSuccess() {

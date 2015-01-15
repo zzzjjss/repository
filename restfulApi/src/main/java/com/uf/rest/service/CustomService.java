@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.uf.rest.entity.Order;
+import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
@@ -20,4 +21,9 @@ public interface CustomService {
 	public List<ShopProductPrice> findShopProductPricesByProductIdsAndShopId(List<Integer> productIds,Integer shopId);
 	public Order findOrderById(Integer orderId);
 	public List<Order>  findPagedOrdersByState(Integer userId,Integer state,Integer start,Integer count);
+	public void cancelOrder(Integer orderId);
+	public void addUserAddress(OrderAddress address);
+	public void updateUserAddress(OrderAddress address);
+	public void deleteUserAddressById(Integer addressId);
+	public List<OrderAddress> findPagedOrderAddress(Integer userId,Integer start,Integer count);
 }

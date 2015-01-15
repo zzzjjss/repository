@@ -6,6 +6,7 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.rest.bean.Constant;
 import com.uf.rest.dao.OrderAddressDao;
 import com.uf.rest.dao.OrderDao;
 import com.uf.rest.dao.OrderDetailDao;
@@ -14,6 +15,7 @@ import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
 import com.uf.rest.dao.ShopProductPriceDao;
 import com.uf.rest.entity.Order;
+import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
@@ -131,7 +133,7 @@ public class CustomServiceImpl implements CustomService{
 	}
 	
 	public List<Product> findAllProducts(){
-		return productDao.findByHql("select * from Product ", null);
+		return productDao.findByHql("select p from Product p");
 	}
 	public List<ShopProductPrice> findShopProductPricesByProductIdsAndShopId(List<Integer> productIds,Integer shopId){
 		return shopProductPriceDao.findShopProductPriceByGoodIds(productIds, shopId);
@@ -141,5 +143,24 @@ public class CustomServiceImpl implements CustomService{
 	}
 	public List<Order>  findPagedOrdersByState(Integer userId,Integer state,Integer start,Integer count){
 		return orderDao.findPagedOrdersByState(userId, state, start, count);
+	}
+	public void cancelOrder(Integer orderId){
+		Order order=orderDao.findById(Order.class, orderId);
+		order.setOrderState(Constant.ORDER_STATE_CANCELED);
+		orderDao.update(order);
+	}
+	public void addUserAddress(OrderAddress address){
+		orderAddressDao.insert(address);
+	}
+	public void updateUserAddress(OrderAddress address){
+		orderAddressDao.update(address);
+	}
+	public void deleteUserAddressById(Integer addressId){
+		OrderAddress add=new OrderAddress();
+		add.setId(addressId);
+		orderAddressDao.delete(add);
+	}
+	public List<OrderAddress> findPagedOrderAddress(Integer userId,Integer start,Integer count){
+		return orderAddressDao.findPagedUserOrderAddress(userId, start, count);
 	}
 }
