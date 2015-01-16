@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.uf.rest.entity.BankCard;
+import com.uf.rest.entity.CustomComment;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
@@ -32,4 +33,6 @@ public interface CustomService {
 	public void addUserBankCard(BankCard bankCard);
 	public void updateUserBankCard(BankCard bankCard);
 	public void deleteUserBankCard(Integer bankCardId);
+	public void addCustomComment(CustomComment comment);
+	public List<CustomComment> findPagedComments(Integer start,Integer count);
 }

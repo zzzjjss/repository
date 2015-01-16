@@ -26,6 +26,7 @@ import com.uf.rest.bean.ResponseError;
 import com.uf.rest.bean.Session;
 import com.uf.rest.bean.request.AddAddressRequest;
 import com.uf.rest.bean.request.AddBankCardRequest;
+import com.uf.rest.bean.request.AddCustomCommentRequest;
 import com.uf.rest.bean.request.CreateOrderRequest;
 import com.uf.rest.bean.request.CustomHomeRequest;
 import com.uf.rest.bean.request.DeleteAddressRequest;
@@ -44,6 +45,8 @@ import com.uf.rest.bean.response.AddAddressResponse;
 import com.uf.rest.bean.response.AddAddressResponseData;
 import com.uf.rest.bean.response.AddBankCardResponse;
 import com.uf.rest.bean.response.AddBankCardResponseData;
+import com.uf.rest.bean.response.AddCustomCommentResponse;
+import com.uf.rest.bean.response.AddCustomCommentResponseData;
 import com.uf.rest.bean.response.CreateOrderResponse;
 import com.uf.rest.bean.response.CreateOrderResponseData;
 import com.uf.rest.bean.response.CustomHomeResponse;
@@ -54,6 +57,8 @@ import com.uf.rest.bean.response.DeleteAddressResponse;
 import com.uf.rest.bean.response.DeleteBankCardResponse;
 import com.uf.rest.bean.response.QueryBankCardResponse;
 import com.uf.rest.bean.response.QueryBankCardResponseData;
+import com.uf.rest.bean.response.QueryCommentResponse;
+import com.uf.rest.bean.response.QueryCommentResponseData;
 import com.uf.rest.bean.response.QueryUserAddressResponse;
 import com.uf.rest.bean.response.QueryUserAddressResponseData;
 import com.uf.rest.bean.response.RemoveOrderResponse;
@@ -69,6 +74,7 @@ import com.uf.rest.bean.response.QueryOrderResponseData;
 import com.uf.rest.bean.response.ResponseAddress;
 import com.uf.rest.bean.response.ResponseBankCard;
 import com.uf.rest.bean.response.ResponseClassGoods;
+import com.uf.rest.bean.response.ResponseComment;
 import com.uf.rest.bean.response.ResponseCoordinate;
 import com.uf.rest.bean.response.ResponseGood;
 import com.uf.rest.bean.response.ResponseLocation;
@@ -85,6 +91,7 @@ import com.uf.rest.bean.response.UserLogoutResponse;
 import com.uf.rest.bean.response.UserRegistResponse;
 import com.uf.rest.bean.response.UserRegistResponseData;
 import com.uf.rest.entity.BankCard;
+import com.uf.rest.entity.CustomComment;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
@@ -656,7 +663,7 @@ public class CustomAction {
 		QueryOrderResponse response=new QueryOrderResponse();
 		try{
 			User user=getUserByToken(token);
-			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if(user!=null){
 				List<Order> orders=customService.findPagedOrdersByState(user.getId(), Integer.parseInt(state), Integer.parseInt(start), Integer.parseInt(count));
 				if(orders!=null&&orders.size()>0){
@@ -737,7 +744,7 @@ public class CustomAction {
 			User user=getUserByToken(request.getToken());
 			if(user!=null){
 				Date date=new Date();
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				OrderAddress add=new OrderAddress();
 				add.setAddress(request.getAddress());
 				add.setCity(request.getCity());
@@ -1059,6 +1066,91 @@ public class CustomAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/comment/add")
+    public String commentAdd(AddCustomCommentRequest request) {
+		AddCustomCommentResponse response=new AddCustomCommentResponse(); 
+		try{
+			User user=getUserByToken(request.getToken());
+			if(user!=null){
+				Date date=new Date();
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				CustomComment comment=new CustomComment();
+				comment.setCommitTime(date);
+				comment.setComment(request.getComment());
+				comment.setUser(user);
+				customService.addCustomComment(comment);
+				AddCustomCommentResponseData data=new AddCustomCommentResponseData();
+				data.setId(comment.getId());
+				data.setTime(format.format(date));
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/comment")
+	public String comment(@QueryParam("token")String token,@QueryParam("p")String p,@QueryParam("start")String start,@QueryParam("count")String count){
+		QueryCommentResponse response=new QueryCommentResponse();
+		try{
+			User user=getUserByToken(token);
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			if(user!=null){
+				List<CustomComment> comments=customService.findPagedComments(Integer.parseInt(start), Integer.parseInt(count));
+				if(comments!=null&&comments.size()>0){
+					QueryCommentResponseData data=new QueryCommentResponseData();
+					List<ResponseComment> responseComments=new ArrayList<ResponseComment>();
+					for(CustomComment comment:comments){
+						ResponseComment resComment=new ResponseComment();
+						resComment.setComment(comment.getComment());
+						resComment.setId(comment.getId());
+						resComment.setName(user.getName());
+						resComment.setTime(format.format(comment.getCommitTime()));
+						responseComments.add(resComment);
+					}
+					data.setComment(responseComments);
+					data.setCount(comments.size());
+					data.setCursor_next(Integer.parseInt(start)+comments.size());
+					response.setData(data);
+				}
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	
 	
 	private User getUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);

@@ -37,6 +37,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				<value>com/uf/rest/entity/ProductClass.hbm.xml</value>
 				<value>com/uf/rest/entity/ShopProductPrice.hbm.xml</value>
 				<value>com/uf/rest/entity/BankCard.hbm.xml</value>
+				<value>com/uf/rest/entity/CustomComment.hbm.xml</value>
 			</list>
 		</property>
 		

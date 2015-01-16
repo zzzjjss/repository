@@ -17,6 +17,7 @@ import org.junit.Test;
 
 import com.uf.rest.bean.request.AddAddressRequest;
 import com.uf.rest.bean.request.AddBankCardRequest;
+import com.uf.rest.bean.request.AddCustomCommentRequest;
 import com.uf.rest.bean.request.CreateOrderRequest;
 import com.uf.rest.bean.request.CustomHomeRequest;
 import com.uf.rest.bean.request.DeleteAddressRequest;
@@ -33,12 +34,14 @@ import com.uf.rest.bean.request.UserLoginRequest;
 import com.uf.rest.bean.request.UserLogoutRequest;
 import com.uf.rest.bean.response.AddAddressResponse;
 import com.uf.rest.bean.response.AddBankCardResponse;
+import com.uf.rest.bean.response.AddCustomCommentResponse;
 import com.uf.rest.bean.response.CreateOrderResponse;
 import com.uf.rest.bean.response.CustomHomeResponse;
 import com.uf.rest.bean.response.CustomProcessOrderCountResponse;
 import com.uf.rest.bean.response.DeleteAddressResponse;
 import com.uf.rest.bean.response.DeleteBankCardResponse;
 import com.uf.rest.bean.response.QueryBankCardResponse;
+import com.uf.rest.bean.response.QueryCommentResponse;
 import com.uf.rest.bean.response.QueryUserAddressResponse;
 import com.uf.rest.bean.response.RemoveOrderResponse;
 import com.uf.rest.bean.response.GetGoodsResponse;
@@ -314,6 +317,21 @@ public class CustomActionTest {
 		WebTarget target = client.target("http://"+ip+"/cleaner/custom/card?start=0&count=10&token="+token);
 		QueryBankCardResponse response=target.request(MediaType.APPLICATION_JSON).get(QueryBankCardResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	
+	@Test
+	public void testComment()throws Exception{
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://"+ip+"/cleaner/custom/comment/add");
+		AddCustomCommentRequest request=new AddCustomCommentRequest();
+		request.setComment("commentss");
+		request.setP(1);
+		request.setToken(token);
+		AddCustomCommentResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),AddCustomCommentResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+		WebTarget target2 = client.target("http://"+ip+"/cleaner/custom/comment?start=0&count=10&token="+token);
+		QueryCommentResponse response2=target2.request(MediaType.APPLICATION_JSON).get(QueryCommentResponse.class);
+		System.out.println(JSONObject.fromObject(response2).toString());
 	}
 	@Test
 	public void testRemoveBankCard()throws Exception{

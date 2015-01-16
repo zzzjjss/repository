@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.uf.rest.bean.Constant;
 import com.uf.rest.dao.BankCardDao;
+import com.uf.rest.dao.CustomCommentDao;
 import com.uf.rest.dao.OrderAddressDao;
 import com.uf.rest.dao.OrderDao;
 import com.uf.rest.dao.OrderDetailDao;
@@ -16,6 +17,7 @@ import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
 import com.uf.rest.dao.ShopProductPriceDao;
 import com.uf.rest.entity.BankCard;
+import com.uf.rest.entity.CustomComment;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
@@ -44,7 +46,8 @@ public class CustomServiceImpl implements CustomService{
 	private ShopProductPriceDao shopProductPriceDao;
 	@Autowired
 	private BankCardDao bankCardDao;
-	
+	@Autowired
+	private CustomCommentDao commentDao;
 	public ShopProductPriceDao getShopProductPriceDao() {
 		return shopProductPriceDao;
 	}
@@ -182,5 +185,11 @@ public class CustomServiceImpl implements CustomService{
 	}
 	public BankCard findBankCardById(Integer bankCardId){
 		return bankCardDao.findById(BankCard.class, bankCardId);
+	}
+	public void addCustomComment(CustomComment comment){
+		commentDao.insert(comment);
+	}
+	public List<CustomComment> findPagedComments(Integer start,Integer count){
+		return commentDao.findPagedComments(start, count);
 	}
 }
