@@ -40,6 +40,7 @@ import com.uf.rest.bean.response.CustomHomeResponse;
 import com.uf.rest.bean.response.CustomProcessOrderCountResponse;
 import com.uf.rest.bean.response.DeleteAddressResponse;
 import com.uf.rest.bean.response.DeleteBankCardResponse;
+import com.uf.rest.bean.response.GetClientVersionResponse;
 import com.uf.rest.bean.response.QueryBankCardResponse;
 import com.uf.rest.bean.response.QueryCommentResponse;
 import com.uf.rest.bean.response.QueryUserAddressResponse;
@@ -331,6 +332,13 @@ public class CustomActionTest {
 		System.out.println(JSONObject.fromObject(response).toString());
 		WebTarget target2 = client.target("http://"+ip+"/cleaner/custom/comment?start=0&count=10&token="+token);
 		QueryCommentResponse response2=target2.request(MediaType.APPLICATION_JSON).get(QueryCommentResponse.class);
+		System.out.println(JSONObject.fromObject(response2).toString());
+	}
+	@Test
+	public void testClientVersion(){
+		Client client = ClientBuilder.newClient();
+		WebTarget target2 = client.target("http://"+ip+"/cleaner/custom/version/last?p=1&token="+token);
+		GetClientVersionResponse response2=target2.request(MediaType.APPLICATION_JSON).get(GetClientVersionResponse.class);
 		System.out.println(JSONObject.fromObject(response2).toString());
 	}
 	@Test

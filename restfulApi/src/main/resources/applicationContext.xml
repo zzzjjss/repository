@@ -20,7 +20,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
 		<property name="url" value="jdbc:mysql://127.0.0.1:3306/cleaner?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="19850806" />
 	</bean>
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
@@ -38,6 +38,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				<value>com/uf/rest/entity/ShopProductPrice.hbm.xml</value>
 				<value>com/uf/rest/entity/BankCard.hbm.xml</value>
 				<value>com/uf/rest/entity/CustomComment.hbm.xml</value>
+				<value>com/uf/rest/entity/ClientVersion.hbm.xml</value>
 			</list>
 		</property>
 		

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.rest.entity.ClientVersion" table="client_version" >
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="code" type="string">
+            <column name="code" />
+        </property>
+       <property name="version" type="string">
+            <column name="version" />
+        </property>
+        <property name="info" type="string">
+            <column name="info" />
+        </property>
+        <property name="updateTime" type="timestamp">
+            <column name="update_time" />
+        </property>
+        <property name="url" type="string">
+            <column name="url" />
+        </property>
+    </class>
+</hibernate-mapping>

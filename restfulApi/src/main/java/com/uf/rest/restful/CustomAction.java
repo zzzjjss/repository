@@ -55,6 +55,8 @@ import com.uf.rest.bean.response.CustomProcessOrderCountResponse;
 import com.uf.rest.bean.response.CustomProcessOrderCountResponseData;
 import com.uf.rest.bean.response.DeleteAddressResponse;
 import com.uf.rest.bean.response.DeleteBankCardResponse;
+import com.uf.rest.bean.response.GetClientVersionResponse;
+import com.uf.rest.bean.response.GetClientVersionResponseData;
 import com.uf.rest.bean.response.QueryBankCardResponse;
 import com.uf.rest.bean.response.QueryBankCardResponseData;
 import com.uf.rest.bean.response.QueryCommentResponse;
@@ -91,6 +93,7 @@ import com.uf.rest.bean.response.UserLogoutResponse;
 import com.uf.rest.bean.response.UserRegistResponse;
 import com.uf.rest.bean.response.UserRegistResponseData;
 import com.uf.rest.entity.BankCard;
+import com.uf.rest.entity.ClientVersion;
 import com.uf.rest.entity.CustomComment;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
@@ -1150,7 +1153,45 @@ public class CustomAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
-	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/version/last")
+	public String versionLast(@QueryParam("token")String token,@QueryParam("p")String p){
+		GetClientVersionResponse response=new GetClientVersionResponse();
+		try{
+			User user=getUserByToken(token);
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			if(user!=null){
+				ClientVersion version=customService.findLastClientVersion();
+				if(version!=null){
+					GetClientVersionResponseData data=new GetClientVersionResponseData();
+					data.setCode(version.getCode());
+					data.setId(version.getId());
+					data.setInfo(version.getInfo());
+					data.setTime(format.format(version.getUpdateTime()));
+					data.setUrl(version.getUrl());
+					data.setVersion(version.getVersion());
+					response.setData(data);
+				}
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
 	
 	private User getUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);

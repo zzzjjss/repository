@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.uf.rest.bean.Constant;
 import com.uf.rest.dao.BankCardDao;
+import com.uf.rest.dao.ClientVersionDao;
 import com.uf.rest.dao.CustomCommentDao;
 import com.uf.rest.dao.OrderAddressDao;
 import com.uf.rest.dao.OrderDao;
@@ -17,6 +18,7 @@ import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
 import com.uf.rest.dao.ShopProductPriceDao;
 import com.uf.rest.entity.BankCard;
+import com.uf.rest.entity.ClientVersion;
 import com.uf.rest.entity.CustomComment;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
@@ -48,6 +50,8 @@ public class CustomServiceImpl implements CustomService{
 	private BankCardDao bankCardDao;
 	@Autowired
 	private CustomCommentDao commentDao;
+	@Autowired
+	private ClientVersionDao clientVersionDao;
 	public ShopProductPriceDao getShopProductPriceDao() {
 		return shopProductPriceDao;
 	}
@@ -191,5 +195,12 @@ public class CustomServiceImpl implements CustomService{
 	}
 	public List<CustomComment> findPagedComments(Integer start,Integer count){
 		return commentDao.findPagedComments(start, count);
+	}
+	public ClientVersion findLastClientVersion(){
+		List<ClientVersion> versions=clientVersionDao.findByHql("select c from ClientVersion c");
+		if(versions!=null&&versions.size()>0){
+			return versions.get(0);
+		}
+		return null;
 	}
 }
