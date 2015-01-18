@@ -14,14 +14,17 @@ public class FileUtil {
 		return fileName.substring(index);
 	}
 	public static byte[] getFileContent(String filePath){
-		File file=new File(filePath);
-		if(file.exists()){
-			try {
-				return org.aspectj.util.FileUtil.readAsByteArray(file);
-			} catch (IOException e) {
-				e.printStackTrace();
+		if(filePath!=null){
+			File file=new File(filePath);
+			if(file.exists()){
+				try {
+					return org.aspectj.util.FileUtil.readAsByteArray(file);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		
 		return null;
 	}
 	public static String writeContentToFile(byte conetent[],String dir,String fileName){
