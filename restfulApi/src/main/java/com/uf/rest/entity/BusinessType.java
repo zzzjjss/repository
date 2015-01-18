@@ -1,6 +1,8 @@
 package com.uf.rest.entity;
 
-public class BusinessType {
+import java.io.Serializable;
+
+public class BusinessType implements Serializable{
 	private Integer id;
 	private String name;
 	private Boolean isPublic; 

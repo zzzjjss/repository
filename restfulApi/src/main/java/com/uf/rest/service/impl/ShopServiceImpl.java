@@ -183,6 +183,7 @@ public class ShopServiceImpl implements ShopService{
 			shop.setId(shopId);
 			spPrice.setProduct(pro);
 			spPrice.setShop(shop);
+			spPrice.setPrice(shopProPrice);
 			shopProductPriceDao.insert(spPrice);
 		}
 		

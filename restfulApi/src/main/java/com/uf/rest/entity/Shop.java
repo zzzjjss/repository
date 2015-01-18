@@ -1,8 +1,9 @@
 package com.uf.rest.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Shop {
+public class Shop implements Serializable{
 	private Integer id;
 	private String name;
 	private String shopPhotoPath;

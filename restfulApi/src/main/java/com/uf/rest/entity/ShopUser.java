@@ -1,8 +1,9 @@
 package com.uf.rest.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class ShopUser {
+public class ShopUser implements Serializable{
 	private Integer id;
 	private String userName;
 	private String password;

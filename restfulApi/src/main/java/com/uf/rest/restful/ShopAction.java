@@ -153,9 +153,9 @@ public class ShopAction {
 				shopUser.setIdCard(request.getId_card());
 				shopUser.setPassword(request.getPassword());
 				shopUser.setRealName(request.getName());
-				String filePath=Constant.TEMP_PATH+"shopUserIdImag/"+shopUser.getId()+".jpg";
-				FileUtil.writeContentToFile(request.getCard_image(), filePath);
-				shopUser.setIdCardPhotoPath(filePath);
+				String filePath=Constant.TEMP_PATH+"shopUserIdImag";
+				String absoPath=FileUtil.writeContentToFile(request.getCard_image(), filePath,shopUser.getId()+".jpg");
+				shopUser.setIdCardPhotoPath(absoPath);
 				shopUser.setPlatform(request.getP());
 				service.updateShopUserInfo(shopUser);
 				response.setSuccess(true);
@@ -338,7 +338,7 @@ public class ShopAction {
 		try{
 			ShopUser shopUser=getShopUserByToken(request.getToken());
 			if(shopUser!=null){
-				Shop shop=shopUser.getShop();
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
 				if(shop!=null){
 					shop.setIsOpen(request.getOpen());
 					service.updateShop(shop);
@@ -397,9 +397,9 @@ public class ShopAction {
 				shop.setIsOpen(true);
 				shop.setCreateTime(date);
 				shop.setName(request.getName());
-				String shopIconPath=Constant.TEMP_PATH+"shopImages/"+shopUser.getId()+"/shopIcon.jpg"; 
-				FileUtil.writeContentToFile(request.getIcon(), shopIconPath);
-				shop.setShopPhotoPath(shopIconPath);
+				String shopIconPath=Constant.TEMP_PATH+"shopImages/"+shopUser.getId(); 
+				String absoPath=FileUtil.writeContentToFile(request.getIcon(), shopIconPath,"shopIcon.jpg");
+				shop.setShopPhotoPath(absoPath);
 				shop.setShopUser(shopUser);
 				service.addShop(shop);
 				//shop.setBusinessType(request.get);
@@ -461,9 +461,9 @@ public class ShopAction {
 					shop.setContactStyle(arrayToString(request.getPhone()));
 					shop.setIsOpen(true);
 					shop.setName(request.getName());
-					String shopIconPath=Constant.TEMP_PATH+"shopImages/"+shopUser.getId()+"/shopIcon.jpg"; 
-					FileUtil.writeContentToFile(request.getIcon(), shopIconPath);
-					shop.setShopPhotoPath(shopIconPath);
+					String shopIconPath=Constant.TEMP_PATH+"shopImages/"+shopUser.getId(); 
+					String absPath=FileUtil.writeContentToFile(request.getIcon(), shopIconPath,"shopIcon.jpg");
+					shop.setShopPhotoPath(absPath);
 					service.updateShop(shop);
 					//shop.setBusinessType(request.get);
 					response.setSuccess(true);
@@ -707,7 +707,9 @@ public class ShopAction {
 						ResponseGoodClass goodClass=new ResponseGoodClass();
 						goodClass.setId(proClass.getId());
 						goodClass.setName(proClass.getName());
-						goodClass.setTime(format.format(proClass.getAddTime()));
+						if(proClass.getAddTime()!=null){
+							goodClass.setTime(format.format(proClass.getAddTime()));
+						}
 						goodClasses.add(goodClass);
 					}
 					data.setGoodClass(goodClasses);
@@ -789,8 +791,9 @@ public class ShopAction {
 				if(isPublic!=null&&isPublic.booleanValue()){
 					service.deletePublicProductById(request.getId());
 				}else{
-					if(shopUser.getShop()!=null){
-						service.deleteShopProductPrice(shopUser.getShop().getId(), request.getId());
+					Shop shop=service.findShopByShopUserId(shopUser.getId());
+					if(shop!=null){
+						service.deleteShopProductPrice(shop.getId(), request.getId());
 					}
 				}
 				response.setSuccess(true);
@@ -833,8 +836,9 @@ public class ShopAction {
 							product.setProductClass(proClass);
 						service.updatePublicProduct(product);
 					}else{
-						if(shopUser.getShop()!=null){
-							service.priceShopProduct(shopUser.getShop().getId(), product.getId() ,request.getPrice());
+						Shop shop=service.findShopByShopUserId(shopUser.getId());
+						if(shop!=null){
+							service.priceShopProduct(shop.getId(), product.getId() ,request.getPrice());
 						}
 					}
 					response.setSuccess(true);
@@ -894,7 +898,9 @@ public class ShopAction {
 								goodClass.setId(proClass.getId());
 								goodClass.setIs_public(true);
 								goodClass.setName(proClass.getName());
-								goodClass.setTime(format.format(proClass.getAddTime()));
+								if(proClass.getAddTime()!=null){
+									goodClass.setTime(format.format(proClass.getAddTime()));
+								}
 								good.setGoodClass(goodClass);
 								good.setGoodClass(goodClass);
 							}
@@ -951,8 +957,9 @@ public class ShopAction {
 						goodClass.setId(proClass.getId());
 						goodClass.setIs_public(true);
 						goodClass.setName(proClass.getName());
-						goodClass.setTime(format.format(proClass.getAddTime()));
-						
+						if(proClass.getAddTime()!=null){
+							goodClass.setTime(format.format(proClass.getAddTime()));
+						}
 						List<ResponseQueryByClassGood> goods=new ArrayList<ResponseQueryByClassGood>(); 
 						List<Product> classPros=service.findProductsByClassId(proClass.getId());
 						if(classPros!=null&&classPros.size()>0){
@@ -963,7 +970,9 @@ public class ShopAction {
 								good.setName(pro.getName());
 								good.setPrice(pro.getDefaultPrice());
 								good.setSell(true);
-								good.setTime(format.format(pro.getAddTime()));
+								if(pro.getAddTime()!=null){
+									good.setTime(format.format(pro.getAddTime()));
+								}
 								goods.add(good);
 							}
 							goodClass.setGood(goods);
@@ -971,6 +980,9 @@ public class ShopAction {
 						resClass.add(goodClass);
 					}
 					data.setClass_goods(resClass);
+					data.setCount(resClass.size());
+					data.setCursor_next(Integer.parseInt(start)+resClass.size());
+					response.setData(data);
 				}
 				response.setSuccess(true);	
 			}else{

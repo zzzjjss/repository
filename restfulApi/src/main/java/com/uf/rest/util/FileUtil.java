@@ -24,18 +24,18 @@ public class FileUtil {
 		}
 		return null;
 	}
-	public static void writeContentToFile(byte conetent[],String filePath){
-		File file=new File(filePath);
-		FileOutputStream out;
+	public static String writeContentToFile(byte conetent[],String dir,String fileName){
+		File dirPath=new File(dir);
 		try {
-			if(!file.exists()){
-				file.createNewFile();
-			}
-			out = new FileOutputStream(file);
+			dirPath.mkdirs();
+			File file=new File(dirPath+"/"+fileName);
+			FileOutputStream out = new FileOutputStream(file);
 			out.write(conetent);
+			out.close();
+			return file.getAbsolutePath();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		return null;
 	}
 }

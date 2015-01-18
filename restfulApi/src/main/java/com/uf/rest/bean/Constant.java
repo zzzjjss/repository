@@ -21,5 +21,5 @@ public class Constant {
 	public static final Integer ORDER_STATE_COMPLETE=4;
 	public static final Integer ORDER_STATE_PAYED=64;
 	
-	public static final String TEMP_PATH="./";
+	public static final String TEMP_PATH=System.getProperty("user.home")+"/";
 }
