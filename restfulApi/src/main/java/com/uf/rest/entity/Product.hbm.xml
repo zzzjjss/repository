@@ -9,10 +9,15 @@
             <generator class="identity" />
         </id>
         
+        <property name="defaultPrice" type="float">
+            <column name="default_price" />
+        </property>
         <property name="name" type="string">
             <column name="name" length="100" not-null="true" />
         </property>
-			
+		<property name="addTime" type="timestamp">
+            <column name="add_time" />
+        </property>
 		 <many-to-one name="productClass"  lazy="false"
 			class="com.uf.rest.entity.ProductClass" column="product_class_id" />
 			

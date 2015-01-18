@@ -12,7 +12,7 @@ import com.uf.rest.dao.ShopDao;
 import com.uf.rest.entity.Shop;
 @Component("shopDao")
 public class ShopDaoImpl extends CommonDaoImpl<Shop> implements ShopDao{
-	public List<Shop> findByHql(String hql,int fetchSize,Object... values){
+	public List<Shop> findLimitByHql(String hql,int fetchSize,Object... values){
 		HibernateTemplate tmp=getHibernateTemplate();
 		tmp.setFetchSize(fetchSize);
 		return (List<Shop>)tmp.find(hql, values);

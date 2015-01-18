@@ -1,9 +1,27 @@
 package com.uf.rest.entity;
 
+import java.util.Date;
+
 public class Product {
 	private Integer id;
 	private String name;
+	private Float defaultPrice;
 	private ProductClass productClass;
+	private Date addTime;
+	
+	
+	public Date getAddTime() {
+		return addTime;
+	}
+	public void setAddTime(Date addTime) {
+		this.addTime = addTime;
+	}
+	public Float getDefaultPrice() {
+		return defaultPrice;
+	}
+	public void setDefaultPrice(Float defaultPrice) {
+		this.defaultPrice = defaultPrice;
+	}
 	public Integer getId() {
 		return id;
 	}

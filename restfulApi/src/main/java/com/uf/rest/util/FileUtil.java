@@ -1,6 +1,8 @@
 package com.uf.rest.util;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 
@@ -21,5 +23,19 @@ public class FileUtil {
 			}
 		}
 		return null;
+	}
+	public static void writeContentToFile(byte conetent[],String filePath){
+		File file=new File(filePath);
+		FileOutputStream out;
+		try {
+			if(!file.exists()){
+				file.createNewFile();
+			}
+			out = new FileOutputStream(file);
+			out.write(conetent);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

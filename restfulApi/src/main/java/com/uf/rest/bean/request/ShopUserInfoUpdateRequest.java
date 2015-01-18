@@ -5,7 +5,7 @@ public class ShopUserInfoUpdateRequest {
 	private Integer p;
 	private String name;
 	private String id_card;
-	private String card_image;
+	private byte[] card_image;
 	private String password;
 	public String getToken() {
 		return token;
@@ -31,10 +31,10 @@ public class ShopUserInfoUpdateRequest {
 	public void setId_card(String id_card) {
 		this.id_card = id_card;
 	}
-	public String getCard_image() {
+	public byte[] getCard_image() {
 		return card_image;
 	}
-	public void setCard_image(String card_image) {
+	public void setCard_image(byte[] card_image) {
 		this.card_image = card_image;
 	}
 	public String getPassword() {

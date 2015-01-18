@@ -12,6 +12,8 @@
         <property name="name" type="string">
             <column name="name" length="100" not-null="true" />
         </property>
-			
+		<property name="addTime" type="timestamp">
+            <column name="add_time"  />
+        </property>	
     </class>
 </hibernate-mapping>
