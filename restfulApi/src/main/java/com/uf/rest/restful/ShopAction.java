@@ -34,6 +34,7 @@ import com.uf.rest.bean.request.ShopLocation;
 import com.uf.rest.bean.request.ShopUserInfoUpdateRequest;
 import com.uf.rest.bean.request.UpdateGoodClassRequest;
 import com.uf.rest.bean.request.UpdateGoodRequest;
+import com.uf.rest.bean.request.UpdateOrderStateRequest;
 import com.uf.rest.bean.request.UpdateShopRequest;
 import com.uf.rest.bean.request.UserChangePasswordRequest;
 import com.uf.rest.bean.request.UserLoginRequest;
@@ -73,6 +74,7 @@ import com.uf.rest.bean.response.ShopIncomeResponse;
 import com.uf.rest.bean.response.ShopOrderResponse;
 import com.uf.rest.bean.response.UpdateGoodClassResponse;
 import com.uf.rest.bean.response.UpdateGoodResponse;
+import com.uf.rest.bean.response.UpdateOrderStateResponse;
 import com.uf.rest.bean.response.UpdateShopResponse;
 import com.uf.rest.bean.response.UserChangePasswordResponse;
 import com.uf.rest.bean.response.UserLoginResponse;
@@ -1063,6 +1065,16 @@ public class ShopAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	@POST
+	@Path("/order/update/state")
+	public String updateOrderState(UpdateOrderStateRequest request){
+		UpdateOrderStateResponse response=new UpdateOrderStateResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	
 	
 	private ShopUser getShopUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);
