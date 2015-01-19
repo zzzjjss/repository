@@ -46,6 +46,7 @@ import com.uf.rest.bean.response.AddShopResponse;
 import com.uf.rest.bean.response.AddShopResponseData;
 import com.uf.rest.bean.response.DeleteGoodClassResponse;
 import com.uf.rest.bean.response.DeleteGoodResponse;
+import com.uf.rest.bean.response.DrawDetailResponse;
 import com.uf.rest.bean.response.GetShopUserInfoResponse;
 import com.uf.rest.bean.response.GetShopUserInfoResponseData;
 import com.uf.rest.bean.response.IsUserExistResponse;
@@ -67,6 +68,9 @@ import com.uf.rest.bean.response.ResponseQueryByClassGood;
 import com.uf.rest.bean.response.ResponseQueryByClassGoods;
 import com.uf.rest.bean.response.ResponseQueryGood;
 import com.uf.rest.bean.response.ResponseShopClassGoods;
+import com.uf.rest.bean.response.ShopHomeResponse;
+import com.uf.rest.bean.response.ShopIncomeResponse;
+import com.uf.rest.bean.response.ShopOrderResponse;
 import com.uf.rest.bean.response.UpdateGoodClassResponse;
 import com.uf.rest.bean.response.UpdateGoodResponse;
 import com.uf.rest.bean.response.UpdateShopResponse;
@@ -1003,6 +1007,45 @@ public class ShopAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/home")
+	public String shopHome(@QueryParam("token") String token,@QueryParam("p") String p){
+		ShopHomeResponse response=new ShopHomeResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/income")
+	public String shopIncome(@QueryParam("token") String token,@QueryParam("p") String p){
+		ShopIncomeResponse response=new ShopIncomeResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/income/withdraw")
+	public String shopIncomeWithdraw(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		DrawDetailResponse response=new DrawDetailResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/income/order/get")
+	public String shopOrder(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		ShopOrderResponse response=new ShopOrderResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	
 	
 	
 	private ShopUser getShopUserByToken(String token){

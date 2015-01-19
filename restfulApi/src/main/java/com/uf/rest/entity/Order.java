@@ -15,7 +15,15 @@ public class Order {
 	private Set<OrderDetail> orderDetails=new HashSet<OrderDetail>();
 	private Integer paymentType;
 	private Integer orderState;
+	private Set<OrderStateHistory> orderStatesHistory;
 	
+	
+	public Integer getOrderState() {
+		return orderState;
+	}
+	public void setOrderState(Integer orderState) {
+		this.orderState = orderState;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -73,12 +81,14 @@ public class Order {
 	public void setPaymentType(Integer paymentType) {
 		this.paymentType = paymentType;
 	}
-	public Integer getOrderState() {
-		return orderState;
+	public Set<OrderStateHistory> getOrderStatesHistory() {
+		return orderStatesHistory;
 	}
-	public void setOrderState(Integer orderState) {
-		this.orderState = orderState;
+	public void setOrderStatesHistory(Set<OrderStateHistory> orderStatesHistory) {
+		this.orderStatesHistory = orderStatesHistory;
 	}
+	
+	
 	
 	
 }

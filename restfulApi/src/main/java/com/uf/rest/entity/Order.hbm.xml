@@ -39,6 +39,11 @@
             </key>
             <one-to-many class="com.uf.rest.entity.OrderDetail" />
         </set>	
-		
+		<set name="orderStatesHistory" table="order_state_history" inverse="true" lazy="false" fetch="select">
+            <key>
+                <column name="order_id" not-null="true" />
+            </key>
+            <one-to-many class="com.uf.rest.entity.OrderStateHistory" />
+        </set>	
     </class>
 </hibernate-mapping>

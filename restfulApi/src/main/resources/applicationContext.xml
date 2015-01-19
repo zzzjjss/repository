@@ -39,6 +39,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				<value>com/uf/rest/entity/BankCard.hbm.xml</value>
 				<value>com/uf/rest/entity/CustomComment.hbm.xml</value>
 				<value>com/uf/rest/entity/ClientVersion.hbm.xml</value>
+				<value>com/uf/rest/entity/OrderStateHistory.hbm.xml</value>
 			</list>
 		</property>
 		
