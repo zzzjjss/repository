@@ -1039,14 +1039,30 @@ public class ShopAction {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@GET
-	@Path("/income/order/get")
+	@Path("/order/get")
 	public String shopOrder(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		ShopOrderResponse response=new ShopOrderResponse();
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
-	
-	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/order/process")
+	public String shopOrderProcess(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		ShopOrderResponse response=new ShopOrderResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/order/finish")
+	public String shopOrderFinish(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		ShopOrderResponse response=new ShopOrderResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
 	
 	private ShopUser getShopUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);
