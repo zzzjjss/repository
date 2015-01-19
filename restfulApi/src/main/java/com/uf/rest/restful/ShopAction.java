@@ -48,6 +48,7 @@ import com.uf.rest.bean.response.AddShopResponseData;
 import com.uf.rest.bean.response.DeleteGoodClassResponse;
 import com.uf.rest.bean.response.DeleteGoodResponse;
 import com.uf.rest.bean.response.DrawDetailResponse;
+import com.uf.rest.bean.response.GetClientVersionResponse;
 import com.uf.rest.bean.response.GetShopUserInfoResponse;
 import com.uf.rest.bean.response.GetShopUserInfoResponseData;
 import com.uf.rest.bean.response.IsUserExistResponse;
@@ -71,6 +72,7 @@ import com.uf.rest.bean.response.ResponseQueryGood;
 import com.uf.rest.bean.response.ResponseShopClassGoods;
 import com.uf.rest.bean.response.SellHomeResponse;
 import com.uf.rest.bean.response.SellIncomeResponse;
+import com.uf.rest.bean.response.SellOrderDealReponse;
 import com.uf.rest.bean.response.SellOrderResponse;
 import com.uf.rest.bean.response.SellVisitResponse;
 import com.uf.rest.bean.response.ShopHomeResponse;
@@ -1111,6 +1113,24 @@ public class ShopAction {
 	@Path("/sell/visit")
 	public String sellVisit(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		SellVisitResponse response=new SellVisitResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/sell/order/deal")
+	public String sellOrderDeal(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		SellOrderDealReponse response=new SellOrderDealReponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/version/last")
+	public String versionLast(@QueryParam("token") String token,@QueryParam("p") String p){
+		GetClientVersionResponse response=new GetClientVersionResponse();
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
