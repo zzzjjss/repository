@@ -69,6 +69,10 @@ import com.uf.rest.bean.response.ResponseQueryByClassGood;
 import com.uf.rest.bean.response.ResponseQueryByClassGoods;
 import com.uf.rest.bean.response.ResponseQueryGood;
 import com.uf.rest.bean.response.ResponseShopClassGoods;
+import com.uf.rest.bean.response.SellHomeResponse;
+import com.uf.rest.bean.response.SellIncomeResponse;
+import com.uf.rest.bean.response.SellOrderResponse;
+import com.uf.rest.bean.response.SellVisitResponse;
 import com.uf.rest.bean.response.ShopHomeResponse;
 import com.uf.rest.bean.response.ShopIncomeResponse;
 import com.uf.rest.bean.response.ShopOrderResponse;
@@ -1074,7 +1078,42 @@ public class ShopAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
-	
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/sell/home")
+	public String sellHome(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		SellHomeResponse response=new SellHomeResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/sell/income")
+	public String sellIncome(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		SellIncomeResponse response=new SellIncomeResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/sell/order")
+	public String sellOrder(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		SellOrderResponse response=new SellOrderResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/sell/visit")
+	public String sellVisit(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		SellVisitResponse response=new SellVisitResponse();
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
 	
 	private ShopUser getShopUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);
