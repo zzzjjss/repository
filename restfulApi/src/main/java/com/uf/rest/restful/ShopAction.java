@@ -76,6 +76,7 @@ import com.uf.rest.bean.response.SellOrderDealReponse;
 import com.uf.rest.bean.response.SellOrderResponse;
 import com.uf.rest.bean.response.SellVisitResponse;
 import com.uf.rest.bean.response.ShopHomeResponse;
+import com.uf.rest.bean.response.ShopHomeResponseData;
 import com.uf.rest.bean.response.ShopIncomeResponse;
 import com.uf.rest.bean.response.ShopOrderResponse;
 import com.uf.rest.bean.response.UpdateGoodClassResponse;
@@ -88,6 +89,7 @@ import com.uf.rest.bean.response.UserLoginResponseData;
 import com.uf.rest.bean.response.UserLogoutResponse;
 import com.uf.rest.bean.response.UserRegistResponse;
 import com.uf.rest.bean.response.UserRegistResponseData;
+import com.uf.rest.entity.Order;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.ProductClass;
 import com.uf.rest.entity.Shop;
@@ -1021,7 +1023,51 @@ public class ShopAction {
 	@Path("/home")
 	public String shopHome(@QueryParam("token") String token,@QueryParam("p") String p){
 		ShopHomeResponse response=new ShopHomeResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					ShopHomeResponseData data=new ShopHomeResponseData(); 
+					data.setShop_id(shop.getId());
+					List<ShopProductPrice> priceProducts=service.findShopGoodPriceInfoByShopId(shop.getId());
+					if(priceProducts!=null){
+						data.setGood_count(priceProducts.size());
+					}else{
+						data.setGood_count(0);
+					}
+					List<Order> orders=service.findShopOrderByOrderState(shop.getId(),Constant.ORDER_STATE_PROCESSING);
+					if(orders!=null){
+						data.setOrder_count(orders.size());
+					}else{
+						data.setOrder_count(0);
+					}
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+				
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}		
 		JSONObject obj=JSONObject.fromObject(response);
+		
 		return obj.toString();
 	}
 	@Produces(MediaType.APPLICATION_JSON)

@@ -2,6 +2,7 @@ package com.uf.rest.service;
 
 import java.util.List;
 
+import com.uf.rest.entity.Order;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.ProductClass;
 import com.uf.rest.entity.Shop;
@@ -32,4 +33,5 @@ public interface ShopService {
 	public Product findProducById(Integer productId);
 	public ShopProductPrice findShopProductPrice(Integer shopId,Integer productId);
 	public List<Product> findProductsByClassId(Integer productClassId);
+	public List<Order> findShopOrderByOrderState(Integer shopId,Integer orderState);
 }

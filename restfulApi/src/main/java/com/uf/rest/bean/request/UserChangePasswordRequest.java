@@ -4,6 +4,14 @@ public class UserChangePasswordRequest {
 	private String token;
 	private String old_psd;
 	private String new_psd;
+	private Integer p;
+	
+	public Integer getP() {
+		return p;
+	}
+	public void setP(Integer p) {
+		this.p = p;
+	}
 	public String getToken() {
 		return token;
 	}
