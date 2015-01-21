@@ -19,6 +19,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.uf.rest.bean.Constant;
@@ -115,6 +118,7 @@ import com.uf.rest.util.FileUtil;
 @Singleton
 @Path("/custom")
 public class CustomAction {
+	private Logger logger = LogManager.getLogger(CustomAction.class);
 	private UserService service=ServiceFactory.getService(UserService.class);
 	private CustomService customService=ServiceFactory.getService(CustomService.class);
 	private ShopService shopService=ServiceFactory.getService(ShopService.class);
@@ -148,7 +152,8 @@ public class CustomAction {
 				response.setError(error);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("/account/login  <-----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -204,7 +209,8 @@ public class CustomAction {
 				response.setError(error);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -244,7 +250,8 @@ public class CustomAction {
 			error.setMsg(e.getMessage());
 			response.setError(error);
 		}catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -268,6 +275,7 @@ public class CustomAction {
 			data.setExisted(isExist);
 			response.setData(data);
 		} catch (Exception e) {
+			logger.error("<----"+name+"---->", e);
 			e.printStackTrace();
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
@@ -314,7 +322,8 @@ public class CustomAction {
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -347,7 +356,7 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<----"+token+p+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -393,7 +402,7 @@ public class CustomAction {
 				response.setSuccess(true);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<----"+token+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -459,7 +468,8 @@ public class CustomAction {
 				response.setSuccess(true);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -531,7 +541,8 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -562,7 +573,8 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -591,7 +603,8 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -653,7 +666,8 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -732,7 +746,8 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			
+			logger.error("<----"+state+";"+start+";"+count+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -779,7 +794,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -808,7 +824,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -851,7 +868,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -905,7 +923,7 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<----"+start+";"+count+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -946,7 +964,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -988,7 +1007,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1018,7 +1038,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1065,7 +1086,7 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<----"+start+";"+count+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1104,7 +1125,8 @@ public class CustomAction {
 			}
 			
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1149,7 +1171,7 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<----"+start+";"+count+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1188,7 +1210,7 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<----"+token+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1236,7 +1258,8 @@ public class CustomAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());

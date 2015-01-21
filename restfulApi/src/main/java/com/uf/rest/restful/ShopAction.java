@@ -19,6 +19,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import net.sf.json.JSONObject;
 
 import com.uf.rest.bean.Constant;
@@ -133,6 +136,7 @@ import com.uf.rest.util.FileUtil;
 @Singleton
 @Path("/shop")
 public class ShopAction {
+	private Logger logger = LogManager.getLogger(ShopAction.class);
 	private ShopService service=ServiceFactory.getService(ShopService.class);
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -164,7 +168,8 @@ public class ShopAction {
 			error.setMsg(e.getMessage());
 			response.setError(error);
 		}catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			response.setSuccess(false);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -210,7 +215,8 @@ public class ShopAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("  <-----"+obj.toString()+"---->", e);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -245,7 +251,7 @@ public class ShopAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error("<-----"+token+"---->", e);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -268,7 +274,7 @@ public class ShopAction {
 			data.setExisted(isExist);
 			response.setData(data);
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+userName+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -312,7 +318,8 @@ public class ShopAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -362,7 +369,8 @@ public class ShopAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -401,7 +409,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error=new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -459,7 +468,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -526,7 +536,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -616,7 +627,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+token+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -654,7 +665,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -683,7 +695,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -769,7 +782,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -811,7 +824,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -848,7 +862,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -901,7 +916,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -970,7 +986,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1036,7 +1052,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1105,7 +1121,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <--------->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1210,7 +1226,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <--------->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1263,7 +1279,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1304,7 +1320,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1409,7 +1425,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1449,7 +1465,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1484,7 +1500,8 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error(" <-----"+obj.toString()+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1561,7 +1578,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1627,7 +1644,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1690,7 +1707,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1754,7 +1771,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1817,7 +1834,7 @@ public class ShopAction {
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(" <-----"+start+";"+count+"---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
@@ -1857,7 +1874,7 @@ public class ShopAction {
 				response.setSuccess(false);
 			}
 		}catch(Exception e){
-			e.printStackTrace();
+			logger.error(" <--------->", e);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
