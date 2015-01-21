@@ -10,7 +10,7 @@ public class UpdateOrderRequest {
 	private Integer deliver_address_id;
 	private Integer payment;
 	private Integer state;
-	private List<RequestGood> good;
+	private RequestGood[] good;
 	public String getToken() {
 		return token;
 	}
@@ -53,10 +53,10 @@ public class UpdateOrderRequest {
 	public void setState(Integer state) {
 		this.state = state;
 	}
-	public List<RequestGood> getGood() {
+	public RequestGood[] getGood() {
 		return good;
 	}
-	public void setGood(List<RequestGood> good) {
+	public void setGood(RequestGood[] good) {
 		this.good = good;
 	}
 	

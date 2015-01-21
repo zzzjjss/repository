@@ -10,7 +10,7 @@ public class UpdateShopRequest {
 	private String[] phone;
 	private ShopLocation location;
 	private ShopCoordinate coordinate;
-	private List<GoodInfo> good;
+	private GoodInfo[] good;
 	public String getToken() {
 		return token;
 	}
@@ -53,10 +53,10 @@ public class UpdateShopRequest {
 	public void setCoordinate(ShopCoordinate coordinate) {
 		this.coordinate = coordinate;
 	}
-	public List<GoodInfo> getGood() {
+	public GoodInfo[] getGood() {
 		return good;
 	}
-	public void setGood(List<GoodInfo> good) {
+	public void setGood(GoodInfo[] good) {
 		this.good = good;
 	}
 	

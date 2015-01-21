@@ -2,6 +2,7 @@ package com.uf.rest.restful;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -129,6 +130,7 @@ public class CustomAction {
     public String accountLogin(UserLoginRequest request) {
 		UserLoginResponse  response=new UserLoginResponse();
 		try{
+			logger.info("ddddddddddddddddddddddd");
 			User user=service.findUserByName(request.getName());
 			if(user!=null&&user.getPassword()!=null&&user.getPassword().equals(request.getPassword())){
 				UUID  id=UUID.randomUUID();
@@ -308,10 +310,16 @@ public class CustomAction {
 					location.setCity(shop.getCity());
 					location.setProvince(shop.getProvince());
 					responseShop.setLocation(location);
-					responseShop.setMark(shop.getMark().toString());
+					if(shop.getMark()!=null){
+						responseShop.setMark(shop.getMark().toString());
+					}
 					responseShop.setName(shop.getName());
-					responseShop.setPhone(shop.getContactStyle().split(","));
-					responseShop.setTime(format.format(shop.getCreateTime()));
+					if(shop.getContactStyle()!=null){
+						responseShop.setPhone(shop.getContactStyle().split(","));
+					}
+					if(shop.getCreateTime()!=null){
+						responseShop.setTime(format.format(shop.getCreateTime()));
+					}
 					responseShop.setType("type");
 					responseShops.add(responseShop);
 				}
@@ -379,7 +387,13 @@ public class CustomAction {
 				GetGoodsResponseData data=new GetGoodsResponseData();
 				Map<String, List<ResponseGood>> classProducts=new HashMap<String, List<ResponseGood>>();
 				for(Product p:products){
-					String className=p.getProductClass().getName();
+					String className="noClass";
+					if(p.getProductClass()!=null){
+						className=p.getProductClass().getName();
+					}
+					if(className==null){
+						className="noClass";
+					}
 					List<ResponseGood> goods=classProducts.get(className);
 					if(goods==null){
 						goods=new ArrayList<ResponseGood>();
@@ -425,7 +439,10 @@ public class CustomAction {
 			if(shops!=null&&shops.size()>0){
 				List<ShopGoodsPrice> shopsProductPrice=new ArrayList<ShopGoodsPrice>();
 				for(Shop s:shops){
-					List<ShopProductPrice> shopProductPrices=customService.findShopProductPricesByProductIdsAndShopId(request.getGood(), s.getId());
+					List<ShopProductPrice> shopProductPrices=null;
+					if(request.getGood()!=null&&request.getGood().length>0){
+						shopProductPrices=customService.findShopProductPricesByProductIdsAndShopId(Arrays.asList(request.getGood()), s.getId());
+					}
 					ShopGoodsPrice shopGoodPrice=new ShopGoodsPrice();
 					if(shopProductPrices!=null&&shopProductPrices.size()>0){
 						Shop shop=shopProductPrices.get(0).getShop();
@@ -440,8 +457,13 @@ public class CustomAction {
 						responseShop.setLocation(location);
 						responseShop.setMark(shop.getMark().toString());
 						responseShop.setName(shop.getName());
-						responseShop.setPhone(shop.getContactStyle().split(","));
-						responseShop.setTime(format.format(shop.getCreateTime()));
+						if(shop.getContactStyle()!=null){
+							responseShop.setPhone(shop.getContactStyle().split(","));
+						}
+						if(shop.getCreateTime()!=null){
+							responseShop.setTime(format.format(shop.getCreateTime()));
+						}
+						
 						responseShop.setType("type");
 						ResponseCoordinate coor=new ResponseCoordinate();
 						coor.setLatitude(shop.getLatitude());
@@ -507,8 +529,8 @@ public class CustomAction {
 				Shop shop=new Shop();
 				shop.setId(request.getShop_id());
 				order.setShop(shop);
-				List<RequestGood> goods=request.getGood();
-				if(goods!=null&&goods.size()>0){
+				RequestGood[] goods=request.getGood();
+				if(goods!=null&&goods.length>0){
 					Set<OrderDetail> details=new HashSet<OrderDetail>();
 					for(RequestGood good:goods){
 						OrderDetail detail=new OrderDetail();
@@ -636,8 +658,8 @@ public class CustomAction {
 				order.setOrderState(request.getState());
 				order.setPaymentType(request.getPayment());
 				order.setUser(user);
-				List<RequestGood> goods=request.getGood();
-				if(goods!=null&&goods.size()>0){
+				RequestGood[] goods=request.getGood();
+				if(goods!=null&&goods.length>0){
 					Set<OrderDetail> details=new HashSet<OrderDetail>();
 					for(RequestGood good:goods){
 						OrderDetail detail=new OrderDetail();

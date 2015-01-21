@@ -1,11 +1,10 @@
 package com.uf.rest.bean.request;
 
-import java.util.List;
 
 public class GoodPriceRequest {
 	private String token;
 	private Integer p;
-	private List<Integer> good;
+	private Integer[] good;
 	private Integer count;
 	private Integer start;
 	public String getToken() {
@@ -20,10 +19,10 @@ public class GoodPriceRequest {
 	public void setP(Integer p) {
 		this.p = p;
 	}
-	public List<Integer> getGood() {
+	public Integer[] getGood() {
 		return good;
 	}
-	public void setGood(List<Integer> good) {
+	public void setGood(Integer[] good) {
 		this.good = good;
 	}
 	public Integer getCount() {

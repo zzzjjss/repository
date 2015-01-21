@@ -2,6 +2,7 @@ package com.uf.rest.test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import javax.ws.rs.client.Client;
@@ -59,7 +60,7 @@ import com.uf.rest.bean.response.UserRegistResponse;
 
 public class CustomActionTest {
 	private static String token;
-	public static String ip="localhost:8080";
+	public static String ip="www.fastmobshare.com:8088";
 	@BeforeClass
 	public static void setToken(){
 		Client client = ClientBuilder.newClient();
@@ -78,7 +79,7 @@ public class CustomActionTest {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://"+ip+"/cleaner/custom/account/register");
 		RegistUserRequest request =new RegistUserRequest(); 
-		request.setName("hello1");
+		request.setName("hello");
 		request.setP(1);
 		request.setPassword("hello");
 		request.setType(0);
@@ -155,7 +156,7 @@ public class CustomActionTest {
 		WebTarget target = client.target("http://"+ip+"/cleaner/custom/shop/goods/price");
 		GoodPriceRequest request=new GoodPriceRequest();
 		request.setP(0);
-		request.setGood(Arrays.asList(1,2));
+		request.setGood(new Integer[]{1,2});
 		request.setCount(10);
 		request.setStart(0);
 		request.setToken(token);
@@ -182,7 +183,7 @@ public class CustomActionTest {
 		good.setPrice(22.2f);
 		List<RequestGood> goods=new ArrayList<RequestGood>();
 		goods.add(good);
-		request.setGood(goods);
+		request.setGood((RequestGood[])goods.toArray());
 		CreateOrderResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),CreateOrderResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
 	}
@@ -203,7 +204,7 @@ public class CustomActionTest {
 		good.setCount(5);
 		good.setId(2);
 		goods.add(good);
-		request.setGood(goods);
+		request.setGood((RequestGood[])goods.toArray());
 		request.setToken(token);
 		UpdateOrderResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),UpdateOrderResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
