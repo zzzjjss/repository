@@ -2,10 +2,12 @@ package com.uf.rest.restful;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.inject.Singleton;
@@ -48,12 +50,15 @@ import com.uf.rest.bean.response.AddShopResponseData;
 import com.uf.rest.bean.response.DeleteGoodClassResponse;
 import com.uf.rest.bean.response.DeleteGoodResponse;
 import com.uf.rest.bean.response.DrawDetailResponse;
+import com.uf.rest.bean.response.DrawDetailResponseData;
 import com.uf.rest.bean.response.GetClientVersionResponse;
+import com.uf.rest.bean.response.GetClientVersionResponseData;
 import com.uf.rest.bean.response.GetShopUserInfoResponse;
 import com.uf.rest.bean.response.GetShopUserInfoResponseData;
 import com.uf.rest.bean.response.IsUserExistResponse;
 import com.uf.rest.bean.response.IsUserExistResponseData;
 import com.uf.rest.bean.response.OpenCloseShopResponse;
+import com.uf.rest.bean.response.OrderResponseGood;
 import com.uf.rest.bean.response.QueryGoodClassResponse;
 import com.uf.rest.bean.response.QueryGoodClassResponseData;
 import com.uf.rest.bean.response.QueryGoodResponse;
@@ -62,23 +67,40 @@ import com.uf.rest.bean.response.QueryGoodsByClassResponse;
 import com.uf.rest.bean.response.QueryGoodsByClassResponseData;
 import com.uf.rest.bean.response.QueryShopInfoResponse;
 import com.uf.rest.bean.response.QueryShopInfoResponseData;
+import com.uf.rest.bean.response.ResponseBankCard;
 import com.uf.rest.bean.response.ResponseCoordinate;
+import com.uf.rest.bean.response.ResponseDrawDetail;
 import com.uf.rest.bean.response.ResponseGood;
 import com.uf.rest.bean.response.ResponseGoodClass;
+import com.uf.rest.bean.response.ResponseIncome;
 import com.uf.rest.bean.response.ResponseLocation;
+import com.uf.rest.bean.response.ResponseOrderCount;
+import com.uf.rest.bean.response.ResponseOrderState;
+import com.uf.rest.bean.response.ResponseOrderToShopUser;
 import com.uf.rest.bean.response.ResponseQueryByClassGood;
 import com.uf.rest.bean.response.ResponseQueryByClassGoods;
 import com.uf.rest.bean.response.ResponseQueryGood;
+import com.uf.rest.bean.response.ResponseShop;
 import com.uf.rest.bean.response.ResponseShopClassGoods;
+import com.uf.rest.bean.response.ResponseUser;
+import com.uf.rest.bean.response.ResponseVisitCount;
+import com.uf.rest.bean.response.ResponseWithDraw;
 import com.uf.rest.bean.response.SellHomeResponse;
+import com.uf.rest.bean.response.SellHomeResponseData;
 import com.uf.rest.bean.response.SellIncomeResponse;
+import com.uf.rest.bean.response.SellIncomeResponseData;
 import com.uf.rest.bean.response.SellOrderDealReponse;
+import com.uf.rest.bean.response.SellOrderDealReponseData;
 import com.uf.rest.bean.response.SellOrderResponse;
+import com.uf.rest.bean.response.SellOrderResponseData;
 import com.uf.rest.bean.response.SellVisitResponse;
+import com.uf.rest.bean.response.SellVisitResponseData;
 import com.uf.rest.bean.response.ShopHomeResponse;
 import com.uf.rest.bean.response.ShopHomeResponseData;
 import com.uf.rest.bean.response.ShopIncomeResponse;
+import com.uf.rest.bean.response.ShopIncomeResponseData;
 import com.uf.rest.bean.response.ShopOrderResponse;
+import com.uf.rest.bean.response.ShopOrderResponseData;
 import com.uf.rest.bean.response.UpdateGoodClassResponse;
 import com.uf.rest.bean.response.UpdateGoodResponse;
 import com.uf.rest.bean.response.UpdateOrderStateResponse;
@@ -89,12 +111,19 @@ import com.uf.rest.bean.response.UserLoginResponseData;
 import com.uf.rest.bean.response.UserLogoutResponse;
 import com.uf.rest.bean.response.UserRegistResponse;
 import com.uf.rest.bean.response.UserRegistResponseData;
+import com.uf.rest.entity.ClientVersion;
 import com.uf.rest.entity.Order;
+import com.uf.rest.entity.OrderDetail;
+import com.uf.rest.entity.OrderStateHistory;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.ProductClass;
 import com.uf.rest.entity.Shop;
+import com.uf.rest.entity.ShopBankCard;
 import com.uf.rest.entity.ShopProductPrice;
 import com.uf.rest.entity.ShopUser;
+import com.uf.rest.entity.ShopVisitRecord;
+import com.uf.rest.entity.ShopWithDrawRecord;
+import com.uf.rest.entity.User;
 import com.uf.rest.exception.UserExistException;
 import com.uf.rest.service.ServiceFactory;
 import com.uf.rest.service.ShopService;
@@ -1037,11 +1066,28 @@ public class ShopAction {
 						data.setGood_count(0);
 					}
 					List<Order> orders=service.findShopOrderByOrderState(shop.getId(),Constant.ORDER_STATE_PROCESSING);
+					
 					if(orders!=null){
 						data.setOrder_count(orders.size());
+						data.setIncome(countOrdersTotalMoney(orders));
 					}else{
 						data.setOrder_count(0);
+						data.setIncome(0f);
 					}
+					Date today=new Date();
+					Calendar cal=Calendar.getInstance();
+					cal.add(Calendar.DAY_OF_MONTH, -1);
+					Date preDay=cal.getTime();
+					List<Order> todayOrder=service.findOneDayOrdersByOrderState(shop.getId(),today,Constant.ORDER_STATE_PROCESSING);
+					List<Order> preDayOrder=service.findOneDayOrdersByOrderState(shop.getId(),preDay,Constant.ORDER_STATE_PROCESSING);
+					float todayTotal=countOrdersTotalMoney(todayOrder);
+					float predayTotal=countOrdersTotalMoney(preDayOrder);
+					float busi=todayTotal;
+					if(predayTotal!=0){
+						busi=(todayTotal-predayTotal)/predayTotal;
+					}
+					data.setBusiness(busi);
+					response.setData(data);
 					response.setSuccess(true);
 				}else{
 					ResponseError error=new ResponseError();
@@ -1067,15 +1113,110 @@ public class ShopAction {
 			response.setError(error);
 		}		
 		JSONObject obj=JSONObject.fromObject(response);
-		
 		return obj.toString();
 	}
+	private float countOrdersTotalMoney(List<Order> orders){
+		Float totalMoney=0.0f;
+		for(Order order:orders){
+			Set<OrderDetail> details=order.getOrderDetails();
+			if(details!=null){
+				for(OrderDetail detail:details){
+					float prices=detail.getPrice()*detail.getCount();
+					totalMoney=totalMoney+prices;
+				}
+			}
+		}
+		return totalMoney;
+	}
+	private float countOrderMoney(Order order){
+		Float totalMoney=0.0f;
+		if(order!=null){
+			Set<OrderDetail> details=order.getOrderDetails();
+			if(details!=null){
+				for(OrderDetail detail:details){
+					float prices=detail.getPrice()*detail.getCount();
+					totalMoney=totalMoney+prices;
+				}
+			}
+		}
+		return totalMoney;
+	}
+	
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@GET
 	@Path("/income")
 	public String shopIncome(@QueryParam("token") String token,@QueryParam("p") String p){
 		ShopIncomeResponse response=new ShopIncomeResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					ShopIncomeResponseData data=new ShopIncomeResponseData(); 
+					data.setBalance(shopUser.getBalance().floatValue());
+					ShopBankCard card=service.findShopBankCard(shop.getId());
+					if(card!=null){
+						data.setHas_card(true);
+						ResponseBankCard bankCard=new ResponseBankCard();
+						bankCard.setBank(card.getBankName());
+						bankCard.setCard(card.getCardNumber());
+						bankCard.setId(card.getId());
+						bankCard.setName(card.getUserName());
+						SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+						bankCard.setTime(format.format(card.getAddTime()));
+						data.setCard(bankCard);
+					}else{
+						data.setHas_card(false);
+					}
+					ResponseWithDraw withDraw=new ResponseWithDraw();
+					List<ShopWithDrawRecord> withDraws=service.findInProcessWithdraw(shop.getId());
+					if(withDraws!=null){
+						withDraw.setCount(withDraws.size());
+						float total=0.0f;
+						for(ShopWithDrawRecord d:withDraws){
+							total+=d.getMoney();
+						}
+						withDraw.setTotal(total);
+						ShopWithDrawRecord lastR=service.findLastInprocessWithdraw(shop.getId());
+						if(lastR!=null){
+							withDraw.setLast(lastR.getMoney());
+						}else{
+							withDraw.setLast(0f);
+						}
+					}else{
+						withDraw.setCount(0);
+						withDraw.setLast(0f);
+						withDraw.setTotal(0f);
+					}
+					
+					data.setWithdraw(withDraw);
+					
+					response.setData(data);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+				
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}		
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1086,6 +1227,49 @@ public class ShopAction {
 	@Path("/income/withdraw")
 	public String shopIncomeWithdraw(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		DrawDetailResponse response=new DrawDetailResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+					DrawDetailResponseData data=new DrawDetailResponseData();
+					List<ShopWithDrawRecord> records=service.findPagedWithdraw(shop.getId(), Integer.parseInt(start), Integer.parseInt(count));
+					if(records!=null&&records.size()>0){
+						List<ResponseDrawDetail> resDetail=new ArrayList<ResponseDrawDetail>();
+						for(ShopWithDrawRecord record:records){
+							ResponseDrawDetail resRecord=new  ResponseDrawDetail();
+							resRecord.setMoney(record.getMoney());
+							resRecord.setDay(format.format(record.getWithdrawTime()));
+							resDetail.add(resRecord);
+						}
+						data.setWithdraw(resDetail);
+					}
+					response.setData(data);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+				
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}		
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1096,15 +1280,142 @@ public class ShopAction {
 	@Path("/order/get")
 	public String shopOrder(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		ShopOrderResponse response=new ShopOrderResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					ShopOrderResponseData data=generateShopOrderResponseByOrderState(shop.getId(),Constant.ORDER_STATE_WAITGET,Integer.parseInt(start),Integer.parseInt(count));
+					response.setData(data);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+				
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}	
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	private ShopOrderResponseData generateShopOrderResponseByOrderState(Integer shopId,Integer orderState,Integer start,Integer count){
+		ShopOrderResponseData data=new ShopOrderResponseData();
+		List<Order> orders=service.findPagedShopOrderByOrderState(shopId, orderState, start, count);
+		if(orders!=null&&orders.size()>0){
+			data.setCount(orders.size());
+			data.setCursor_next(orders.size()+start);
+			List<ResponseOrderToShopUser> resOrders=new ArrayList<ResponseOrderToShopUser>();
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			for(Order order:orders){
+				ResponseOrderToShopUser resOrder=new ResponseOrderToShopUser();
+				if(order.getDeliverAddress()!=null){
+					resOrder.setDeliver_address_id(order.getDeliverAddress().getId());
+				}
+				
+				resOrder.setId(order.getId());
+				resOrder.setPayment(String.valueOf(order.getPaymentType()));
+				if(order.getPickAddress()!=null){
+					resOrder.setPick_address_id(order.getPickAddress().getId());
+				}
+				Set<OrderStateHistory> stateHis=order.getOrderStatesHistory();
+				if(stateHis!=null&&stateHis.size()>0){
+					List<ResponseOrderState> resStates=new ArrayList<ResponseOrderState>();
+					for(OrderStateHistory state:stateHis){
+						ResponseOrderState resState=new ResponseOrderState();
+						resState.setName(state.getState().toString());
+						resState.setTime(format.format(state.getTime()));
+						resStates.add(resState);
+					}
+					resOrder.setState(resStates);
+				}
+				if(order.getCreateTime()!=null){
+					resOrder.setTime(format.format(order.getCreateTime()));
+				}
+				User user=order.getUser();
+				ResponseUser responseUser=new ResponseUser();
+				responseUser.setId(user.getId());
+				responseUser.setName(user.getName());
+				responseUser.setPhone("");
+				resOrder.setUser(responseUser);
+				if((order.getPaymentType()==Constant.ORDER_PAYTYPE_CASH&&order.getOrderState()>=Constant.ORDER_STATE_PROCESSING)||(order.getPaymentType()!=Constant.ORDER_PAYTYPE_CASH&&order.getOrderState()>=Constant.ORDER_STATE_WAITGET)){
+					resOrder.setPaid(true);
+				}else{
+					resOrder.setPaid(false);
+				}
+				Set<OrderDetail> details=order.getOrderDetails();
+				if(details!=null&&details.size()>0){
+					List<OrderResponseGood> resGoods=new ArrayList<OrderResponseGood>();
+					for(OrderDetail detail:details){
+						OrderResponseGood resGood=new OrderResponseGood();
+						resGood.setId(detail.getProduct().getId());
+						resGood.setName(detail.getProduct().getName());
+						resGood.setCount(detail.getCount());
+						resGood.setPrice(detail.getPrice());
+						resGoods.add(resGood);
+					}
+					resOrder.setGood(resGoods);
+				}
+				resOrders.add(resOrder);
+			}
+			data.setOrder(resOrders);
+		}
+		return data;
+		
+	}
+	
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@GET
 	@Path("/order/process")
 	public String shopOrderProcess(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		ShopOrderResponse response=new ShopOrderResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					ShopOrderResponseData data=generateShopOrderResponseByOrderState(shop.getId(),Constant.ORDER_STATE_PROCESSING,Integer.parseInt(start),Integer.parseInt(count));
+					response.setData(data);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+				
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}	
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1114,15 +1425,72 @@ public class ShopAction {
 	@Path("/order/finish")
 	public String shopOrderFinish(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		ShopOrderResponse response=new ShopOrderResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					ShopOrderResponseData data=generateShopOrderResponseByOrderState(shop.getId(),Constant.ORDER_STATE_COMPLETE,Integer.parseInt(start),Integer.parseInt(count));
+					response.setData(data);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+				
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}	
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
 	@Path("/order/update/state")
 	public String updateOrderState(UpdateOrderStateRequest request){
 		UpdateOrderStateResponse response=new UpdateOrderStateResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(request.getToken());
+			if(shopUser!=null){
+				Integer orders[]=request.getOrder_id();
+				if(orders!=null&&orders.length>0){
+					for(Integer orderId:orders){
+						service.updateOrderState(orderId, request.getState());
+					}
+				}
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}	
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1132,6 +1500,75 @@ public class ShopAction {
 	@Path("/sell/home")
 	public String sellHome(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		SellHomeResponse response=new SellHomeResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+				Date begin=null;
+				Date end=null;
+				if("0".equals(start)){
+					start="1900-01-01";
+				}else{
+					begin=format.parse(start);
+				}
+				Calendar cal=Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
+				end=cal.getTime();
+				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
+				Map<String, Float> incomes=new HashMap<String, Float>();
+				Map<String, Integer> orderCounts=new HashMap<String, Integer>();
+				if(orders!=null&&orders.size()>0){
+					for(Order order:orders){
+						float orderMoney=countOrderMoney(order);
+						String date=format.format(order.getCreateTime());
+						Float total=incomes.get(date);
+						Integer totalCount=orderCounts.get(date);
+						if(total==null){
+							total=0.0f;	
+						}
+						if(totalCount==null){
+							totalCount=0;
+						}
+						incomes.put(date, orderMoney+total);
+						orderCounts.put(date, totalCount+1);
+					}
+				}
+				
+				SellHomeResponseData data=new SellHomeResponseData();
+				data.setCount(Integer.parseInt(count));
+				data.setCursor_next(format.format(end));
+				List<ResponseIncome> resIncomes=new ArrayList<ResponseIncome>();
+				for(String key:incomes.keySet()){
+					ResponseIncome resIncome=new ResponseIncome();
+					resIncome.setDate(key);
+					resIncome.setMoney(incomes.get(key));
+				}
+				data.setIncome(resIncomes);
+				List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
+				for(String key:orderCounts.keySet()){
+					ResponseOrderCount resOrder=new ResponseOrderCount();
+					resOrder.setCount(orderCounts.get(key));
+					resOrder.setDate(key);
+				}
+				data.setOrder(resOrders);
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}	
+		
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1141,6 +1578,62 @@ public class ShopAction {
 	@Path("/sell/income")
 	public String sellIncome(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		SellIncomeResponse response=new SellIncomeResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+				Date begin=null;
+				Date end=null;
+				if("0".equals(start)){
+					start="1900-01-01";
+				}else{
+					begin=format.parse(start);
+				}
+				Calendar cal=Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
+				end=cal.getTime();
+				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
+				Map<String, Float> incomes=new HashMap<String, Float>();
+				if(orders!=null&&orders.size()>0){
+					for(Order order:orders){
+						float orderMoney=countOrderMoney(order);
+						String date=format.format(order.getCreateTime());
+						Float total=incomes.get(date);
+						
+						if(total==null){
+							total=0.0f;	
+						}
+						incomes.put(date, orderMoney+total);
+					}
+				}
+				
+				SellIncomeResponseData data=new SellIncomeResponseData();
+				data.setCount(Integer.parseInt(count));
+				data.setCursor_next(format.format(end));
+				List<ResponseIncome> resIncomes=new ArrayList<ResponseIncome>();
+				for(String key:incomes.keySet()){
+					ResponseIncome resIncome=new ResponseIncome();
+					resIncome.setDate(key);
+					resIncome.setMoney(incomes.get(key));
+				}
+				data.setIncome(resIncomes);
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}	
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1150,6 +1643,60 @@ public class ShopAction {
 	@Path("/sell/order")
 	public String sellOrder(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		SellOrderResponse response=new SellOrderResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+				Date begin=null;
+				Date end=null;
+				if("0".equals(start)){
+					start="1900-01-01";
+				}else{
+					begin=format.parse(start);
+				}
+				Calendar cal=Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
+				end=cal.getTime();
+				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
+				Map<String, Integer> orderCounts=new HashMap<String, Integer>();
+				if(orders!=null&&orders.size()>0){
+					for(Order order:orders){
+						String date=format.format(order.getCreateTime());
+						Integer totalCount=orderCounts.get(date);
+						if(totalCount==null){
+							totalCount=0;
+						}
+						orderCounts.put(date, totalCount+1);
+					}
+				}
+				SellOrderResponseData data=new SellOrderResponseData();
+				data.setCount(Integer.parseInt(count));
+				data.setCursor_next(format.format(end));
+				
+				List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
+				for(String key:orderCounts.keySet()){
+					ResponseOrderCount resOrder=new ResponseOrderCount();
+					resOrder.setCount(orderCounts.get(key));
+					resOrder.setDate(key);
+				}
+				data.setOrder(resOrders);
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1159,6 +1706,61 @@ public class ShopAction {
 	@Path("/sell/visit")
 	public String sellVisit(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		SellVisitResponse response=new SellVisitResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+				Date begin=null;
+				Date end=null;
+				if("0".equals(start)){
+					start="1900-01-01";
+				}else{
+					begin=format.parse(start);
+				}
+				Calendar cal=Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
+				end=cal.getTime();
+				List<ShopVisitRecord> records=service.findShopVisitRecord(shopUser.getId(), begin, end);
+				Map<String, Integer> recordCounts=new HashMap<String, Integer>();
+				if(records!=null&&records.size()>0){
+					for(ShopVisitRecord record:records){
+						String date=format.format(record.getDate());
+						Integer totalCount=recordCounts.get(date);
+						if(totalCount==null){
+							totalCount=0;
+						}
+						recordCounts.put(date, totalCount+record.getVisitCount());
+					}
+				}
+				SellVisitResponseData data=new SellVisitResponseData();
+				data.setCount(Integer.parseInt(count));
+				data.setCursor_next(format.format(end));
+				
+				List<ResponseVisitCount> visits=new ArrayList<ResponseVisitCount>();
+				for(String key:recordCounts.keySet()){
+					ResponseVisitCount resVisit=new ResponseVisitCount();
+					resVisit.setCount(recordCounts.get(key));
+					resVisit.setDate(key);
+					visits.add(resVisit);
+				}
+				data.setVisit(visits);
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1168,6 +1770,60 @@ public class ShopAction {
 	@Path("/sell/order/deal")
 	public String sellOrderDeal(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
 		SellOrderDealReponse response=new SellOrderDealReponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+				Date begin=null;
+				Date end=null;
+				if("0".equals(start)){
+					start="1900-01-01";
+				}else{
+					begin=format.parse(start);
+				}
+				Calendar cal=Calendar.getInstance();
+				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
+				end=cal.getTime();
+				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
+				Map<String, Integer> orderCounts=new HashMap<String, Integer>();
+				if(orders!=null&&orders.size()>0){
+					for(Order order:orders){
+						String date=format.format(order.getCreateTime());
+						Integer totalCount=orderCounts.get(date);
+						if(totalCount==null){
+							totalCount=0;
+						}
+						orderCounts.put(date, totalCount+1);
+					}
+				}
+				SellOrderDealReponseData data=new SellOrderDealReponseData();
+				data.setCount(Integer.parseInt(count));
+				data.setCursor_next(format.format(end));
+				
+				List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
+				for(String key:orderCounts.keySet()){
+					ResponseOrderCount resOrder=new ResponseOrderCount();
+					resOrder.setCount(orderCounts.get(key));
+					resOrder.setDate(key);
+				}
+				data.setOrder(resOrders);
+				response.setData(data);
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
@@ -1177,6 +1833,36 @@ public class ShopAction {
 	@Path("/version/last")
 	public String versionLast(@QueryParam("token") String token,@QueryParam("p") String p){
 		GetClientVersionResponse response=new GetClientVersionResponse();
+		try{
+			ShopUser shopUser=getShopUserByToken(token);
+			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			if(shopUser!=null){
+				ClientVersion version=service.findLastClientVersion();
+				if(version!=null){
+					GetClientVersionResponseData data=new GetClientVersionResponseData();
+					data.setCode(version.getCode());
+					data.setId(version.getId());
+					data.setInfo(version.getInfo());
+					data.setTime(format.format(version.getUpdateTime()));
+					data.setUrl(version.getUrl());
+					data.setVersion(version.getVersion());
+					response.setData(data);
+				}
+				response.setSuccess(true);
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}

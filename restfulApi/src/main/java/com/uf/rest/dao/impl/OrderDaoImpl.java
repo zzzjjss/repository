@@ -1,5 +1,6 @@
 package com.uf.rest.dao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Component;
 import com.uf.rest.bean.Constant;
 import com.uf.rest.dao.OrderDao;
 import com.uf.rest.entity.Order;
+import com.uf.rest.util.DateUtil;
 @Component("orderDao")
 public class OrderDaoImpl extends CommonDaoImpl<Order> implements OrderDao{
 	public int findUserProcessingOrderCount(int userId){
@@ -22,5 +24,32 @@ public class OrderDaoImpl extends CommonDaoImpl<Order> implements OrderDao{
 		query.setFirstResult(start);
 		query.setMaxResults(count);
 		return query.list();
+	}
+	public List<Order> findPagedShopOrderByOrderState(Integer shopId,Integer orderState,Integer start,Integer count){
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from Order o where o.shop.id=:shopId and o.orderState=:state");
+		query.setParameter("shopId", shopId);
+		query.setParameter("state", orderState);
+		query.setFirstResult(start);
+		query.setMaxResults(count);
+		return query.list();
+	}
+	public List<Order> findOneDayOrdersByOrderState(Integer shopId,Date date ,Integer orderState){
+		String hql="select c from Order c where c.createTime>=:begin and c.createTime<=:end and c.shop.id=:shopId and c.orderState=:state";
+		String param[]=new String[]{"begin","end","shopId","state"};
+		
+		Object value[]=new Object[]{DateUtil.getDateBegin(date),DateUtil.getDateEnd(date),shopId,orderState};
+		return (List<Order>) getHibernateTemplate().findByNamedParam(hql, param, value);
+	}
+	public List<Order> findSuccessShopOrder(Integer shopId,Date start,Date end){
+		String hql="select c from Order c where c.createTime>=:begin and c.createTime<=:end and c.shop.id=:shopId and c.orderState>="+Constant.ORDER_STATE_PROCESSING;
+		String param[]=new String[]{"begin","end","shopId"};
+		Object value[]=new Object[]{DateUtil.getDateBegin(start),DateUtil.getDateEnd(end),shopId};
+		return (List<Order>) getHibernateTemplate().findByNamedParam(hql, param, value);
+	}
+	public List<Order> findShopOrderByOrderState(Integer shopId,Integer orderState){
+		String hql="select c from Order c where  c.shop.id=:shopId and c.orderState=:state";
+		String param[]=new String[]{"shopId","state"};
+		Object value[]=new Object[]{shopId,orderState};
+		return (List<Order>) getHibernateTemplate().findByNamedParam(hql, param, value);
 	}
 }

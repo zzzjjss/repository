@@ -1,5 +1,6 @@
 package com.uf.rest.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -17,6 +18,7 @@ import com.uf.rest.dao.ProductClassDao;
 import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
 import com.uf.rest.dao.ShopProductPriceDao;
+import com.uf.rest.dao.ShopVisitRecordDao;
 import com.uf.rest.entity.BankCard;
 import com.uf.rest.entity.ClientVersion;
 import com.uf.rest.entity.CustomComment;
@@ -26,7 +28,9 @@ import com.uf.rest.entity.OrderDetail;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
 import com.uf.rest.entity.ShopProductPrice;
+import com.uf.rest.entity.ShopVisitRecord;
 import com.uf.rest.service.CustomService;
+import com.uf.rest.util.DateUtil;
 
 @Service("customService")
 public class CustomServiceImpl implements CustomService{
@@ -52,6 +56,43 @@ public class CustomServiceImpl implements CustomService{
 	private CustomCommentDao commentDao;
 	@Autowired
 	private ClientVersionDao clientVersionDao;
+	@Autowired
+	private ShopVisitRecordDao shopVisitDao;
+	
+	public BankCardDao getBankCardDao() {
+		return bankCardDao;
+	}
+
+	public void setBankCardDao(BankCardDao bankCardDao) {
+		this.bankCardDao = bankCardDao;
+	}
+
+	public CustomCommentDao getCommentDao() {
+		return commentDao;
+	}
+
+	public void setCommentDao(CustomCommentDao commentDao) {
+		this.commentDao = commentDao;
+	}
+
+	public ClientVersionDao getClientVersionDao() {
+		return clientVersionDao;
+	}
+
+	public void setClientVersionDao(ClientVersionDao clientVersionDao) {
+		this.clientVersionDao = clientVersionDao;
+	}
+
+	
+
+	public ShopVisitRecordDao getShopVisitDao() {
+		return shopVisitDao;
+	}
+
+	public void setShopVisitDao(ShopVisitRecordDao shopVisitDao) {
+		this.shopVisitDao = shopVisitDao;
+	}
+
 	public ShopProductPriceDao getShopProductPriceDao() {
 		return shopProductPriceDao;
 	}
@@ -196,8 +237,18 @@ public class CustomServiceImpl implements CustomService{
 	public List<CustomComment> findPagedComments(Integer start,Integer count){
 		return commentDao.findPagedComments(start, count);
 	}
+	public ShopVisitRecord findOneDayVisitRecord(Integer shopId,Date date){
+		List<ShopVisitRecord> records=shopVisitDao.findByHql("select v from ShopVisitRecord v where v.shop.id=? and v.date>=? and v.date<=? ", shopId,DateUtil.getDateBegin(date),DateUtil.getDateEnd(date));
+		if(records!=null){
+			return records.get(0);
+		}
+		return null;
+	}
+	public void saveVisitRecord(ShopVisitRecord record){
+		shopVisitDao.saveOrUpdate(record);
+	}
 	public ClientVersion findLastClientVersion(){
-		List<ClientVersion> versions=clientVersionDao.findByHql("select c from ClientVersion c");
+		List<ClientVersion> versions=clientVersionDao.findByHql("select c from ClientVersion c where c.clientName=?","custom");
 		if(versions!=null&&versions.size()>0){
 			return versions.get(0);
 		}

@@ -9,6 +9,14 @@ public class ClientVersion {
 	private String info;
 	private Date   updateTime;
 	private String url;
+	private String clientName;
+	
+	public String getClientName() {
+		return clientName;
+	}
+	public void setClientName(String clientName) {
+		this.clientName = clientName;
+	}
 	public Integer getId() {
 		return id;
 	}

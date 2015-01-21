@@ -1,22 +1,37 @@
 package com.uf.rest.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.rest.bean.Constant;
+import com.uf.rest.dao.ClientVersionDao;
+import com.uf.rest.dao.OrderDao;
+import com.uf.rest.dao.OrderStateHistoryDao;
 import com.uf.rest.dao.ProductClassDao;
 import com.uf.rest.dao.ProductDao;
+import com.uf.rest.dao.ShopBankCardDao;
 import com.uf.rest.dao.ShopDao;
 import com.uf.rest.dao.ShopProductPriceDao;
 import com.uf.rest.dao.ShopUserDao;
+import com.uf.rest.dao.ShopVisitRecordDao;
+import com.uf.rest.dao.ShopWithDrawRecordDao;
+import com.uf.rest.entity.ClientVersion;
+import com.uf.rest.entity.Order;
+import com.uf.rest.entity.OrderStateHistory;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.ProductClass;
 import com.uf.rest.entity.Shop;
+import com.uf.rest.entity.ShopBankCard;
 import com.uf.rest.entity.ShopProductPrice;
 import com.uf.rest.entity.ShopUser;
+import com.uf.rest.entity.ShopVisitRecord;
+import com.uf.rest.entity.ShopWithDrawRecord;
 import com.uf.rest.exception.UserExistException;
 import com.uf.rest.service.ShopService;
+import com.uf.rest.util.DateUtil;
 
 @Service("shopService")
 public class ShopServiceImpl implements ShopService{
@@ -30,7 +45,67 @@ public class ShopServiceImpl implements ShopService{
 	private ShopProductPriceDao shopProductPriceDao;
 	@Autowired
 	private ProductClassDao productClassDao;
+	@Autowired
+	private OrderDao orderDao;
+	@Autowired
+	private ShopWithDrawRecordDao withdrawDao;
+	@Autowired
+	private ShopBankCardDao shopBankCardDao;
+	@Autowired
+	private OrderStateHistoryDao orderStateHisDao;
+	@Autowired
+	private ClientVersionDao clientVersionDao;
+	@Autowired
+	private ShopVisitRecordDao shopVisitDao;
 	
+	public ShopVisitRecordDao getShopVisitDao() {
+		return shopVisitDao;
+	}
+
+	public void setShopVisitDao(ShopVisitRecordDao shopVisitDao) {
+		this.shopVisitDao = shopVisitDao;
+	}
+
+	public ClientVersionDao getClientVersionDao() {
+		return clientVersionDao;
+	}
+
+	public void setClientVersionDao(ClientVersionDao clientVersionDao) {
+		this.clientVersionDao = clientVersionDao;
+	}
+
+	public ShopWithDrawRecordDao getWithdrawDao() {
+		return withdrawDao;
+	}
+
+	public void setWithdrawDao(ShopWithDrawRecordDao withdrawDao) {
+		this.withdrawDao = withdrawDao;
+	}
+
+	public ShopBankCardDao getShopBankCardDao() {
+		return shopBankCardDao;
+	}
+
+	public void setShopBankCardDao(ShopBankCardDao shopBankCardDao) {
+		this.shopBankCardDao = shopBankCardDao;
+	}
+
+	public OrderStateHistoryDao getOrderStateHisDao() {
+		return orderStateHisDao;
+	}
+
+	public void setOrderStateHisDao(OrderStateHistoryDao orderStateHisDao) {
+		this.orderStateHisDao = orderStateHisDao;
+	}
+
+	public OrderDao getOrderDao() {
+		return orderDao;
+	}
+
+	public void setOrderDao(OrderDao orderDao) {
+		this.orderDao = orderDao;
+	}
+
 	public ShopDao getShopDao() {
 		return shopDao;
 	}
@@ -219,5 +294,62 @@ public class ShopServiceImpl implements ShopService{
 		return productDao.findByHql("select p from Product p where p.productClass.id=?",productClassId );
 		
 	}
-
+	
+	public List<Order> findShopOrderByOrderState(Integer shopId,Integer orderState){
+		return orderDao.findShopOrderByOrderState(shopId, orderState);
+	}
+	public List<Order> findOneDayOrdersByOrderState(Integer shopId,Date date ,Integer orderState){
+		return orderDao.findOneDayOrdersByOrderState(shopId, date, orderState);
+	}
+	public List<Order> findPagedShopOrderByOrderState(Integer shopId,Integer orderState,Integer start,Integer count){
+		return orderDao.findPagedShopOrderByOrderState(shopId,orderState,start,count);
+	}
+	public List<Order> findSuccessShopOrder(Integer shopId,Date start,Date end){
+		return orderDao.findSuccessShopOrder(shopId,start,end);
+	}
+	public List<ShopVisitRecord> findShopVisitRecord(Integer shopId,Date begin,Date end){
+		return shopVisitDao.findByHql("select v from ShopVisitRecord v where v.shop.id=? and v.date>=? and v.date<=? ", shopId,DateUtil.getDateBegin(begin),DateUtil.getDateEnd(end));
+		
+		
+	}
+	public void updateOrderState(Integer orderId,Integer newState){
+		Order order=orderDao.findById(Order.class, orderId);
+		order.setOrderState(newState);
+		orderDao.update(order);
+		OrderStateHistory his=new OrderStateHistory();
+		his.setOrder(order);
+		his.setState(newState);
+		his.setTime(new Date());
+		orderStateHisDao.insert(his);
+	}
+	public List<ShopWithDrawRecord> findInProcessWithdraw(Integer shopId){
+		return withdrawDao.findByHql("select w from ShopWithDrawRecord w where w.shop.id=? and w.state=?", shopId,Constant.WITHDRAW_STATE_PROCESSING);
+	}
+	public ShopWithDrawRecord findLastInprocessWithdraw(Integer shopId){
+		List<ShopWithDrawRecord> records=withdrawDao.findByHql("select w from ShopWithDrawRecord w where w.shop.id=? and w.state=? order by w.withdrawTime desc ", shopId,Constant.WITHDRAW_STATE_PROCESSING);
+		if(records!=null&&records.size()>0){
+			return records.get(0);
+		}
+		return null;
+	}
+	public List<ShopWithDrawRecord> findPagedWithdraw(Integer shopId,Integer start,Integer count){
+		return withdrawDao.findPagedWithdraw(shopId,start,count);
+	}
+	public ShopBankCard findShopBankCard(Integer shopId){
+		List<ShopBankCard> bankCards=shopBankCardDao.findByHql("select b from ShopBankCard b where b.shop.id=?", shopId);
+		if(bankCards!=null){
+			return bankCards.get(0);
+		}
+		return null;
+	}
+	public ClientVersion findLastClientVersion(){
+		List<ClientVersion> versions=clientVersionDao.findByHql("select c from ClientVersion c where c.clientName=?","shop");
+		if(versions!=null&&versions.size()>0){
+			return versions.get(0);
+		}
+		return null;
+	}
+	public Shop findShopById(Integer id){
+		return shopDao.findById(Shop.class, id);
+	}
 }

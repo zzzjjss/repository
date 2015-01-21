@@ -15,11 +15,20 @@ public class Constant {
 	
 	
 	public static final Integer ORDER_STATE_CANCELED=0;
-	public static final Integer ORDER_STATE_WAITGET=1;
-	public static final Integer ORDER_STATE_PROCESSING=2;
-	public static final Integer ORDER_STATE_WAITSENT=3;
-	public static final Integer ORDER_STATE_COMPLETE=4;
-	public static final Integer ORDER_STATE_PAYED=64;
+	public static final Integer ORDER_STATE_WAITPAY=1;
+	public static final Integer ORDER_STATE_WAITGET=2;
+	public static final Integer ORDER_STATE_PROCESSING=3;
+	public static final Integer ORDER_STATE_WAITSENT=4;
+	public static final Integer ORDER_STATE_COMPLETE=5;
+	
+	
+	
+	public static final Integer ORDER_PAYTYPE_CASH=1;
+	public static final Integer ORDER_PAYTYPE_ZHIFUBAO=2;
+	public static final Integer ORDER_PAYTYPE_WEIXIN=3;
+	
+	public static final Integer WITHDRAW_STATE_PROCESSING=0;
+	public static final Integer WITHDRAW_STATE_COMPLETE=1;
 	
 	public static final String TEMP_PATH=System.getProperty("user.home")+"/";
 }

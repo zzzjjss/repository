@@ -1,5 +1,6 @@
 package com.uf.rest.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import com.uf.rest.entity.OrderDetail;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
 import com.uf.rest.entity.ShopProductPrice;
+import com.uf.rest.entity.ShopVisitRecord;
 
 public interface CustomService {
 	public List<Shop> findNearShops(int start, int count,Double longitude,Double latitude);
@@ -37,4 +39,6 @@ public interface CustomService {
 	public void addCustomComment(CustomComment comment);
 	public List<CustomComment> findPagedComments(Integer start,Integer count);
 	public ClientVersion findLastClientVersion();
+	public ShopVisitRecord findOneDayVisitRecord(Integer shopId,Date date);
+	public void saveVisitRecord(ShopVisitRecord record);
 }

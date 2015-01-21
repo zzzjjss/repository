@@ -4,7 +4,7 @@ import java.util.List;
 
 public class SellHomeResponseData {
 	private Integer count;
-	private Integer cursor_next;
+	private String cursor_next;
 	private List<ResponseIncome> income;
 	private List<ResponseOrderCount> order;
 	private List<ResponseVisitCount> visit;
@@ -14,10 +14,10 @@ public class SellHomeResponseData {
 	public void setCount(Integer count) {
 		this.count = count;
 	}
-	public Integer getCursor_next() {
+	public String getCursor_next() {
 		return cursor_next;
 	}
-	public void setCursor_next(Integer cursor_next) {
+	public void setCursor_next(String cursor_next) {
 		this.cursor_next = cursor_next;
 	}
 	public List<ResponseIncome> getIncome() {

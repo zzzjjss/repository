@@ -23,5 +23,8 @@
         <property name="url" type="string">
             <column name="url" />
         </property>
+        <property name="clientName" type="string">
+            <column name="clientName" />
+        </property>
     </class>
 </hibernate-mapping>

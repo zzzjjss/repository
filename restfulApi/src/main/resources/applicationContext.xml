@@ -40,6 +40,9 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 				<value>com/uf/rest/entity/CustomComment.hbm.xml</value>
 				<value>com/uf/rest/entity/ClientVersion.hbm.xml</value>
 				<value>com/uf/rest/entity/OrderStateHistory.hbm.xml</value>
+				<value>com/uf/rest/entity/ShopVisitRecord.hbm.xml</value>
+				<value>com/uf/rest/entity/ShopWithDrawRecord.hbm.xml</value>
+				<value>com/uf/rest/entity/ShopBankcard.hbm.xml</value>
 			</list>
 		</property>
 		

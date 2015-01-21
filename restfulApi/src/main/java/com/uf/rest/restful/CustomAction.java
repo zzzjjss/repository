@@ -35,6 +35,7 @@ import com.uf.rest.bean.request.RemoveOrderRequest;
 import com.uf.rest.bean.request.GoodPriceRequest;
 import com.uf.rest.bean.request.RegistUserRequest;
 import com.uf.rest.bean.request.RequestGood;
+import com.uf.rest.bean.request.ShopVisitRequest;
 import com.uf.rest.bean.request.UpdateAddressRequest;
 import com.uf.rest.bean.request.UpdateBankCardRequest;
 import com.uf.rest.bean.request.UpdateOrderRequest;
@@ -83,6 +84,7 @@ import com.uf.rest.bean.response.ResponseLocation;
 import com.uf.rest.bean.response.ResponseOrder;
 import com.uf.rest.bean.response.ResponseShop;
 import com.uf.rest.bean.response.ShopGoodsPrice;
+import com.uf.rest.bean.response.ShopVisitResponse;
 import com.uf.rest.bean.response.UpdateAddressResponse;
 import com.uf.rest.bean.response.UpdateBankCardResponse;
 import com.uf.rest.bean.response.UpdateOrderResponse;
@@ -101,10 +103,12 @@ import com.uf.rest.entity.OrderDetail;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
 import com.uf.rest.entity.ShopProductPrice;
+import com.uf.rest.entity.ShopVisitRecord;
 import com.uf.rest.entity.User;
 import com.uf.rest.exception.UserExistException;
 import com.uf.rest.service.CustomService;
 import com.uf.rest.service.ServiceFactory;
+import com.uf.rest.service.ShopService;
 import com.uf.rest.service.UserService;
 import com.uf.rest.util.CacheUtil;
 import com.uf.rest.util.FileUtil;
@@ -113,6 +117,7 @@ import com.uf.rest.util.FileUtil;
 public class CustomAction {
 	private UserService service=ServiceFactory.getService(UserService.class);
 	private CustomService customService=ServiceFactory.getService(CustomService.class);
+	private ShopService shopService=ServiceFactory.getService(ShopService.class);
 	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -1192,7 +1197,54 @@ public class CustomAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
-	
+	@Produces(MediaType.APPLICATION_JSON)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/shop/visit")
+	public String shopVisit(ShopVisitRequest request){
+		ShopVisitResponse response= new ShopVisitResponse();
+		try{
+			User user=getUserByToken(request.getToken());
+			if(user!=null){
+				Shop shop=shopService.findShopById(request.getShop_id());
+				if(shop!=null){
+					Date today=new Date();
+					ShopVisitRecord record=customService.findOneDayVisitRecord(shop.getId(),today);
+					if(record==null){
+						record=new ShopVisitRecord();
+						record.setDate(today);
+						record.setShop(shop);
+						record.setVisitCount(1);
+					}else{
+						record.setVisitCount(record.getVisitCount()+1);
+					}
+					customService.saveVisitRecord(record);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop not exist");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+	}
 	private User getUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);
 		if(obj!=null){

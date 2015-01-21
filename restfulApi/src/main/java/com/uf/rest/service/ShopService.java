@@ -1,13 +1,18 @@
 package com.uf.rest.service;
 
+import java.util.Date;
 import java.util.List;
 
+import com.uf.rest.entity.ClientVersion;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.ProductClass;
 import com.uf.rest.entity.Shop;
+import com.uf.rest.entity.ShopBankCard;
 import com.uf.rest.entity.ShopProductPrice;
 import com.uf.rest.entity.ShopUser;
+import com.uf.rest.entity.ShopVisitRecord;
+import com.uf.rest.entity.ShopWithDrawRecord;
 import com.uf.rest.exception.UserExistException;
 
 public interface ShopService {
@@ -34,4 +39,15 @@ public interface ShopService {
 	public ShopProductPrice findShopProductPrice(Integer shopId,Integer productId);
 	public List<Product> findProductsByClassId(Integer productClassId);
 	public List<Order> findShopOrderByOrderState(Integer shopId,Integer orderState);
+	public List<Order> findOneDayOrdersByOrderState(Integer shopId,Date date ,Integer orderState);
+	public List<ShopWithDrawRecord> findInProcessWithdraw(Integer shopId);
+	public ShopWithDrawRecord findLastInprocessWithdraw(Integer shopId);
+	public ShopBankCard findShopBankCard(Integer shopId);
+	public List<ShopWithDrawRecord> findPagedWithdraw(Integer shopId,Integer start,Integer count);
+	public List<Order> findPagedShopOrderByOrderState(Integer shopId,Integer orderState,Integer satart,Integer count);
+	public List<Order> findSuccessShopOrder(Integer shopId,Date start,Date end);
+	public void updateOrderState(Integer orderId,Integer newState);
+	public ClientVersion findLastClientVersion();
+	public Shop findShopById(Integer id);
+	public List<ShopVisitRecord> findShopVisitRecord(Integer shopId,Date begin,Date end);
 }

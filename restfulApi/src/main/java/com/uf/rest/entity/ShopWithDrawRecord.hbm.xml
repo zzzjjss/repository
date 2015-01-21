@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.rest.entity.ShopWithDrawRecord" table="shop_withdraw_record" >
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        
+        <property name="money" type="float">
+            <column name="money" />
+        </property>
+		<property name="state" type="int">
+            <column name="state" />
+        </property>
+        <many-to-one name="shop"  lazy="false"
+			class="com.uf.rest.entity.Shop" column="shop_id" />
+        
+        <property name="withdrawTime" type="timestamp">
+            <column name="withdraw_time" />
+        </property>
+    </class>
+</hibernate-mapping>
