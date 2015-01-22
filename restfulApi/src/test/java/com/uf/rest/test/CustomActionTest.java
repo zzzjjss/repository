@@ -70,7 +70,9 @@ public class CustomActionTest {
 		request.setPassword("hello");
 		request.setP("1");
 		UserLoginResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),UserLoginResponse.class);
-		token=response.getData().getToken();
+		if(response.getData()!=null){
+			token=response.getData().getToken();
+		}
 		System.out.println(JSONObject.fromObject(response).toString());
 	}
 	
@@ -128,15 +130,9 @@ public class CustomActionTest {
 	@Test
 	public void testCustomHome() throws Exception{
 		Client client = ClientBuilder.newClient();
-		WebTarget target = client.target("http://"+ip+"/cleaner/custom/home");
-		CustomHomeRequest request=new CustomHomeRequest();
-		request.setP(0);
-		request.setLatitude(11.1d);
-		request.setLongitude(333.3d);
-		request.setCount(10);
-		request.setStart(0);
-		request.setToken(token);
-		CustomHomeResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),CustomHomeResponse.class);
+		WebTarget target = client.target("http://"+ip+"/cleaner/custom/home?p=0&latitude=222.333&longitude=333.333&start=0&count=10&token="+token);
+		
+		CustomHomeResponse response=target.request(MediaType.APPLICATION_JSON).get(CustomHomeResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
 		
 		WebTarget target1 = client.target("http://"+ip+"/cleaner/custom/order/process?token="+token);
