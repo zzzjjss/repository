@@ -289,13 +289,14 @@ public class CustomAction {
 		return obj.toString();
 	}
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_JSON)
-	@POST
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
 	@Path("/home")
-    public String home(CustomHomeRequest request) {
+    public String home(@QueryParam("token")String token,@QueryParam("p")String p,@QueryParam("start")String start,
+    		@QueryParam("count")String count,@QueryParam("city")String city,@QueryParam("longitude")String longitude,@QueryParam("latitude")String latitude) {
 		CustomHomeResponse response=new CustomHomeResponse();
 		try {
-			List<Shop> shops=customService.findNearShops(request.getStart(), request.getCount(), request.getLongitude(), request.getLatitude());	
+			List<Shop> shops=customService.findNearShops(Integer.parseInt(start), Integer.parseInt(count), Double.parseDouble(longitude),Double.parseDouble(latitude));	
 			CustomHomeResponseData data= new CustomHomeResponseData();
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
 			List<ResponseShop> responseShops=new ArrayList<ResponseShop>();
@@ -325,13 +326,13 @@ public class CustomAction {
 				}
 				data.setShop(responseShops);
 				data.setCount(shops.size());
-				data.setNext_cursor(request.getStart()+request.getCount());
+				data.setNext_cursor(Integer.parseInt(start)+Integer.parseInt(count));
 				response.setData(data);
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
-			JSONObject obj=JSONObject.fromObject(request);
-			logger.error("<----"+obj.toString()+"---->", e);
+			String request=start+";"+count+";"+city+";"+longitude+";"+latitude;
+			logger.error("<----"+request+"---->", e);
 			response.setSuccess(false);
 			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
@@ -387,12 +388,12 @@ public class CustomAction {
 				GetGoodsResponseData data=new GetGoodsResponseData();
 				Map<String, List<ResponseGood>> classProducts=new HashMap<String, List<ResponseGood>>();
 				for(Product p:products){
-					String className="noClass";
+					String className=" ";
 					if(p.getProductClass()!=null){
 						className=p.getProductClass().getName();
 					}
 					if(className==null){
-						className="noClass";
+						className=" ";
 					}
 					List<ResponseGood> goods=classProducts.get(className);
 					if(goods==null){

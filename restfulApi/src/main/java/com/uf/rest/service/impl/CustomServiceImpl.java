@@ -197,8 +197,10 @@ public class CustomServiceImpl implements CustomService{
 	}
 	public void cancelOrder(Integer orderId){
 		Order order=orderDao.findById(Order.class, orderId);
-		order.setOrderState(Constant.ORDER_STATE_CANCELED);
-		orderDao.update(order);
+		if(order!=null){
+			order.setOrderState(Constant.ORDER_STATE_CANCELED);
+			orderDao.update(order);
+		}
 	}
 	public void addUserAddress(OrderAddress address){
 		orderAddressDao.insert(address);
@@ -239,7 +241,7 @@ public class CustomServiceImpl implements CustomService{
 	}
 	public ShopVisitRecord findOneDayVisitRecord(Integer shopId,Date date){
 		List<ShopVisitRecord> records=shopVisitDao.findByHql("select v from ShopVisitRecord v where v.shop.id=? and v.date>=? and v.date<=? ", shopId,DateUtil.getDateBegin(date),DateUtil.getDateEnd(date));
-		if(records!=null){
+		if(records!=null&&records.size()>0){
 			return records.get(0);
 		}
 		return null;

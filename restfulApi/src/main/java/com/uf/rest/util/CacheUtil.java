@@ -21,8 +21,8 @@ public class CacheUtil {
 		config.persistence(new PersistenceConfiguration().strategy(Strategy.LOCALTEMPSWAP));
 		config.name(cacheName);
 		config.maxBytesLocalHeap(300, MemoryUnit.MEGABYTES);
-		config.timeToLiveSeconds(60*10);
-		config.timeToIdleSeconds(60*2);
+		config.timeToLiveSeconds(60*60*24*30);
+		config.timeToIdleSeconds(60*60*24*30);
 		Cache cache = new Cache(config);
 		cacheManager.addCache(cache);
 		
