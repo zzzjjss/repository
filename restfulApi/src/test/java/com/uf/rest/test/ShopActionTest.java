@@ -85,7 +85,7 @@ public class ShopActionTest {
 		request.setName("helloShop");
 		request.setP(1);
 		request.setPassword("helloShop");
-		request.setCard_image(FileUtil.getFileContent("f:/test.jpg"));
+		request.setCard_image(FileUtil.getFileContent("c:/jason/test.jpg"));
 		request.setId_card("360423191838383777");
 		request.setName("jasonzhag");
 		request.setToken(token);
@@ -132,7 +132,7 @@ public class ShopActionTest {
 		WebTarget target = client.target("http://"+ip+"/cleaner/shop/info/add");
 		AddShopRequest request=new AddShopRequest();
 		request.setToken(token);
-		request.setIcon(FileUtil.getFileContent("f:/test.jpg"));
+		request.setIcon(FileUtil.getFileContent("c:/jason/test.jpg"));
 		request.setName("helloShop");
 		request.setP(1);
 		request.setPhone(new String[]{"122222","344444"});
@@ -260,7 +260,7 @@ public class ShopActionTest {
 		request.setP(1);
 		request.setPrice(12.34f);
 		request.setSell(true);
-		request.setId(3);
+		request.setId(1);
 		UpdateGoodResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),UpdateGoodResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
 	}

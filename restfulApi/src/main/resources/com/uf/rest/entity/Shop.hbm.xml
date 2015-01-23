@@ -49,7 +49,7 @@
 			<column name="is_open" />
 		</property>
 		
-		<many-to-one name="shopUser"  lazy="false"
+		<many-to-one name="shopUser"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.ShopUser" column="shop_user_id" />
 		<!-- 
 			<many-to-one name="businessType"  unique="true"

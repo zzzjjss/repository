@@ -17,7 +17,7 @@
             <column name="time" />
         </property>
        
-		<many-to-one name="order"  lazy="false"
+		<many-to-one name="order"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.Order" column="order_id" />
     </class>
 </hibernate-mapping>

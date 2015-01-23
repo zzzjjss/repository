@@ -1,5 +1,7 @@
 package com.uf.rest.util;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -46,7 +48,11 @@ public class DateUtil {
 		cal.set(Calendar.SECOND, 59);
 		return cal.getTime();
 	}
-	public static void main(String[] args) {
-	
+	public static Date nextSomeDays(Date date,int days){
+		GregorianCalendar gc=new GregorianCalendar(); 
+		gc.setTime(date); 
+		gc.add(Calendar.DAY_OF_MONTH, days);
+		return gc.getTime();
 	}
+	
 }

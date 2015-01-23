@@ -18,7 +18,7 @@
 		<property name="addTime" type="timestamp">
             <column name="add_time" />
         </property>
-		 <many-to-one name="productClass"  lazy="false"
+		 <many-to-one name="productClass"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.ProductClass" column="product_class_id" />
 			
     </class>

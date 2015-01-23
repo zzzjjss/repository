@@ -13,10 +13,10 @@
             <column name="price" />
         </property>
 			
-		 <many-to-one name="product"  lazy="false"
+		 <many-to-one name="product"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.Product" column="product_id" />
 			
-		<many-to-one name="shop" lazy="false"
+		<many-to-one name="shop" lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.Shop" column="shop_id" />
     </class>
 </hibernate-mapping>

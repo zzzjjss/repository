@@ -18,8 +18,8 @@
             <column name="card_number" />
         </property>
 
-        <many-to-one name="user"  lazy="false"
-			class="com.uf.rest.entity.User" column="user_id" />
+        <many-to-one name="user"  lazy="false" foreign-key="none" not-found="ignore" 
+			class="com.uf.rest.entity.User" column="user_id"  />
 			
         
         <property name="addTime" type="timestamp">

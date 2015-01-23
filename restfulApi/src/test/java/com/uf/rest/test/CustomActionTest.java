@@ -60,7 +60,7 @@ import com.uf.rest.bean.response.UserRegistResponse;
 
 public class CustomActionTest {
 	private static String token;
-	public static String ip="www.fastmobshare.com:8088";
+	public static String ip="localhost:8080";
 	@BeforeClass
 	public static void setToken(){
 		Client client = ClientBuilder.newClient();
@@ -72,6 +72,15 @@ public class CustomActionTest {
 		UserLoginResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),UserLoginResponse.class);
 		if(response.getData()!=null){
 			token=response.getData().getToken();
+		}else{
+			WebTarget target2 = client.target("http://"+ip+"/cleaner/custom/account/register");
+			RegistUserRequest request2 =new RegistUserRequest(); 
+			request2.setName("hello");
+			request2.setP(1);
+			request2.setPassword("hello");
+			request2.setType(0);
+			UserRegistResponse response2=target2.request(MediaType.APPLICATION_JSON).post(Entity.entity(request2, MediaType.APPLICATION_JSON),UserRegistResponse.class);
+			System.out.println(JSONObject.fromObject(response2).toString());
 		}
 		System.out.println(JSONObject.fromObject(response).toString());
 	}
@@ -177,9 +186,9 @@ public class CustomActionTest {
 		good.setId(1);
 		good.setName("yifu");
 		good.setPrice(22.2f);
-		List<RequestGood> goods=new ArrayList<RequestGood>();
-		goods.add(good);
-		request.setGood((RequestGood[])goods.toArray());
+		RequestGood goods[]=new RequestGood[]{good};
+
+		request.setGood(goods);
 		CreateOrderResponse response=target.request(MediaType.APPLICATION_JSON).post(Entity.entity(request, MediaType.APPLICATION_JSON),CreateOrderResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
 	}

@@ -21,16 +21,16 @@
         <property name="updateTime" type="timestamp">
             <column name="update_time" />
         </property>
-        <many-to-one name="shop"  
+        <many-to-one name="shop"  foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.Shop" column="shop_id" lazy="false"/>
 			
-        <many-to-one name="user"  
+        <many-to-one name="user"  foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.User" column="user_id" lazy="false"/>
 			
-		<many-to-one name="pickAddress"  lazy="false"
+		<many-to-one name="pickAddress"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.OrderAddress" column="pck_address_id" />
 			
-		<many-to-one name="deliverAddress"  lazy="false"
+		<many-to-one name="deliverAddress"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.OrderAddress" column="deliver_address_id" />
 			
 		<set name="orderDetails" table="order_detail" inverse="true" lazy="false" fetch="select">

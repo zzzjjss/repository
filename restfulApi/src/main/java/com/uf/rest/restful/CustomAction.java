@@ -524,8 +524,13 @@ public class CustomAction {
 				OrderAddress pick=new OrderAddress();
 				pick.setId(request.getPick_address_id());
 				order.setPickAddress(pick);
-				order.setOrderState(Constant.ORDER_STATE_PROCESSING);
-				order.setPaymentType(request.getPayment());
+				Integer payType=request.getPayment();
+				if(payType.equals(Constant.ORDER_PAYTYPE_CASH)){
+					order.setOrderState(Constant.ORDER_STATE_WAITGET);
+				}else{
+					order.setOrderState(Constant.ORDER_STATE_WAITPAY);
+				}
+				order.setPaymentType(payType);
 				order.setUser(user);
 				Shop shop=new Shop();
 				shop.setId(request.getShop_id());

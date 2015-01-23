@@ -30,7 +30,7 @@
         <property name="district" type="string">
             <column name="district" />
         </property>
-        <many-to-one name="user"  lazy="false"
+        <many-to-one name="user"  lazy="false" foreign-key="none" not-found="ignore"  
 			class="com.uf.rest.entity.User" column="user_id" />
 			
         <property name="address" type="string">

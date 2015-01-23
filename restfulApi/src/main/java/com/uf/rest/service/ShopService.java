@@ -40,14 +40,21 @@ public interface ShopService {
 	public List<Product> findProductsByClassId(Integer productClassId);
 	public List<Order> findShopOrderByOrderState(Integer shopId,Integer orderState);
 	public List<Order> findOneDayOrdersByOrderState(Integer shopId,Date date ,Integer orderState);
+	public List<Order> findOneDaySucessOrders(Integer shopId,Date date );
 	public List<ShopWithDrawRecord> findInProcessWithdraw(Integer shopId);
 	public ShopWithDrawRecord findLastInprocessWithdraw(Integer shopId);
 	public ShopBankCard findShopBankCard(Integer shopId);
 	public List<ShopWithDrawRecord> findPagedWithdraw(Integer shopId,Integer start,Integer count);
 	public List<Order> findPagedShopOrderByOrderState(Integer shopId,Integer orderState,Integer satart,Integer count);
 	public List<Order> findSuccessShopOrder(Integer shopId,Date start,Date end);
+	public Date findShopFirstSuccessOrderDate(Integer shopId);
+	public Date findShopFirstVisitDate(Integer shopId);
+	public List<Order> findAllSucessShopOrder(Integer shopId);
 	public void updateOrderState(Integer orderId,Integer newState);
 	public ClientVersion findLastClientVersion();
 	public Shop findShopById(Integer id);
 	public List<ShopVisitRecord> findShopVisitRecord(Integer shopId,Date begin,Date end);
+	public List<ShopVisitRecord> findAllShopVisitRecord(Integer shopId);
+	public long countShopSucessOrderAfterDate(Integer shopId,Date date);
+	public long countShopVisitAfterDate(Integer shopId,Date date);
 }

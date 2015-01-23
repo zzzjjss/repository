@@ -13,7 +13,7 @@
         </property>
      
 
-        <many-to-one name="user"  lazy="false"
+        <many-to-one name="user"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.User" column="user_id" />
 			
         

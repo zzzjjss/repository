@@ -131,6 +131,7 @@ import com.uf.rest.exception.UserExistException;
 import com.uf.rest.service.ServiceFactory;
 import com.uf.rest.service.ShopService;
 import com.uf.rest.util.CacheUtil;
+import com.uf.rest.util.DateUtil;
 import com.uf.rest.util.FileUtil;
 
 @Singleton
@@ -945,24 +946,27 @@ public class ShopAction {
 					if(goodPrices!=null&&goodPrices.size()>0){
 						for(ShopProductPrice price:goodPrices){
 							ResponseQueryGood good=new ResponseQueryGood();
-							good.setId(price.getProduct().getId());
-							good.setName(price.getProduct().getName());
+							if(price.getProduct()!=null){
+								good.setId(price.getProduct().getId());
+								good.setName(price.getProduct().getName());
+								good.setTime(format.format(price.getProduct().getAddTime()));
+								ProductClass proClass=price.getProduct().getProductClass();
+								if(proClass!=null){
+									ResponseGoodClass goodClass=new ResponseGoodClass();
+									goodClass.setId(proClass.getId());
+									goodClass.setIs_public(true);
+									goodClass.setName(proClass.getName());
+									if(proClass.getAddTime()!=null){
+										goodClass.setTime(format.format(proClass.getAddTime()));
+									}
+									good.setGoodClass(goodClass);
+									good.setGoodClass(goodClass);
+								}
+							}
 							good.setPrice(price.getPrice());
 							good.setIs_public(true);
 							good.setSell(true);
-							good.setTime(format.format(price.getProduct().getAddTime()));
-							ProductClass proClass=price.getProduct().getProductClass();
-							if(proClass!=null){
-								ResponseGoodClass goodClass=new ResponseGoodClass();
-								goodClass.setId(proClass.getId());
-								goodClass.setIs_public(true);
-								goodClass.setName(proClass.getName());
-								if(proClass.getAddTime()!=null){
-									goodClass.setTime(format.format(proClass.getAddTime()));
-								}
-								good.setGoodClass(goodClass);
-								good.setGoodClass(goodClass);
-							}
+							
 							respGoods.add(good);
 						}
 						data.setGoods(respGoods);
@@ -1081,7 +1085,7 @@ public class ShopAction {
 					}else{
 						data.setGood_count(0);
 					}
-					List<Order> orders=service.findShopOrderByOrderState(shop.getId(),Constant.ORDER_STATE_PROCESSING);
+					List<Order> orders=service.findAllSucessShopOrder(shop.getId());
 					
 					if(orders!=null){
 						data.setOrder_count(orders.size());
@@ -1091,11 +1095,9 @@ public class ShopAction {
 						data.setIncome(0f);
 					}
 					Date today=new Date();
-					Calendar cal=Calendar.getInstance();
-					cal.add(Calendar.DAY_OF_MONTH, -1);
-					Date preDay=cal.getTime();
-					List<Order> todayOrder=service.findOneDayOrdersByOrderState(shop.getId(),today,Constant.ORDER_STATE_PROCESSING);
-					List<Order> preDayOrder=service.findOneDayOrdersByOrderState(shop.getId(),preDay,Constant.ORDER_STATE_PROCESSING);
+					Date preDay=DateUtil.nextSomeDays(today,-1);
+					List<Order> todayOrder=service.findOneDaySucessOrders(shop.getId(),today);
+					List<Order> preDayOrder=service.findOneDaySucessOrders(shop.getId(),preDay);
 					float todayTotal=countOrdersTotalMoney(todayOrder);
 					float predayTotal=countOrdersTotalMoney(preDayOrder);
 					float busi=todayTotal;
@@ -1170,7 +1172,15 @@ public class ShopAction {
 				Shop shop=service.findShopByShopUserId(shopUser.getId());
 				if(shop!=null){
 					ShopIncomeResponseData data=new ShopIncomeResponseData(); 
-					data.setBalance(shopUser.getBalance().floatValue());
+					if(shopUser.getBalance()!=null){
+						data.setBalance(shopUser.getBalance().floatValue());
+					}
+					List<Order> orders=service.findAllSucessShopOrder(shop.getId());
+					if(orders!=null){
+						data.setIncome(countOrdersTotalMoney(orders));
+					}else{
+						data.setIncome(0f);
+					}
 					ShopBankCard card=service.findShopBankCard(shop.getId());
 					if(card!=null){
 						data.setHas_card(true);
@@ -1205,9 +1215,7 @@ public class ShopAction {
 						withDraw.setLast(0f);
 						withDraw.setTotal(0f);
 					}
-					
 					data.setWithdraw(withDraw);
-					
 					response.setData(data);
 					response.setSuccess(true);
 				}else{
@@ -1520,56 +1528,73 @@ public class ShopAction {
 		try {
 			ShopUser shopUser=getShopUserByToken(token);
 			if(shopUser!=null){
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-				Date begin=null;
-				Date end=null;
-				if("0".equals(start)){
-					start="1900-01-01";
-				}else{
-					begin=format.parse(start);
-				}
-				Calendar cal=Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
-				end=cal.getTime();
-				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
-				Map<String, Float> incomes=new HashMap<String, Float>();
-				Map<String, Integer> orderCounts=new HashMap<String, Integer>();
-				if(orders!=null&&orders.size()>0){
-					for(Order order:orders){
-						float orderMoney=countOrderMoney(order);
-						String date=format.format(order.getCreateTime());
-						Float total=incomes.get(date);
-						Integer totalCount=orderCounts.get(date);
-						if(total==null){
-							total=0.0f;	
-						}
-						if(totalCount==null){
-							totalCount=0;
-						}
-						incomes.put(date, orderMoney+total);
-						orderCounts.put(date, totalCount+1);
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+					Date begin=null;
+					Date end=null;
+					if("0".equals(start)){
+						begin=service.findShopFirstSuccessOrderDate(shop.getId());
+					}else{
+						begin=format.parse(start);
 					}
+					if(begin!=null){
+						end=DateUtil.nextSomeDays(begin,Integer.parseInt(count));
+						List<Order> orders=service.findSuccessShopOrder(shop.getId(), begin, end);
+						Map<String, Float> incomes=new HashMap<String, Float>();
+						Map<String, Integer> orderCounts=new HashMap<String, Integer>();
+						if(orders!=null&&orders.size()>0){
+							for(Order order:orders){
+								float orderMoney=countOrderMoney(order);
+								String date=format.format(order.getCreateTime());
+								Float total=incomes.get(date);
+								Integer totalCount=orderCounts.get(date);
+								if(total==null){
+									total=0.0f;	
+								}
+								if(totalCount==null){
+									totalCount=0;
+								}
+								incomes.put(date, orderMoney+total);
+								orderCounts.put(date, totalCount+1);
+							}
+						}
+						
+						SellHomeResponseData data=new SellHomeResponseData();
+						data.setCount(incomes.keySet().size());
+						if(service.countShopSucessOrderAfterDate(shop.getId(), end)>0){
+							Date nextDay=DateUtil.nextSomeDays(end,1);
+							data.setCursor_next(format.format(nextDay));
+						}else{
+							data.setCursor_next("0");
+						}
+						
+						List<ResponseIncome> resIncomes=new ArrayList<ResponseIncome>();
+						for(String key:incomes.keySet()){
+							ResponseIncome resIncome=new ResponseIncome();
+							resIncome.setDate(key);
+							resIncome.setMoney(incomes.get(key));
+							resIncomes.add(resIncome);
+						}
+						data.setIncome(resIncomes);
+						List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
+						for(String key:orderCounts.keySet()){
+							ResponseOrderCount resOrder=new ResponseOrderCount();
+							resOrder.setCount(orderCounts.get(key));
+							resOrder.setDate(key);
+							resOrders.add(resOrder);
+						}
+						data.setOrder(resOrders);
+						response.setData(data);
+					}
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
 				}
-				
-				SellHomeResponseData data=new SellHomeResponseData();
-				data.setCount(Integer.parseInt(count));
-				data.setCursor_next(format.format(end));
-				List<ResponseIncome> resIncomes=new ArrayList<ResponseIncome>();
-				for(String key:incomes.keySet()){
-					ResponseIncome resIncome=new ResponseIncome();
-					resIncome.setDate(key);
-					resIncome.setMoney(incomes.get(key));
-				}
-				data.setIncome(resIncomes);
-				List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
-				for(String key:orderCounts.keySet()){
-					ResponseOrderCount resOrder=new ResponseOrderCount();
-					resOrder.setCount(orderCounts.get(key));
-					resOrder.setDate(key);
-				}
-				data.setOrder(resOrders);
-				response.setData(data);
-				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
 				error.setCode(Constant.USER_NOT_LOGIN_CODE);
@@ -1598,44 +1623,59 @@ public class ShopAction {
 		try {
 			ShopUser shopUser=getShopUserByToken(token);
 			if(shopUser!=null){
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-				Date begin=null;
-				Date end=null;
-				if("0".equals(start)){
-					start="1900-01-01";
-				}else{
-					begin=format.parse(start);
-				}
-				Calendar cal=Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
-				end=cal.getTime();
-				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
-				Map<String, Float> incomes=new HashMap<String, Float>();
-				if(orders!=null&&orders.size()>0){
-					for(Order order:orders){
-						float orderMoney=countOrderMoney(order);
-						String date=format.format(order.getCreateTime());
-						Float total=incomes.get(date);
-						
-						if(total==null){
-							total=0.0f;	
-						}
-						incomes.put(date, orderMoney+total);
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+					Date begin=null;
+					Date end=null;
+					if("0".equals(start)){
+						begin=service.findShopFirstSuccessOrderDate(shop.getId());
+					}else{
+						begin=format.parse(start);
 					}
+					if(begin!=null){
+						end=DateUtil.nextSomeDays(begin,Integer.parseInt(count));
+						List<Order> orders=service.findSuccessShopOrder(shop.getId(), begin, end);
+						Map<String, Float> incomes=new HashMap<String, Float>();
+						if(orders!=null&&orders.size()>0){
+							for(Order order:orders){
+								float orderMoney=countOrderMoney(order);
+								String date=format.format(order.getCreateTime());
+								Float total=incomes.get(date);
+								if(total==null){
+									total=0.0f;	
+								}
+								incomes.put(date, orderMoney+total);
+							}
+						}
+						
+						SellIncomeResponseData data=new SellIncomeResponseData();
+						data.setCount(incomes.keySet().size());
+						if(service.countShopSucessOrderAfterDate(shop.getId(), end)>0){
+							Date nextDay=DateUtil.nextSomeDays(end,1);
+							data.setCursor_next(format.format(nextDay));
+						}else{
+							data.setCursor_next("0");
+						}
+						
+						List<ResponseIncome> resIncomes=new ArrayList<ResponseIncome>();
+						for(String key:incomes.keySet()){
+							ResponseIncome resIncome=new ResponseIncome();
+							resIncome.setDate(key);
+							resIncome.setMoney(incomes.get(key));
+							resIncomes.add(resIncome);
+						}
+						data.setIncome(resIncomes);
+						response.setData(data);
+					}
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
 				}
-				
-				SellIncomeResponseData data=new SellIncomeResponseData();
-				data.setCount(Integer.parseInt(count));
-				data.setCursor_next(format.format(end));
-				List<ResponseIncome> resIncomes=new ArrayList<ResponseIncome>();
-				for(String key:incomes.keySet()){
-					ResponseIncome resIncome=new ResponseIncome();
-					resIncome.setDate(key);
-					resIncome.setMoney(incomes.get(key));
-				}
-				data.setIncome(resIncomes);
-				response.setData(data);
-				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
 				error.setCode(Constant.USER_NOT_LOGIN_CODE);
@@ -1654,6 +1694,7 @@ public class ShopAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	@GET
@@ -1663,43 +1704,59 @@ public class ShopAction {
 		try {
 			ShopUser shopUser=getShopUserByToken(token);
 			if(shopUser!=null){
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-				Date begin=null;
-				Date end=null;
-				if("0".equals(start)){
-					start="1900-01-01";
-				}else{
-					begin=format.parse(start);
-				}
-				Calendar cal=Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
-				end=cal.getTime();
-				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
-				Map<String, Integer> orderCounts=new HashMap<String, Integer>();
-				if(orders!=null&&orders.size()>0){
-					for(Order order:orders){
-						String date=format.format(order.getCreateTime());
-						Integer totalCount=orderCounts.get(date);
-						if(totalCount==null){
-							totalCount=0;
-						}
-						orderCounts.put(date, totalCount+1);
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+					Date begin=null;
+					Date end=null;
+					if("0".equals(start)){
+						begin=service.findShopFirstSuccessOrderDate(shop.getId());
+					}else{
+						begin=format.parse(start);
 					}
-				}
-				SellOrderResponseData data=new SellOrderResponseData();
-				data.setCount(Integer.parseInt(count));
-				data.setCursor_next(format.format(end));
-				
-				List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
-				for(String key:orderCounts.keySet()){
-					ResponseOrderCount resOrder=new ResponseOrderCount();
-					resOrder.setCount(orderCounts.get(key));
-					resOrder.setDate(key);
-				}
-				data.setOrder(resOrders);
-				response.setData(data);
-				response.setSuccess(true);
+					if(begin!=null){
+						end=DateUtil.nextSomeDays(begin,Integer.parseInt(count));
+						List<Order> orders=service.findSuccessShopOrder(shop.getId(), begin, end);
+						Map<String, Integer> orderCounts=new HashMap<String, Integer>();
+						if(orders!=null&&orders.size()>0){
+							for(Order order:orders){
+								float orderMoney=countOrderMoney(order);
+								String date=format.format(order.getCreateTime());
+								Integer totalCount=orderCounts.get(date);
+								if(totalCount==null){
+									totalCount=0;
+								}
+								orderCounts.put(date, totalCount+1);
+							}
+						}
+						
+						SellOrderResponseData data=new SellOrderResponseData();
+						if(service.countShopSucessOrderAfterDate(shop.getId(), end)>0){
+							Date nextDay=DateUtil.nextSomeDays(end,1);
+							data.setCursor_next(format.format(nextDay));
+						}else{
+							data.setCursor_next("0");
+						}
+						data.setCount(orderCounts.size());
+						List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
+						for(String key:orderCounts.keySet()){
+							ResponseOrderCount resOrder=new ResponseOrderCount();
+							resOrder.setCount(orderCounts.get(key));
+							resOrder.setDate(key);
+							resOrders.add(resOrder);
+						}
+						data.setOrder(resOrders);
+						response.setData(data);
+					}
+					response.setSuccess(true);
 			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.VALUE_NOT_EXIST);
+				error.setMsg("shop user has no shop !");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+		}else{
 				ResponseError error=new ResponseError();
 				error.setCode(Constant.USER_NOT_LOGIN_CODE);
 				error.setMsg("shop user not login!");
@@ -1726,43 +1783,57 @@ public class ShopAction {
 		try {
 			ShopUser shopUser=getShopUserByToken(token);
 			if(shopUser!=null){
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-				Date begin=null;
-				Date end=null;
-				if("0".equals(start)){
-					start="1900-01-01";
-				}else{
-					begin=format.parse(start);
-				}
-				Calendar cal=Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
-				end=cal.getTime();
-				List<ShopVisitRecord> records=service.findShopVisitRecord(shopUser.getId(), begin, end);
-				Map<String, Integer> recordCounts=new HashMap<String, Integer>();
-				if(records!=null&&records.size()>0){
-					for(ShopVisitRecord record:records){
-						String date=format.format(record.getDate());
-						Integer totalCount=recordCounts.get(date);
-						if(totalCount==null){
-							totalCount=0;
-						}
-						recordCounts.put(date, totalCount+record.getVisitCount());
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+					Date begin=null;
+					Date end=null;
+					if("0".equals(start)){
+						begin=service.findShopFirstVisitDate(shop.getId());
+					}else{
+						begin=format.parse(start);
 					}
+					if(begin!=null){
+						end=DateUtil.nextSomeDays(begin,Integer.parseInt(count));
+						List<ShopVisitRecord> records=service.findShopVisitRecord(shop.getId(), begin, end);
+						Map<String, Integer> recordCounts=new HashMap<String, Integer>();
+						if(records!=null&&records.size()>0){
+							for(ShopVisitRecord record:records){
+								String date=format.format(record.getDate());
+								Integer totalCount=recordCounts.get(date);
+								if(totalCount==null){
+									totalCount=0;
+								}
+								recordCounts.put(date, totalCount+record.getVisitCount());
+							}
+						}
+						SellVisitResponseData data=new SellVisitResponseData();
+						data.setCount(recordCounts.keySet().size());
+						if(service.countShopVisitAfterDate(shop.getId(), end)>0){
+							Date nextDay=DateUtil.nextSomeDays(end,1);
+							data.setCursor_next(format.format(nextDay));
+						}else{
+							data.setCursor_next("0");
+						}
+						List<ResponseVisitCount> visits=new ArrayList<ResponseVisitCount>();
+						for(String key:recordCounts.keySet()){
+							ResponseVisitCount resVisit=new ResponseVisitCount();
+							resVisit.setCount(recordCounts.get(key));
+							resVisit.setDate(key);
+							visits.add(resVisit);
+						}
+						data.setVisit(visits);
+						response.setData(data);
+						response.setSuccess(true);
+					}
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
 				}
-				SellVisitResponseData data=new SellVisitResponseData();
-				data.setCount(Integer.parseInt(count));
-				data.setCursor_next(format.format(end));
-				
-				List<ResponseVisitCount> visits=new ArrayList<ResponseVisitCount>();
-				for(String key:recordCounts.keySet()){
-					ResponseVisitCount resVisit=new ResponseVisitCount();
-					resVisit.setCount(recordCounts.get(key));
-					resVisit.setDate(key);
-					visits.add(resVisit);
-				}
-				data.setVisit(visits);
-				response.setData(data);
-				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
 				error.setCode(Constant.USER_NOT_LOGIN_CODE);
@@ -1786,62 +1857,76 @@ public class ShopAction {
 	@GET
 	@Path("/sell/order/deal")
 	public String sellOrderDeal(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
-		SellOrderDealReponse response=new SellOrderDealReponse();
+		SellOrderDealReponse response = new SellOrderDealReponse();
 		try {
-			ShopUser shopUser=getShopUserByToken(token);
-			if(shopUser!=null){
-				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-				Date begin=null;
-				Date end=null;
-				if("0".equals(start)){
-					start="1900-01-01";
-				}else{
-					begin=format.parse(start);
-				}
-				Calendar cal=Calendar.getInstance();
-				cal.add(Calendar.DAY_OF_MONTH, Integer.parseInt(count));
-				end=cal.getTime();
-				List<Order> orders=service.findSuccessShopOrder(shopUser.getId(), begin, end);
-				Map<String, Integer> orderCounts=new HashMap<String, Integer>();
-				if(orders!=null&&orders.size()>0){
-					for(Order order:orders){
-						String date=format.format(order.getCreateTime());
-						Integer totalCount=orderCounts.get(date);
-						if(totalCount==null){
-							totalCount=0;
-						}
-						orderCounts.put(date, totalCount+1);
+			ShopUser shopUser = getShopUserByToken(token);
+			if (shopUser != null) {
+				Shop shop = service.findShopByShopUserId(shopUser.getId());
+				if (shop != null) {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					Date begin = null;
+					Date end = null;
+					if ("0".equals(start)) {
+						begin = service.findShopFirstSuccessOrderDate(shop.getId());
+					} else {
+						begin = format.parse(start);
 					}
+					if (begin != null) {
+						end = DateUtil.nextSomeDays(begin, Integer.parseInt(count));
+						List<Order> orders = service.findSuccessShopOrder(shop.getId(), begin, end);
+						Map<String, Integer> orderCounts = new HashMap<String, Integer>();
+						if (orders != null && orders.size() > 0) {
+							for (Order order : orders) {
+								String date = format.format(order.getCreateTime());
+								Integer totalCount = orderCounts.get(date);
+								if (totalCount == null) {
+									totalCount = 0;
+								}
+								orderCounts.put(date, totalCount + 1);
+							}
+						}
+
+						SellOrderDealReponseData data = new SellOrderDealReponseData();
+						if (service.countShopSucessOrderAfterDate(shop.getId(), end) > 0) {
+							Date nextDay = DateUtil.nextSomeDays(end, 1);
+							data.setCursor_next(format.format(nextDay));
+						} else {
+							data.setCursor_next("0");
+						}
+						List<ResponseOrderCount> resOrders = new ArrayList<ResponseOrderCount>();
+						for (String key : orderCounts.keySet()) {
+							ResponseOrderCount resOrder = new ResponseOrderCount();
+							resOrder.setCount(orderCounts.get(key));
+							resOrder.setDate(key);
+							resOrders.add(resOrder);
+						}
+						data.setOrder(resOrders);
+						response.setData(data);
+					}
+					response.setSuccess(true);
+				} else {
+					ResponseError error = new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
 				}
-				SellOrderDealReponseData data=new SellOrderDealReponseData();
-				data.setCount(Integer.parseInt(count));
-				data.setCursor_next(format.format(end));
-				
-				List<ResponseOrderCount> resOrders=new ArrayList<ResponseOrderCount>();
-				for(String key:orderCounts.keySet()){
-					ResponseOrderCount resOrder=new ResponseOrderCount();
-					resOrder.setCount(orderCounts.get(key));
-					resOrder.setDate(key);
-				}
-				data.setOrder(resOrders);
-				response.setData(data);
-				response.setSuccess(true);
-			}else{
-				ResponseError error=new ResponseError();
+			} else {
+				ResponseError error = new ResponseError();
 				error.setCode(Constant.USER_NOT_LOGIN_CODE);
 				error.setMsg("shop user not login!");
 				response.setSuccess(false);
 				response.setError(error);
 			}
 		} catch (Exception e) {
-			logger.error(" <-----"+start+";"+count+"---->", e);
+			logger.error(" <-----" + start + ";" + count + "---->", e);
 			ResponseError error = new ResponseError();
 			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
 			error.setMsg(e.getMessage());
 			response.setSuccess(false);
 			response.setError(error);
 		}
-		JSONObject obj=JSONObject.fromObject(response);
+		JSONObject obj = JSONObject.fromObject(response);
 		return obj.toString();
 	}
 	@Produces(MediaType.APPLICATION_JSON)

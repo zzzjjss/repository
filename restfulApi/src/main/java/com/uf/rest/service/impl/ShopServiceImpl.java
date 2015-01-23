@@ -294,12 +294,24 @@ public class ShopServiceImpl implements ShopService{
 		return productDao.findByHql("select p from Product p where p.productClass.id=?",productClassId );
 		
 	}
+	public long countShopSucessOrderAfterDate(Integer shopId,Date date){
+		return orderDao.countShopSucessOrderAfterDate(shopId, date);
+	}
+	public long countShopVisitAfterDate(Integer shopId,Date date){
+		return shopVisitDao.countShopVisitAfterDate(shopId,date);
+	}
 	
 	public List<Order> findShopOrderByOrderState(Integer shopId,Integer orderState){
 		return orderDao.findShopOrderByOrderState(shopId, orderState);
 	}
+	public List<Order> findAllSucessShopOrder(Integer shopId){
+		return orderDao.findAllSucessShopOrder(shopId);
+	}
 	public List<Order> findOneDayOrdersByOrderState(Integer shopId,Date date ,Integer orderState){
 		return orderDao.findOneDayOrdersByOrderState(shopId, date, orderState);
+	}
+	public List<Order> findOneDaySucessOrders(Integer shopId,Date date ){
+		return orderDao.findOneDaySucessOrders(shopId, date);
 	}
 	public List<Order> findPagedShopOrderByOrderState(Integer shopId,Integer orderState,Integer start,Integer count){
 		return orderDao.findPagedShopOrderByOrderState(shopId,orderState,start,count);
@@ -307,10 +319,17 @@ public class ShopServiceImpl implements ShopService{
 	public List<Order> findSuccessShopOrder(Integer shopId,Date start,Date end){
 		return orderDao.findSuccessShopOrder(shopId,start,end);
 	}
+	public Date findShopFirstSuccessOrderDate(Integer shopId){
+		return orderDao.findShopFirstSuccessOrderDate(shopId);
+	}
+	public Date findShopFirstVisitDate(Integer shopId){
+		return shopVisitDao.findShopFirstVisitDate(shopId);
+	}
 	public List<ShopVisitRecord> findShopVisitRecord(Integer shopId,Date begin,Date end){
 		return shopVisitDao.findByHql("select v from ShopVisitRecord v where v.shop.id=? and v.date>=? and v.date<=? ", shopId,DateUtil.getDateBegin(begin),DateUtil.getDateEnd(end));
-		
-		
+	}
+	public List<ShopVisitRecord> findAllShopVisitRecord(Integer shopId){
+		return shopVisitDao.findByHql("select v from ShopVisitRecord v where v.shop.id=?", shopId);
 	}
 	public void updateOrderState(Integer orderId,Integer newState){
 		Order order=orderDao.findById(Order.class, orderId);
@@ -336,8 +355,8 @@ public class ShopServiceImpl implements ShopService{
 		return withdrawDao.findPagedWithdraw(shopId,start,count);
 	}
 	public ShopBankCard findShopBankCard(Integer shopId){
-		List<ShopBankCard> bankCards=shopBankCardDao.findByHql("select b from ShopBankCard b where b.shop.id=?", shopId);
-		if(bankCards!=null){
+		List<ShopBankCard> bankCards=shopBankCardDao.findByHql("select b from ShopBankCard b where b.shopUser.id=?", shopId);
+		if(bankCards!=null&&bankCards.size()>0){
 			return bankCards.get(0);
 		}
 		return null;

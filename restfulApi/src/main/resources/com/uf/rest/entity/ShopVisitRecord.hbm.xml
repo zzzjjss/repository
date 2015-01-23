@@ -12,7 +12,7 @@
             <column name="visit_count" />
         </property>
 
-        <many-to-one name="shop"  lazy="false"
+        <many-to-one name="shop"  lazy="false" foreign-key="none" not-found="ignore" 
 			class="com.uf.rest.entity.Shop" column="shop_id" />
         
         <property name="date" type="timestamp">
