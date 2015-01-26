@@ -20,6 +20,7 @@ import com.uf.rest.bean.response.DrawDetailResponse;
 import com.uf.rest.bean.response.GetClientVersionResponse;
 import com.uf.rest.bean.response.QueryGoodResponse;
 import com.uf.rest.bean.response.QueryGoodsByClassResponse;
+import com.uf.rest.bean.response.QueryGoodsSellResponse;
 import com.uf.rest.bean.response.SellHomeResponse;
 import com.uf.rest.bean.response.SellIncomeResponse;
 import com.uf.rest.bean.response.SellOrderDealReponse;
@@ -145,6 +146,13 @@ public class ShopStatisticActionTest {
 		Client client = ClientBuilder.newClient();
 		WebTarget target = client.target("http://"+ip+"/cleaner/shop/version/last?p=1&token="+token);
 		GetClientVersionResponse response=target.request(MediaType.APPLICATION_JSON).get(GetClientVersionResponse.class);
+		System.out.println(JSONObject.fromObject(response).toString());
+	}
+	@Test
+	public void testGoodsSell() {
+		Client client = ClientBuilder.newClient();
+		WebTarget target = client.target("http://"+ip+"/cleaner/shop/goods/sell?p=1&start=0&count=10&token="+token);
+		QueryGoodsSellResponse response=target.request(MediaType.APPLICATION_JSON).get(QueryGoodsSellResponse.class);
 		System.out.println(JSONObject.fromObject(response).toString());
 	}
 }

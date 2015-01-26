@@ -68,6 +68,8 @@ import com.uf.rest.bean.response.QueryGoodResponse;
 import com.uf.rest.bean.response.QueryGoodResponseData;
 import com.uf.rest.bean.response.QueryGoodsByClassResponse;
 import com.uf.rest.bean.response.QueryGoodsByClassResponseData;
+import com.uf.rest.bean.response.QueryGoodsSellResponse;
+import com.uf.rest.bean.response.QueryGoodsSellResponseData;
 import com.uf.rest.bean.response.QueryShopInfoResponse;
 import com.uf.rest.bean.response.QueryShopInfoResponseData;
 import com.uf.rest.bean.response.ResponseBankCard;
@@ -83,6 +85,7 @@ import com.uf.rest.bean.response.ResponseOrderToShopUser;
 import com.uf.rest.bean.response.ResponseQueryByClassGood;
 import com.uf.rest.bean.response.ResponseQueryByClassGoods;
 import com.uf.rest.bean.response.ResponseQueryGood;
+import com.uf.rest.bean.response.ResponseSell;
 import com.uf.rest.bean.response.ResponseShop;
 import com.uf.rest.bean.response.ResponseShopClassGoods;
 import com.uf.rest.bean.response.ResponseUser;
@@ -638,6 +641,92 @@ public class ShopAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	@GET
+	@Path("/goods/sell")
+	public String goodsSell(@QueryParam("token") String token,@QueryParam("p") String p,@QueryParam("start") String start,@QueryParam("count") String count){
+		QueryGoodsSellResponse response=new QueryGoodsSellResponse();
+		try {
+			ShopUser shopUser=getShopUserByToken(token);
+			if(shopUser!=null){
+				Shop shop=service.findShopByShopUserId(shopUser.getId());
+				if(shop!=null){
+					//List<ShopProductPrice> products=service.findPagedShopGoodPriceInfo(shop.getId(), Integer.parseInt(start), Integer.parseInt(count));
+					List<Order> orders=service.findShopOrderByOrderState(shop.getId(), Constant.ORDER_STATE_COMPLETE);
+					Map<Integer, Integer> counts=new HashMap<Integer, Integer>();
+					Map<Integer, Product> prducts=new HashMap<Integer, Product>();
+					if(orders!=null&&orders.size()>0){
+						for(Order order:orders){
+							Set<OrderDetail> details=order.getOrderDetails();
+							if(details!=null&&details.size()>0){
+								for(OrderDetail detail:details){
+									int sellCount=detail.getCount();
+									Product product=detail.getProduct();
+									if(product!=null){
+										Integer id=product.getId();
+										Integer preCount=counts.get(id);
+										if(preCount==null){
+											counts.put(id, sellCount);
+										}else{
+											counts.put(id, sellCount+preCount);
+										}
+										if(prducts.get(id)==null){
+											prducts.put(id, product);
+										}
+									}
+									
+								}
+							}
+						}
+					}
+					QueryGoodsSellResponseData data=new QueryGoodsSellResponseData();
+					List<ResponseSell> resSells=new ArrayList<ResponseSell>();
+					for(Integer key:prducts.keySet()){
+						Product product=prducts.get(key);
+						Integer sellCount=counts.get(key);
+						if(product!=null){
+							ResponseSell resSell=new ResponseSell();
+							resSell.setCount(sellCount);
+							ResponseGood good=new  ResponseGood();
+							good.setId(product.getId());
+							good.setName(product.getName());
+							good.setPrice(product.getDefaultPrice());
+							resSell.setGood(good);
+							resSells.add(resSell);
+						}
+					}
+					data.setSell(resSells);
+					response.setData(data);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop user has no shop !");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("shop user not login!");
+				response.setSuccess(false);
+				response.setError(error);
+			}
+		} catch (Exception e) {
+			logger.error(" <-----"+start+";"+count+"---->", e);
+			ResponseError error = new ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setSuccess(false);
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+				
+	}
+	
+	
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
 	@POST
