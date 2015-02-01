@@ -28,6 +28,7 @@ import net.sf.json.JSONObject;
 import com.uf.rest.bean.Constant;
 import com.uf.rest.bean.ResponseError;
 import com.uf.rest.bean.Session;
+import com.uf.rest.bean.push.AddOrderPushContent;
 import com.uf.rest.bean.request.AddAddressRequest;
 import com.uf.rest.bean.request.AddBankCardRequest;
 import com.uf.rest.bean.request.AddCustomCommentRequest;
@@ -39,6 +40,7 @@ import com.uf.rest.bean.request.RemoveOrderRequest;
 import com.uf.rest.bean.request.GoodPriceRequest;
 import com.uf.rest.bean.request.RegistUserRequest;
 import com.uf.rest.bean.request.RequestGood;
+import com.uf.rest.bean.request.ShopGradeRequest;
 import com.uf.rest.bean.request.ShopVisitRequest;
 import com.uf.rest.bean.request.UpdateAddressRequest;
 import com.uf.rest.bean.request.UpdateBankCardRequest;
@@ -87,7 +89,9 @@ import com.uf.rest.bean.response.ResponseGood;
 import com.uf.rest.bean.response.ResponseLocation;
 import com.uf.rest.bean.response.ResponseOrder;
 import com.uf.rest.bean.response.ResponseShop;
+import com.uf.rest.bean.response.ResponseUser;
 import com.uf.rest.bean.response.ShopGoodsPrice;
+import com.uf.rest.bean.response.ShopGradeResponse;
 import com.uf.rest.bean.response.ShopVisitResponse;
 import com.uf.rest.bean.response.UpdateAddressResponse;
 import com.uf.rest.bean.response.UpdateBankCardResponse;
@@ -107,6 +111,7 @@ import com.uf.rest.entity.OrderDetail;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
 import com.uf.rest.entity.ShopProductPrice;
+import com.uf.rest.entity.ShopUser;
 import com.uf.rest.entity.ShopVisitRecord;
 import com.uf.rest.entity.User;
 import com.uf.rest.exception.UserExistException;
@@ -116,6 +121,7 @@ import com.uf.rest.service.ShopService;
 import com.uf.rest.service.UserService;
 import com.uf.rest.util.CacheUtil;
 import com.uf.rest.util.FileUtil;
+import com.uf.rest.util.PushClient;
 @Singleton
 @Path("/custom")
 public class CustomAction {
@@ -123,6 +129,7 @@ public class CustomAction {
 	private UserService service=ServiceFactory.getService(UserService.class);
 	private CustomService customService=ServiceFactory.getService(CustomService.class);
 	private ShopService shopService=ServiceFactory.getService(ShopService.class);
+	private PushClient  pushClient=ServiceFactory.getService(PushClient.class);
 	@Produces(MediaType.APPLICATION_JSON)
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -140,6 +147,7 @@ public class CustomAction {
 				CacheUtil.saveObj(uid, session);
 				UserLoginResponseData data=new UserLoginResponseData();
 				data.setToken(uid);
+				data.setId(user.getId());
 				response.setData(data);
 				response.setSuccess(true);
 			}else if(user==null){
@@ -548,6 +556,7 @@ public class CustomAction {
 						details.add(detail);
 					}
 					customService.saveOrder(order, details);
+					pushAddOrderMessage(order.getId());
 					CreateOrderResponseData data=new CreateOrderResponseData();
 					data.setId(order.getId());
 					SimpleDateFormat form=new SimpleDateFormat("yyyy-MM-dd");
@@ -580,7 +589,44 @@ public class CustomAction {
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
 	}
-	
+	private void pushAddOrderMessage(Integer orderId){
+		Order order=customService.findOrderById(orderId);
+		if(order!=null){
+			Shop shop=order.getShop();
+			ShopUser shopUser=shop.getShopUser();
+			User user=order.getUser();
+			AddOrderPushContent message=new AddOrderPushContent();
+			message.setId(order.getId());
+			message.setPayment(order.getPaymentType());
+			if(order.getOrderState()!=null){
+				message.setState(order.getOrderState().toString());
+			}
+			if(order.getCreateTime()!=null){
+				SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				message.setTime(formate.format(order.getCreateTime()));
+			}
+			ResponseUser resUser=new ResponseUser();
+			resUser.setId(user.getId());
+			resUser.setName(user.getName());
+			resUser.setPhone("");
+			message.setUser(resUser);
+			List<OrderResponseGood> resGoods=new ArrayList<OrderResponseGood>();
+			Set<OrderDetail> details=order.getOrderDetails();
+			if(details!=null){
+				for(OrderDetail detail:details){
+					OrderResponseGood good=new OrderResponseGood();
+					good.setCount(detail.getCount());
+					good.setId(detail.getProduct().getId());
+					good.setName(detail.getProduct().getName());
+					good.setPrice(detail.getPrice());
+					resGoods.add(good);
+				}
+			}
+			message.setGood(resGoods);
+			pushClient.pushMessageToAll(shopUser.getId().toString(), JSONObject.fromObject(message).toString());
+		}
+		
+	}
 	
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -1295,6 +1341,55 @@ public class CustomAction {
 		}
 		JSONObject obj=JSONObject.fromObject(response);
 		return obj.toString();
+	}
+	
+	
+	@Produces(MediaType.APPLICATION_JSON)
+	@POST
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Path("/shop/grade")
+	public String shopGrade(ShopGradeRequest request){
+		ShopGradeResponse response= new ShopGradeResponse();
+		try{
+			User user=getUserByToken(request.getToken());
+			if(user!=null){
+				Shop shop=shopService.findShopById(request.getId());
+				if(shop!=null){
+					Float mark=shop.getMark();
+					if(mark==null){
+						mark=request.getScore();
+					}else{
+						mark=(mark+request.getScore())/2f;
+					}
+					shop.setMark(mark);
+					shopService.updateShop(shop);
+					response.setSuccess(true);
+				}else{
+					ResponseError error=new ResponseError();
+					error.setCode(Constant.VALUE_NOT_EXIST);
+					error.setMsg("shop not exist");
+					response.setError(error);
+					response.setSuccess(false);
+				}
+
+			}else{
+				ResponseError error=new ResponseError();
+				error.setCode(Constant.USER_NOT_LOGIN_CODE);
+				error.setMsg("user not login");
+				response.setError(error);
+				response.setSuccess(false);
+			}
+		}catch(Exception e){
+			JSONObject obj=JSONObject.fromObject(request);
+			logger.error("<----"+obj.toString()+"---->", e);
+			com.uf.rest.bean.ResponseError error=new com.uf.rest.bean.ResponseError();
+			error.setCode(Constant.SYSTEM_EXCEPTION_CODE);
+			error.setMsg(e.getMessage());
+			response.setError(error);
+		}
+		JSONObject obj=JSONObject.fromObject(response);
+		return obj.toString();
+		
 	}
 	private User getUserByToken(String token){
 		Object obj=CacheUtil.getObj(token);

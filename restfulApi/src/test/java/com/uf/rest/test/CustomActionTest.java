@@ -183,9 +183,9 @@ public class CustomActionTest {
 		request.setToken(token);
 		RequestGood good=new RequestGood();
 		good.setCount(3);
-		good.setId(1);
+		good.setId(3);
 		good.setName("yifu");
-		good.setPrice(22.2f);
+		good.setPrice(44.4f);
 		RequestGood goods[]=new RequestGood[]{good};
 
 		request.setGood(goods);

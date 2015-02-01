@@ -14,6 +14,7 @@ import com.uf.rest.dao.CustomCommentDao;
 import com.uf.rest.dao.OrderAddressDao;
 import com.uf.rest.dao.OrderDao;
 import com.uf.rest.dao.OrderDetailDao;
+import com.uf.rest.dao.OrderStateHistoryDao;
 import com.uf.rest.dao.ProductClassDao;
 import com.uf.rest.dao.ProductDao;
 import com.uf.rest.dao.ShopDao;
@@ -25,6 +26,7 @@ import com.uf.rest.entity.CustomComment;
 import com.uf.rest.entity.Order;
 import com.uf.rest.entity.OrderAddress;
 import com.uf.rest.entity.OrderDetail;
+import com.uf.rest.entity.OrderStateHistory;
 import com.uf.rest.entity.Product;
 import com.uf.rest.entity.Shop;
 import com.uf.rest.entity.ShopProductPrice;
@@ -58,7 +60,17 @@ public class CustomServiceImpl implements CustomService{
 	private ClientVersionDao clientVersionDao;
 	@Autowired
 	private ShopVisitRecordDao shopVisitDao;
+	@Autowired
+	private OrderStateHistoryDao orderStateHisDao;
 	
+	public OrderStateHistoryDao getOrderStateHisDao() {
+		return orderStateHisDao;
+	}
+
+	public void setOrderStateHisDao(OrderStateHistoryDao orderStateHisDao) {
+		this.orderStateHisDao = orderStateHisDao;
+	}
+
 	public BankCardDao getBankCardDao() {
 		return bankCardDao;
 	}
@@ -166,7 +178,11 @@ public class CustomServiceImpl implements CustomService{
 			detail.setOrder(order);
 			orderDetailDao.insert(detail);
 		}
-		
+		OrderStateHistory  hist=new OrderStateHistory();
+		hist.setOrder(order);
+		hist.setState(order.getOrderState());
+		hist.setTime(order.getCreateTime());
+		orderStateHisDao.saveOrUpdate(hist);
 	}
 	public void updateOrder(Order order,Set<OrderDetail> details){
 		orderDetailDao.deleteByOrderId(order.getId());

@@ -12,4 +12,5 @@ public class ServiceFactory {
 	 public  static <T>  T getService(Class<T> t){
 		return context.getBean(t);
 	} 
+	 
 }

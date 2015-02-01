@@ -97,7 +97,7 @@ public class ShopStatisticActionTest {
 	public void testChangeOrderState() {
 		Client client = ClientBuilder.newClient();
 		UpdateOrderStateRequest request=new UpdateOrderStateRequest();
-		request.setOrder_id(new Integer[]{2,3});
+		request.setOrder_id(new Integer[]{3});
 		request.setToken(token);
 		request.setP(1);
 		request.setState(Constant.ORDER_STATE_WAITSENT);
