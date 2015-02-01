@@ -610,19 +610,6 @@ public class CustomAction {
 			resUser.setName(user.getName());
 			resUser.setPhone("");
 			message.setUser(resUser);
-			List<OrderResponseGood> resGoods=new ArrayList<OrderResponseGood>();
-			Set<OrderDetail> details=order.getOrderDetails();
-			if(details!=null){
-				for(OrderDetail detail:details){
-					OrderResponseGood good=new OrderResponseGood();
-					good.setCount(detail.getCount());
-					good.setId(detail.getProduct().getId());
-					good.setName(detail.getProduct().getName());
-					good.setPrice(detail.getPrice());
-					resGoods.add(good);
-				}
-			}
-			message.setGood(resGoods);
 			pushClient.pushMessageToAll(shopUser.getId().toString(), JSONObject.fromObject(message).toString());
 		}
 		

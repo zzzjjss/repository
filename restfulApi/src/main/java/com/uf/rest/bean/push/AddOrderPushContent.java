@@ -1,8 +1,5 @@
 package com.uf.rest.bean.push;
 
-import java.util.List;
-
-import com.uf.rest.bean.response.OrderResponseGood;
 import com.uf.rest.bean.response.ResponseUser;
 
 public class AddOrderPushContent {
@@ -11,7 +8,6 @@ public class AddOrderPushContent {
 	private Integer payment;
 	private ResponseUser user;
 	private String state;
-	private List<OrderResponseGood> good;
 	public Integer getId() {
 		return id;
 	}
@@ -41,12 +37,6 @@ public class AddOrderPushContent {
 	}
 	public void setState(String state) {
 		this.state = state;
-	}
-	public List<OrderResponseGood> getGood() {
-		return good;
-	}
-	public void setGood(List<OrderResponseGood> good) {
-		this.good = good;
 	}
 	
 }

@@ -28,6 +28,7 @@ import com.uf.rest.bean.Constant;
 import com.uf.rest.bean.ResponseError;
 import com.uf.rest.bean.Session;
 import com.uf.rest.bean.push.ChangeOrderStatePushContent;
+import com.uf.rest.bean.push.PushShop;
 import com.uf.rest.bean.request.AddGoodClassRequest;
 import com.uf.rest.bean.request.AddGoodRequest;
 import com.uf.rest.bean.request.AddShopRequest;
@@ -493,7 +494,7 @@ public class ShopAction {
 		StringBuilder result=new StringBuilder();
 		if(value!=null&&value.length>0){
 			for(String a:value){
-				result.append(a+";");
+				result.append(a+",");
 			}
 		}
 		return result.toString();
@@ -1622,68 +1623,20 @@ public class ShopAction {
 			Shop shop=order.getShop();
 			ShopUser shopUser=shop.getShopUser();
 			ChangeOrderStatePushContent  message=new ChangeOrderStatePushContent();
-			if(order.getDeliverAddress()!=null){
-				message.setDeliver_address_id(order.getDeliverAddress().getId());	
+			if(order.getOrderState()!=null){
+				message.setState(order.getOrderState().toString());
 			}
-			if(order.getPickAddress()!=null){
-				message.setPick_address_id(order.getPickAddress().getId());
-			}
-			Set<OrderStateHistory> stateHis=order.getOrderStatesHistory();
-			if(stateHis!=null&&stateHis.size()>0){
-				List<ResponseOrderState> resStates=new ArrayList<ResponseOrderState>();
-				for(OrderStateHistory state:stateHis){
-					ResponseOrderState resState=new ResponseOrderState();
-					resState.setName(state.getState().toString());
-					resState.setTime(format.format(state.getTime()));
-					resStates.add(resState);
-				}
-				message.setState(resStates);
-			}
-			message.setPayment(order.getPaymentType());
 			if(shop!=null){
-				ResponseShop responseShop=new ResponseShop();
-				//responseShop.setIcon(FileUtil.getFileContent(shop.getShopPhotoPath()));
-				responseShop.setId(shop.getId());
-				ResponseLocation location=new ResponseLocation();
-				location.setCountry(shop.getCountry());
-				location.setAddress(shop.getAddress());
-				location.setCity(shop.getCity());
-				location.setProvince(shop.getProvince());
-				responseShop.setLocation(location);
-				responseShop.setMark(shop.getMark().toString());
-				responseShop.setName(shop.getName());
+				PushShop pushShop=new PushShop();
+				pushShop.setId(shop.getId());
+				pushShop.setName(shop.getName());
 				if(shop.getContactStyle()!=null){
-					responseShop.setPhone(shop.getContactStyle().split(","));
+					pushShop.setPhone(shop.getContactStyle().split(","));	
 				}
-				if(shop.getCreateTime()!=null){
-					responseShop.setTime(format.format(shop.getCreateTime()));
-				}
-				
-				responseShop.setType("type");
-				ResponseCoordinate coor=new ResponseCoordinate();
-				coor.setLatitude(shop.getLatitude());
-				coor.setLongitude(shop.getLongitude());
-				responseShop.setCoordinate(coor);
-				message.setShop(responseShop);
+				message.setShop(pushShop);
 			}
 			message.setId(order.getId());
-			if(order.getCreateTime()!=null){
-				message.setTime(format.format(order.getCreateTime()));
-			}
 			
-			List<OrderResponseGood> resGoods=new ArrayList<OrderResponseGood>();
-			Set<OrderDetail> details=order.getOrderDetails();
-			if(details!=null){
-				for(OrderDetail detail:details){
-					OrderResponseGood good=new OrderResponseGood();
-					good.setCount(detail.getCount());
-					good.setId(detail.getProduct().getId());
-					good.setName(detail.getProduct().getName());
-					good.setPrice(detail.getPrice());
-					resGoods.add(good);
-				}
-			}
-			message.setGood(resGoods);
 			pushClient.pushMessageToAll(shopUser.getId().toString(), JSONObject.fromObject(message).toString());
 		}
 	}
