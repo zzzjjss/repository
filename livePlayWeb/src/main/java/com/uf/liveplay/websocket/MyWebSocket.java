@@ -23,6 +23,7 @@ public class MyWebSocket {
         String room = (String) session.getUserProperties().get("room"); 
         try { 
             for (Session s : session.getOpenSessions()) { 
+            	
                 if (s.isOpen() && room.equals(s.getUserProperties().get("room"))) { 
                     s.getBasicRemote().sendObject(chatMessage); 
                 } 

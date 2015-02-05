@@ -1,17 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <script type='text/javascript' src='jwplayer.js'></script>
-<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
-<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" charset="utf-8" src="ueditor1_4_3/ueditor.config.js"></script>
-    <script type="text/javascript" charset="utf-8" src="ueditor1_4_3/ueditor.all.min.js"> </script>
-    
-<link href="js/bootstrap/css/bootstrap.css" type="text/css"
-	rel="stylesheet">
-<link href="css/main.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.min.js"> </script>
+<link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
 <title>在线直播</title>
  
 </head>
@@ -19,10 +17,10 @@
 	
 	<div class="container-fluid">
 	<div class="row" >
-			<div class="panel panel-primary" style="margin-bottom:0px;">
+			<div class="panel panel-primary" style="margin-bottom:0px;background-color: #47BD7E;">
 					<div class="panel-body" style="height: 50px;text-align: right;">
-						欢迎 jason &nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-default btn-xs"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> Logout</button>
+						欢迎 ${user.name} &nbsp;&nbsp;&nbsp;&nbsp;
+						<button type="button" class="btn btn-primary btn-xs" onclick="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</button>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
 			</div>
@@ -101,6 +99,8 @@
 	</div>
 
 <script type="text/javascript">
+	var userName="${user.name}";
+	var sessionId="${sessionId}";
 	var ue;
 	var websocket;
 	$(document).ready(function(){
@@ -128,21 +128,45 @@
 	
 	 function sendMsg(){
 		 var contents=ue.getContent();
+		 var reg1=new RegExp("\"","g");
+		 contents=contents.replace(reg1,"'");
 		 var reg2=new RegExp("<p>","g");
 		 contents=contents.replace(reg2,"<p style='display: initial;'>");
-		 var hello ='{"sender":"jasonZhang","message":"'+contents+'"}';
+		 var hello ='{"sender":"'+userName+'","message":"'+contents+'"}';
          websocket.send(hello); 
 	 }
 	     
-	      //消息接收  
-	      function onMessageReceived(message) { 
-	       	var messageJson = JSON.parse(message.data);
-			 $("#chatContent").append("<div><span class='label label-primary'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");
-			 var div=document.getElementById("chatContent");
-			 div.scrollTop=div.scrollHeight;
-			 ue.execCommand('cleardoc'); 
-	     }  
+	   //消息接收  
+      function onMessageReceived(message) { 
+       	var messageJson = JSON.parse(message.data);
+       	//if the sender  is  user self.
+       	if(messageJson.sender==userName){
+       		$("#chatContent").append("<div><span class='label label-primary'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");	
+       	}else{
+       		$("#chatContent").append("<div><span class='label label-success'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");
+       	}
+		 
+		 var div=document.getElementById("chatContent");
+		 div.scrollTop=div.scrollHeight;
+		 ue.execCommand('cleardoc'); 
+     }  
 	 
+	   
+	  function logout(){
+		  var url="/livePlayWeb/controller/logout.do";
+			$.post(url,function(result){
+				if(result=="ok"){
+					window.location.href="login.html";
+				}else{
+					easyDialog.open({
+						  container : {
+						    header : '错误',
+						    content : result
+						  }
+						});
+				}
+			});
+	  }
 </script>
 </body>
 

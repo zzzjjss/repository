@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/unit.js"></script>
+<link href="js/bootstrap/css/bootstrap.css" type="text/css"
+	rel="stylesheet">
+</head>
+<body>
+	<div class="container">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4" style="padding-top: 300px;">
+			<div class="panel panel-primary">
+				<div class="panel-heading">注册</div>
+				<div class="panel-body">
+					<div class="form-group ">
+						<label for="userName">用户名</label>
+						<input type="text" id="userName" class="form-control"
+							placeholder="用户名" required="" autofocus="">
+					</div>
+					<div class="form-group">
+						<label for="phone">电话号码</label>
+						<input type="text" id="phone" class="form-control"
+							placeholder="电话号码" required="" />
+					</div>
+					<div class="form-group">
+						<label for="password">密码</label>
+						<input type="password" id="password" class="form-control"
+							placeholder="密码" required="" />
+					</div>
+					
+				</div>
+				<div class="panel-footer" style="text-align: center;">
+					<button class="btn btn-primary btn-lg " type="button" onclick="regist()">注册</button>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-xs-4"></div>
+	</div>
+
+<script type="text/javascript">
+	function regist(){
+		var userName=$("#userName").val();
+		var password=$("#password").val();
+		var phone=$("#phone").val();
+		if(stringIsEmpty(userName)||stringIsEmpty(password)){
+			easyDialog.open({
+				  container : {
+				    header : '错误',
+				    content : '用户名和密码不能为空！'
+				  }
+				});
+		}
+		var url="registNewUser.do";
+		var data="userName="+userName+"&password="+password+"&phone="+phone;
+		
+		$.post(url,data,function(result){
+			if(result=="ok"){
+				window.location.href="views/main.do";
+			}else{
+				easyDialog.open({
+					  container : {
+					    header : '错误',
+					    content : result
+					  }
+					});
+			}
+		});
+		
+	}
+
+
+</script>
+</body>
+</html>
