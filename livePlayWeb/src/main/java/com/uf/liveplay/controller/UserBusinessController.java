@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
+import com.uf.liveplay.unit.SessionCache;
 
 @Controller
 public class UserBusinessController {
@@ -49,10 +50,16 @@ public class UserBusinessController {
 		try{
 			if(userService.login(userName,password)){
 				User user=userService.findUserByName(userName);
+				if(request.getServletContext().getAttribute(user.getName())!=null){
+					return "用户已经登录！";
+				}else{
+					request.getServletContext().setAttribute(user.getName(),user);
+				}
 				request.getSession().setAttribute("user", user);
+				SessionCache.addUser(request.getSession().getId(), user);
 				return "ok";
 			}else{
-				return "fail";
+				return "用户名或密码错误！";
 			}
 		}catch(Exception e){
 			e.printStackTrace();
@@ -62,10 +69,7 @@ public class UserBusinessController {
 	@RequestMapping("/controller/logout")
 	@ResponseBody
 	public String logout(ModelMap model,HttpServletRequest request){
-		Object obj=request.getSession().getAttribute("user");
-		if(obj!=null){
-			request.getSession().removeAttribute("user");
-		}
+		request.getSession().invalidate();
 		return "ok";
 	}
 	@RequestMapping("/views/main")

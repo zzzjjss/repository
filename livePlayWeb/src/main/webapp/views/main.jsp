@@ -53,7 +53,7 @@
 				</div>
 				
 				<div class="panel panel-primary">
-					<div class="panel-heading" style="background-image: url(images/kefuzhongxin.png);height: 80px;">
+					<div class="panel-heading" style="background-image: url(../images/kefuzhongxin.png);height: 80px;">
 					</div>
 					<div class="panel-body">
 						<ul>
@@ -89,7 +89,7 @@
 					</div>
 					<div class="panel-body" style="height: 550px;">
 						<ul id="onLineUsers">
-							<li><a target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=56167649&amp;site=tjdco.com&amp;menu=yes">葡萄</a></li>						
+								
 						</ul>
 					</div>
 				</div>
@@ -107,8 +107,10 @@
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:100
 			});
-		websocket = new WebSocket("ws://localhost:8080/livePlayWeb/chat/testroom"); 
+		websocket = new WebSocket("ws://localhost:8080/livePlayWeb/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
+		websocket.onclose=onWebSocketClosed;
+		websocket.onopen=onWebSocketOpend;
 	});
   
   function keyDown(e) {
@@ -132,27 +134,49 @@
 		 contents=contents.replace(reg1,"'");
 		 var reg2=new RegExp("<p>","g");
 		 contents=contents.replace(reg2,"<p style='display: initial;'>");
-		 var hello ='{"sender":"'+userName+'","message":"'+contents+'"}';
+		 var hello ='{"sender":"'+userName+'","messageType":"chat","message":"'+contents+'"}';
          websocket.send(hello); 
+         ue.execCommand('cleardoc');
 	 }
 	     
 	   //消息接收  
       function onMessageReceived(message) { 
        	var messageJson = JSON.parse(message.data);
-       	//if the sender  is  user self.
-       	if(messageJson.sender==userName){
-       		$("#chatContent").append("<div><span class='label label-primary'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");	
-       	}else{
-       		$("#chatContent").append("<div><span class='label label-success'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");
+       	if(messageJson.messageType=="chat"){
+       		//if the sender  is  user self.
+           	if(messageJson.sender==userName){
+           		$("#chatContent").append("<div><span class='label label-primary'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");	
+           	}else{
+           		$("#chatContent").append("<div><span class='label label-success'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");
+           	}
+           	var div=document.getElementById("chatContent");
+   		 	div.scrollTop=div.scrollHeight;
+   		 	
+       	}else if(messageJson.messageType=="online"){
+       		if($("#onLineUsers #"+messageJson.userName).length==0){
+       			$("#onLineUsers").append("<li id='"+messageJson.userName+"'>"+messageJson.userName+"</li>");	
+       		}
+       	}else if(messageJson.messageType=="offline"){
+       		$("#onLineUsers #"+messageJson.userName).remove();
+       	}else if(messageJson.messageType=="onlineUsers"){
+       		var onlineUsers=messageJson.userNames;
+       		for(var i=0;i<onlineUsers.length;i++){
+       			$("#onLineUsers").append("<li id='"+onlineUsers[i]+"'>"+onlineUsers[i]+"</li>");
+       		}
        	}
-		 
-		 var div=document.getElementById("chatContent");
-		 div.scrollTop=div.scrollHeight;
-		 ue.execCommand('cleardoc'); 
+		  
      }  
-	 
+	 function onWebSocketOpend(evt){
+		
+	 }  
+	   
+	   
+	 function onWebSocketClosed(message){
+		 console.log('Client notified socket has closed',message); 
+	 }
 	   
 	  function logout(){
+		  websocket.close();
 		  var url="/livePlayWeb/controller/logout.do";
 			$.post(url,function(result){
 				if(result=="ok"){
