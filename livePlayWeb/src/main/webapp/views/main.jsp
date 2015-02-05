@@ -10,6 +10,8 @@
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.min.js"> </script>
 <link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="../js/easydialog-v2.0/easydialog.min.js"></script>
+<link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>在线直播</title>
  
 </head>
@@ -129,6 +131,15 @@
 	document.onkeydown = keyDown;  
 	
 	 function sendMsg(){
+		 if(ue.getContentTxt().length>100){
+			 easyDialog.open({
+				  container : {
+				    header : '错误',
+				    content : "内容太多，无法发送！"
+				  }
+				});
+			 return;
+		 }
 		 var contents=ue.getContent();
 		 var reg1=new RegExp("\"","g");
 		 contents=contents.replace(reg1,"'");
