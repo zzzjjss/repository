@@ -30,7 +30,7 @@
 	</div>
 		<div class="row">
 			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;">
-				<div class="panel panel-primary">
+				<div class="panel panel-primary" style="margin-bottom: 1px;">
 					<div class="panel-heading">
 						<h3 class="panel-title">公告</h3>
 					</div>
@@ -39,7 +39,7 @@
 					</div>
 				</div>
 				
-				<div class="panel panel-primary">
+				<div class="panel panel-primary" style="margin-bottom: 1px;">
 					<div class="panel-body" style="padding: 0px;">
 						<div id='mediaspace'>This text will be replaced</div>
 						<script type='text/javascript'>
@@ -57,11 +57,10 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" style="background-image: url(../images/kefuzhongxin.png);height: 80px;">
 					</div>
-					<div class="panel-body">
-						<ul>
-						
-							<li><a target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=56167649&amp;site=tjdco.com&amp;menu=yes">葡萄</a></li>						
-						</ul>
+					<div class="panel-body" style="height: 100px;">
+						<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小倩</a>
+						<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小红</a>
+						<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小明</a>
 					</div>
 				</div>
 				
@@ -107,7 +106,7 @@
 	var websocket;
 	$(document).ready(function(){
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
-			  enableAutoSave: false,maximumWords:100
+			  enableAutoSave: false,maximumWords:100,enableAutoSave:false,saveInterval:5000000
 			});
 		websocket = new WebSocket("ws://localhost:8080/livePlayWeb/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
