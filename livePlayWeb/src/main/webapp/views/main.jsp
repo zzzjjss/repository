@@ -9,7 +9,7 @@
 <script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
 <script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.min.js"> </script>
+<script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.js"> </script>
 <link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="../js/easydialog-v2.0/easydialog.min.js"></script>
 <link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
@@ -128,7 +128,7 @@
 	var websocket;
 	$(document).ready(function(){
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
-			  enableAutoSave: false,maximumWords:100,enableAutoSave:false,saveInterval:5000000
+			  enableAutoSave: false,maximumWords:100,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
 		websocket = new WebSocket("ws://localhost:8080/livePlayWeb/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
@@ -136,21 +136,9 @@
 		websocket.onopen=onWebSocketOpend;
 	});
   
-  function keyDown(e) {
-	    var currKey=0,e=e||event;
-	    currKey=e.keyCode||e.which||e.charCode;
-	    //ctrl+enter提交
-	    if((currKey==13)&&(e.ctrlKey)){
-	      sendMsg();
-	    }
-	    //与火狐浏览器快捷键冲突
-	    if((currKey==83)&&(e.altKey)){
-	      sendMsg();
-	      }
-	}
-	//监听键盘按下事件
-	document.onkeydown = keyDown;  
+
 	
+		  
 	 function sendMsg(){
 		 if(ue.getContentTxt().length>100){
 			 easyDialog.open({
