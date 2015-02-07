@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<view:MyPublisherClass width="100%" direction="vertical" 
+					 paddingBottom="0" horizontalGap="6"
+					 xmlns:mx="http://www.adobe.com/2006/mxml"
+					 xmlns:view="org.red5.samples.publisher.view.*">
+		<view:MyMonitorPod id="monitorPod"
+						 width="{ main.media.videoWidth }" height="100%"
+						 direction="vertical" verticalGap="-1"
+						 paddingRight="0" paddingBottom="0"
+						 main="{ main }" navigation="{ navigation }"/>
+</view:MyPublisherClass>
