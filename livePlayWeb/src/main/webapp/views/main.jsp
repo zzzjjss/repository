@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
@@ -13,7 +14,8 @@
 <script type="text/javascript" src="../js/easydialog-v2.0/easydialog.min.js"></script>
 <link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>在线直播</title>
- 
+ <script type="text/javascript" src="assets/swfobject.js"></script>
+
 </head>
 <body>
 	
@@ -29,42 +31,62 @@
 			
 	</div>
 		<div class="row">
-			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;">
-				<div class="panel panel-primary" style="margin-bottom: 1px;">
-					<div class="panel-heading">
-						<h3 class="panel-title">公告</h3>
-					</div>
-					<div class="panel-body" style="height: 200px;">
-						公告内容
-					</div>
-				</div>
+			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;z-index: 100000">
 				
-				<div class="panel panel-primary" style="margin-bottom: 1px;">
-					<div class="panel-body" style="padding: 0px;">
-						<div id='mediaspace'>This text will be replaced</div>
-						<script type='text/javascript'>
-							jwplayer('mediaspace').setup({
-								'flashplayer' : 'player.swf',
-								'file':"liveChannel",
-								'streamer' : 'rtmp://localhost/livePlay?userName=jason&password=123456',
-								'controlbar' : 'bottom',
-								'width':'100%'
-							});
-						</script>
+				<c:if test="${user.role=='commonUser'}">
+					<div class="panel panel-primary" style="margin-bottom: 1px;">
+						<div class="panel-heading">
+							<h3 class="panel-title">公告</h3>
+						</div>
+						<div class="panel-body" style="height: 200px;">
+							公告内容
+						</div>
 					</div>
-				</div>
-				
-				<div class="panel panel-primary">
-					<div class="panel-heading" style="background-image: url(../images/kefuzhongxin.png);height: 80px;">
+					
+					<div class="panel panel-primary" style="margin-bottom: 1px;">
+						<div class="panel-body" style="padding: 0px;">
+							<div id='mediaspace'>This text will be replaced</div>
+							<script type='text/javascript'>
+								jwplayer('mediaspace').setup({
+									'flashplayer' : 'player.swf',
+									'file':"liveChannel",
+									'streamer' : 'rtmp://localhost/livePlay?userName=jason&password=123456',
+									'controlbar' : 'bottom',
+									'width':'100%'
+								});
+							</script>
+						</div>
 					</div>
-					<div class="panel-body" style="height: 100px;">
-						<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小倩</a>
-						<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小红</a>
-						<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小明</a>
+					
+					<div class="panel panel-primary">
+						<div class="panel-heading" style="background-image: url(../images/kefuzhongxin.png);height: 80px;">
+						</div>
+						<div class="panel-body" style="height: 100px;">
+							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小倩</a>
+							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小红</a>
+							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小明</a>
+						</div>
 					</div>
-				</div>
-				
-				
+				</c:if>
+				<c:if test="${user.role=='publisher'}">
+					<div id="publishPart" >
+
+					</div>
+					<script type="text/javascript">
+						var flashvars = {};
+						var params = {
+							allowfullscreen : "true"
+						};
+						var attributes = {};
+						swfobject.embedSWF("publisher.swf", "publishPart",
+								"450px", "600px", "9.0.0",
+								"assets/expressInstall.swf", flashvars, params,
+								attributes);
+						function getRtmpUrl() {
+							return "rtmp://localhost/livePlay?userName=jason&password=123456";
+						}
+					</script>
+				</c:if>
 			</div>
 			
 			
