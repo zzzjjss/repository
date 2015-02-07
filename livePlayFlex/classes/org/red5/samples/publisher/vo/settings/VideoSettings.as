@@ -76,8 +76,8 @@ package  org.red5.samples.publisher.vo.settings
 		public function VideoSettings(	cameraIndex : int = -1,
 										bandwidth : int = 0,
 										quality : int = 0,
-										width : int = 320,
-										height : int = 240,
+										width : int = 400,
+										height : int = 320,
 										keyframe : int = 5,
 										fps : int = 15 ) 
 		{

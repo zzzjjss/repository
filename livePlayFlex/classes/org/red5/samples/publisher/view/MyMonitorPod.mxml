@@ -5,7 +5,7 @@
 						xmlns:monitor="org.red5.samples.publisher.view.monitor.*"
 						xmlns:settings="org.red5.samples.publisher.view.settings.*">
 	
-	<mx:ApplicationControlBar>
+	<mx:ApplicationControlBar width="100%">
 		<mx:Image source="{ main.images.monitor_img }"/>
 		
 		<mx:VBox paddingLeft="-1" paddingTop="3">
