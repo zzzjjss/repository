@@ -8,4 +8,6 @@ public interface UserService {
 	public boolean login(String userName,String password);
 	
 	public User findUserByName(String userName);
+	public User findUserById(Integer userId);
+	public void saveUserInfo(User user);
 }

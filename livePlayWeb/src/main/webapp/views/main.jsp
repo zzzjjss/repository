@@ -5,8 +5,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../js/unit.js"></script>
 <script type='text/javascript' src='jwplayer.js'></script>
 <script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../js/jquery.bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.js"> </script>
@@ -15,7 +17,6 @@
 <link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>在线直播</title>
  <script type="text/javascript" src="assets/swfobject.js"></script>
-
 </head>
 <body>
 	
@@ -23,7 +24,7 @@
 	<div class="row" >
 			<div class="panel panel-primary" style="margin-bottom:0px;background-color: #47BD7E;">
 					<div class="panel-body" style="height: 50px;text-align: right;">
-						欢迎 ${user.name} &nbsp;&nbsp;&nbsp;&nbsp;
+						欢迎 &nbsp;&nbsp;<a href="#" onclick="editUserInfo()">${user.name}</a>  &nbsp;&nbsp;&nbsp;&nbsp;
 						<button type="button" class="btn btn-primary btn-xs" onclick="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</button>
 						&nbsp;&nbsp;&nbsp;&nbsp;
 					</div>
@@ -31,7 +32,7 @@
 			
 	</div>
 		<div class="row">
-			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;z-index: 100000">
+			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;" id="leftPart">
 				
 				<c:if test="${user.role=='commonUser'}">
 					<div class="panel panel-primary" style="margin-bottom: 1px;">
@@ -85,6 +86,7 @@
 						function getRtmpUrl() {
 							return "rtmp://localhost/livePlay?userName=jason&password=123456";
 						}
+						$("#leftPart").css("z-index","10");
 					</script>
 				</c:if>
 			</div>
@@ -121,7 +123,27 @@
 		</div>
 	</div>
 
-<script type="text/javascript">
+	<div id="userInfo">
+		<form id="loginform" role="form">
+			<input type="hidden" id="userId" value="${user.id}">
+			<div class="form-group">
+				<label for="oldPassword">旧密码</label> <input type="password"
+					class="form-control" id="oldPassword">
+			</div>
+			<div class="form-group">
+				<label for="newPassword">新密码</label> <input type="password"
+					class="form-control" id="newPassword">
+			</div>
+			<div class="form-group">
+				<label for="phone">电话号码</label> <input type="text"
+					class="form-control" id="phone" value="${user.phone}">
+			</div>
+		</form>
+	</div>
+
+
+
+	<script type="text/javascript">
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
 	var ue;
@@ -135,7 +157,50 @@
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;
 	});
-  
+	function editUserInfo(){
+		$("#userInfo").dialog({title:"用户信息",buttons: [
+			{text: "关闭",
+			'class': "btn-primary",
+			click: function() {
+				$(this).dialog("close");
+			}},
+			{
+			text: "保存",
+			'class': "btn-success",
+			 click: function() {
+				 
+				var oldPwd=$("#oldPassword").val();
+				var newPwd=$("#newPassword").val();
+				var phone=$("#phone").val();
+				var userId=$("#userId").val();
+				if(stringIsEmpty(oldPwd)||stringIsEmpty(newPwd)){
+					easyDialog.open({
+						  container : {
+						    header : '错误',
+						    content : '密码不能为空'
+						  }
+						});
+					return;
+				}
+				var data="userId="+userId+"&oldPassword="+oldPwd+"&newPassword="+newPwd+"&phone="+phone;
+				 var url="/livePlayWeb/controller/saveUserInfo.do";
+				 
+					$.post(url,data,function(result){
+						if(result=="ok"){
+							$("#userInfo").dialog("close");
+						}else{
+							easyDialog.open({
+								  container : {
+								    header : '错误',
+								    content : result
+								  }
+								});
+						}
+					});
+				
+			}}
+			]});
+	}  
 
 	
 		  

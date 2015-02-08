@@ -40,4 +40,10 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
+	public User findUserById(Integer userId){
+		return userDao.findById(User.class, userId);
+	}
+	public void saveUserInfo(User user){
+		userDao.saveOrUpdate(user);
+	}
 }

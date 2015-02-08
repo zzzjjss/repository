@@ -41,6 +41,31 @@ public class UserBusinessController {
 		}
 		return "ok";
 	}
+	@RequestMapping("/controller/saveUserInfo")
+	@ResponseBody
+	public String saveUserInfo(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
+		String userId=allRequestParams.get("userId");
+		String oldPwd=allRequestParams.get("oldPassword");
+		String newPwd=allRequestParams.get("newPassword");
+		String phone=allRequestParams.get("phone");
+		
+		try {
+			User user=userService.findUserById(Integer.parseInt(userId));
+			if(user==null){
+				return "用户不存在！";
+			}else if(!user.getPassword().equals(oldPwd)){
+				return "旧密码错误！";
+			}else{
+				user.setPassword(newPwd);
+				user.setPhone(phone);
+				userService.saveUserInfo(user);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return "ok";
+	}
 	@RequestMapping("/login")
 	@ResponseBody
 	public String login(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
