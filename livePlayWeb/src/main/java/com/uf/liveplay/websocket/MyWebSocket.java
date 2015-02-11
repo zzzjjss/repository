@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.websocket.EncodeException;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
@@ -61,8 +60,8 @@ public class MyWebSocket {
                     s.getBasicRemote().sendObject(chatMessage); 
                 } 
             } 
-        } catch (IOException | EncodeException e) { 
-           System.out.println(e);
+        } catch (Exception e) {
+        	e.printStackTrace();
         } 
     } 
     @OnClose
