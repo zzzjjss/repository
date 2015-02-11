@@ -156,7 +156,9 @@
 		websocket.onmessage=onMessageReceived;
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;
+		$("#userInfo").dialog({title:"Login", autoOpen: false});
 	});
+	
 	function editUserInfo(){
 		$("#userInfo").dialog({title:"用户信息",buttons: [
 			{text: "关闭",
