@@ -336,6 +336,10 @@ public class CustomAction {
 				data.setCount(shops.size());
 				data.setNext_cursor(Integer.parseInt(start)+Integer.parseInt(count));
 				response.setData(data);
+			}else{
+				data.setCount(0);
+				data.setNext_cursor(-1);
+				response.setData(data);
 			}
 			response.setSuccess(true);
 		} catch (Exception e) {
@@ -749,10 +753,14 @@ public class CustomAction {
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if(user!=null){
 				List<Order> orders=customService.findPagedOrdersByState(user.getId(), Integer.parseInt(state), Integer.parseInt(start), Integer.parseInt(count));
+				QueryOrderResponseData data=new QueryOrderResponseData();
 				if(orders!=null&&orders.size()>0){
-					QueryOrderResponseData data=new QueryOrderResponseData();
 					List<ResponseOrder> responseOrders=new ArrayList<ResponseOrder>();
+					int maxid=0;
 					for(Order order:orders){
+						if(order.getId()>maxid){
+							maxid=order.getId();
+						}
 						ResponseOrder resOrder=new ResponseOrder();
 						resOrder.setDeliver_address_id(order.getDeliverAddress().getId());
 						resOrder.setId(order.getId());
@@ -796,8 +804,14 @@ public class CustomAction {
 						responseOrders.add(resOrder);
 					}
 					data.setOrder(responseOrders);
-					response.setData(data);
+					data.setCount(orders.size());
+					data.setCursor_next(maxid+1);
+					
+				}else{
+					data.setCount(0);
+					data.setCursor_next(-1);
 				}
+				response.setData(data);
 				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
@@ -952,10 +966,14 @@ public class CustomAction {
 			if(user!=null){
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				List<OrderAddress> orderAddress=customService.findPagedOrderAddress(user.getId(), Integer.parseInt(start), Integer.parseInt(count));
+				QueryUserAddressResponseData data=new QueryUserAddressResponseData();
 				if(orderAddress!=null&&orderAddress.size()>0){
-					QueryUserAddressResponseData data=new QueryUserAddressResponseData(); 
 					List<ResponseAddress> resAddresss=new ArrayList<ResponseAddress>();
+					int maxid=0;
 					for(OrderAddress add:orderAddress){
+						if(add.getId()>maxid){
+							maxid=add.getId();
+						}
 						ResponseAddress resAdd=new ResponseAddress();
 						resAdd.setAddress(add.getAddress());
 						resAdd.setCity(add.getCity());
@@ -971,9 +989,12 @@ public class CustomAction {
 					}
 					data.setAddress(resAddresss);
 					data.setCount(orderAddress.size());
-					data.setCursor_next(Integer.parseInt(start)+orderAddress.size());
-					response.setData(data);
+					data.setCursor_next(maxid+1);
+				}else{
+					data.setCount(0);
+					data.setCursor_next(-1);
 				}
+				response.setData(data);
 				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
@@ -1120,10 +1141,14 @@ public class CustomAction {
 			if(user!=null){
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				List<BankCard> bankCards=customService.findPagedBankCards(user.getId(), Integer.parseInt(start), Integer.parseInt(count));
+				QueryBankCardResponseData data=new QueryBankCardResponseData(); 
 				if(bankCards!=null&&bankCards.size()>0){
-					QueryBankCardResponseData data=new QueryBankCardResponseData(); 
 					List<ResponseBankCard> resBankCard=new ArrayList<ResponseBankCard>();
+					int maxid=0;
 					for(BankCard card:bankCards){
+						if(card.getId()>maxid){
+							maxid=card.getId();
+						}
 						ResponseBankCard resCard=new ResponseBankCard();
 						resCard.setBank(card.getBankName());
 						resCard.setCard(card.getCardNumber());
@@ -1134,9 +1159,13 @@ public class CustomAction {
 					}
 					data.setBankcard(resBankCard);
 					data.setCount(bankCards.size());
-					data.setCursor_next(Integer.parseInt(start)+bankCards.size());
-					response.setData(data);
+					data.setCursor_next(maxid+1);
+					
+				}else{
+					data.setCount(0);
+					data.setCursor_next(-1);
 				}
+				response.setData(data);
 				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
@@ -1207,10 +1236,14 @@ public class CustomAction {
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			if(user!=null){
 				List<CustomComment> comments=customService.findPagedComments(Integer.parseInt(start), Integer.parseInt(count));
+				QueryCommentResponseData data=new QueryCommentResponseData();
 				if(comments!=null&&comments.size()>0){
-					QueryCommentResponseData data=new QueryCommentResponseData();
 					List<ResponseComment> responseComments=new ArrayList<ResponseComment>();
+					int maxid=0;
 					for(CustomComment comment:comments){
+						if(comment.getId()>maxid){
+							maxid=comment.getId();
+						}
 						ResponseComment resComment=new ResponseComment();
 						resComment.setComment(comment.getComment());
 						resComment.setId(comment.getId());
@@ -1220,9 +1253,12 @@ public class CustomAction {
 					}
 					data.setComment(responseComments);
 					data.setCount(comments.size());
-					data.setCursor_next(Integer.parseInt(start)+comments.size());
-					response.setData(data);
+					data.setCursor_next(maxid+1);
+				}else{
+					data.setCount(0);
+					data.setCursor_next(-1);
 				}
+				response.setData(data);
 				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();

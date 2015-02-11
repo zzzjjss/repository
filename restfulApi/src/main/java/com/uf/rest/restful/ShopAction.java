@@ -703,6 +703,8 @@ public class ShopAction {
 							resSells.add(resSell);
 						}
 					}
+					data.setCount(resSells.size());
+					data.setCursor_next(-1);
 					data.setSell(resSells);
 					response.setData(data);
 					response.setSuccess(true);
@@ -853,10 +855,14 @@ public class ShopAction {
 			if(shopUser!=null){
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				List<ProductClass> proClasses=service.findPagedProductClass(Integer.parseInt(start), Integer.parseInt(count));
+				QueryGoodClassResponseData data=new QueryGoodClassResponseData(); 
 				if(proClasses!=null&&proClasses.size()>0){
-					QueryGoodClassResponseData data=new QueryGoodClassResponseData(); 
+					int maxid=0;
 					List<ResponseGoodClass> goodClasses=new ArrayList<ResponseGoodClass>();
 					for(ProductClass proClass:proClasses){
+						if(proClass.getId()>maxid){
+							maxid=proClass.getId();
+						}
 						ResponseGoodClass goodClass=new ResponseGoodClass();
 						goodClass.setId(proClass.getId());
 						goodClass.setName(proClass.getName());
@@ -867,9 +873,13 @@ public class ShopAction {
 					}
 					data.setGoodClass(goodClasses);
 					data.setCount(goodClasses.size());
-					data.setCursor_next(Integer.parseInt(start)+goodClasses.size());
-					response.setData(data);
+					data.setCursor_next(maxid+1);
+					
+				}else{
+					data.setCount(0);
+					data.setCursor_next(-1);
 				}
+				response.setData(data);
 				response.setSuccess(true);
 			}else{
 				ResponseError error=new ResponseError();
@@ -1040,7 +1050,11 @@ public class ShopAction {
 					QueryGoodResponseData data=new QueryGoodResponseData(); 
 					List<ResponseQueryGood> respGoods=new ArrayList<ResponseQueryGood>();
 					if(goodPrices!=null&&goodPrices.size()>0){
+						int maxid=0;
 						for(ShopProductPrice price:goodPrices){
+							if(price.getId()>maxid){
+								maxid=price.getId();
+							}
 							ResponseQueryGood good=new ResponseQueryGood();
 							if(price.getProduct()!=null){
 								good.setId(price.getProduct().getId());
@@ -1067,9 +1081,13 @@ public class ShopAction {
 						}
 						data.setGoods(respGoods);
 						data.setCount(respGoods.size());
-						data.setCursor_next(respGoods.size()+Integer.parseInt(start));
-						response.setData(data);
+						data.setCursor_next(maxid+1);
+						
+					}else{
+						data.setCount(0);
+						data.setCursor_next(-1);
 					}
+					response.setData(data);
 					response.setSuccess(true);
 				}else{
 					ResponseError error=new ResponseError();
@@ -1108,10 +1126,14 @@ public class ShopAction {
 			if(shopUser!=null){
 				SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				List<ProductClass> proClasses=service.findPagedProductClass(Integer.parseInt(start),Integer.parseInt(count));
+				QueryGoodsByClassResponseData data=new QueryGoodsByClassResponseData();
 				if(proClasses!=null&&proClasses.size()>0){
-					QueryGoodsByClassResponseData data=new QueryGoodsByClassResponseData();
+					int maxid=0;
 					List<ResponseQueryByClassGoods> resClass=new ArrayList<ResponseQueryByClassGoods>();
 					for(ProductClass proClass:proClasses){
+						if(proClass.getId()>maxid){
+							maxid=proClass.getId();
+						}
 						ResponseQueryByClassGoods goodClass=new ResponseQueryByClassGoods();
 						goodClass.setId(proClass.getId());
 						goodClass.setIs_public(true);
@@ -1140,9 +1162,13 @@ public class ShopAction {
 					}
 					data.setClass_goods(resClass);
 					data.setCount(resClass.size());
-					data.setCursor_next(Integer.parseInt(start)+resClass.size());
-					response.setData(data);
+					data.setCursor_next(maxid+1);
+					
+				}else{
+					data.setCount(0);
+					data.setCursor_next(-1);
 				}
+				response.setData(data);
 				response.setSuccess(true);	
 			}else{
 				ResponseError error=new ResponseError();
@@ -1357,13 +1383,22 @@ public class ShopAction {
 					List<ShopWithDrawRecord> records=service.findPagedWithdraw(shop.getId(), Integer.parseInt(start), Integer.parseInt(count));
 					if(records!=null&&records.size()>0){
 						List<ResponseDrawDetail> resDetail=new ArrayList<ResponseDrawDetail>();
+						int maxid=0;
 						for(ShopWithDrawRecord record:records){
+							if(record.getId()>maxid){
+								maxid=record.getId();
+							}
 							ResponseDrawDetail resRecord=new  ResponseDrawDetail();
 							resRecord.setMoney(record.getMoney());
 							resRecord.setDay(format.format(record.getWithdrawTime()));
 							resDetail.add(resRecord);
 						}
 						data.setWithdraw(resDetail);
+						data.setCount(resDetail.size());
+						data.setCursor_next(maxid+1);
+					}else{
+						data.setCount(0);
+						data.setCursor_next(-1);
 					}
 					response.setData(data);
 					response.setSuccess(true);
@@ -1438,12 +1473,15 @@ public class ShopAction {
 		ShopOrderResponseData data=new ShopOrderResponseData();
 		List<Order> orders=service.findPagedShopOrderByOrderState(shopId, orderState, start, count);
 		if(orders!=null&&orders.size()>0){
-			data.setCount(orders.size());
-			data.setCursor_next(orders.size()+start);
+			
 			List<ResponseOrderToShopUser> resOrders=new ArrayList<ResponseOrderToShopUser>();
 			SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			int maxid=0;
 			for(Order order:orders){
 				ResponseOrderToShopUser resOrder=new ResponseOrderToShopUser();
+				if(order.getId()>maxid){
+					maxid=order.getId();
+				}
 				if(order.getDeliverAddress()!=null){
 					resOrder.setDeliver_address_id(order.getDeliverAddress().getId());
 				}
@@ -1494,6 +1532,11 @@ public class ShopAction {
 				resOrders.add(resOrder);
 			}
 			data.setOrder(resOrders);
+			data.setCount(orders.size());
+			data.setCursor_next(maxid+1);
+		}else{
+			data.setCount(0);
+			data.setCursor_next(-1);
 		}
 		return data;
 		

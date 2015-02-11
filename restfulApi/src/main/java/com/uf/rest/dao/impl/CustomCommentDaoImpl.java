@@ -10,8 +10,8 @@ import com.uf.rest.entity.CustomComment;
 @Component("customCommentDao")
 public class CustomCommentDaoImpl extends CommonDaoImpl<CustomComment> implements CustomCommentDao{
 	public List<CustomComment> findPagedComments(Integer start,Integer count){
-		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select c from CustomComment c ");
-		query.setFirstResult(start);
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select c from CustomComment c where c.id>=:start order by c.id asc ");
+		query.setParameter("start", start);
 		query.setMaxResults(count);
 		return query.list();
 	}

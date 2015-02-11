@@ -19,9 +19,9 @@ public class ShopProductPriceDaoImpl  extends CommonDaoImpl<ShopProductPrice> im
 		return query.list();
 	}
 	public List<ShopProductPrice> findPagedShopGoodPriceInfo(Integer shopId,Integer start, Integer count){
-		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select o from ShopProductPrice o where o.shop.id=:shopId");
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select o from ShopProductPrice o where o.shop.id=:shopId and o.id>=:start order by o.id asc");
 		query.setParameter("shopId", shopId);
-		query.setFirstResult(start);
+		query.setParameter("start", start);
 		query.setMaxResults(count);
 		return query.list();
 	}

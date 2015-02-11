@@ -10,9 +10,9 @@ import com.uf.rest.entity.BankCard;
 @Component("bankCardDao")
 public class BankCardDaoImpl extends CommonDaoImpl<BankCard> implements BankCardDao{
 	public List<BankCard> findPagedUserBankCards(Integer userId,Integer start,Integer count){
-		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from BankCard o where o.user.id=:userId ");
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from BankCard o where o.user.id=:userId and o.id>=:start order by o.id asc");
 		query.setParameter("userId", userId);
-		query.setFirstResult(start);
+		query.setParameter("start", start);
 		query.setMaxResults(count);
 		return query.list();
 	}

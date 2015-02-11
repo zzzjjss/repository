@@ -10,8 +10,8 @@ import com.uf.rest.entity.ProductClass;
 @Component("productClassDao")
 public class ProductClassDaoImpl extends CommonDaoImpl<ProductClass> implements ProductClassDao{
 	public List<ProductClass> findPagedProductClass(Integer start, Integer count){
-		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select p from ProductClass p");
-		query.setFirstResult(start);
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery("select p from ProductClass p where p.id>=:start order by p.id asc");
+		query.setParameter("start", start);
 		query.setMaxResults(count);
 		return query.list();
 	}

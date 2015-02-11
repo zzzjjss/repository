@@ -18,18 +18,18 @@ public class OrderDaoImpl extends CommonDaoImpl<Order> implements OrderDao{
 		return ((Number)query.uniqueResult()).intValue();
 	}
 	public List<Order>  findPagedOrdersByState(Integer userId,Integer state,Integer start,Integer count){
-		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from Order o where o.user.id=:userId and o.orderState=:state");
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from Order o where o.user.id=:userId and o.orderState=:state and o.id>=:start order by o.id asc");
 		query.setParameter("userId", userId);
 		query.setParameter("state", state);
-		query.setFirstResult(start);
+		query.setParameter("start", start);
 		query.setMaxResults(count);
 		return query.list();
 	}
 	public List<Order> findPagedShopOrderByOrderState(Integer shopId,Integer orderState,Integer start,Integer count){
-		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from Order o where o.shop.id=:shopId and o.orderState=:state");
+		Query query=this.getHibernateTemplate().getSessionFactory().getCurrentSession().createQuery(" from Order o where o.shop.id=:shopId and o.orderState=:state and o.id>=:start order by o.id asc");
 		query.setParameter("shopId", shopId);
 		query.setParameter("state", orderState);
-		query.setFirstResult(start);
+		query.setParameter("start", start);
 		query.setMaxResults(count);
 		return query.list();
 	}
