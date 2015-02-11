@@ -21,7 +21,6 @@ import com.uf.liveplay.unit.SessionCache;
 public class MyWebSocket {
 	@OnOpen 
 	public void open(final Session session,@PathParam("sessionId") final String sessionId) {
-		System.out.println("websocket connetcion ....." + sessionId);
 		User user = SessionCache.findUser(sessionId);
 		try {
 			if (user == null) {

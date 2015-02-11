@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
+import com.uf.liveplay.unit.RegistFilter;
 import com.uf.liveplay.unit.SessionCache;
 
 @Controller
@@ -29,6 +30,9 @@ public class UserBusinessController {
 		user.setPhone(allRequestParams.get("phone"));
 		user.setRole("commonUser");
 		try {
+			if(!RegistFilter.isIpCanRegist(request.getRemoteAddr())){
+				return "你注册过于频繁，请稍后再注册！";
+			}
 			if(userService.findUserByName(user.getName())!=null){
 				return "用户已存在，请使用别的用户名！";
 			}else{
@@ -71,7 +75,6 @@ public class UserBusinessController {
 	public String login(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
 		String userName=allRequestParams.get("userName");
 		String password=allRequestParams.get("password");
-		System.out.println(userName+password);
 		try{
 			if(userService.login(userName,password)){
 				User user=userService.findUserByName(userName);
