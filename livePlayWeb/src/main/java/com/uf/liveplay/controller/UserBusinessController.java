@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
+import com.uf.liveplay.unit.IpUnit;
 import com.uf.liveplay.unit.RegistFilter;
 import com.uf.liveplay.unit.SessionCache;
 
@@ -108,6 +109,7 @@ public class UserBusinessController {
 			user=(User)obj;
 			model.addAttribute("user",user);
 			model.addAttribute("sessionId", request.getSession().getId());
+			model.addAttribute("ip", IpUnit.getPublicIp());
 		}else{
 			model.addAttribute("error", "user not login!");
 			return "error";

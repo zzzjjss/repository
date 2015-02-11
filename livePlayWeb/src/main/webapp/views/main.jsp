@@ -152,7 +152,7 @@
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:100,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
-		websocket = new WebSocket("ws://localhost:8080/livePlayWeb/chat/"+sessionId); 
+		websocket = new WebSocket("ws://${ip}:8080/livePlayWeb/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;
