@@ -42,6 +42,7 @@ public class RegistFilter {
 			long current=System.currentTimeMillis();
 			if(current-preTime>1000*INTERVAL_SECOND){
 				ip_regist.remove(ip);
+				System.out.println("remove the ip:"+ip);
 			}
 		}
 	}
