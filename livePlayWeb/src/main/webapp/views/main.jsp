@@ -51,7 +51,7 @@
 								jwplayer('mediaspace').setup({
 									'flashplayer' : 'player.swf',
 									'file':"liveChannel",
-									'streamer' : 'rtmp://${ip}/livePlay?userName=jason&password=123456',
+									'streamer' : 'rtmp://${rtmpIp}/livePlay?userName=jason&password=123456',
 									'controlbar' : 'bottom',
 									'width':'100%'
 								});
@@ -84,7 +84,7 @@
 								"assets/expressInstall.swf", flashvars, params,
 								attributes);
 						function getRtmpUrl() {
-							return "rtmp://${ip}/livePlay?userName=jason&password=123456";
+							return "rtmp://${rtmpIp}/livePlay?userName=jason&password=123456";
 						}
 						$("#leftPart").css("z-index","10");
 					</script>
@@ -156,7 +156,7 @@
 		if(!window.WebSocket){
 			alert('您浏览器的版本太低，聊天室无法使用，请使用最新版本的浏览器！（推荐 -》http://www.firefox.com.cn/）');
 		}
-		websocket = new WebSocket("ws://${ip}:8080/livePlayWeb/chat/"+sessionId); 
+		websocket = new WebSocket("ws://${wsIp}:8080/livePlayWeb/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;

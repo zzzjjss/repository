@@ -103,7 +103,8 @@ public class UserBusinessController {
 			user=(User)obj;
 			model.addAttribute("user",user);
 			model.addAttribute("sessionId", request.getSession().getId());
-			model.addAttribute("ip", config.getRtmpServerIp());
+			model.addAttribute("rtmpIp", config.getRtmpServerIp());
+			model.addAttribute("wsIp", config.getWebSocketIp());
 		}else{
 			model.addAttribute("error", "user not login!");
 			return "error";
