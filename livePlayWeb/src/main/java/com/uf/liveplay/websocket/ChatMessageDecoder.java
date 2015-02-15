@@ -22,7 +22,7 @@ public class ChatMessageDecoder implements Decoder.Text<ChatMessage> {
 
 	@Override
 	public ChatMessage decode(String arg0) throws DecodeException {
-		System.out.println(arg0);
+		//System.out.println(arg0);
 		JSONObject json=JSONObject.fromObject(arg0);
 		return (ChatMessage)JSONObject.toBean(json,ChatMessage.class);
 		

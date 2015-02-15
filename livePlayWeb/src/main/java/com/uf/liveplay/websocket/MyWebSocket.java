@@ -2,9 +2,12 @@ package com.uf.liveplay.websocket;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.websocket.OnClose;
+import javax.websocket.OnError;
 import javax.websocket.OnMessage;
 import javax.websocket.OnOpen;
 import javax.websocket.Session;
@@ -26,7 +29,7 @@ public class MyWebSocket {
 				session.close();
 			} else {
 				AllOnlineUsers allOnlineUsers=new AllOnlineUsers();
-				List<String> userNames=new ArrayList<String>();
+				Set<String> userNames=new HashSet<String>();
 				UserOnlineMessage online = new UserOnlineMessage();
 				online.setUserName(user.getName());
 				online.setMessageType("online");
@@ -40,10 +43,10 @@ public class MyWebSocket {
 	                } 
 		          }
 				 allOnlineUsers.setMessageType("onlineUsers");
+				 userNames.add(user.getName());
 				 allOnlineUsers.setUserNames(userNames);
-				session.getBasicRemote().sendText(JSONObject.fromObject(online).toString());
-				session.getBasicRemote().sendText(JSONObject.fromObject(allOnlineUsers).toString());
-				session.getUserProperties().put("sessionId", sessionId);
+				 session.getBasicRemote().sendText(JSONObject.fromObject(allOnlineUsers).toString());
+				 session.getUserProperties().put("sessionId", sessionId);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -63,7 +66,8 @@ public class MyWebSocket {
         } catch (Exception e) {
         	e.printStackTrace();
         } 
-    } 
+    }
+    
     @OnClose
     public void onClose(final Session session){
     	
@@ -84,5 +88,8 @@ public class MyWebSocket {
 		}
     	
     }
-    
+    @OnError
+    public void onError(Throwable exception, Session session){
+    	System.out.println(exception);
+    }
 }

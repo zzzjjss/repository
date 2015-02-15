@@ -22,7 +22,7 @@ public class ChatMessageEncoder implements Encoder.Text<ChatMessage>{
 
 	@Override
 	public String encode(ChatMessage arg0) throws EncodeException {
-		System.out.println("out--->"+JSONObject.fromObject(arg0).toString());
+		//System.out.println("out--->"+JSONObject.fromObject(arg0).toString());
 		return JSONObject.fromObject(arg0).toString();
 		
 	}

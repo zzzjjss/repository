@@ -34,14 +34,13 @@ public class LoginFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		System.out.println("exe filter..................");
 		if(request instanceof HttpServletRequest){
 			HttpServletRequest httpRequest=(HttpServletRequest)request;
 			Object user=httpRequest.getSession().getAttribute("user");
 			if(user==null){
 				HttpServletResponse httpResponse=(HttpServletResponse)response;
 				String context=httpRequest.getServletContext().getContextPath();
-				System.out.println(context);
+				//System.out.println(context);
 				httpResponse.sendRedirect(context+"/login.html");
 				return;
 			}

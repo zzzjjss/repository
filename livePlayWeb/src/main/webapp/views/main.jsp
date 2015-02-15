@@ -109,13 +109,14 @@
 			
 			<div class="col-xs-2" style="padding-right:2px;padding-left:2px;">
 				<div class="panel panel-primary">
-					<div class="panel-heading">
-						用户列表
+					<div class="panel-heading" style="text-align: center;">
+						用户列表&nbsp;&nbsp;<span class="badge" id="userCount">0</span>
 					</div>
-					<div class="panel-body" style="height: 550px;">
-						<ul id="onLineUsers">
-								
-						</ul>
+					<div class="panel-body" style="height: 550px;overflow: auto;padding: 0px;">
+						 <table class="table table-hover" id="onLineUsers">
+    						
+  						</table>	
+						
 					</div>
 				</div>
 				
@@ -161,7 +162,9 @@
 		websocket.onopen=onWebSocketOpend;
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 	});
-	
+	function updateUserCount(){
+		 $("#userCount").text($("#onLineUsers tr").length);
+	}
 	function editUserInfo(){
 		$("#userInfo").dialog({title:"用户信息",buttons: [
 			{text: "关闭",
@@ -244,15 +247,23 @@
    		 	
        	}else if(messageJson.messageType=="online"){
        		if($("#onLineUsers #"+messageJson.userName).length==0){
-       			$("#onLineUsers").append("<li id='"+messageJson.userName+"'>"+messageJson.userName+"</li>");	
+       			$("#onLineUsers").append("<tr class='info' id='"+messageJson.userName+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.userName+"</td></tr>");	
        		}
+       		updateUserCount();
        	}else if(messageJson.messageType=="offline"){
        		$("#onLineUsers #"+messageJson.userName).remove();
+       		updateUserCount();
        	}else if(messageJson.messageType=="onlineUsers"){
        		var onlineUsers=messageJson.userNames;
        		for(var i=0;i<onlineUsers.length;i++){
-       			$("#onLineUsers").append("<li id='"+onlineUsers[i]+"'>"+onlineUsers[i]+"</li>");
+       			if(onlineUsers[i]==userName){
+       				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
+       			}else{
+       				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+       			}
+       			
        		}
+       		updateUserCount();
        	}
 		  
      }  

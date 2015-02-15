@@ -31,15 +31,9 @@ public class MySessionListener implements HttpSessionListener {
      * @see HttpSessionListener#sessionDestroyed(HttpSessionEvent)
      */
     public void sessionDestroyed(HttpSessionEvent arg0)  { 
-    	System.out.println("session destoryed...");
+    	//System.out.println("session destoryed...");
     	HttpSession session=arg0.getSession();
     	SessionCache.removeUser(session.getId());
-    	Object userObj=session.getAttribute("user");
-    	if(userObj!=null){
-    		User user=(User)userObj;
-    		session.getServletContext().removeAttribute(user.getName());
-    		session.removeAttribute("user");
-    	}
     	
     }
 	

@@ -24,4 +24,7 @@
   <listener>
     <listener-class>com.uf.liveplay.listener.MySessionListener</listener-class>
   </listener>
+  <listener>
+    <listener-class>com.uf.liveplay.listener.MySessionAttributeListener</listener-class>
+  </listener>
 </web-app>

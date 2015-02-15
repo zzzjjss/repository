@@ -13,15 +13,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
-import com.uf.liveplay.unit.IpUnit;
+import com.uf.liveplay.unit.ConfigVariable;
 import com.uf.liveplay.unit.RegistFilter;
-import com.uf.liveplay.unit.SessionCache;
 
 @Controller
 public class UserBusinessController {
 	@Autowired
 	private UserService userService;
-	
+	@Autowired
+	private ConfigVariable config;
 	@RequestMapping("/registNewUser")
 	@ResponseBody
 	public String registNewUser(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
@@ -79,13 +79,7 @@ public class UserBusinessController {
 		try{
 			if(userService.login(userName,password)){
 				User user=userService.findUserByName(userName);
-				if(request.getServletContext().getAttribute(user.getName())!=null){
-					return "用户已经登录！";
-				}else{
-					request.getServletContext().setAttribute(user.getName(),user);
-				}
 				request.getSession().setAttribute("user", user);
-				SessionCache.addUser(request.getSession().getId(), user);
 				return "ok";
 			}else{
 				return "用户名或密码错误！";
@@ -109,7 +103,7 @@ public class UserBusinessController {
 			user=(User)obj;
 			model.addAttribute("user",user);
 			model.addAttribute("sessionId", request.getSession().getId());
-			model.addAttribute("ip", IpUnit.getPublicIp());
+			model.addAttribute("ip", config.getRtmpServerIp());
 		}else{
 			model.addAttribute("error", "user not login!");
 			return "error";

@@ -1,21 +1,21 @@
 package com.uf.liveplay.websocket;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class AllOnlineUsers {
 	private String messageType;
-	private List<String> userNames=new ArrayList<String>();
+	private Set<String> userNames=new HashSet<String>();
 	public String getMessageType() {
 		return messageType;
 	}
 	public void setMessageType(String messageType) {
 		this.messageType = messageType;
 	}
-	public List<String> getUserNames() {
+	public Set<String> getUserNames() {
 		return userNames;
 	}
-	public void setUserNames(List<String> userNames) {
+	public void setUserNames(Set<String> userNames) {
 		this.userNames = userNames;
 	}
 	
