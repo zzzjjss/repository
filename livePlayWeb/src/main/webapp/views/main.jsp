@@ -22,12 +22,15 @@
 	
 	<div class="container-fluid">
 	<div class="row" >
-			<div class="panel panel-primary" style="margin-bottom:0px;background-color: #47BD7E;">
-					<div class="panel-body" style="height: 50px;text-align: right;">
-						欢迎 &nbsp;&nbsp;<a href="#" onclick="editUserInfo()">${user.name}</a>  &nbsp;&nbsp;&nbsp;&nbsp;
-						<button type="button" class="btn btn-primary btn-xs" onclick="logout()"><span class="glyphicon glyphicon-log-out" aria-hidden="true"></span> 退出</button>
-						&nbsp;&nbsp;&nbsp;&nbsp;
-					</div>
+			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;">
+						<div class="btn-group" role="group" aria-label="Justified button group" >
+							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="../images/a.png" title="白银ETF"><br>白银ETF</a>
+							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="../images/b.png" title="黄金ETF"><br>黄金ETF</a>
+							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="../images/c.png" title="财经日历"><br>财经日历</a>
+							<a href="#" onclick="editUserInfo()" class="btn btn-default" role="button"><img src="../images/user.png"><br>${user.name}</a>
+							<a href="#" onclick="logout()" class="btn btn-default" role="button"><img src="../images/logout.png"><br>退出</a>
+						</div>
+						
 			</div>
 			
 	</div>
@@ -35,15 +38,32 @@
 			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;" id="leftPart">
 				
 				<c:if test="${user.role=='commonUser'}">
-					<div class="panel panel-primary" style="margin-bottom: 1px;">
-						<div class="panel-heading">
-							<h3 class="panel-title">公告</h3>
-						</div>
-						<div class="panel-body" style="height: 200px;">
-							公告内容
+					<div class="panel panel-primary" style="margin-bottom: 1px;height: 250px;">
+						<div class="tabbable" style="padding-top: 2px;">
+							<ul class="nav nav-tabs">
+								<li class="active"><a href="#tab1" data-toggle="tab" style="font-weight: 900;">公告</a></li>
+								<li><a href="#tab2" data-toggle="tab" style="font-weight: 900;">操作建议</a></li>
+								<li><a href="#tab3" data-toggle="tab" style="font-weight: 900;">版权声明</a></li>
+							</ul>
+							<div class="tab-content">
+								<div class="tab-pane active" id="tab1" style="padding: 15px">
+									<p>
+										投资有风险，入市需谨慎，选择正规平台，远离小平台：<br>
+										1、国内平台较多，具备优资质的并不多，请确认是否具备政府批文，选择合法平台。<br>
+										2、国内现货白银报价以国际价格为基础，综合中国人民银行人民币兑美元基准汇率，连续报出现货白银人民币买入价及卖出价。赢天下直播室作为交流、学习平台，老师对行情分析及建议均用大圆银泰报价，请您根据个人投资情况，理性分析，充分考虑。<br>
+										3、请您理性分析，切记带好止损止盈，不骄不躁，把控风险。
+									</p>
+								</div>
+								<div class="tab-pane" id="tab2" style="padding: 15px">
+									<p>&nbsp;&nbsp;话费呢</p>
+								</div>
+								<div class="tab-pane" id="tab3" style="padding: 15px">
+									<p>&nbsp;&nbsp;本直播室所有内容，包括文字、图像、音频、视频只供本公司或授权者使用，访问者可将本网站提供的内容或服务用于个人学习或欣赏，以及其他非商业性或非盈利性用途；没有本公司的书面授权，不得因任何目的，以任何方式如电子的、转载或其它方式，包括影印和记录，复制和传播本直播室的任何部分。</p>
+								</div>
+							</div>
 						</div>
 					</div>
-					
+
 					<div class="panel panel-primary" style="margin-bottom: 1px;">
 						<div class="panel-body" style="padding: 0px;">
 							<div id='mediaspace'>This text will be replaced</div>
@@ -108,9 +128,9 @@
 			
 			
 			<div class="col-xs-2" style="padding-right:2px;padding-left:2px;">
-				<div class="panel panel-primary">
+				<div class="panel panel-primary" style="margin-bottom: 5px;">
 					<div class="panel-heading" style="text-align: center;">
-						用户列表&nbsp;&nbsp;<span class="badge" id="userCount">0</span>
+						在线用户&nbsp;&nbsp;<span class="badge" id="userCount">0</span>
 					</div>
 					<div class="panel-body" style="height: 550px;overflow: auto;padding: 0px;">
 						 <table class="table table-hover" id="onLineUsers">
@@ -119,7 +139,15 @@
 						
 					</div>
 				</div>
-				
+				<div class="panel panel-default">
+					<div class="panel-body" style="height: 250px;overflow: auto;padding: 0px;">
+						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
+							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('../images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span>12%</span></a>
+							<a href="#" onclick="vote('eq')" class="btn btn-default" role="button" style="background-image:url('../images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span>12%</span></a>
+							<a href="#" onclick="vote('down')" class="btn btn-default" role="button" style="background-image:url('../images/down.png'); width: 65px;color: #ff0;text-align: right;">看空<br><span>12%</span></a>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -142,8 +170,6 @@
 		</form>
 	</div>
 
-
-
 	<script type="text/javascript">
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
@@ -164,6 +190,9 @@
 	});
 	function updateUserCount(){
 		 $("#userCount").text($("#onLineUsers tr").length);
+	}
+	function vote(str){
+		alert(str);
 	}
 	function editUserInfo(){
 		$("#userInfo").dialog({title:"用户信息",buttons: [
@@ -236,11 +265,19 @@
       function onMessageReceived(message) { 
        	var messageJson = JSON.parse(message.data);
        	if(messageJson.messageType=="chat"){
-       		//if the sender  is  user self.
+       		var tmp=$.parseHTML(messageJson.message);
+       		var textLength=$(tmp).text().length*20;
+       		textLength=textLength+$(tmp).find("img").size()*60;
+       		var panelPx=$("#chatContent").css("width");
+       		var end=panelPx.indexOf("px");
+       		var panelWidth=panelPx.substr(0,end);
+       		if(textLength>(panelWidth-100)){
+       			textLength=panelWidth-100;
+       		}
            	if(messageJson.sender==userName){
-           		$("#chatContent").append("<div><span class='label label-primary'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");	
+           		$("#chatContent").append("<div style='display: flex'><img src='../images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");	
            	}else{
-           		$("#chatContent").append("<div><span class='label label-success'>"+messageJson.sender+":</span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.message+"</div></br>");
+           		$("#chatContent").append("<div style='display: flex'><img src='../images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");
            	}
            	var div=document.getElementById("chatContent");
    		 	div.scrollTop=div.scrollHeight;
