@@ -22,7 +22,7 @@
 	
 	<div class="container-fluid">
 	<div class="row" >
-			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;">
+			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('../images/topBg.jpg')">
 						<div class="btn-group" role="group" aria-label="Justified button group" >
 							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="../images/a.png" title="白银ETF"><br>白银ETF</a>
 							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="../images/b.png" title="黄金ETF"><br>黄金ETF</a>
@@ -114,7 +114,7 @@
 			
 			<div class="col-xs-7" style="padding-right:2px;padding-left:2px;">
 				<div class="panel panel-primary">
-					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;"> 
+					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;background-image: url('../images/chatBg.png')"> 
 						
 					</div>
 					<div class="panel-footer" id="chatInput" > 
