@@ -100,13 +100,12 @@
 						};
 						var attributes = {};
 						swfobject.embedSWF("publisher.swf", "publishPart",
-								"450px", "600px", "9.0.0",
+								"100%", "600px", "9.0.0",
 								"assets/expressInstall.swf", flashvars, params,
 								attributes);
 						function getRtmpUrl() {
 							return "rtmp://${rtmpIp}/livePlay?userName=jason&password=123456";
 						}
-						$("#leftPart").css("z-index","10");
 					</script>
 				</c:if>
 			</div>
@@ -142,9 +141,9 @@
 				<div class="panel panel-default">
 					<div class="panel-body" style="height: 250px;overflow: auto;padding: 0px;">
 						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
-							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('../images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span>12%</span></a>
-							<a href="#" onclick="vote('eq')" class="btn btn-default" role="button" style="background-image:url('../images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span>12%</span></a>
-							<a href="#" onclick="vote('down')" class="btn btn-default" role="button" style="background-image:url('../images/down.png'); width: 65px;color: #ff0;text-align: right;">看空<br><span>12%</span></a>
+							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('../images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
+							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('../images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
+							<a href="#" onclick="vote('down')" class="btn btn-default" role="button" style="background-image:url('../images/down.png'); width: 65px;color: #ff0;text-align: right;">看空<br><span id="downValue"></span></a>
 						</div>
 					</div>
 				</div>
@@ -187,13 +186,38 @@
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
+		getVoteStatistic();
+		
 	});
 	function updateUserCount(){
 		 $("#userCount").text($("#onLineUsers tr").length);
 	}
 	function vote(str){
-		alert(str);
+		var url="/livePlayWeb/vote.do?vote="+str;
+		$.post(url,function(result){
+			if(result=="ok"){
+				easyDialog.open({
+					  container : {
+					    header : '成功',
+					    content : '投票成功'
+					  }
+					});
+				getVoteStatistic();
+			}
+		});
 	}
+	
+	function getVoteStatistic(){
+		var url="/livePlayWeb/getVoteResult.do";
+		$.getJSON(url, function(json){
+				console.log(json);
+			   $("#upValue").text(json.up);
+			   $("#downValue").text(json.down);
+			   $("#equalValue").text(json.equal);
+		});
+		
+	}
+	
 	function editUserInfo(){
 		$("#userInfo").dialog({title:"用户信息",buttons: [
 			{text: "关闭",

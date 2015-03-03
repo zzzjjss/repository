@@ -4,6 +4,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -46,6 +48,21 @@ public class UserBusinessController {
 		}
 		return "ok";
 	}
+	@RequestMapping("/vote")
+	@ResponseBody
+	public String vote(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
+		String voteItem=allRequestParams.get("vote");
+		userService.vote(voteItem);
+		return "ok";
+	}
+	@RequestMapping("/getVoteResult")
+	@ResponseBody
+	public String getVoteResult(){
+		Map<String, String> result=userService.statisticVote();
+		return JSONObject.fromObject(result).toString();
+	}
+	
+	
 	@RequestMapping("/controller/saveUserInfo")
 	@ResponseBody
 	public String saveUserInfo(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){

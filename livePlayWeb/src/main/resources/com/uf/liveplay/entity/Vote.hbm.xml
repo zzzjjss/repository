@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.liveplay.entity.Vote" table="vote" >
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="upCount" type="long">
+            <column name="up_count" />
+        </property>
+        <property name="downCount" type="long">
+            <column name="down_count" />
+        </property>
+        <property name="equalCount" type="long">
+            <column name="equal_count" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -56,6 +56,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 		<property name="mappingResources">
 			<list>
 				<value>com/uf/liveplay/entity/User.hbm.xml</value>
+				<value>com/uf/liveplay/entity/Vote.hbm.xml</value>
 			</list>
 		</property>
 
