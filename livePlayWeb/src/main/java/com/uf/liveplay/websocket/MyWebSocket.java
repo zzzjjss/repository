@@ -25,11 +25,9 @@ public class MyWebSocket {
 	public void open(final Session session,@PathParam("sessionId") final String sessionId) {
 		User user = SessionCache.findUser(sessionId);
 		try {
-			if (user == null) {
-				session.close();
-			} else {
-				AllOnlineUsers allOnlineUsers=new AllOnlineUsers();
-				Set<String> userNames=new HashSet<String>();
+			AllOnlineUsersMessage allOnlineUsersMsg=new AllOnlineUsersMessage();
+			Set<String> userNames=new HashSet<String>();
+			if (user != null) {
 				UserOnlineMessage online = new UserOnlineMessage();
 				online.setUserName(user.getName());
 				online.setMessageType("online");
@@ -42,11 +40,23 @@ public class MyWebSocket {
 	                    s.getBasicRemote().sendText(JSONObject.fromObject(online).toString()); 
 	                } 
 		          }
-				 allOnlineUsers.setMessageType("onlineUsers");
+				 allOnlineUsersMsg.setMessageType("onlineUsers");
 				 userNames.add(user.getName());
-				 allOnlineUsers.setUserNames(userNames);
-				 session.getBasicRemote().sendText(JSONObject.fromObject(allOnlineUsers).toString());
+				 allOnlineUsersMsg.setUserNames(userNames);
+				 session.getBasicRemote().sendText(JSONObject.fromObject(allOnlineUsersMsg).toString());
 				 session.getUserProperties().put("sessionId", sessionId);
+			}else{
+				for (Session s : session.getOpenSessions()) {
+					if (s.isOpen()) {
+						User sessionUser = SessionCache.findUser((String) s.getUserProperties().get("sessionId"));
+						if (sessionUser != null) {
+							userNames.add(sessionUser.getName());
+						}
+					}
+				}
+				 allOnlineUsersMsg.setMessageType("onlineUsers");
+				 allOnlineUsersMsg.setUserNames(userNames);
+				 session.getBasicRemote().sendText(JSONObject.fromObject(allOnlineUsersMsg).toString());
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -57,12 +67,15 @@ public class MyWebSocket {
     @OnMessage 
     public void onMessage(final Session session, final ChatMessage chatMessage) { 
         try { 
-            for (Session s : session.getOpenSessions()) { 
-            	
-                if (s.isOpen()) { 
-                    s.getBasicRemote().sendObject(chatMessage); 
-                } 
-            } 
+        	//禁止游客发言
+        	Object id=session.getUserProperties().get("sessionId");
+        	if(id!=null){
+        		for (Session s : session.getOpenSessions()) { 
+                    if (s.isOpen()) { 
+                        s.getBasicRemote().sendObject(chatMessage); 
+                    } 
+                }
+        	}
         } catch (Exception e) {
         	e.printStackTrace();
         } 

@@ -28,7 +28,12 @@
 							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="../images/b.png" title="黄金ETF"><br>黄金ETF</a>
 							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="../images/c.png" title="财经日历"><br>财经日历</a>
 							<a href="#" onclick="editUserInfo()" class="btn btn-default" role="button"><img src="../images/user.png"><br>${user.name}</a>
+							<c:if test="${ user.role =='unknow'  }">
+							<a href="../login.html"  class="btn btn-default" role="button"><img src="../images/logout.png"><br>登录</a>
+							</c:if>
+							<c:if test="${ user.role !='unknow'  }">
 							<a href="#" onclick="logout()" class="btn btn-default" role="button"><img src="../images/logout.png"><br>退出</a>
+							</c:if>
 						</div>
 						
 			</div>
@@ -37,31 +42,34 @@
 		<div class="row">
 			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;" id="leftPart">
 				
-				<c:if test="${user.role=='commonUser'}">
-					<div class="panel panel-primary" style="margin-bottom: 1px;height: 250px;">
-						<div class="tabbable" style="padding-top: 2px;">
-							<ul class="nav nav-tabs">
-								<li class="active"><a href="#tab1" data-toggle="tab" style="font-weight: 900;">公告</a></li>
-								<li><a href="#tab2" data-toggle="tab" style="font-weight: 900;">操作建议</a></li>
-								<li><a href="#tab3" data-toggle="tab" style="font-weight: 900;">版权声明</a></li>
-							</ul>
-							<div class="tab-content">
-								<div class="tab-pane active" id="tab1" style="padding: 15px">
-									<p>
-										投资有风险，入市需谨慎，选择正规平台，远离小平台：<br>
-										1、国内平台较多，具备优资质的并不多，请确认是否具备政府批文，选择合法平台。<br>
-										2、国内现货白银报价以国际价格为基础，综合中国人民银行人民币兑美元基准汇率，连续报出现货白银人民币买入价及卖出价。赢天下直播室作为交流、学习平台，老师对行情分析及建议均用大圆银泰报价，请您根据个人投资情况，理性分析，充分考虑。<br>
-										3、请您理性分析，切记带好止损止盈，不骄不躁，把控风险。
-									</p>
-								</div>
-								<div class="tab-pane" id="tab2" style="padding: 15px">
-									<p>&nbsp;&nbsp;话费呢</p>
-								</div>
-								<div class="tab-pane" id="tab3" style="padding: 15px">
-									<p>&nbsp;&nbsp;本直播室所有内容，包括文字、图像、音频、视频只供本公司或授权者使用，访问者可将本网站提供的内容或服务用于个人学习或欣赏，以及其他非商业性或非盈利性用途；没有本公司的书面授权，不得因任何目的，以任何方式如电子的、转载或其它方式，包括影印和记录，复制和传播本直播室的任何部分。</p>
+				<c:if test="${user.role=='commonUser' || user.role=='unknow'  }">
+					<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
+							<div class="panel-heading" style="background-image: url(../images/logo.jpg);height: 70px;"></div>
+							<div class="panel-body" style="padding: 0px;">
+								<div class="tabbable" style="padding-top: 2px;">
+									<ul class="nav nav-tabs">
+										<li class="active"><a href="#tab1" data-toggle="tab" style="font-weight: 900;">公告</a></li>
+										<li><a href="#tab2" data-toggle="tab" style="font-weight: 900;">操作建议</a></li>
+										<li><a href="#tab3" data-toggle="tab" style="font-weight: 900;">版权声明</a></li>
+									</ul>
+									<div class="tab-content">
+										<div class="tab-pane active" id="tab1" style="padding: 15px">
+											<p style="font-size: 12px;">
+												投资有风险，入市需谨慎，选择正规平台，远离小平台：<br>
+												1、国内平台较多，具备优资质的并不多，请确认是否具备政府批文，选择合法平台。<br>
+												2、国内现货白银报价以国际价格为基础，综合中国人民银行人民币兑美元基准汇率，连续报出现货白银人民币买入价及卖出价。西北大宗直播室作为交流、学习平台，老师对行情分析及建议均用西北大宗行情软件报价，请您根据个人投资情况，理性分析，充分考虑。<br>
+												3、请您理性分析，切记带好止损止盈，不骄不躁，把控风险。
+											</p>
+										</div>
+										<div class="tab-pane" id="tab2" style="padding: 15px">
+											<p style="font-size: 12px;">&nbsp;&nbsp;话费呢</p>
+										</div>
+										<div class="tab-pane" id="tab3" style="padding: 15px">
+											<p style="font-size: 12px;">&nbsp;&nbsp;本直播室所有内容，包括文字、图像、音频、视频只供本公司或授权者使用，访问者可将本网站提供的内容或服务用于个人学习或欣赏，以及其他非商业性或非盈利性用途；没有本公司的书面授权，不得因任何目的，以任何方式如电子的、转载或其它方式，包括影印和记录，复制和传播本直播室的任何部分。</p>
+										</div>
+									</div>
 								</div>
 							</div>
-						</div>
 					</div>
 
 					<div class="panel panel-primary" style="margin-bottom: 1px;">
@@ -71,7 +79,7 @@
 								jwplayer('mediaspace').setup({
 									'flashplayer' : 'player.swf',
 									'file':"liveChannel",
-									'streamer' : 'rtmp://${rtmpIp}/livePlay?userName=jason&password=123456',
+									'streamer' : 'rtmp://${rtmpAddress}/livePlay?userName=jason&password=123456',
 									'controlbar' : 'bottom',
 									'width':'100%'
 								});
@@ -104,7 +112,7 @@
 								"assets/expressInstall.swf", flashvars, params,
 								attributes);
 						function getRtmpUrl() {
-							return "rtmp://${rtmpIp}/livePlay?userName=jason&password=123456";
+							return "rtmp://${rtmpAddress}/livePlay?userName=jason&password=123456";
 						}
 					</script>
 				</c:if>
@@ -172,28 +180,28 @@
 	<script type="text/javascript">
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
+	var userRole="${user.role}";
 	var ue;
 	var websocket;
 	$(document).ready(function(){
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
-			  enableAutoSave: false,maximumWords:100,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
+			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
 		if(!window.WebSocket){
 			alert('您浏览器的版本太低，聊天室无法使用，请使用最新版本的浏览器！（推荐 -》http://www.firefox.com.cn/）');
 		}
-		websocket = new WebSocket("ws://${wsIp}:8080/livePlayWeb/chat/"+sessionId); 
+		websocket = new WebSocket("ws://${wsAddress}${context}/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();
-		
 	});
 	function updateUserCount(){
 		 $("#userCount").text($("#onLineUsers tr").length);
 	}
 	function vote(str){
-		var url="/livePlayWeb/vote.do?vote="+str;
+		var url="${context}/vote.do?vote="+str;
 		$.post(url,function(result){
 			if(result=="ok"){
 				easyDialog.open({
@@ -208,9 +216,8 @@
 	}
 	
 	function getVoteStatistic(){
-		var url="/livePlayWeb/getVoteResult.do";
+		var url="${context}/getVoteResult.do";
 		$.getJSON(url, function(json){
-				console.log(json);
 			   $("#upValue").text(json.up);
 			   $("#downValue").text(json.down);
 			   $("#equalValue").text(json.equal);
@@ -244,7 +251,7 @@
 					return;
 				}
 				var data="userId="+userId+"&oldPassword="+oldPwd+"&newPassword="+newPwd+"&phone="+phone;
-				 var url="/livePlayWeb/controller/saveUserInfo.do";
+				 var url="${context}/controller/saveUserInfo.do";
 				 
 					$.post(url,data,function(result){
 						if(result=="ok"){
@@ -266,7 +273,16 @@
 	
 		  
 	 function sendMsg(){
-		 if(ue.getContentTxt().length>100){
+		 if(userRole=="unknow"){
+			 easyDialog.open({
+				  container : {
+				    header : '错误',
+				    content : "不允许游客发言"
+				  }
+				});
+			 return;
+		 }
+		 if(ue.getContentTxt().length>20){
 			 easyDialog.open({
 				  container : {
 				    header : '错误',
@@ -339,10 +355,10 @@
 	   
 	  function logout(){
 		  websocket.close();
-		  var url="/livePlayWeb/controller/logout.do";
+		  var url="${context}/controller/logout.do";
 			$.post(url,function(result){
 				if(result=="ok"){
-					window.location.href="login.html";
+					window.location.href="${context}/login.html";
 				}else{
 					easyDialog.open({
 						  container : {

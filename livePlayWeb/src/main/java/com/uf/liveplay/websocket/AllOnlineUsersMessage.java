@@ -3,7 +3,7 @@ package com.uf.liveplay.websocket;
 import java.util.HashSet;
 import java.util.Set;
 
-public class AllOnlineUsers {
+public class AllOnlineUsersMessage {
 	private String messageType;
 	private Set<String> userNames=new HashSet<String>();
 	public String getMessageType() {

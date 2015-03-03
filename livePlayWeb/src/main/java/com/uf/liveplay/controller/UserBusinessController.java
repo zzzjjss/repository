@@ -115,18 +115,22 @@ public class UserBusinessController {
 	@RequestMapping("/views/main")
 	public String mainPage(ModelMap model,HttpServletRequest request){
 		Object obj=request.getSession().getAttribute("user");
+		String context=request.getServletContext().getContextPath();
+		model.addAttribute("context",context);
 		User user=null;
 		if(obj instanceof User){
 			user=(User)obj;
 			model.addAttribute("user",user);
 			model.addAttribute("sessionId", request.getSession().getId());
-			model.addAttribute("rtmpIp", config.getRtmpServerIp());
-			model.addAttribute("wsIp", config.getWebSocketIp());
 		}else{
-			model.addAttribute("error", "user not login!");
-			return "error";
+			user=new User();
+			user.setName("游客");
+			user.setRole("unknow");
+			model.addAttribute("user", user);
+			model.addAttribute("sessionId", "no");
 		}
-		
+		model.addAttribute("rtmpAddress", config.getRtmpServerAddress());
+		model.addAttribute("wsAddress", config.getWebSocketAddress());
 		return "main";
 	}
 	

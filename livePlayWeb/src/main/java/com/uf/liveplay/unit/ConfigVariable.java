@@ -1,23 +1,21 @@
 package com.uf.liveplay.unit;
 
 public class ConfigVariable {
-	private String rtmpServerIp;
-	private String webSocketIp;
-	public String getRtmpServerIp() {
-		return rtmpServerIp;
+	private String rtmpServerAddress;
+	private String webSocketAddress;
+	public String getRtmpServerAddress() {
+		return rtmpServerAddress;
 	}
-
-	public void setRtmpServerIp(String rtmpServerIp) {
-		this.rtmpServerIp = rtmpServerIp;
+	public void setRtmpServerAddress(String rtmpServerAddress) {
+		this.rtmpServerAddress = rtmpServerAddress;
 	}
-
-	public String getWebSocketIp() {
-		return webSocketIp;
+	public String getWebSocketAddress() {
+		return webSocketAddress;
 	}
-
-	public void setWebSocketIp(String webSocketIp) {
-		this.webSocketIp = webSocketIp;
+	public void setWebSocketAddress(String webSocketAddress) {
+		this.webSocketAddress = webSocketAddress;
 	}
+	
 	
 	
 
