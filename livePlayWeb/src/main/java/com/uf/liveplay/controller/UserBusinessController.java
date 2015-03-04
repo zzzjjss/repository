@@ -27,30 +27,6 @@ public class UserBusinessController {
 	private ConfigVariable config;
 	
 	
-	@RequestMapping("/registNewUser")
-	@ResponseBody
-	public String registNewUser(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
-		User user=new User();
-		user.setName(allRequestParams.get("userName"));
-		user.setPassword(allRequestParams.get("password"));
-		user.setPhone(allRequestParams.get("phone"));
-		user.setRole("commonUser");
-		try {
-			if(!RegistFilter.isIpCanRegist(request.getRemoteAddr())){
-				return "你注册过于频繁，请稍后再注册！";
-			}
-			if(userService.findUserByName(user.getName())!=null){
-				return "用户已存在，请使用别的用户名！";
-			}else{
-				userService.registNewUser(user);
-				request.getSession().setAttribute("user", user);
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			return e.getMessage();
-		}
-		return "ok";
-	}
 	@RequestMapping("/vote")
 	@ResponseBody
 	public String vote(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){

@@ -104,4 +104,7 @@ public class UserServiceImpl implements UserService{
 	public void saveUserInfo(User user){
 		userDao.saveOrUpdate(user);
 	}
+	public List<User> findAllUser(){
+		return userDao.findByHql("select u from User u");
+	}
 }

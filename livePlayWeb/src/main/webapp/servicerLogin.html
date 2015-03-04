@@ -16,7 +16,7 @@
 		<div class="col-xs-4"></div>
 		<div class="col-xs-4" style="padding-top: 300px;">
 			<div class="panel panel-primary">
-				<div class="panel-heading">登录</div>
+				<div class="panel-heading">客服登录</div>
 				<div class="panel-body">
 					<div class="form-group ">
 						<input type="text" id="userName" class="form-control"
@@ -49,12 +49,12 @@
 				});
 			return;
 		}
-		var url="login.do";
+		var url="servicer/login.do";
 		var data="userName="+userName+"&password="+password;
 		
 		$.post(url,data,function(result){
 			if(result=="ok"){
-				window.location.href="views/main.do";
+				window.location.href="/servicer/control/servicerMain.do";
 			}else{
 				easyDialog.open({
 					  container : {

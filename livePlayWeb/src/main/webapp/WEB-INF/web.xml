@@ -12,6 +12,15 @@
     <servlet-name>Web</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
+   <filter>
+    <display-name>LoginFilter</display-name>
+    <filter-name>LoginFilter</filter-name>
+    <filter-class>com.uf.liveplay.filter.LoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>LoginFilter</filter-name>
+    <url-pattern>/servicer/control/*</url-pattern>
+  </filter-mapping>
   <listener>
     <listener-class>com.uf.liveplay.listener.MySessionListener</listener-class>
   </listener>

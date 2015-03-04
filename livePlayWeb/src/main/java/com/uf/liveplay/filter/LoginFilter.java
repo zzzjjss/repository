@@ -36,12 +36,12 @@ public class LoginFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		if(request instanceof HttpServletRequest){
 			HttpServletRequest httpRequest=(HttpServletRequest)request;
-			Object user=httpRequest.getSession().getAttribute("user");
-			if(user==null){
+			Object servicer=httpRequest.getSession().getAttribute("servicer");
+			if(servicer==null){
 				HttpServletResponse httpResponse=(HttpServletResponse)response;
 				String context=httpRequest.getServletContext().getContextPath();
 				//System.out.println(context);
-				httpResponse.sendRedirect(context+"/login.html");
+				httpResponse.sendRedirect(context+"/servicerLogin.html");
 				return;
 			}
 		}

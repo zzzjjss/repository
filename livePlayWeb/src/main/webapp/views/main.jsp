@@ -15,7 +15,7 @@
 <link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="../js/easydialog-v2.0/easydialog.min.js"></script>
 <link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
-<title>在线直播</title>
+<title>西北大宗直播室</title>
  <script type="text/javascript" src="assets/swfobject.js"></script>
 </head>
 <body>
@@ -170,10 +170,6 @@
 				<label for="newPassword">新密码</label> <input type="password"
 					class="form-control" id="newPassword">
 			</div>
-			<div class="form-group">
-				<label for="phone">电话号码</label> <input type="text"
-					class="form-control" id="phone" value="${user.phone}">
-			</div>
 		</form>
 	</div>
 
@@ -252,7 +248,6 @@
 				 
 				var oldPwd=$("#oldPassword").val();
 				var newPwd=$("#newPassword").val();
-				var phone=$("#phone").val();
 				var userId=$("#userId").val();
 				if(stringIsEmpty(oldPwd)||stringIsEmpty(newPwd)){
 					easyDialog.open({
@@ -263,7 +258,7 @@
 						});
 					return;
 				}
-				var data="userId="+userId+"&oldPassword="+oldPwd+"&newPassword="+newPwd+"&phone="+phone;
+				var data="userId="+userId+"&oldPassword="+oldPwd+"&newPassword="+newPwd;
 				 var url="${context}/controller/saveUserInfo.do";
 				 
 					$.post(url,data,function(result){
