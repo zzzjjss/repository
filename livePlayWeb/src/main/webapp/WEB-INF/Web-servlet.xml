@@ -20,6 +20,8 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<bean class="com.uf.liveplay.unit.ConfigVariable">
 		<property name="rtmpServerAddress" value="localhost"></property>
 		<property name="webSocketAddress" value="localhost:8080"></property>
+		<property name="unknowUserListenTimeMinute" value="2"></property>
+		<property name="unknowUserListenIntervalHour" value="12"></property>
 	</bean>
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

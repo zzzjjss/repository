@@ -17,6 +17,7 @@ import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.unit.ConfigVariable;
 import com.uf.liveplay.unit.RegistFilter;
+import com.uf.liveplay.unit.UnknowUserFilter;
 
 @Controller
 public class UserBusinessController {
@@ -24,6 +25,8 @@ public class UserBusinessController {
 	private UserService userService;
 	@Autowired
 	private ConfigVariable config;
+	
+	
 	@RequestMapping("/registNewUser")
 	@ResponseBody
 	public String registNewUser(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
@@ -112,6 +115,21 @@ public class UserBusinessController {
 		request.getSession().invalidate();
 		return "ok";
 	}
+	@RequestMapping("/controller/isIpCanListen")
+	@ResponseBody
+	public String isIpCanListen(HttpServletRequest request){
+		UnknowUserFilter filter=new UnknowUserFilter(config.getUnknowUserListenTimeMinute()*60, config.getUnknowUserListenIntervalHour()*60*60);
+		if(filter.isIpCanListener(request.getRemoteAddr())){
+			return "true";
+		}else{
+			return "false";
+		}
+	}
+	
+	@RequestMapping("/views/popupQqRegine")
+	public String popupQqReginePage(){
+		return "popupQqRegine";
+	}
 	@RequestMapping("/views/main")
 	public String mainPage(ModelMap model,HttpServletRequest request){
 		Object obj=request.getSession().getAttribute("user");
@@ -123,11 +141,18 @@ public class UserBusinessController {
 			model.addAttribute("user",user);
 			model.addAttribute("sessionId", request.getSession().getId());
 		}else{
-			user=new User();
-			user.setName("游客");
-			user.setRole("unknow");
-			model.addAttribute("user", user);
-			model.addAttribute("sessionId", "no");
+			UnknowUserFilter filter=new UnknowUserFilter(config.getUnknowUserListenTimeMinute()*60, config.getUnknowUserListenIntervalHour()*60*60);
+			if(filter.isIpCanListener(request.getRemoteAddr())){
+				user=new User();
+				user.setName("游客");
+				user.setRole("unknow");
+				model.addAttribute("user", user);
+				model.addAttribute("sessionId", "no");
+				model.addAttribute("listenMinute", config.getUnknowUserListenTimeMinute());	
+			}else{
+				return "popupQqRegine";
+			}
+			
 		}
 		model.addAttribute("rtmpAddress", config.getRtmpServerAddress());
 		model.addAttribute("wsAddress", config.getWebSocketAddress());

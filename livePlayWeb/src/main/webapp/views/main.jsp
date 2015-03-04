@@ -181,6 +181,7 @@
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
 	var userRole="${user.role}";
+	var listenMinute="{listenMinute}";
 	var ue;
 	var websocket;
 	$(document).ready(function(){
@@ -196,7 +197,19 @@
 		websocket.onopen=onWebSocketOpend;
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();
+		if(userRole=="unknow"){
+			window.setInterval(function(){
+				var url="${context}/controller/isIpCanListen.do";
+				$.get(url,function(result){
+					if(result=="false"){
+						window.location.href="${context}/views/popupQqRegine.do";
+					}
+				});
+			},60*1000);
+		}
 	});
+	
+	
 	function updateUserCount(){
 		 $("#userCount").text($("#onLineUsers tr").length);
 	}
