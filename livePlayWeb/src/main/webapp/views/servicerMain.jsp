@@ -292,9 +292,36 @@
 			$('#userEditModel').modal();
 	}
 	function buildOperationgCell(userId){
-		return '<a class="btn" onclick="deleteUser('+userId+')"><span data-toggle="tooltip" data-placement="right" title="Delete" class="glyphicon glyphicon-remove pfTip" ></span></a>';
+		return '<a class="btn" onclick="deleteUser('+userId+')"><span data-toggle="tooltip" data-placement="right" title="Delete" class="glyphicon glyphicon-remove pfTip" ></span></a><a class="btn" onclick="shutup('+userId+')"><span data-toggle="tooltip" data-placement="right" title="Delete" class="glyphicon glyphicon-remove pfTip" ></span></a>';
 	}
-	  
+	function shutup(userId){
+		
+		var url="${context}/servicer/control/shutupUserMouth.do";
+		$.ajax
+		(
+			{
+				type: "POST",
+				url: url+"?userId="+userId,
+				cache: false,
+				dataType: "text",
+				success: 
+					function(result)
+					{   
+						if(result=="ok"){
+							alert("禁言成功！");	
+						}else{
+							alert(result);
+						}
+									
+					},
+				error: 
+					function(jqXHR, textStatus, errorThrown )
+					{
+						alert(errorThrown); 
+					}
+			}
+		);
+	}
 	  
 </script>
 </body>

@@ -19,11 +19,14 @@ import net.sf.json.JSONObject;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.unit.SessionCache;
 
-@ServerEndpoint(value = "/chat/{sessionId}", encoders =ChatMessageEncoder.class, decoders = ChatMessageDecoder.class) 
+@ServerEndpoint(value = "/chat/{sessionId}", encoders =ChatMessageEncoder.class, decoders = ChatMessageDecoder.class,configurator=CustomConfigurator.class) 
 public class MyWebSocket {
+	private Set<Session> sessions=new HashSet<Session>();
 	@OnOpen 
 	public void open(final Session session,@PathParam("sessionId") final String sessionId) {
 		User user = SessionCache.findUser(sessionId);
+		sessions=session.getOpenSessions();
+		sessions.add(session);
 		try {
 			AllOnlineUsersMessage allOnlineUsersMsg=new AllOnlineUsersMessage();
 			Set<String> userNames=new HashSet<String>();
@@ -104,5 +107,24 @@ public class MyWebSocket {
     @OnError
     public void onError(Throwable exception, Session session){
     	System.out.println(exception);
+    }
+    
+    public void shutupUserMouth(Integer userId){
+    	for (Session s : sessions) {
+			if (s.isOpen()) {
+				String userSessionId=SessionCache.findUserSessionIdByUserId(userId);
+				Object sessionId= s.getUserProperties().get("sessionId");
+				
+				if (userSessionId!=null&&sessionId!=null&&sessionId instanceof String && userSessionId.equals((String)sessionId)) {
+					ShutupMessage message=new ShutupMessage();
+					try {
+						s.getBasicRemote().sendText(JSONObject.fromObject(message).toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+			}
+		}
     }
 }

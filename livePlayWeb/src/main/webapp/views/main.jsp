@@ -180,6 +180,7 @@
 	var listenMinute="{listenMinute}";
 	var ue;
 	var websocket;
+	var isShutup=false;;
 	$(document).ready(function(){
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
@@ -290,6 +291,15 @@
 				});
 			 return;
 		 }
+		 if(isShutup){
+			 easyDialog.open({
+				  container : {
+				    header : '错误',
+				    content : "你已经被禁言！"
+				  }
+				});
+			 return;
+		 }
 		 if(ue.getContentTxt().length>20){
 			 easyDialog.open({
 				  container : {
@@ -349,6 +359,8 @@
        			
        		}
        		updateUserCount();
+       	}else if(messageJson.messageType=="shutup"){
+       		isShutup=true;
        	}
 		  
      }  

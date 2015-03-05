@@ -19,6 +19,7 @@ import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.unit.ConfigVariable;
 import com.uf.liveplay.unit.RegistFilter;
+import com.uf.liveplay.unit.ServletWebsocketBridge;
 import com.uf.liveplay.unit.UnknowUserFilter;
 
 @Controller
@@ -133,5 +134,15 @@ public class ServicerBusinessController {
 			}
 		}
 		return jsonArray.toString();
+	}
+	
+	@RequestMapping("/servicer/control/shutupUserMouth")
+	@ResponseBody
+	public String shutupUserMouth(@RequestParam Map<String,String> allRequestParams, HttpServletRequest request) {
+		String userId=allRequestParams.get("userId");
+		if(userId!=null&&!userId.trim().equals("")){
+			ServletWebsocketBridge.shutupUserMouth(Integer.parseInt(userId.trim()));
+		}
+		return "ok";
 	}
 }
