@@ -3,6 +3,7 @@ package com.uf.liveplay.service;
 import java.util.List;
 import java.util.Map;
 
+import com.uf.liveplay.entity.Servicer;
 import com.uf.liveplay.entity.User;
 
 public interface UserService {
@@ -16,5 +17,10 @@ public interface UserService {
 	public void vote(String voteItem);
 	
 	public Map<String, String> statisticVote();
-	public List<User> findAllUser();
+	public List<User> findAllCommonUser();
+	
+	public boolean servicerLogin(String userName,String password);
+	public void saveServicerInfo(Servicer servicer);
+	public Servicer findServicerByName(String userName);
+	public Servicer findServicerById(Integer userId);
 }

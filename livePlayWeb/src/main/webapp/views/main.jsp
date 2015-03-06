@@ -172,7 +172,6 @@
 			</div>
 		</form>
 	</div>
-
 	<script type="text/javascript">
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
@@ -361,6 +360,8 @@
        		updateUserCount();
        	}else if(messageJson.messageType=="shutup"){
        		isShutup=true;
+       	}else if(messageJson.messageType=="realtimeData"){
+       		console.log(messageJson.message);
        	}
 		  
      }  

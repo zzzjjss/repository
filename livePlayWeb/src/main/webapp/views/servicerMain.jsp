@@ -54,15 +54,16 @@
 			</div>
 			
 			<div class="col-xs-8" style="padding-right:2px;padding-left:2px;">
-				<div class="panel panel-primary" style="margin-bottom: 5px;">
-					<div class="panel-heading" style="text-align: center;">
-						客户
+				<div class="panel panel-default" style="margin-bottom: 5px;">
+					<div class="panel-heading" style="text-align: right;margin-bottom:5px; ">
+						<button class="btn btn-success"  onclick="addUser()" >注册新用户</button>
 					</div>
-					<div class="panel-body" style="height: 550px;overflow: auto;padding: 0px;">
+					<div class="panel-body" style="height: 800px;overflow: auto;padding: 0px;">
+								
+								
 								<table class="table table-condensed table-hover" id="userTable">
 									<thead>
 										<tr >
-											<th style="text-align: center;">User ID</th>
 											<th style="text-align: center;">User Name</th>
 											<th style="text-align: center;">Phone</th>
 											<th style="text-align: center;"></th>
@@ -90,6 +91,20 @@
 			</div>
 		</form>
 	</div>
+	
+	
+	<div id="addCommonUser">
+		<form id="loginform" role="form">
+			<div class="form-group">
+				<label for="userName">用户名</label> <input type="text"
+					class="form-control" id="userName">
+			</div>
+			<div class="form-group">
+				<label for="phone">手机号</label> <input type="text"
+					class="form-control" id="phone">
+			</div>
+		</form>
+	</div>
 
 	<script type="text/javascript">
 	var userName="${servicer.name}";
@@ -104,6 +119,7 @@
 		websocket.onclose=onWebSocketClosed;
 		websocket.onopen=onWebSocketOpend;
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
+		$("#addCommonUser").dialog({title:"Add", autoOpen: false});
 		loadAllUser();
 	});
 	
@@ -288,11 +304,52 @@
 		   	} );
 		}
 	function addUser(){
-			$("#userEditContent").load("{{path('/admin/editUser')}}");
-			$('#userEditModel').modal();
+		$("#addCommonUser").dialog({title:"注册用户",
+			buttons: [
+         			{text: "关闭",
+         			'class': "btn-primary",
+         			click: function() {
+         				$(this).dialog("close");
+         			}},
+         			{
+         			text: "注册",
+         			'class': "btn-success",
+         			 click: function() {
+         				 
+         				var userName=$("#userName").val();
+         				var phone=$("#phone").val();
+         				if(stringIsEmpty(userName)||stringIsEmpty(phone)){
+         					easyDialog.open({
+         						  container : {
+         						    header : '错误',
+         						    content : '用户名或手机号不能为空'
+         						  }
+         						});
+         					return;
+         				}
+         				var data="userName="+userName+"&phone="+phone;
+         				 var url="${context}/servicer/control/registNewCommonUser.do";
+         				 
+         					$.post(url,data,function(result){
+         						if(result=="ok"){
+         							$("#addCommonUser").dialog("close");
+         							loadAllUser();
+         						}else{
+         							easyDialog.open({
+         								  container : {
+         								    header : '错误',
+         								    content : result
+         								  }
+         								});
+         						}
+         					});
+         				
+         			}}
+               ]});
 	}
+	
 	function buildOperationgCell(userId){
-		return '<a class="btn" onclick="deleteUser('+userId+')"><span data-toggle="tooltip" data-placement="right" title="Delete" class="glyphicon glyphicon-remove pfTip" ></span></a><a class="btn" onclick="shutup('+userId+')"><span data-toggle="tooltip" data-placement="right" title="Delete" class="glyphicon glyphicon-remove pfTip" ></span></a>';
+		return '<a class="btn" onclick="shutup('+userId+')"><span data-toggle="tooltip" data-placement="right" title="禁言" class="glyphicon glyphicon-volume-off" ></span></a>';
 	}
 	function shutup(userId){
 		

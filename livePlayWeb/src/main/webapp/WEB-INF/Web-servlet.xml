@@ -59,6 +59,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 			<list>
 				<value>com/uf/liveplay/entity/User.hbm.xml</value>
 				<value>com/uf/liveplay/entity/Vote.hbm.xml</value>
+				<value>com/uf/liveplay/entity/Servicer.hbm.xml</value>
 			</list>
 		</property>
 

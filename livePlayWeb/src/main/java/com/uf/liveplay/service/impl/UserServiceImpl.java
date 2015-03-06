@@ -7,8 +7,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.liveplay.dao.ServicerDao;
 import com.uf.liveplay.dao.UserDao;
 import com.uf.liveplay.dao.VoteDao;
+import com.uf.liveplay.entity.Servicer;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.entity.Vote;
 import com.uf.liveplay.service.UserService;
@@ -20,6 +22,9 @@ public class UserServiceImpl implements UserService{
 	
 	@Autowired
 	private VoteDao voteDao;
+	
+	@Autowired
+	private ServicerDao servicerDao;
 	
 	public UserDao getUserDao() {
 		return userDao;
@@ -83,8 +88,8 @@ public class UserServiceImpl implements UserService{
 	}
 	
 	public boolean login(String userName,String password){
-		List<User> users=userDao.findByHql("select u from User u where u.name=? and u.password=?", userName,password);
-		if(users!=null&&users.size()>0){
+		List<User> users=userDao.findByHql("select u from User u where u.name=?", userName);
+		if(users!=null&&users.size()>0&&password!=null&&password.equals(users.get(0).getPassword())){
 			return true;
 		}else{
 			return false;
@@ -104,7 +109,30 @@ public class UserServiceImpl implements UserService{
 	public void saveUserInfo(User user){
 		userDao.saveOrUpdate(user);
 	}
-	public List<User> findAllUser(){
-		return userDao.findByHql("select u from User u");
+	public List<User> findAllCommonUser(){
+		return userDao.findByHql("select u from User u where u.role=?","commonUser");
+	}
+	
+	public boolean servicerLogin(String userName,String password){
+		List<Servicer> users=servicerDao.findByHql("select u from Servicer u where u.name=?", userName);
+		if(users!=null&&users.size()>0&&password!=null&&password.equals(users.get(0).getPassword())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public void saveServicerInfo(Servicer servicer){
+		servicerDao.saveOrUpdate(servicer);
+	}
+	public Servicer findServicerByName(String userName){
+		List<Servicer> users=servicerDao.findByHql("select u from Servicer u where u.name=?", userName);
+		if(users!=null&&users.size()>0){
+			return users.get(0);
+		}else{
+			return null;
+		}
+	}
+	public Servicer findServicerById(Integer userId){
+		return servicerDao.findById(Servicer.class, userId);
 	}
 }

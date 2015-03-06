@@ -1,5 +1,6 @@
 package com.uf.liveplay.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -15,12 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uf.liveplay.entity.Servicer;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.unit.ConfigVariable;
-import com.uf.liveplay.unit.RegistFilter;
 import com.uf.liveplay.unit.ServletWebsocketBridge;
-import com.uf.liveplay.unit.UnknowUserFilter;
 
 @Controller
 public class ServicerBusinessController {
@@ -34,9 +34,10 @@ public class ServicerBusinessController {
 	public String registNewUser(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
 		User user=new User();
 		user.setName(allRequestParams.get("userName"));
-		user.setPassword(allRequestParams.get("password"));
+		user.setPassword("123456");
 		user.setPhone(allRequestParams.get("phone"));
 		user.setRole("commonUser");
+		user.setCreateTime(new Date());
 		try {
 			if(userService.findUserByName(user.getName())!=null){
 				return "用户已存在，请使用别的用户名！";
@@ -55,9 +56,9 @@ public class ServicerBusinessController {
 		String userName=allRequestParams.get("userName");
 		String password=allRequestParams.get("password");
 		try{
-			if(userService.login(userName,password)){
-				User user=userService.findUserByName(userName);
-				request.getSession().setAttribute("servicer", user);
+			if(userService.servicerLogin(userName,password)){
+				Servicer servicer=userService.findServicerByName(userName);
+				request.getSession().setAttribute("servicer", servicer);
 				return "ok";
 			}else{
 				return "用户名或密码错误！";
@@ -77,15 +78,14 @@ public class ServicerBusinessController {
 		String phone=allRequestParams.get("phone");
 		
 		try {
-			User user=userService.findUserById(Integer.parseInt(userId));
+			Servicer user=userService.findServicerById(Integer.parseInt(userId));
 			if(user==null){
 				return "用户不存在！";
 			}else if(!user.getPassword().equals(oldPwd)){
 				return "旧密码错误！";
 			}else{
 				user.setPassword(newPwd);
-				user.setPhone(phone);
-				userService.saveUserInfo(user);
+				userService.saveServicerInfo(user);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -117,7 +117,7 @@ public class ServicerBusinessController {
 	@RequestMapping("/servicer/control/getAllUser")
 	@ResponseBody
 	public String getAllUserAction(ModelMap model, HttpServletRequest request) {
-		List<User> allUser=userService.findAllUser();
+		List<User> allUser=userService.findAllCommonUser();
 		JSONObject result = new JSONObject();
 		result.put("data", convertToJsonArray(allUser));
 		return result.toString();

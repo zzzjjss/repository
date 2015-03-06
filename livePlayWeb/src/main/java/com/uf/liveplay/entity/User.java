@@ -1,11 +1,14 @@
 package com.uf.liveplay.entity;
 
+import java.util.Date;
+
 public class User implements java.io.Serializable{
 	private Integer id;
 	private String name;
 	private String password;
 	private String phone;
 	private String role ;
+	private Date createTime;
 	public Integer getId() {
 		return id;
 	}
@@ -35,6 +38,12 @@ public class User implements java.io.Serializable{
 	}
 	public void setRole(String role) {
 		this.role = role;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 }

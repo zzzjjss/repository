@@ -127,4 +127,20 @@ public class MyWebSocket {
 			}
 		}
     }
+    
+    public void publishRealtimeData(RealtimeDataMessage realtimeData){
+    	for (Session s : sessions) {
+			if (s.isOpen()) {
+				Object sessionId= s.getUserProperties().get("sessionId");
+				if (sessionId!=null) {
+					try {
+						s.getBasicRemote().sendText(JSONObject.fromObject(realtimeData).toString());
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					break;
+				}
+			}
+		}
+    }
 }
