@@ -17,17 +17,17 @@ import com.uf.liveplay.websocket.RealtimeDataMessage;
 public class ServletWebsocketBridge {
 	public static MyWebSocket webSocket=null;
 	
-	static{
-		ScheduledExecutorService service=Executors.newSingleThreadScheduledExecutor();
-		service.scheduleAtFixedRate(new Runnable() {
-			
-			@Override
-			public void run() {
-				sendRealTimeData();
-				
-			}
-		}, 1, 5, TimeUnit.SECONDS);
-	}
+//	static{
+//		ScheduledExecutorService service=Executors.newSingleThreadScheduledExecutor();
+//		service.scheduleAtFixedRate(new Runnable() {
+//			
+//			@Override
+//			public void run() {
+//				sendRealTimeData();
+//				
+//			}
+//		}, 1, 5, TimeUnit.SECONDS);
+//	}
 	
 	public static void shutupUserMouth(Integer userId){
 		if(webSocket!=null){
@@ -38,12 +38,12 @@ public class ServletWebsocketBridge {
 	public static void sendRealTimeData(){
 		HttpClientBuilder clientBuilder=HttpClients.custom();
 		CloseableHttpClient client=clientBuilder.build();
-		//HttpGet  get=new HttpGet("http://www.ytxzhibo.com/room/1");
+		HttpGet  get=new HttpGet("http://www.ytxzhibo.com/room/1");
 		try {
-			//CloseableHttpResponse  rep=client.execute(get);
+			CloseableHttpResponse  rep=client.execute(get);
 			RealtimeDataMessage message=new RealtimeDataMessage();
-			//message.setMessage(EntityUtils.toString(rep.getEntity()));
-			message.setMessage("test");
+			message.setMessage(EntityUtils.toString(rep.getEntity()));
+			//message.setMessage("test");
 			webSocket.publishRealtimeData(message);
 		} catch (Exception e) {
 			e.printStackTrace();
