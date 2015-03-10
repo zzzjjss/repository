@@ -32,7 +32,10 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
           factory-method="forName">
         <constructor-arg value="UTF-8"/>
     </bean>
-
+    
+	<bean id="socketPoliceFile" class="com.uf.liveplay.unit.SocketPoliceFile">
+    </bean>
+    
     <mvc:annotation-driven>
         <mvc:message-converters>
             <bean class="org.springframework.http.converter.StringHttpMessageConverter">

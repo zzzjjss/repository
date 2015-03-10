@@ -10,13 +10,14 @@
 <script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="../js/jquery.bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="swfobject.js"></script>
+<script type="text/javascript" src="web_socket.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.js"> </script>
 <link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="../js/easydialog-v2.0/easydialog.min.js"></script>
 <link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>西北大宗直播室</title>
- <script type="text/javascript" src="assets/swfobject.js"></script>
 </head>
 <body>
 	
@@ -173,6 +174,7 @@
 		</form>
 	</div>
 	<script type="text/javascript">
+	WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf";
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
 	var userRole="${user.role}";
@@ -184,9 +186,6 @@
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
-		if(!window.WebSocket){
-			alert('您浏览器的版本太低，聊天室无法使用，请使用最新版本的浏览器！（推荐 -》http://www.firefox.com.cn/）');
-		}
 		websocket = new WebSocket("ws://${wsAddress}${context}/chat/"+sessionId); 
 		websocket.onmessage=onMessageReceived;
 		websocket.onclose=onWebSocketClosed;
@@ -361,7 +360,7 @@
        	}else if(messageJson.messageType=="shutup"){
        		isShutup=true;
        	}else if(messageJson.messageType=="realtimeData"){
-       		console.log(messageJson.message);
+       		
        	}
 		  
      }  
@@ -371,7 +370,7 @@
 	   
 	   
 	 function onWebSocketClosed(message){
-		 console.log('Client notified socket has closed',message); 
+		// console.log('Client notified socket has closed',message); 
 	 }
 	   
 	  function logout(){
