@@ -7,7 +7,7 @@
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="../js/unit.js"></script>
 <script type='text/javascript' src='jwplayer.js'></script>
-<script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="../js/jquery.bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>

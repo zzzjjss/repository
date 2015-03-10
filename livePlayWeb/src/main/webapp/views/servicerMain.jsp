@@ -6,7 +6,7 @@
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 <script type="text/javascript" src="${context}/js/unit.js"></script>
-<script type="text/javascript" src="${context}/js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="${context}/js/jquery-1.11.2.min.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.bootstrap.min.js"></script>
 <script type="text/javascript" src="${context}/js/bootstrap/js/bootstrap.js"></script>
 <link href="${context}/js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
