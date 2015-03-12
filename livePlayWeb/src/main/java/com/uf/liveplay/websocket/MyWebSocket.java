@@ -19,7 +19,7 @@ import net.sf.json.JSONObject;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.unit.SessionCache;
 
-@ServerEndpoint(value = "/chat/{sessionId}", encoders =ChatMessageEncoder.class, decoders = ChatMessageDecoder.class,configurator=CustomConfigurator.class) 
+//@ServerEndpoint(value = "/chat/{sessionId}", encoders =ChatMessageEncoder.class, decoders = ChatMessageDecoder.class,configurator=CustomConfigurator.class) 
 public class MyWebSocket {
 	private Set<Session> sessions=new HashSet<Session>();
 	@OnOpen 

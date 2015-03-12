@@ -5,35 +5,35 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="../js/unit.js"></script>
+<script type="text/javascript" src="${context}/js/unit.js"></script>
 <script type='text/javascript' src='jwplayer.js'></script>
-<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
-<script type="text/javascript" src="../js/jquery.bootstrap.min.js"></script>
-<script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript" src="swfobject.js"></script>
-<script type="text/javascript" src="web_socket.js"></script>
-<script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.config.js"></script>
-<script type="text/javascript" charset="utf-8" src="../ueditor1_4_3/ueditor.all.js"> </script>
-<link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="../js/easydialog-v2.0/easydialog.min.js"></script>
-<link href="../js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="${context}/js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="${context}/js/jquery.bootstrap.min.js"></script>
+<script type="text/javascript" src="${context}/js/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="${context}/views/assets/swfobject.js"></script>
+<script type="text/javascript" charset="utf-8" src="${context}/ueditor1_4_3/ueditor.config.js"></script>
+<script type="text/javascript" charset="utf-8" src="${context}/ueditor1_4_3/ueditor.all.js"> </script>
+<link href="${context}/js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="${context}/js/easydialog-v2.0/easydialog.min.js"></script>
+<script type="text/javascript" src="${context}/js/socket.io-1.3.4.js"></script>
+<link href="${context}/js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>西北大宗直播室</title>
 </head>
 <body>
 	
 	<div class="container-fluid">
 	<div class="row" >
-			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('../images/topBg.jpg')">
+			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('${context}/images/topBg.jpg')">
 						<div class="btn-group" role="group" aria-label="Justified button group" >
-							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="../images/a.png" title="白银ETF"><br>白银ETF</a>
-							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="../images/b.png" title="黄金ETF"><br>黄金ETF</a>
-							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="../images/c.png" title="财经日历"><br>财经日历</a>
-							<a href="#" onclick="editUserInfo()" class="btn btn-default" role="button"><img src="../images/user.png"><br>${user.name}</a>
+							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="${context}/images/a.png" title="白银ETF"><br>白银ETF</a>
+							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="${context}/images/b.png" title="黄金ETF"><br>黄金ETF</a>
+							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="${context}/images/c.png" title="财经日历"><br>财经日历</a>
+							<a href="#" onclick="editUserInfo()" class="btn btn-default" role="button"><img src="${context}/images/user.png"><br>${user.name}</a>
 							<c:if test="${ user.role =='unknow'  }">
-							<a href="../login.html"  class="btn btn-default" role="button"><img src="../images/logout.png"><br>登录</a>
+							<a href="${context}/login.html"  class="btn btn-default" role="button"><img src="${context}/images/logout.png"><br>登录</a>
 							</c:if>
 							<c:if test="${ user.role !='unknow'  }">
-							<a href="#" onclick="logout()" class="btn btn-default" role="button"><img src="../images/logout.png"><br>退出</a>
+							<a href="#" onclick="logout()" class="btn btn-default" role="button"><img src="${context}/images/logout.png"><br>退出</a>
 							</c:if>
 						</div>
 						
@@ -45,7 +45,7 @@
 				
 				<c:if test="${user.role=='commonUser' || user.role=='unknow'  }">
 					<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
-							<div class="panel-heading" style="background-image: url(../images/logo.jpg);height: 70px;"></div>
+							<div class="panel-heading" style="background-image: url(${context}/images/logo.jpg);height: 70px;"></div>
 							<div class="panel-body" style="padding: 0px;">
 								<div class="tabbable" style="padding-top: 2px;">
 									<ul class="nav nav-tabs">
@@ -63,7 +63,7 @@
 											</p>
 										</div>
 										<div class="tab-pane" id="tab2" style="padding: 15px">
-											<p style="font-size: 12px;">&nbsp;&nbsp;话费呢</p>
+											<p style="font-size: 12px;">&nbsp;&nbsp;更多操作建议，请联系直播室QQ客服！</p>
 										</div>
 										<div class="tab-pane" id="tab3" style="padding: 15px">
 											<p style="font-size: 12px;">&nbsp;&nbsp;本直播室所有内容，包括文字、图像、音频、视频只供本公司或授权者使用，访问者可将本网站提供的内容或服务用于个人学习或欣赏，以及其他非商业性或非盈利性用途；没有本公司的书面授权，不得因任何目的，以任何方式如电子的、转载或其它方式，包括影印和记录，复制和传播本直播室的任何部分。</p>
@@ -89,12 +89,12 @@
 					</div>
 					
 					<div class="panel panel-primary">
-						<div class="panel-heading" style="background-image: url(../images/kefuzhongxin.png);height: 80px;">
+						<div class="panel-heading" style="background-image: url(${context}/images/kefuzhongxin.png);height: 80px;">
 						</div>
 						<div class="panel-body" style="height: 100px;">
-							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小倩</a>
-							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小红</a>
-							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;小明</a>
+							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;小倩</a>
+							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;小红</a>
+							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;小明</a>
 						</div>
 					</div>
 				</c:if>
@@ -122,7 +122,7 @@
 			
 			<div class="col-xs-7" style="padding-right:2px;padding-left:2px;">
 				<div class="panel panel-primary">
-					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;background-image: url('../images/chatBg.png')"> 
+					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
 						
 					</div>
 					<div class="panel-footer" id="chatInput" > 
@@ -150,9 +150,9 @@
 				<div class="panel panel-default">
 					<div class="panel-body" style="height: 250px;overflow: auto;padding: 0px;">
 						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
-							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('../images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
-							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('../images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
-							<a href="#" onclick="vote('down')" class="btn btn-default" role="button" style="background-image:url('../images/down.png'); width: 65px;color: #ff0;text-align: right;">看空<br><span id="downValue"></span></a>
+							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('${context}/images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
+							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('${context}/images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
+							<a href="#" onclick="vote('down')" class="btn btn-default" role="button" style="background-image:url('${context}/images/down.png'); width: 65px;color: #ff0;text-align: right;">看空<br><span id="downValue"></span></a>
 						</div>
 					</div>
 				</div>
@@ -174,22 +174,32 @@
 		</form>
 	</div>
 	<script type="text/javascript">
-	WEB_SOCKET_SWF_LOCATION = "WebSocketMain.swf";
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
 	var userRole="${user.role}";
 	var listenMinute="{listenMinute}";
 	var ue;
-	var websocket;
+	var socket;
 	var isShutup=false;;
 	$(document).ready(function(){
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
-		websocket = new WebSocket("ws://${wsAddress}${context}/chat/"+sessionId); 
-		websocket.onmessage=onMessageReceived;
-		websocket.onclose=onWebSocketClosed;
-		websocket.onopen=onWebSocketOpend;
+		socket = io.connect("http://${socketIoAddress}?sessionId="+sessionId,{'reconnection delay' : 200000000000});
+		socket.on('chatMessageEvent', function(data) {
+				onChatMessage(data);
+		  });	
+	
+		socket.on('allOnLineUserEvent', function(data) {
+			allOnlineUserMessage(data);
+	  	});
+		socket.on('userOffLineEvent', function(data) {
+			userOfflineMessage(data);
+	  	});
+		socket.on('userOnLineEvent', function(data) {
+			userOnlineMessage(data);
+	  	});
+		
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();
 		if(userRole=="unknow"){
@@ -312,69 +322,58 @@
 		 contents=contents.replace(reg1,"'");
 		 var reg2=new RegExp("<p>","g");
 		 contents=contents.replace(reg2,"<p style='display: initial;'>");
-		 var hello ='{"sender":"'+userName+'","messageType":"chat","message":"'+contents+'"}';
-         websocket.send(hello); 
+		 var hello ={"sender":userName,"message":contents};
+		 socket.emit("chatMessageEvent",hello);
+          
          ue.execCommand('cleardoc');
 	 }
-	     
-	   //消息接收  
-      function onMessageReceived(message) { 
-       	var messageJson = JSON.parse(message.data);
-       	if(messageJson.messageType=="chat"){
-       		var tmp=$.parseHTML(messageJson.message);
-       		var textLength=$(tmp).text().length*20;
-       		textLength=textLength+$(tmp).find("img").size()*60;
-       		var panelPx=$("#chatContent").css("width");
-       		var end=panelPx.indexOf("px");
-       		var panelWidth=panelPx.substr(0,end);
-       		if(textLength>(panelWidth-100)){
-       			textLength=panelWidth-100;
-       		}
-           	if(messageJson.sender==userName){
-           		$("#chatContent").append("<div style='display: flex'><img src='../images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");	
-           	}else{
-           		$("#chatContent").append("<div style='display: flex'><img src='../images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");
-           	}
-           	var div=document.getElementById("chatContent");
-   		 	div.scrollTop=div.scrollHeight;
-   		 	
-       	}else if(messageJson.messageType=="online"){
-       		if($("#onLineUsers #"+messageJson.userName).length==0){
-       			$("#onLineUsers").append("<tr class='info' id='"+messageJson.userName+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.userName+"</td></tr>");	
-       		}
-       		updateUserCount();
-       	}else if(messageJson.messageType=="offline"){
-       		$("#onLineUsers #"+messageJson.userName).remove();
-       		updateUserCount();
-       	}else if(messageJson.messageType=="onlineUsers"){
-       		var onlineUsers=messageJson.userNames;
-       		for(var i=0;i<onlineUsers.length;i++){
-       			if(onlineUsers[i]==userName){
-       				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
-       			}else{
-       				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
-       			}
-       			
-       		}
-       		updateUserCount();
-       	}else if(messageJson.messageType=="shutup"){
-       		isShutup=true;
-       	}else if(messageJson.messageType=="realtimeData"){
-       		
+	 function onChatMessage(messageJson){
+		var tmp=messageJson.message;
+   		var textLength=$(tmp).text().length*20;
+   		textLength=textLength+$(tmp).find("img").size()*60;
+   		var panelPx=$("#chatContent").css("width");
+   		var end=panelPx.indexOf("px");
+   		var panelWidth=panelPx.substr(0,end);
+   		if(textLength>(panelWidth-100)){
+   			textLength=panelWidth-100;
+   		}
+       	if(messageJson.sender==userName){
+       		$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");	
+       	}else{
+       		$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");
        	}
-		  
-     }  
-	 function onWebSocketOpend(evt){
-		
-	 }  
-	   
-	   
-	 function onWebSocketClosed(message){
-		// console.log('Client notified socket has closed',message); 
+       	var div=document.getElementById("chatContent");
+	 	div.scrollTop=div.scrollHeight;
+	 }   
+	 function userOnlineMessage(messageJson){
+		 if($("#onLineUsers #"+messageJson.userName).length==0){
+    			$("#onLineUsers").append("<tr class='info' id='"+messageJson.userName+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.userName+"</td></tr>");	
+    		}
+    		updateUserCount();
+	 }
+	 function userOfflineMessage(message){
+		 $("#onLineUsers #"+message.userName).remove();
+    		updateUserCount();
+	 }
+	 function allOnlineUserMessage(message){
+		 var onlineUsers=message.userNames;
+    		for(var i=0;i<onlineUsers.length;i++){
+    			if(onlineUsers[i]==userName){
+    				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
+    			}else{
+    				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+    			}
+    			
+    		}
+    		updateUserCount();
+	 }
+	 
+	 function onShutupMessage(messageJson){
+		 
 	 }
 	   
 	  function logout(){
-		  websocket.close();
+		  socket.close();
 		  var url="${context}/controller/logout.do";
 			$.post(url,function(result){
 				if(result=="ok"){

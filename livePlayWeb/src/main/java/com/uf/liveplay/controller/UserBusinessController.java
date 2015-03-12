@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
+import com.uf.liveplay.socketio.SocketIoServer;
 import com.uf.liveplay.unit.ConfigVariable;
 import com.uf.liveplay.unit.RegistFilter;
 import com.uf.liveplay.unit.UnknowUserFilter;
@@ -25,7 +26,8 @@ public class UserBusinessController {
 	private UserService userService;
 	@Autowired
 	private ConfigVariable config;
-	
+	@Autowired
+	private SocketIoServer socketIoServer;
 	
 	@RequestMapping("/vote")
 	@ResponseBody
@@ -132,6 +134,7 @@ public class UserBusinessController {
 		}
 		model.addAttribute("rtmpAddress", config.getRtmpServerAddress());
 		model.addAttribute("wsAddress", config.getWebSocketAddress());
+		model.addAttribute("socketIoAddress", socketIoServer.getHostName()+":"+socketIoServer.getPort());
 		return "main";
 	}
 	

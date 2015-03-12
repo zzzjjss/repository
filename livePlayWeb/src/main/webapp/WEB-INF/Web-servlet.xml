@@ -19,8 +19,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
 	<context:component-scan base-package="com.uf.liveplay.dao"></context:component-scan>
 	<bean class="com.uf.liveplay.unit.ConfigVariable">
 		<property name="rtmpServerAddress" value="localhost"></property>
-		<property name="webSocketAddress" value="localhost:8080"></property>
-		<property name="unknowUserListenTimeMinute" value="2"></property>
+		<property name="unknowUserListenTimeMinute" value="30"></property>
 		<property name="unknowUserListenIntervalHour" value="12"></property>
 	</bean>
 	<bean
@@ -33,7 +32,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd">
         <constructor-arg value="UTF-8"/>
     </bean>
     
-	<bean id="socketPoliceFile" class="com.uf.liveplay.unit.SocketPoliceFile">
+	<bean id="socketIOserver" class="com.uf.liveplay.socketio.SocketIoServer">
+		<property name="hostName" value="localhost" />
+		<property name="port" value="81" />
     </bean>
     
     <mvc:annotation-driven>
