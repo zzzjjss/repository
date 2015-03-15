@@ -205,7 +205,7 @@
 		if(userRole=="unknow"){
 			window.setInterval(function(){
 				var url="${context}/controller/isIpCanListen.do";
-				$.get(url,function(result){
+				$.post(url,function(result){
 					if(result=="false"){
 						window.location.href="${context}/views/popupQqRegine.do";
 					}
@@ -235,10 +235,11 @@
 	
 	function getVoteStatistic(){
 		var url="${context}/getVoteResult.do";
-		$.getJSON(url, function(json){
-			   $("#upValue").text(json.up);
-			   $("#downValue").text(json.down);
-			   $("#equalValue").text(json.equal);
+		$.post(url, function(voteResult){
+				var messageJson = JSON.parse(voteResult)
+			   $("#upValue").text(messageJson.up);
+			   $("#downValue").text(messageJson.down);
+			   $("#equalValue").text(messageJson.equal);
 		});
 		
 	}
