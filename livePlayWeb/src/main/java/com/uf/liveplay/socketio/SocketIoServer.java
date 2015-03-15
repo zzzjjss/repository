@@ -1,6 +1,7 @@
 package com.uf.liveplay.socketio;
 
 import com.corundumstudio.socketio.Configuration;
+import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
 import com.uf.liveplay.socketio.listener.AllOnlineUsersEventListener;
 import com.uf.liveplay.socketio.listener.ChatMessageEventListener;
@@ -14,11 +15,12 @@ import com.uf.liveplay.socketio.message.ChatMessage;
 import com.uf.liveplay.socketio.message.ShutupMessage;
 import com.uf.liveplay.socketio.message.UserOfflineMessage;
 import com.uf.liveplay.socketio.message.UserOnlineMessage;
+import com.uf.liveplay.unit.SessionCache;
 
 public class SocketIoServer {
 	private String hostName;
 	private int port=81;
-	
+	private SocketIOServer server;
 	public String getHostName() {
 		return hostName;
 	}
@@ -37,7 +39,7 @@ public class SocketIoServer {
 		Configuration config = new Configuration();
 	    config.setHostname(hostName);
 	    config.setPort(port);
-	    SocketIOServer server = new SocketIOServer(config);
+	    server = new SocketIOServer(config);
 	    ChatMessageEventListener listener = new ChatMessageEventListener(server);
 	    AllOnlineUsersEventListener allOnlineListener=new AllOnlineUsersEventListener(server);
 	    ShutupEventListener  shutupListener=new ShutupEventListener(server);
@@ -54,4 +56,18 @@ public class SocketIoServer {
         server.addDisconnectListener(disConListener);
         server.start();
 	}
+	 public void shutupUserMouth(Integer userId){
+		 
+	    	for (SocketIOClient s : server.getAllClients()) {
+				if (s.isChannelOpen()) {
+					String userSessionId=SessionCache.findUserSessionIdByUserId(userId);
+					Object sessionId= s.get("sessionId");
+					if (userSessionId!=null&&sessionId!=null&&sessionId instanceof String && userSessionId.equals((String)sessionId)) {
+						ShutupMessage message=new ShutupMessage();
+						s.sendEvent(Events.SHUTUP_EVENT, message);
+						break;
+					}
+				}
+			}
+	    }
 }

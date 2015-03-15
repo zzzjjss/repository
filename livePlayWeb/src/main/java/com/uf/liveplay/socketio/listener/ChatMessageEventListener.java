@@ -1,9 +1,5 @@
 package com.uf.liveplay.socketio.listener;
 
-import javax.websocket.Session;
-
-import net.sf.json.JSONObject;
-
 import com.corundumstudio.socketio.AckRequest;
 import com.corundumstudio.socketio.SocketIOClient;
 import com.corundumstudio.socketio.SocketIOServer;
@@ -22,7 +18,6 @@ public class ChatMessageEventListener implements DataListener<ChatMessage>{
 	@Override
 	public void onData(SocketIOClient client, ChatMessage data, AckRequest ackSender)
 			throws Exception {
-		 System.out.println(JSONObject.fromObject(data).toString());
 		 try { 
 	        	//禁止游客发言
 	        	Object id=client.get("sessionId");

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.uf.liveplay.entity.Servicer;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
+import com.uf.liveplay.socketio.SocketIoServer;
 import com.uf.liveplay.unit.ConfigVariable;
 import com.uf.liveplay.unit.ServletWebsocketBridge;
 
@@ -28,7 +29,8 @@ public class ServicerBusinessController {
 	private UserService userService;
 	@Autowired
 	private ConfigVariable config;
-	
+	@Autowired
+	private SocketIoServer socketIoServer;
 	@RequestMapping("/servicer/control/registNewCommonUser")
 	@ResponseBody
 	public String registNewUser(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
@@ -99,12 +101,12 @@ public class ServicerBusinessController {
 		Object obj=request.getSession().getAttribute("servicer");
 		String context=request.getServletContext().getContextPath();
 		model.addAttribute("context",context);
-		User user=null;
-		if(obj instanceof User){
-			user=(User)obj;
+		Servicer user=null;
+		if(obj instanceof Servicer){
+			user=(Servicer)obj;
 			model.addAttribute("servicer",user);
 		}
-		model.addAttribute("wsAddress", config.getWebSocketAddress());
+		model.addAttribute("socketIoAddress", socketIoServer.getHostName()+":"+socketIoServer.getPort());
 		return "servicerMain";
 	}
 	@RequestMapping("/servicer/control/logout")
@@ -141,7 +143,7 @@ public class ServicerBusinessController {
 	public String shutupUserMouth(@RequestParam Map<String,String> allRequestParams, HttpServletRequest request) {
 		String userId=allRequestParams.get("userId");
 		if(userId!=null&&!userId.trim().equals("")){
-			ServletWebsocketBridge.shutupUserMouth(Integer.parseInt(userId.trim()));
+			socketIoServer.shutupUserMouth(Integer.parseInt(userId.trim()));
 		}
 		return "ok";
 	}

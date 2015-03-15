@@ -199,7 +199,9 @@
 		socket.on('userOnLineEvent', function(data) {
 			userOnlineMessage(data);
 	  	});
-		
+		socket.on('shutupEvent', function(data) {
+			onShutupMessage(data);
+	  	});
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();
 		if(userRole=="unknow"){
@@ -370,7 +372,7 @@
 	 }
 	 
 	 function onShutupMessage(messageJson){
-		 
+		 isShutup=true;
 	 }
 	   
 	  function logout(){

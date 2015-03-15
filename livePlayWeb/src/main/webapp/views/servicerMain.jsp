@@ -12,7 +12,7 @@
 <link href="${context}/js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
 <script type="text/javascript" src="${context}/js/easydialog-v2.0/easydialog.min.js"></script>
 <link href="${context}/js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
-
+<script type="text/javascript" src="${context}/js/socket.io-1.3.4.js"></script>
 <script type="text/javascript" src="${context}/js/jquery.dataTables.min.js"></script>
 <link href="${context}/css/jquery.dataTables.min.css" type="text/css" rel="stylesheet">
 <title>西北大宗直播室客服</title>
@@ -109,15 +109,24 @@
 	<script type="text/javascript">
 	var userName="${servicer.name}";
 	var sessionId="${sessionId}";
-	var websocket;
+	var socket;
 	$(document).ready(function(){
-		if(!window.WebSocket){
-			alert('您浏览器的版本太低，聊天室无法使用，请使用最新版本的浏览器！（推荐 -》http://www.firefox.com.cn/）');
-		}
-		websocket = new WebSocket("ws://${wsAddress}${context}/chat/no"); 
-		websocket.onmessage=onMessageReceived;
-		websocket.onclose=onWebSocketClosed;
-		websocket.onopen=onWebSocketOpend;
+		
+		socket = io.connect("http://${socketIoAddress}?sessionId=no",{'reconnection delay' : 200000000000});
+		
+		socket.on('chatMessageEvent', function(data) {
+			onChatMessage(data);
+	  	});	
+
+		socket.on('allOnLineUserEvent', function(data) {
+			allOnlineUserMessage(data);
+		 	});
+		socket.on('userOffLineEvent', function(data) {
+			userOfflineMessage(data);
+		 	});
+		socket.on('userOnLineEvent', function(data) {
+			userOnlineMessage(data);
+		 	});
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		$("#addCommonUser").dialog({title:"Add", autoOpen: false});
 		loadAllUser();
@@ -174,58 +183,50 @@
 			}}
 			]});
 	}  
-
-	
-		  
-	
-	     
-	   //消息接收  
-      function onMessageReceived(message) { 
-       	var messageJson = JSON.parse(message.data);
-       	if(messageJson.messageType=="chat"){
-       		var tmp=$.parseHTML(messageJson.message);
-       		var textLength=$(tmp).text().length*20;
-       		textLength=textLength+$(tmp).find("img").size()*60;
-       		var panelPx=$("#chatContent").css("width");
-       		var end=panelPx.indexOf("px");
-       		var panelWidth=panelPx.substr(0,end);
-       		if(textLength>(panelWidth-100)){
-       			textLength=panelWidth-100;
-       		}
-           
-           	$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");
-           	
-           	var div=document.getElementById("chatContent");
-   		 	div.scrollTop=div.scrollHeight;
-   		 	
-       	}else if(messageJson.messageType=="online"){
-       		if($("#onLineUsers #"+messageJson.userName).length==0){
-       			$("#onLineUsers").append("<tr class='info' id='"+messageJson.userName+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.userName+"</td></tr>");	
-       		}
-       		updateUserCount();
-       	}else if(messageJson.messageType=="offline"){
-       		$("#onLineUsers #"+messageJson.userName).remove();
-       		updateUserCount();
-       	}else  if(messageJson.messageType=="onlineUsers"){
-       		var onlineUsers=messageJson.userNames;
-       		for(var i=0;i<onlineUsers.length;i++){
-       			$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
-       		}
-       		updateUserCount();
+	function onChatMessage(messageJson){
+		var tmp=messageJson.message;
+   		var textLength=$(tmp).text().length*20;
+   		textLength=textLength+$(tmp).find("img").size()*60;
+   		var panelPx=$("#chatContent").css("width");
+   		var end=panelPx.indexOf("px");
+   		var panelWidth=panelPx.substr(0,end);
+   		if(textLength>(panelWidth-100)){
+   			textLength=panelWidth-100;
+   		}
+       	if(messageJson.sender==userName){
+       		$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");	
+       	}else{
+       		$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");
        	}
-		  
-     }  
-	 function onWebSocketOpend(evt){
-		
-	 }  
-	   
-	   
-	 function onWebSocketClosed(message){
-		 console.log('Client notified socket has closed',message); 
+       	var div=document.getElementById("chatContent");
+	 	div.scrollTop=div.scrollHeight;
+	 }   
+	 function userOnlineMessage(messageJson){
+		 if($("#onLineUsers #"+messageJson.userName).length==0){
+    			$("#onLineUsers").append("<tr class='info' id='"+messageJson.userName+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+messageJson.userName+"</td></tr>");	
+    		}
+    		updateUserCount();
 	 }
+	 function userOfflineMessage(message){
+		 $("#onLineUsers #"+message.userName).remove();
+    		updateUserCount();
+	 }
+	 function allOnlineUserMessage(message){
+		 var onlineUsers=message.userNames;
+    		for(var i=0;i<onlineUsers.length;i++){
+    			if(onlineUsers[i]==userName){
+    				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
+    			}else{
+    				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+    			}
+    			
+    		}
+    		updateUserCount();
+	 }
+	
 	   
 	  function logout(){
-		  websocket.close();
+		  socket.close();
 		  var url="${context}/servicer/control/logout.do";
 			$.post(url,function(result){
 				if(result=="ok"){
@@ -328,7 +329,7 @@
          					return;
          				}
          				var data="userName="+userName+"&phone="+phone;
-         				 var url="${context}/servicer/control/registNewCommonUser.do";
+         				var url="${context}/servicer/control/registNewCommonUser.do";
          				 
          					$.post(url,data,function(result){
          						if(result=="ok"){
