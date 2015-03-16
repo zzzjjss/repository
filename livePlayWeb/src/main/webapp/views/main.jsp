@@ -18,6 +18,10 @@
 <script type="text/javascript" src="${context}/js/socket.io-1.3.4.js"></script>
 <link href="${context}/js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>西北大宗直播室</title>
+<style type="text/css">
+.qqLink {margin-top:5px;}
+
+</style>
 </head>
 <body>
 	
@@ -43,8 +47,7 @@
 		<div class="row">
 			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;" id="leftPart">
 				
-				<c:if test="${user.role=='commonUser' || user.role=='unknow'  }">
-					<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
+						<div class="panel panel-primary" style="margin-bottom: 1px;height: 250px;">
 							<div class="panel-heading" style="background-image: url(${context}/images/logo.jpg);height: 70px;"></div>
 							<div class="panel-body" style="padding: 0px;">
 								<div class="tabbable" style="padding-top: 2px;">
@@ -83,31 +86,20 @@
 						<div class="panel-heading" style="background-image: url(${context}/images/kefuzhongxin.png);height: 80px;">
 						</div>
 						<div class="panel-body" style="height: 100px;">
-							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;小倩</a>
-							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;小红</a>
-							<a class="btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2768117247&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;小明</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服1</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=285171005&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服2</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710059&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服3</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710060&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服4</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710068&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服5</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710069&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服6</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710070&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服7</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710075&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服8</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710076&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服9</a>
+							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710077&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服0</a>
 						</div>
 					</div>
-				</c:if>
-				<c:if test="${user.role=='publisher'}">
-					<div id="publishPart" >
-
-					</div>
-					<script type="text/javascript">
-						var flashvars = {};
-						var params = {
-							allowfullscreen : "true"
-						};
-						var attributes = {};
-						swfobject.embedSWF("publisher.swf", "publishPart",
-								"100%", "600px", "9.0.0",
-								"assets/expressInstall.swf", flashvars, params,
-								attributes);
-						function getRtmpUrl() {
-							return "rtmp://${rtmpAddress}/livePlay?userName=jason&password=123456";
-						}
-					</script>
-				</c:if>
+				
+				
 			</div>
 			
 			
@@ -176,9 +168,9 @@
 	var isShutup=false;;
 	$(document).ready(function(){
 		 if (navigator.userAgent.match(/iP(od|hone|ad)/i) || navigator.userAgent.match(/Android/i)) {
-      	   $("#liveVideo").append("<video id='i7b70ijc' width='100%' height='600' poster='http://live.polyv.net/images/cover_image.jpg' src='http://rlive.videocc.net/record//i7b70ijc/playlist.m3u8'  preload controls></video>");
+      	   $("#liveVideo").append("<video id='i7b70ijc' width='100%' height='500' poster='http://live.polyv.net/images/cover_image.jpg' src='http://rlive.videocc.net/record//i7b70ijc/playlist.m3u8'  preload controls></video>");
          } else {
-      	   $("#liveVideo").append("<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' width='100%' height='600' id='006ef93f-8d4e-4ad9-8f12-39f573f13f7a'><param name='movie' value='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf'/><param name='allowscriptaccess' value='always' /><param name='allowfullscreen' value='true' /><embed src='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf' width='100%' height='600'  type='application/x-shockwave-flash' allowscriptaccess='always' name='006ef93f-8d4e-4ad9-8f12-39f573f13f7a' allowfullscreen='true' /></embed></object>");
+      	   $("#liveVideo").append("<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' width='100%' height='500' id='006ef93f-8d4e-4ad9-8f12-39f573f13f7a'><param name='movie' value='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf'/><param name='allowscriptaccess' value='always' /><param name='allowfullscreen' value='true' /><embed src='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf' width='100%' height='600'  type='application/x-shockwave-flash' allowscriptaccess='always' name='006ef93f-8d4e-4ad9-8f12-39f573f13f7a' allowfullscreen='true' /></embed></object>");
          }
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
