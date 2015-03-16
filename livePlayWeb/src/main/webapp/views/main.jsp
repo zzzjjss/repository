@@ -170,7 +170,7 @@
 		 if (navigator.userAgent.match(/iP(od|hone|ad)/i) || navigator.userAgent.match(/Android/i)) {
       	   $("#liveVideo").append("<video id='i7b70ijc' width='100%' height='500' poster='http://live.polyv.net/images/cover_image.jpg' src='http://rlive.videocc.net/record//i7b70ijc/playlist.m3u8'  preload controls></video>");
          } else {
-      	   $("#liveVideo").append("<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' width='100%' height='500' id='006ef93f-8d4e-4ad9-8f12-39f573f13f7a'><param name='movie' value='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf'/><param name='allowscriptaccess' value='always' /><param name='allowfullscreen' value='true' /><embed src='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf' width='100%' height='600'  type='application/x-shockwave-flash' allowscriptaccess='always' name='006ef93f-8d4e-4ad9-8f12-39f573f13f7a' allowfullscreen='true' /></embed></object>");
+      	   $("#liveVideo").append("<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' width='100%' height='500' id='006ef93f-8d4e-4ad9-8f12-39f573f13f7a'><param name='movie' value='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf'/><param name='allowscriptaccess' value='always' /><param name='allowfullscreen' value='true' /><embed src='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf' width='100%' height='500'  type='application/x-shockwave-flash' allowscriptaccess='always' name='006ef93f-8d4e-4ad9-8f12-39f573f13f7a' allowfullscreen='true' /></embed></object>");
          }
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
