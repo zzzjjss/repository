@@ -41,7 +41,7 @@
 			
 	</div>
 		<div class="row">
-			<div class="col-xs-3" style="padding-right:2px;padding-left:2px;" id="leftPart">
+			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;" id="leftPart">
 				
 				<c:if test="${user.role=='commonUser' || user.role=='unknow'  }">
 					<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
@@ -74,17 +74,8 @@
 					</div>
 
 					<div class="panel panel-primary" style="margin-bottom: 1px;">
-						<div class="panel-body" style="padding: 0px;">
-							<div id='mediaspace'>This text will be replaced</div>
-							<script type='text/javascript'>
-								jwplayer('mediaspace').setup({
-									'flashplayer' : 'player.swf',
-									'file':"liveChannel",
-									'streamer' : 'rtmp://${rtmpAddress}/livePlay?userName=jason&password=123456',
-									'controlbar' : 'bottom',
-									'width':'100%'
-								});
-							</script>
+						<div class="panel-body" style="padding: 0px;" id="liveVideo">
+							
 						</div>
 					</div>
 					
@@ -120,7 +111,7 @@
 			</div>
 			
 			
-			<div class="col-xs-7" style="padding-right:2px;padding-left:2px;">
+			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;">
 				<div class="panel panel-primary">
 					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
 						
@@ -173,6 +164,8 @@
 			</div>
 		</form>
 	</div>
+
+           
 	<script type="text/javascript">
 	var userName="${user.name}";
 	var sessionId="${sessionId}";
@@ -182,6 +175,11 @@
 	var socket;
 	var isShutup=false;;
 	$(document).ready(function(){
+		 if (navigator.userAgent.match(/iP(od|hone|ad)/i) || navigator.userAgent.match(/Android/i)) {
+      	   $("#liveVideo").append("<video id='i7b70ijc' width='100%' height='600' poster='http://live.polyv.net/images/cover_image.jpg' src='http://rlive.videocc.net/record//i7b70ijc/playlist.m3u8'  preload controls></video>");
+         } else {
+      	   $("#liveVideo").append("<object classid='clsid:d27cdb6e-ae6d-11cf-96b8-444553540000' width='100%' height='600' id='006ef93f-8d4e-4ad9-8f12-39f573f13f7a'><param name='movie' value='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf'/><param name='allowscriptaccess' value='always' /><param name='allowfullscreen' value='true' /><embed src='http://liveplayer.polyv.net/player/i7b6vfpw/i7b70ijc.swf' width='100%' height='600'  type='application/x-shockwave-flash' allowscriptaccess='always' name='006ef93f-8d4e-4ad9-8f12-39f573f13f7a' allowfullscreen='true' /></embed></object>");
+         }
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
