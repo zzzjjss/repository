@@ -21,7 +21,7 @@
 <link href="${context}/js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
 <title>西北大宗直播室</title>
 <style type="text/css">
-.qqLink {margin-top:5px;}
+.qqLink {margin-top:30px;}
 
 </style>
 </head>
@@ -29,9 +29,21 @@
 <!--[if IE 7 ]>    
 	
 	<div class="container-fluid">
-	<div class="row" >
-			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('${context}/images/topBg.jpg')">
-						<div class="btn-group" role="group" aria-label="Justified button group" >
+	<div class="row" style="background-image: url('${context}/images/topBg.jpg');margin-bottom:0px;height: 75px;">
+				<div class="col-xs-6" style="text-align: left;height: 70px;">
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服1</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=285171005&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服2</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710059&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服3</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710060&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服4</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710068&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服5</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710069&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服6</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710070&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服7</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710075&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服8</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710076&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服9</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710077&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服0</a>
+					</div>
+					
+						<div class="col-xs-6" role="group" aria-label="Justified button group" style="text-align: right;">
 							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="${context}/images/a.png" title="白银ETF"><br>白银ETF</a>
 							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="${context}/images/b.png" title="黄金ETF"><br>黄金ETF</a>
 							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="${context}/images/c.png" title="财经日历"><br>财经日历</a>
@@ -44,13 +56,11 @@
 							</c:if>
 						</div>
 						
-			</div>
 			
 	</div>
 		<div class="row">
 			<div class="col-xs-4" style="padding-right:2px;padding-left:2px;" id="leftPart">
-				
-						<div class="panel panel-primary" style="margin-bottom: 1px;height: 250px;">
+						<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
 							<div class="panel-heading" style="background-image: url(${context}/images/logo.jpg);height: 70px;"></div>
 							<div class="panel-body" style="padding: 0px;">
 								<div class="tabbable" style="padding-top: 2px;">
@@ -85,22 +95,7 @@
 						</div>
 					</div>
 					
-					<div class="panel panel-primary">
-						<div class="panel-heading" style="background-image: url(${context}/images/kefuzhongxin.png);height: 80px;">
-						</div>
-						<div class="panel-body" style="height: 100px;">
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服1</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=285171005&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服2</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710059&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服3</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710060&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服4</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710068&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服5</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710069&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服6</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710070&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服7</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710075&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服8</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710076&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服9</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710077&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服0</a>
-						</div>
-					</div>
+					
 				
 				
 			</div>
@@ -108,7 +103,7 @@
 			
 			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;">
 				<div class="panel panel-primary">
-					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
+					<div class="panel-body" id="chatContent" style="height: 550px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
 						
 					</div>
 					<div class="panel-footer" id="chatInput" > 
@@ -134,7 +129,7 @@
 					</div>
 				</div>
 				<div class="panel panel-default">
-					<div class="panel-body" style="height: 250px;overflow: auto;padding: 0px;">
+					<div class="panel-body" style="height: 220px;overflow: auto;padding: 0px;">
 						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
 							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('${context}/images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
 							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('${context}/images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
@@ -145,13 +140,27 @@
 			</div>
 		</div>
 	</div>
+
+	
 	
  <![endif]-->
  <!--[if (gt IE 7)|!(IE)]><!-->
 	<div class="container-fluid">
-	<div class="row" >
-			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('${context}/images/topBg.jpg')">
-						<div class="btn-group" role="group" aria-label="Justified button group" >
+	<div class="row" style="background-image: url('${context}/images/topBg.jpg');margin-bottom:0px;height: 75px;">
+				<div class="col-xs-6" style="text-align: left;height: 70px;">
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服1</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=285171005&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服2</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710059&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服3</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710060&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服4</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710068&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服5</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710069&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服6</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710070&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服7</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710075&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服8</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710076&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服9</a>
+						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710077&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服0</a>
+					</div>
+					
+						<div class="col-xs-6" role="group" aria-label="Justified button group" style="text-align: right;">
 							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="${context}/images/a.png" title="白银ETF"><br>白银ETF</a>
 							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="${context}/images/b.png" title="黄金ETF"><br>黄金ETF</a>
 							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="${context}/images/c.png" title="财经日历"><br>财经日历</a>
@@ -164,13 +173,11 @@
 							</c:if>
 						</div>
 						
-			</div>
 			
 	</div>
 		<div class="row">
 			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;" id="leftPart">
-				
-						<div class="panel panel-primary" style="margin-bottom: 1px;height: 250px;">
+						<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
 							<div class="panel-heading" style="background-image: url(${context}/images/logo.jpg);height: 70px;"></div>
 							<div class="panel-body" style="padding: 0px;">
 								<div class="tabbable" style="padding-top: 2px;">
@@ -205,22 +212,7 @@
 						</div>
 					</div>
 					
-					<div class="panel panel-primary">
-						<div class="panel-heading" style="background-image: url(${context}/images/kefuzhongxin.png);height: 80px;">
-						</div>
-						<div class="panel-body" style="height: 100px;">
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服1</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=285171005&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服2</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710059&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服3</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710060&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服4</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710068&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服5</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710069&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服6</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710070&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服7</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710075&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服8</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710076&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服9</a>
-							<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710077&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服0</a>
-						</div>
-					</div>
+					
 				
 				
 			</div>
@@ -228,7 +220,7 @@
 			
 			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;">
 				<div class="panel panel-primary">
-					<div class="panel-body" id="chatContent" style="height: 600px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
+					<div class="panel-body" id="chatContent" style="height: 550px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
 						
 					</div>
 					<div class="panel-footer" id="chatInput" > 
@@ -254,7 +246,7 @@
 					</div>
 				</div>
 				<div class="panel panel-default">
-					<div class="panel-body" style="height: 250px;overflow: auto;padding: 0px;">
+					<div class="panel-body" style="height: 220px;overflow: auto;padding: 0px;">
 						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
 							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('${context}/images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
 							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('${context}/images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
