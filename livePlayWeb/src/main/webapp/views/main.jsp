@@ -237,6 +237,7 @@
 				<div class="panel panel-primary" style="margin-bottom: 5px;">
 					<div class="panel-heading" style="text-align: center;">
 						在线用户&nbsp;&nbsp;<span class="badge" id="userCount">0</span>
+						游客&nbsp;&nbsp;<span class="badge" id="unknowCount">0</span>
 					</div>
 					<div class="panel-body" style="height: 550px;overflow: auto;padding: 0px;">
 						 <table class="table table-hover" id="onLineUsers">
@@ -290,6 +291,9 @@
 		ue=UE.getEditor('editor',{toolbars:[['snapscreen', 'wordimage','simpleupload','emotion']],elementPathEnabled:false,
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
+		if(userRole=="unknow"){
+			sessionId="unknow";
+		}
 		socket = io.connect("http://${socketIoAddress}?sessionId="+sessionId,{'reconnection delay' : 200000000000});
 		socket.on('chatMessageEvent', function(data) {
 				onChatMessage(data);
@@ -306,6 +310,9 @@
 	  	});
 		socket.on('shutupEvent', function(data) {
 			onShutupMessage(data);
+	  	});
+		socket.on('allUnknowCountEvent', function(data) {
+			allUnknowCount(data);
 	  	});
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();
@@ -466,12 +473,13 @@
 	 function allOnlineUserMessage(message){
 		 var onlineUsers=message.userNames;
     		for(var i=0;i<onlineUsers.length;i++){
-    			if(onlineUsers[i]==userName){
-    				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
-    			}else{
-    				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+    			if($("#onLineUsers #"+onlineUsers[i]).length==0){
+    				if(onlineUsers[i]==userName){
+        				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
+        			}else{
+        				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+        			}	
     			}
-    			
     		}
     		updateUserCount();
 	 }
@@ -479,7 +487,11 @@
 	 function onShutupMessage(messageJson){
 		 isShutup=true;
 	 }
-	   
+	 function allUnknowCount(dataJson){
+		 $("#unknowCount").text(dataJson.count); 
+	 }
+	
+	 
 	  function logout(){
 		  socket.close();
 		  var url="${context}/controller/logout.do";

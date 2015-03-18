@@ -6,4 +6,7 @@ public class Events {
 	public static final String SHUTUP_EVENT="shutupEvent";
 	public static final String USER_OFFLINE_EVENT="userOffLineEvent";
 	public static final String USER_ONLINE_EVENT="userOnLineEvent";
+	public static final String UNKNOW_ON_LINE="unknowOnLineEvent";
+	public static final String UNKNOW_OFF_LINE="unknowOffLineEvent";
+	public static final String ALL_UNKNOW_COUNT="allUnknowCountEvent";
 }
