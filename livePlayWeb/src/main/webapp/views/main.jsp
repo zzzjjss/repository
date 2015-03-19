@@ -26,125 +26,15 @@
 </style>
 </head>
 <body onUnload="myClose()">
-<!--[if IE 7 ]>    
+<!--[if lte IE 8 ]>    
 	
 	<div class="container-fluid">
-	<div class="row" style="background-image: url('${context}/images/topBg.jpg');margin-bottom:0px;height: 75px;">
-				<div class="col-xs-6" style="text-align: left;height: 70px;">
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服1</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=285171005&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服2</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710059&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服3</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710060&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服4</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710068&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服5</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710069&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服6</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710070&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服7</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710075&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服8</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710076&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服9</a>
-						<a class="btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710077&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="${context}/images/qq.jpg">&nbsp;&nbsp;客服0</a>
-					</div>
-					
-						<div class="col-xs-6" role="group" aria-label="Justified button group" style="text-align: right;">
-							<a href="http://www.k1600.com/etf/silver.html" target="_blank"  class="btn btn-default" role="button" ><img src="${context}/images/a.png" title="白银ETF"><br>白银ETF</a>
-							<a href="http://www.k1600.com/etf/gold.html" target="_blank" class="btn btn-default" role="button" ><img src="${context}/images/b.png" title="黄金ETF"><br>黄金ETF</a>
-							<a href="http://www.k1600.com/rili" target="_blank"  class="btn btn-default" role="button"><img src="${context}/images/c.png" title="财经日历"><br>财经日历</a>
-							<a href="#" onclick="editUserInfo()" class="btn btn-default" role="button"><img src="${context}/images/user.png"><br>${user.name}</a>
-							<c:if test="${ user.role =='unknow'  }">
-							<a href="${context}/login.html"  class="btn btn-default" role="button"><img src="${context}/images/logout.png"><br>登录</a>
-							</c:if>
-							<c:if test="${ user.role !='unknow'  }">
-							<a href="#" onclick="logout()" class="btn btn-default" role="button"><img src="${context}/images/logout.png"><br>退出</a>
-							</c:if>
-						</div>
-						
-			
+		&nbsp;IE浏览器版本太低，请升级IE到版本9，或者使用火狐浏览器！下载地址：<a href="http://www.firefox.com.cn/" target="blank">http://www.firefox.com.cn/</a>
 	</div>
-		<div class="row">
-			<div class="col-xs-4" style="padding-right:2px;padding-left:2px;" id="leftPart">
-						<div class="panel panel-primary" style="margin-bottom: 1px;height: 300px;">
-							<div class="panel-heading" style="background-image: url(${context}/images/logo.jpg);height: 70px;"></div>
-							<div class="panel-body" style="padding: 0px;">
-								<div class="tabbable" style="padding-top: 2px;">
-									<ul class="nav nav-tabs">
-										<li class="active"><a href="#tab1" data-toggle="tab" style="font-weight: 900;">公告</a></li>
-										<li><a href="#tab2" data-toggle="tab" style="font-weight: 900;">操作建议</a></li>
-										<li><a href="#tab3" data-toggle="tab" style="font-weight: 900;">版权声明</a></li>
-									</ul>
-									<div class="tab-content">
-										<div class="tab-pane active" id="tab1" style="padding: 15px">
-											<p style="font-size: 12px;">
-												投资有风险，入市需谨慎，选择正规平台，远离小平台：<br>
-												1、国内平台较多，具备优资质的并不多，请确认是否具备政府批文，选择合法平台。<br>
-												2、国内现货白银报价以国际价格为基础，综合中国人民银行人民币兑美元基准汇率，连续报出现货白银人民币买入价及卖出价。西北大宗直播室作为交流、学习平台，老师对行情分析及建议均用西北大宗行情软件报价，请您根据个人投资情况，理性分析，充分考虑。<br>
-												3、请您理性分析，切记带好止损止盈，不骄不躁，把控风险。
-											</p>
-										</div>
-										<div class="tab-pane" id="tab2" style="padding: 15px">
-											<p style="font-size: 12px;">&nbsp;&nbsp;更多操作建议，请联系直播室QQ客服！</p>
-										</div>
-										<div class="tab-pane" id="tab3" style="padding: 15px">
-											<p style="font-size: 12px;">&nbsp;&nbsp;本直播室所有内容，包括文字、图像、音频、视频只供本公司或授权者使用，访问者可将本网站提供的内容或服务用于个人学习或欣赏，以及其他非商业性或非盈利性用途；没有本公司的书面授权，不得因任何目的，以任何方式如电子的、转载或其它方式，包括影印和记录，复制和传播本直播室的任何部分。</p>
-										</div>
-									</div>
-								</div>
-							</div>
-					</div>
-
-					<div class="panel panel-primary" style="margin-bottom: 1px;">
-						<div class="panel-body" style="padding: 0px;" id="liveVideo">
-							
-						</div>
-					</div>
-					
-					
-				
-				
-			</div>
-			
-			
-			<div class="col-xs-5" style="padding-right:2px;padding-left:2px;">
-				<div class="panel panel-primary">
-					<div class="panel-body" id="chatContent" style="height: 550px;overflow: auto;background-image: url('${context}/images/chatBg.png')"> 
-						
-					</div>
-					<div class="panel-footer" id="chatInput" > 
-						<script id="editor" type="text/plain" style="width:100%;height:150px;"></script>
-						<button type="button" class="btn btn-default btn-lg" onclick="sendMsg()">
-  								<span class="glyphicon glyphicon-send" aria-hidden="true"></span> 发送
-						</button>
-					</div>
-				</div>
-			</div>
-			
-			
-			<div class="col-xs-2" style="padding-right:2px;padding-left:2px;">
-				<div class="panel panel-primary" style="margin-bottom: 5px;">
-					<div class="panel-heading" style="text-align: center;">
-						在线用户&nbsp;&nbsp;<span class="badge" id="userCount">0</span>
-					</div>
-					<div class="panel-body" style="height: 550px;overflow: auto;padding: 0px;">
-						 <table class="table table-hover" id="onLineUsers">
-    						
-  						</table>	
-						
-					</div>
-				</div>
-				<div class="panel panel-default">
-					<div class="panel-body" style="height: 220px;overflow: auto;padding: 0px;">
-						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
-							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('${context}/images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
-							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('${context}/images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
-							<a href="#" onclick="vote('down')" class="btn btn-default" role="button" style="background-image:url('${context}/images/down.png'); width: 65px;color: #ff0;text-align: right;">看空<br><span id="downValue"></span></a>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-
 	
 	
  <![endif]-->
- <!--[if (gt IE 7)|!(IE)]><!-->
+ <!--[if (gt IE 8)|!(IE)]><!-->
 	<div class="container-fluid">
 	<div class="row" style="background-image: url('${context}/images/topBg.jpg');margin-bottom:0px;height: 75px;">
 				<div class="col-xs-6" style="text-align: left;height: 70px;">
@@ -272,7 +162,7 @@
 			</div>
 		</form>
 	</div>
-<!--<![endif]-->
+
            
 	<script type="text/javascript">
 	var userName="${user.name}";
@@ -525,6 +415,7 @@
 		  socket.close();
 	  }
 </script>
+<!--<![endif]-->
 </body>
 
 </html>

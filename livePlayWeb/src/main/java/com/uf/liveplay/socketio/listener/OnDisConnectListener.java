@@ -36,13 +36,11 @@ public class OnDisConnectListener implements DisconnectListener{
 			AllOnlineUsersMessage allOnlineUsersMsg = new AllOnlineUsersMessage();
 			Set<String> userNames = new HashSet<String>();
 			for (SocketIOClient c : server.getAllClients()) {
-				if (c.isChannelOpen()) {
-					Object clientSessionId= c.get("sessionId");
-					if(clientSessionId!=null){
-						User sessionUser = SessionCache.findUser((String)clientSessionId);
-						if (sessionUser != null) {
-							userNames.add(sessionUser.getName());
-						}
+				Object clientSessionId= c.get("sessionId");
+				if(clientSessionId!=null){
+					User sessionUser = SessionCache.findUser((String)clientSessionId);
+					if (sessionUser != null) {
+						userNames.add(sessionUser.getName());
 					}
 				}
 			}
@@ -52,11 +50,9 @@ public class OnDisConnectListener implements DisconnectListener{
 		}else if(sessionId!=null&&"unknow".equals(sessionId)){
 			int unKnowCount=0;
 			for (SocketIOClient c : server.getAllClients()) {
-				if (c.isChannelOpen()) {
-					Object clientSessionId= c.get("sessionId");
-					if(clientSessionId!=null&&"unknow".equals((String)clientSessionId)){
-						unKnowCount++;
-					}
+				Object clientSessionId= c.get("sessionId");
+				if(clientSessionId!=null&&"unknow".equals((String)clientSessionId)){
+					unKnowCount++;
 				}
 			}
 			AllUnknowUserCountMessage allUnKnow=new AllUnknowUserCountMessage();

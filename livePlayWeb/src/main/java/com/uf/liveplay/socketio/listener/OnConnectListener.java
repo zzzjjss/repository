@@ -45,17 +45,14 @@ public class OnConnectListener implements ConnectListener{
 		}
 			
 		for (SocketIOClient c : server.getAllClients()) {
-			if (c.isChannelOpen()) {
-				Object clientSessionId= c.get("sessionId");
-				if(clientSessionId!=null){
-					User sessionUser = SessionCache.findUser((String)clientSessionId);
-					if (sessionUser != null) {
-						userNames.add(sessionUser.getName());
-					}else if("unknow".equals(clientSessionId)){
-						unKnowCount++;
-					}
+			Object clientSessionId= c.get("sessionId");
+			if(clientSessionId!=null){
+				User sessionUser = SessionCache.findUser((String)clientSessionId);
+				if (sessionUser != null) {
+					userNames.add(sessionUser.getName());
+				}else if("unknow".equals(clientSessionId)){
+					unKnowCount++;
 				}
-				
 			}
 		}
 		AllUnknowUserCountMessage allUnKnow=new AllUnknowUserCountMessage();
