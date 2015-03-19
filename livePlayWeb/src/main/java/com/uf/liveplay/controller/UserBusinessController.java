@@ -18,6 +18,7 @@ import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.socketio.SocketIoServer;
 import com.uf.liveplay.unit.ConfigVariable;
 import com.uf.liveplay.unit.RegistFilter;
+import com.uf.liveplay.unit.SessionCache;
 import com.uf.liveplay.unit.UnknowUserFilter;
 
 @Controller
@@ -51,7 +52,6 @@ public class UserBusinessController {
 		String oldPwd=allRequestParams.get("oldPassword");
 		String newPwd=allRequestParams.get("newPassword");
 		String phone=allRequestParams.get("phone");
-		
 		try {
 			User user=userService.findUserById(Integer.parseInt(userId));
 			if(user==null){
@@ -74,9 +74,13 @@ public class UserBusinessController {
 	public String login(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
 		String userName=allRequestParams.get("userName");
 		String password=allRequestParams.get("password");
+		User user=userService.findUserByName(userName);
+		if(user!=null&&SessionCache.findUserSessionIdByUserId(user.getId())!=null){
+			return "用户已登录。";
+		}
 		try{
 			if(userService.login(userName,password)){
-				User user=userService.findUserByName(userName);
+				
 				request.getSession().setAttribute("user", user);
 				return "ok";
 			}else{
