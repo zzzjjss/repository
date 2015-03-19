@@ -25,7 +25,7 @@
 
 </style>
 </head>
-<body>
+<body onUnload="myClose()">
 <!--[if IE 7 ]>    
 	
 	<div class="container-fluid">
@@ -303,10 +303,10 @@
 			allOnlineUserMessage(data);
 	  	});
 		socket.on('userOffLineEvent', function(data) {
-			userOfflineMessage(data);
+			//userOfflineMessage(data);
 	  	});
 		socket.on('userOnLineEvent', function(data) {
-			userOnlineMessage(data);
+			//userOnlineMessage(data);
 	  	});
 		socket.on('shutupEvent', function(data) {
 			onShutupMessage(data);
@@ -333,6 +333,15 @@
 		 $("#userCount").text($("#onLineUsers tr").length);
 	}
 	function vote(str){
+		if(userRole=="unknow"){
+			easyDialog.open({
+				  container : {
+				    header : '失败',
+				    content : '游客不允许投票！'
+				  }
+				});
+			return ;
+		}
 		var url="${context}/vote.do?vote="+str;
 		$.post(url,function(result){
 			if(result=="ok"){
@@ -452,6 +461,10 @@
    		if(textLength>(panelWidth-100)){
    			textLength=panelWidth-100;
    		}
+   		var keepMessage=200;
+   		if($("#chatContent").children("div").size()>=keepMessage){
+   			$("#chatContent").children(":lt(2)").remove();
+   		}
        	if(messageJson.sender==userName){
        		$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");	
        	}else{
@@ -471,17 +484,17 @@
     		updateUserCount();
 	 }
 	 function allOnlineUserMessage(message){
-		 var onlineUsers=message.userNames;
-    		for(var i=0;i<onlineUsers.length;i++){
-    			if($("#onLineUsers #"+onlineUsers[i]).length==0){
-    				if(onlineUsers[i]==userName){
-        				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
-        			}else{
-        				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
-        			}	
-    			}
-    		}
-    		updateUserCount();
+		var onlineUsers=message.userNames;
+		$("#onLineUsers").empty();
+   		for(var i=0;i<onlineUsers.length;i++){
+			if(onlineUsers[i]==userName){
+   				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
+   			}else{
+   				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+   			}	
+   		}
+   		
+   		$("#userCount").text(onlineUsers.length);
 	 }
 	 
 	 function onShutupMessage(messageJson){
@@ -507,6 +520,9 @@
 						});
 				}
 			});
+	  }
+	  function myClose(){
+		  socket.close();
 	  }
 </script>
 </body>

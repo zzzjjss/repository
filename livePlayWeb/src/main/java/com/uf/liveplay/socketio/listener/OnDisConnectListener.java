@@ -1,6 +1,8 @@
 package com.uf.liveplay.socketio.listener;
 
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.websocket.Session;
 
@@ -11,6 +13,7 @@ import com.corundumstudio.socketio.SocketIOServer;
 import com.corundumstudio.socketio.listener.DisconnectListener;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.socketio.Events;
+import com.uf.liveplay.socketio.message.AllOnlineUsersMessage;
 import com.uf.liveplay.socketio.message.AllUnknowUserCountMessage;
 import com.uf.liveplay.socketio.message.UserOfflineMessage;
 import com.uf.liveplay.unit.SessionCache;
@@ -30,13 +33,22 @@ public class OnDisConnectListener implements DisconnectListener{
 			user = SessionCache.findUser((String) sessionId);
 		}
 		if (user != null) {
-			UserOfflineMessage offline = new UserOfflineMessage();
-			offline.setUserName(user.getName());
+			AllOnlineUsersMessage allOnlineUsersMsg = new AllOnlineUsersMessage();
+			Set<String> userNames = new HashSet<String>();
 			for (SocketIOClient c : server.getAllClients()) {
 				if (c.isChannelOpen()) {
-					c.sendEvent(Events.USER_OFFLINE_EVENT, offline);
+					Object clientSessionId= c.get("sessionId");
+					if(clientSessionId!=null){
+						User sessionUser = SessionCache.findUser((String)clientSessionId);
+						if (sessionUser != null) {
+							userNames.add(sessionUser.getName());
+						}
+					}
 				}
 			}
+			allOnlineUsersMsg.setUserNames(userNames);
+			server.getBroadcastOperations().sendEvent(Events.ALL_ON_LINE_USER_EVENT, allOnlineUsersMsg);
+			
 		}else if(sessionId!=null&&"unknow".equals(sessionId)){
 			int unKnowCount=0;
 			for (SocketIOClient c : server.getAllClients()) {

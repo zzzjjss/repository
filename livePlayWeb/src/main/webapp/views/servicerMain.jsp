@@ -18,7 +18,7 @@
 <title>西北大宗直播室客服</title>
  
 </head>
-<body>
+<body onunload="myClose()">
 	
 	<div class="container-fluid">
 	<div class="row" >
@@ -120,13 +120,13 @@
 
 		socket.on('allOnLineUserEvent', function(data) {
 			allOnlineUserMessage(data);
-		 	});
+		 });
 		socket.on('userOffLineEvent', function(data) {
-			userOfflineMessage(data);
-		 	});
+			//userOfflineMessage(data);
+		 });
 		socket.on('userOnLineEvent', function(data) {
-			userOnlineMessage(data);
-		 	});
+			//userOnlineMessage(data);
+		 });
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		$("#addCommonUser").dialog({title:"Add", autoOpen: false});
 		loadAllUser();
@@ -193,6 +193,10 @@
    		if(textLength>(panelWidth-100)){
    			textLength=panelWidth-100;
    		}
+   		var keepMessage=300;
+   		if($("#chatContent").children("div").size()>=keepMessage){
+   			$("#chatContent").children(":lt(2)").remove();
+   		}
        	if(messageJson.sender==userName){
        		$("#chatContent").append("<div style='display: flex'><img src='${context}/images/speaker.png'><div>"+messageJson.sender+":&nbsp;&nbsp;&nbsp;&nbsp;<br><div class='panel panel-default' style='width:"+textLength+"px;padding:5px;margin-bottom: auto'>"+messageJson.message+"</div></div></div><br>");	
        	}else{
@@ -213,15 +217,16 @@
 	 }
 	 function allOnlineUserMessage(message){
 		 var onlineUsers=message.userNames;
-    		for(var i=0;i<onlineUsers.length;i++){
-    			if(onlineUsers[i]==userName){
-    				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
-    			}else{
-    				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
-    			}
-    			
-    		}
-    		updateUserCount();
+		$("#onLineUsers").empty();
+   		for(var i=0;i<onlineUsers.length;i++){
+			if(onlineUsers[i]==userName){
+   				$("#onLineUsers").append("<tr class='success' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");
+   			}else{
+   				$("#onLineUsers").append("<tr class='info' id='"+onlineUsers[i]+"'><td><span class='glyphicon glyphicon-user' aria-hidden='true'></span>&nbsp;&nbsp;&nbsp;&nbsp;"+onlineUsers[i]+"</td></tr>");	
+   			}	
+   		}
+   		
+   		$("#userCount").text(onlineUsers.length);
 	 }
 	
 	   
@@ -380,7 +385,9 @@
 			}
 		);
 	}
-	  
+	function myClose(){
+		  socket.close();
+	  }
 </script>
 </body>
 

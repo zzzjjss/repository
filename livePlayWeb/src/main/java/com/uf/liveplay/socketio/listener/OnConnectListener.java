@@ -32,9 +32,9 @@ public class OnConnectListener implements ConnectListener{
 		int unKnowCount=0;
 		Set<String> userNames = new HashSet<String>();
 		if (user != null) {
-			UserOnlineMessage online = new UserOnlineMessage();
-			online.setUserName(user.getName());
-			server.getBroadcastOperations().sendEvent(Events.USER_ONLINE_EVENT, online);
+			//UserOnlineMessage online = new UserOnlineMessage();
+			//online.setUserName(user.getName());
+			//server.getBroadcastOperations().sendEvent(Events.USER_ONLINE_EVENT, online);
 			userNames.add(user.getName());
 			client.set("sessionId", sessionId);
 		} else {
@@ -62,7 +62,7 @@ public class OnConnectListener implements ConnectListener{
 		allUnKnow.setCount(unKnowCount);
 		server.getBroadcastOperations().sendEvent(Events.ALL_UNKNOW_COUNT, allUnKnow);
 		allOnlineUsersMsg.setUserNames(userNames);
-		client.sendEvent(Events.ALL_ON_LINE_USER_EVENT, allOnlineUsersMsg);
+		server.getBroadcastOperations().sendEvent(Events.ALL_ON_LINE_USER_EVENT, allOnlineUsersMsg);
 	}
 
 }
