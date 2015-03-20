@@ -14,12 +14,12 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet Filter implementation class LoginFilter
  */
-public class LoginFilter implements Filter {
+public class ServicerLoginFilter implements Filter {
 
     /**
      * Default constructor. 
      */
-    public LoginFilter() {
+    public ServicerLoginFilter() {
         // TODO Auto-generated constructor stub
     }
 

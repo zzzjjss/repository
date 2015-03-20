@@ -12,19 +12,31 @@
     <servlet-name>Web</servlet-name>
     <url-pattern>*.do</url-pattern>
   </servlet-mapping>
-   <filter>
+  <filter>
     <display-name>LoginFilter</display-name>
     <filter-name>LoginFilter</filter-name>
-    <filter-class>com.uf.liveplay.filter.LoginFilter</filter-class>
+    <filter-class>com.uf.liveplay.filter.ServicerLoginFilter</filter-class>
   </filter>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
     <url-pattern>/servicer/control/*</url-pattern>
+  </filter-mapping>
+  <filter>
+    <display-name>TeacherLoginFilter</display-name>
+    <filter-name>TeacherFilter</filter-name>
+    <filter-class>com.uf.liveplay.filter.TeacherLoginFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>TeacherFilter</filter-name>
+    <url-pattern>/teacher/control/*</url-pattern>
   </filter-mapping>
   <listener>
     <listener-class>com.uf.liveplay.listener.MySessionListener</listener-class>
   </listener>
   <listener>
     <listener-class>com.uf.liveplay.listener.MySessionAttributeListener</listener-class>
+  </listener>
+  <listener>
+    <listener-class>com.uf.liveplay.listener.MyServletContextAttributeListener</listener-class>
   </listener>
 </web-app>

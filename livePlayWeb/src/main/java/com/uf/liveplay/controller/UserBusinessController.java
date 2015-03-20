@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.socketio.SocketIoServer;
@@ -80,7 +81,6 @@ public class UserBusinessController {
 //		}
 		try{
 			if(userService.login(userName,password)){
-				
 				request.getSession().setAttribute("user", user);
 				return "ok";
 			}else{
@@ -141,8 +141,14 @@ public class UserBusinessController {
 			}
 			
 		}
-		model.addAttribute("rtmpAddress", config.getRtmpServerAddress());
-		model.addAttribute("wsAddress", config.getWebSocketAddress());
+		Object cuTeacher=request.getServletContext().getAttribute("currentTeacher");
+		String teacherName="黄老师";
+		if(cuTeacher!=null  && cuTeacher instanceof Teacher){
+			Teacher teacher=(Teacher)cuTeacher;
+			teacherName=teacher.getRealName();
+			
+		}
+		model.addAttribute("currentTeacher", teacherName);
 		model.addAttribute("socketIoAddress", socketIoServer.getHostName()+":"+socketIoServer.getPort());
 		return "main";
 	}

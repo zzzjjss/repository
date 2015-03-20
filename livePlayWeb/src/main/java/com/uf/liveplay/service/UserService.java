@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.uf.liveplay.entity.Servicer;
+import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.entity.User;
 
 public interface UserService {
@@ -23,4 +24,10 @@ public interface UserService {
 	public void saveServicerInfo(Servicer servicer);
 	public Servicer findServicerByName(String userName);
 	public Servicer findServicerById(Integer userId);
+	
+	
+	public boolean teacherLogin(String userName,String password);
+	public void saveTeacherInfo(Teacher servicer);
+	public Teacher findTeacherByName(String userName);
+	public Teacher findTeacherById(Integer userId);
 }

@@ -41,6 +41,8 @@ public class OnConnectListener implements ConnectListener{
 			if("unknow".equals(sessionId)){
 				client.set("sessionId", "unknow");
 				unKnowCount++;
+			}else if("teacher".equals(sessionId)){
+				client.set("sessionId", "teacher");
 			}
 		}
 			

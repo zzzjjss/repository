@@ -12,6 +12,7 @@ import com.uf.liveplay.socketio.listener.UserOfflineEventListener;
 import com.uf.liveplay.socketio.listener.UserOnlineEventListener;
 import com.uf.liveplay.socketio.message.AllOnlineUsersMessage;
 import com.uf.liveplay.socketio.message.ChatMessage;
+import com.uf.liveplay.socketio.message.CurrentTeacher;
 import com.uf.liveplay.socketio.message.ShutupMessage;
 import com.uf.liveplay.socketio.message.UserOfflineMessage;
 import com.uf.liveplay.socketio.message.UserOnlineMessage;
@@ -34,8 +35,8 @@ public class SocketIoServer {
 	public void setPort(int port) {
 		this.port = port;
 	}
-
 	public SocketIoServer(){
+		System.out.println("start new SocketIoServer");
 		Configuration config = new Configuration();
 	    config.setHostname(hostName);
 	    config.setPort(port);
@@ -55,6 +56,7 @@ public class SocketIoServer {
         server.addConnectListener(onConnListener);
         server.addDisconnectListener(disConListener);
         server.start();
+        System.out.println("SocketIoServer started");
 	}
 	 public void shutupUserMouth(Integer userId){
 		 
@@ -70,4 +72,9 @@ public class SocketIoServer {
 				}
 			}
 	    }
+	 public void switchCurrentTeacher(String teacherName){
+		 CurrentTeacher teacher=new CurrentTeacher(); 
+		 teacher.setTeacherName(teacherName);
+		 server.getBroadcastOperations().sendEvent(Events.SWITCH_TEACHER, teacher);
+	 }
 }

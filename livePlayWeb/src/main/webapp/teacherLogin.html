@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="js/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/unit.js"></script>
+<script type="text/javascript" src="js/easydialog-v2.0/easydialog.min.js"></script>
+<link href="js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
+<link href="js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
+
+</head>
+<body>
+	<div class="container">
+		<div class="col-xs-4"></div>
+		<div class="col-xs-4" style="padding-top: 300px;">
+			<div class="panel panel-primary">
+				<div class="panel-heading">老师登录</div>
+				<div class="panel-body">
+					<div class="form-group ">
+						<input type="text" id="userName" class="form-control"
+							placeholder="用户名" required="" autofocus="">
+					</div>
+					<div class="form-group">
+						<input type="password" id="password" class="form-control"
+							placeholder="密码" required="" />
+					</div>
+				</div>
+				<div class="panel-footer" style="text-align: center;">
+					<button class="btn btn-primary btn-lg "  onclick="login()">登录</button>
+				</div>
+			</div>
+
+		</div>
+		<div class="col-xs-4"></div>
+	</div>
+
+<script type="text/javascript">
+	function login(){
+		var userName=$("#userName").val();
+		var password=$("#password").val();
+		if(stringIsEmpty(userName)||stringIsEmpty(password)){
+			easyDialog.open({
+				  container : {
+				    header : '错误',
+				    content : '用户名和密码不能为空！'
+				  }
+				});
+			return;
+		}
+		var url="teacher/login.do";
+		var data="userName="+userName+"&password="+password;
+		
+		$.post(url,data,function(result){
+			if(result=="ok"){
+				window.location.href="/teacher/control/teacherMain.do";
+			}else{
+				easyDialog.open({
+					  container : {
+					    header : '错误',
+					    content : result
+					  }
+					});
+			}
+		});
+		
+	}
+
+
+</script>
+</body>
+</html>

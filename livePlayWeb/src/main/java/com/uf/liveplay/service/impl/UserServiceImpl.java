@@ -7,10 +7,13 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.liveplay.dao.PublicMessageDao;
 import com.uf.liveplay.dao.ServicerDao;
+import com.uf.liveplay.dao.TeacherDao;
 import com.uf.liveplay.dao.UserDao;
 import com.uf.liveplay.dao.VoteDao;
 import com.uf.liveplay.entity.Servicer;
+import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.entity.Vote;
 import com.uf.liveplay.service.UserService;
@@ -26,6 +29,38 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private ServicerDao servicerDao;
 	
+	@Autowired
+	private PublicMessageDao publicMessageDao;
+	
+	@Autowired
+	private TeacherDao teacherDao;
+	
+	
+	
+	public ServicerDao getServicerDao() {
+		return servicerDao;
+	}
+
+	public void setServicerDao(ServicerDao servicerDao) {
+		this.servicerDao = servicerDao;
+	}
+
+	public PublicMessageDao getPublicMessageDao() {
+		return publicMessageDao;
+	}
+
+	public void setPublicMessageDao(PublicMessageDao publicMessageDao) {
+		this.publicMessageDao = publicMessageDao;
+	}
+
+	public TeacherDao getTeacherDao() {
+		return teacherDao;
+	}
+
+	public void setTeacherDao(TeacherDao teacherDao) {
+		this.teacherDao = teacherDao;
+	}
+
 	public UserDao getUserDao() {
 		return userDao;
 	}
@@ -135,4 +170,30 @@ public class UserServiceImpl implements UserService{
 	public Servicer findServicerById(Integer userId){
 		return servicerDao.findById(Servicer.class, userId);
 	}
+	
+	
+	
+	public boolean teacherLogin(String userName,String password){
+		List<Teacher> users=teacherDao.findByHql("select u from Teacher u where u.userName=?", userName);
+		if(users!=null&&users.size()>0&&password!=null&&password.equals(users.get(0).getPassword())){
+			return true;
+		}else{
+			return false;
+		}
+	}
+	public void saveTeacherInfo(Teacher teacher){
+		teacherDao.saveOrUpdate(teacher);
+	}
+	public Teacher findTeacherByName(String userName){
+		List<Teacher> users=teacherDao.findByHql("select u from Teacher u where u.userName=?", userName);
+		if(users!=null&&users.size()>0){
+			return users.get(0);
+		}else{
+			return null;
+		}
+	}
+	public Teacher findTeacherById(Integer userId){
+		return teacherDao.findById(Teacher.class, userId);
+	}
+	
 }
