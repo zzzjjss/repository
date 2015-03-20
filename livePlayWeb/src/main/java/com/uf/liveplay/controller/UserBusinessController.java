@@ -107,6 +107,11 @@ public class UserBusinessController {
 			return "false";
 		}
 	}
+	@RequestMapping("/controller/keepSession")
+	@ResponseBody
+	public String keepSession(HttpServletRequest request){
+		return "";
+	}
 	
 	@RequestMapping("/views/popupQqRegine")
 	public String popupQqReginePage(){

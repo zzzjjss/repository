@@ -25,7 +25,7 @@
 
 </style>
 </head>
-<body onUnload="myClose()">
+<body>
 <!--[if lte IE 8 ]>    
 	
 	<div class="container-fluid">
@@ -204,6 +204,9 @@
 		socket.on('allUnknowCountEvent', function(data) {
 			allUnknowCount(data);
 	  	});
+		socket.on('disconnect', function(data) {
+			window.location.href="${context}/views/main.do";
+		 });
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();
 		if(userRole=="unknow"){
@@ -213,6 +216,13 @@
 					if(result=="false"){
 						window.location.href="${context}/views/popupQqRegine.do";
 					}
+				});
+			},60*1000);
+		}else{
+			window.setInterval(function(){
+				var url="${context}/controller/keepSession.do";
+				$.post(url,function(result){
+					
 				});
 			},60*1000);
 		}
@@ -411,9 +421,7 @@
 				}
 			});
 	  }
-	  function myClose(){
-		  socket.close();
-	  }
+	  
 </script>
 <!--<![endif]-->
 </body>
