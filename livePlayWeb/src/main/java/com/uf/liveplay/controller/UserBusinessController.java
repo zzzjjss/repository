@@ -75,9 +75,9 @@ public class UserBusinessController {
 		String userName=allRequestParams.get("userName");
 		String password=allRequestParams.get("password");
 		User user=userService.findUserByName(userName);
-		if(user!=null&&SessionCache.findUserSessionIdByUserId(user.getId())!=null){
-			return "用户已登录。";
-		}
+//		if(user!=null&&SessionCache.findUserSessionIdByUserId(user.getId())!=null){
+//			return "用户已登录。";
+//		}
 		try{
 			if(userService.login(userName,password)){
 				
