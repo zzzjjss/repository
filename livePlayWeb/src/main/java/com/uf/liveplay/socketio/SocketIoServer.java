@@ -13,6 +13,7 @@ import com.uf.liveplay.socketio.listener.UserOnlineEventListener;
 import com.uf.liveplay.socketio.message.AllOnlineUsersMessage;
 import com.uf.liveplay.socketio.message.ChatMessage;
 import com.uf.liveplay.socketio.message.CurrentTeacher;
+import com.uf.liveplay.socketio.message.PublicNewsMessage;
 import com.uf.liveplay.socketio.message.ShutupMessage;
 import com.uf.liveplay.socketio.message.UserOfflineMessage;
 import com.uf.liveplay.socketio.message.UserOnlineMessage;
@@ -77,4 +78,10 @@ public class SocketIoServer {
 		 teacher.setTeacherName(teacherName);
 		 server.getBroadcastOperations().sendEvent(Events.SWITCH_TEACHER, teacher);
 	 }
+	 public void publicNews(String newsContent){
+		 PublicNewsMessage news=new PublicNewsMessage(); 
+		 news.setContent(newsContent);
+		 server.getBroadcastOperations().sendEvent(Events.PUBLIC_NEWS ,news);
+	 }
+	 
 }

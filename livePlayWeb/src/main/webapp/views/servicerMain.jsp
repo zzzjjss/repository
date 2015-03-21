@@ -18,8 +18,16 @@
 <title>西北大宗直播室客服</title>
  
 </head>
-<body onunload="myClose()">
+<body>
+	<!--[if lte IE 7 ]>    
 	
+	<div class="container-fluid">
+		&nbsp;IE浏览器版本太低，请升级IE到版本8，或者使用火狐浏览器！下载地址：<a href="http://www.firefox.com.cn/" target="blank">http://www.firefox.com.cn/</a>
+	</div>
+	
+	
+ <![endif]-->
+ <!--[if (gt IE 7)|!(IE)]><!-->
 	<div class="container-fluid">
 	<div class="row" >
 			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('${context}/images/topBg.jpg')">
@@ -64,9 +72,10 @@
 								<table class="table table-condensed table-hover" id="userTable">
 									<thead>
 										<tr >
-											<th style="text-align: center;">User Name</th>
-											<th style="text-align: center;">Phone</th>
-											<th style="text-align: center;"></th>
+											<th style="text-align: left;">用户名</th>
+											<th style="text-align: left;">电话</th>
+											<th style="text-align: left;">创建时间</th>
+											<th style="text-align: left;"></th>
 										</tr>
 									</thead>
 									<tbody>
@@ -293,6 +302,7 @@
 				"columns": [
 					{data:"name"},
 					{data:"phone"},
+					{data:"createTime"},
 					{data:"id",render:function(data, type, row, meta){ return buildOperationgCell(data);}}
 				],
 				"rowCallback":function(row, data){
@@ -302,7 +312,7 @@
 				},
 				"columnDefs": [
 	            {
-	                "targets": [ 2 ],
+	                "targets": [ 3 ],
 	                "orderable": false,
 	                "searchable": false
 	            }
@@ -385,10 +395,9 @@
 			}
 		);
 	}
-	function myClose(){
-		  socket.close();
-	  }
+	
 </script>
+<!--<![endif]-->
 </body>
 
 </html>

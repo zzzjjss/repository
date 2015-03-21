@@ -3,6 +3,7 @@ package com.uf.liveplay.service;
 import java.util.List;
 import java.util.Map;
 
+import com.uf.liveplay.entity.PublicMessage;
 import com.uf.liveplay.entity.Servicer;
 import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.entity.User;
@@ -30,4 +31,7 @@ public interface UserService {
 	public void saveTeacherInfo(Teacher servicer);
 	public Teacher findTeacherByName(String userName);
 	public Teacher findTeacherById(Integer userId);
+	
+	public void savePublicMessage(PublicMessage message);
+	public PublicMessage findMessageByKey(String key);
 }

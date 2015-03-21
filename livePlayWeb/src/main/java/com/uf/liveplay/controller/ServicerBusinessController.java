@@ -1,5 +1,6 @@
 package com.uf.liveplay.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -132,6 +133,8 @@ public class ServicerBusinessController {
 				obj.put("id", user.getId());
 				obj.put("name", user.getName()==null?" ":user.getName());
 				obj.put("phone", user.getPhone()==null?" ":user.getPhone());
+				SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+				obj.put("createTime", user.getCreateTime()==null?"":formate.format(user.getCreateTime()));
 				jsonArray.add(obj);
 			}
 		}

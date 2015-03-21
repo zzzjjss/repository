@@ -26,15 +26,15 @@
 </style>
 </head>
 <body>
-<!--[if lte IE 8 ]>    
+<!--[if lte IE 7 ]>    
 	
 	<div class="container-fluid">
-		&nbsp;IE浏览器版本太低，请升级IE到版本9，或者使用火狐浏览器！下载地址：<a href="http://www.firefox.com.cn/" target="blank">http://www.firefox.com.cn/</a>
+		&nbsp;IE浏览器版本太低，请升级IE到版本8，或者使用火狐浏览器！下载地址：<a href="http://www.firefox.com.cn/" target="blank">http://www.firefox.com.cn/</a>
 	</div>
 	
 	
  <![endif]-->
- <!--[if (gt IE 8)|!(IE)]><!-->
+ <!--[if (gt IE 7)|!(IE)]><!-->
 	<div class="container-fluid">
 	<div class="row" >
 			<div class="panel panel-primary" style="margin-bottom:0px;height: 75px;text-align: right;background-image: url('${context}/images/topBg.jpg')">
@@ -57,21 +57,18 @@
 							<div class="panel-body" style="padding: 0px;">
 								<div class="tabbable" style="padding-top: 2px;">
 									<ul class="nav nav-tabs">
-										<li class="active"><a href="#tab1" data-toggle="tab" style="font-weight: 900;">老师公告</a></li>
-										<li><a href="#tab2" data-toggle="tab" style="font-weight: 900;">行情消息</a></li>
+										<li class="active"><a href="#tab1" data-toggle="tab" style="font-weight: 900;">行情消息</a></li>
+										
 									</ul>
 									<div class="tab-content">
-										<div class="tab-pane active" id="tab1" style="padding: 15px">
-											<p style="font-size: 12px;">
-												投资有风险，入市需谨慎，选择正规平台，远离小平台：<br>
-												1、国内平台较多，具备优资质的并不多，请确认是否具备政府批文，选择合法平台。<br>
-												2、国内现货白银报价以国际价格为基础，综合中国人民银行人民币兑美元基准汇率，连续报出现货白银人民币买入价及卖出价。西北大宗直播室作为交流、学习平台，老师对行情分析及建议均用西北大宗行情软件报价，请您根据个人投资情况，理性分析，充分考虑。<br>
-												3、请您理性分析，切记带好止损止盈，不骄不躁，把控风险。
-											</p>
+										<div class="tab-pane active" id="tab1" style="padding: 15px;text-align: right;">
+											
+												<textarea class="form-control" rows="4" style="margin-bottom: 10px;" id="newsContent">
+														${publicContent}													
+												</textarea>
+												<button class="btn btn-success"  onclick="publicNews()" >发布消息</button>
 										</div>
-										<div class="tab-pane" id="tab2" style="padding: 15px">
-											<p style="font-size: 12px;">&nbsp;&nbsp;更多操作建议，请联系直播室QQ客服！</p>
-										</div>
+										
 									</div>
 								</div>
 							</div>
@@ -337,7 +334,27 @@
 	 function allUnknowCount(dataJson){
 		 $("#unknowCount").text(dataJson.count); 
 	 }
-	
+	function publicNews(){
+		var url="${context}/teacher/control/savePublicNews.do";
+		var data="newsContent="+$("#newsContent").val();
+		$.post(url,data,function(result){
+			if(result=="ok"){
+				easyDialog.open({
+					  container : {
+					    header : '成功',
+					    content : "发布成功"
+					  }
+					});
+			}else{
+				easyDialog.open({
+					  container : {
+					    header : '错误',
+					    content : result
+					  }
+					});
+			}
+		});
+	}
 	 
 	  function logout(){
 		  socket.close();

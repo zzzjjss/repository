@@ -10,4 +10,5 @@ public class Events {
 	public static final String UNKNOW_OFF_LINE="unknowOffLineEvent";
 	public static final String ALL_UNKNOW_COUNT="allUnknowCountEvent";
 	public static final String SWITCH_TEACHER="switchTeacherEvent";
+	public static final String PUBLIC_NEWS="publicNewsEvent";
 }

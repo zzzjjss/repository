@@ -21,7 +21,7 @@
 	<div class="col-xs-8" style="padding-top: 300px;">
 		<div class="panel panel-primary">
 				<div class="panel-heading">
-				<h4>您已在直播室收听30分钟，联系以下QQ客服注册后继续免费收听 ，即刻享受更多优质服务。</h4></div>
+				<h4>您已在直播室收听${listenMinute}分钟，联系以下QQ客服注册后继续免费收听 ，即刻享受更多优质服务。</h4></div>
 				<div class="panel-body">
 					<a class="qqLink btn btn-default  active qqLink" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710057&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;客服1</a>
 					<a class="qqLink btn btn-default  active" target="blank" href="http://wpa.qq.com/msgrd?v=1&amp;uin=2851710058&amp;site=tjdco.com&amp;menu=yes"><img alt="" src="../images/qq.jpg">&nbsp;&nbsp;客服2</a>

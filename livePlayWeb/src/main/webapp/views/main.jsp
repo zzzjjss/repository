@@ -26,15 +26,15 @@
 </style>
 </head>
 <body>
-<!--[if lte IE 8 ]>    
+<!--[if lte IE 7 ]>    
 	
 	<div class="container-fluid">
-		&nbsp;IE浏览器版本太低，请升级IE到版本9，或者使用火狐浏览器！下载地址：<a href="http://www.firefox.com.cn/" target="blank">http://www.firefox.com.cn/</a>
+		&nbsp;IE浏览器版本太低，请升级IE到版本8，或者使用火狐浏览器！下载地址：<a href="http://www.firefox.com.cn/" target="blank">http://www.firefox.com.cn/</a>
 	</div>
 	
 	
  <![endif]-->
- <!--[if (gt IE 8)|!(IE)]><!-->
+ <!--[if (gt IE 7)|!(IE)]><!-->
 	<div class="container-fluid">
 	<div class="row" style="background-image: url('${context}/images/topBg.jpg');margin-bottom:0px;height: 75px;">
 				<div class="col-xs-6" style="text-align: left;height: 70px;">
@@ -96,16 +96,20 @@
 							</div>
 					</div>
 
-					<div class="panel panel-primary" style="margin-bottom: 1px;">
+					<div class="panel panel-default" style="margin-bottom: 1px;">
+						<div class="panel-heading" style="padding: 0px;">
+							<marquee direction="left" id="public_news" style="font-size: large;color: #f00;">★${publicContent}★</marquee>
+						</div>
 						<div class="panel-body" style="padding: 0px;" id="liveVideo">
 							
 						</div>
-						<div class="panel-footer">当前老师：<span class="badge" id="currentTeacher">${currentTeacher}</span></div>
+						<div class="panel-footer" style="text-align: center;">
+							当前老师：
+							<span class="badge" id="currentTeacher" style="background-color: #649FE3;">
+								${currentTeacher}
+							</span>	
+						</div>	
 					</div>
-					
-					
-				
-				
 			</div>
 			
 			
@@ -115,6 +119,7 @@
 						
 					</div>
 					<div class="panel-footer" id="chatInput" > 
+					<p style="color: #f00;">★各位听众们，如在提问过程中，老师不能及时回答，请主动与上方【QQ交谈】取得联系↑↑↑</p>
 						<script id="editor" type="text/plain" style="width:100%;height:150px;"></script>
 						<button type="button" class="btn btn-default btn-lg" onclick="sendMsg()">
   								<span class="glyphicon glyphicon-send" aria-hidden="true"></span> 发送
@@ -138,7 +143,7 @@
 					</div>
 				</div>
 				<div class="panel panel-default">
-					<div class="panel-body" style="height: 220px;overflow: auto;padding: 0px;">
+					<div class="panel-body" style="height: 250px;overflow: auto;padding: 0px;">
 						<div class="btn-group btn-group-justified" role="group" aria-label="Justified button group" >
 							<a href="#" onclick="vote('up')" class="btn btn-default" role="button" style="background-image:url('${context}/images/up.png'); width: 65px;color: #ff0;text-align: right;">看涨<br><span id="upValue"></span></a>
 							<a href="#" onclick="vote('equal')" class="btn btn-default" role="button" style="background-image:url('${context}/images/eq.png'); width: 65px;color: #ff0;text-align: right;">盘整<br><span id="equalValue"></span></a>
@@ -210,6 +215,9 @@
 		 });
 		socket.on('switchTeacherEvent',function(jsonData){
 			$("#currentTeacher").text(jsonData.teacherName);
+		});
+		socket.on('publicNewsEvent',function(jsonData){
+			$("#public_news").text("★"+jsonData.content+"★");
 		});
 		$("#userInfo").dialog({title:"Login", autoOpen: false});
 		getVoteStatistic();

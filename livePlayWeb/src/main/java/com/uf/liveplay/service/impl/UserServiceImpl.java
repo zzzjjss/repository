@@ -12,6 +12,7 @@ import com.uf.liveplay.dao.ServicerDao;
 import com.uf.liveplay.dao.TeacherDao;
 import com.uf.liveplay.dao.UserDao;
 import com.uf.liveplay.dao.VoteDao;
+import com.uf.liveplay.entity.PublicMessage;
 import com.uf.liveplay.entity.Servicer;
 import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.entity.User;
@@ -145,7 +146,7 @@ public class UserServiceImpl implements UserService{
 		userDao.saveOrUpdate(user);
 	}
 	public List<User> findAllCommonUser(){
-		return userDao.findByHql("select u from User u where u.role=?","commonUser");
+		return userDao.findByHql("select u from User u where u.role=? order by u.createTime asc","commonUser");
 	}
 	
 	public boolean servicerLogin(String userName,String password){
@@ -195,5 +196,15 @@ public class UserServiceImpl implements UserService{
 	public Teacher findTeacherById(Integer userId){
 		return teacherDao.findById(Teacher.class, userId);
 	}
-	
+	public void savePublicMessage(PublicMessage message){
+		publicMessageDao.saveOrUpdate(message);
+	}
+	public PublicMessage findMessageByKey(String key){
+		List<PublicMessage> messages=publicMessageDao.findByHql("select mess from PublicMessage mess  where mess.messageType=?", key);
+		if(messages!=null&&messages.size()>0){
+			return messages.get(0);
+		}else{
+			return null;
+		}
+	}
 }

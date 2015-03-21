@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uf.liveplay.entity.PublicMessage;
 import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.socketio.SocketIoServer;
@@ -42,7 +43,25 @@ public class TeacherBusinessController {
 			return e.getMessage();
 		}
 	}
-	
+	@RequestMapping("/teacher/control/savePublicNews")
+	@ResponseBody
+	public String publicNews(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
+		String content=allRequestParams.get("newsContent");
+		try {
+			PublicMessage message=userService.findMessageByKey(PublicMessage.PUBLIC_NEWS);
+			if(message==null){
+				message=new PublicMessage();
+			}
+			message.setMessageType(PublicMessage.PUBLIC_NEWS);
+			message.setMessageContent(content);
+			userService.savePublicMessage(message);
+			socketIoServer.publicNews(content);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return e.getMessage();
+		}
+		return "ok";
+	}
 	
 	@RequestMapping("/teacher/control/saveTeacherInfo")
 	@ResponseBody
@@ -80,6 +99,10 @@ public class TeacherBusinessController {
 			teacher=(Teacher)obj;
 			model.addAttribute("teacher",teacher);
 			model.addAttribute("sessionId", request.getSession().getId());
+		}
+		PublicMessage message=userService.findMessageByKey(PublicMessage.PUBLIC_NEWS);
+		if(message!=null){
+			model.addAttribute("publicContent", message.getMessageContent());
 		}
 		model.addAttribute("socketIoAddress", socketIoServer.getHostName()+":"+socketIoServer.getPort());
 		return "teacherMain";

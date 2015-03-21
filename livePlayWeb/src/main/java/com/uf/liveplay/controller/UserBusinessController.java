@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.uf.liveplay.entity.PublicMessage;
 import com.uf.liveplay.entity.Teacher;
 import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
@@ -114,7 +115,8 @@ public class UserBusinessController {
 	}
 	
 	@RequestMapping("/views/popupQqRegine")
-	public String popupQqReginePage(){
+	public String popupQqReginePage(ModelMap model){
+		model.addAttribute("listenMinute", config.getUnknowUserListenTimeMinute());
 		return "popupQqRegine";
 	}
 	@RequestMapping("/views/main")
@@ -129,20 +131,24 @@ public class UserBusinessController {
 			model.addAttribute("sessionId", request.getSession().getId());
 		}else{
 			UnknowUserFilter filter=new UnknowUserFilter(config.getUnknowUserListenTimeMinute()*60, config.getUnknowUserListenIntervalHour()*60*60);
+			model.addAttribute("listenMinute", config.getUnknowUserListenTimeMinute());
 			if(filter.isIpCanListener(request.getRemoteAddr())){
 				user=new User();
 				user.setName("游客");
 				user.setRole("unknow");
 				model.addAttribute("user", user);
 				model.addAttribute("sessionId", "no");
-				model.addAttribute("listenMinute", config.getUnknowUserListenTimeMinute());	
 			}else{
 				return "popupQqRegine";
 			}
 			
 		}
+		PublicMessage message=userService.findMessageByKey(PublicMessage.PUBLIC_NEWS);
+		if(message!=null){
+			model.addAttribute("publicContent", message.getMessageContent());
+		}
 		Object cuTeacher=request.getServletContext().getAttribute("currentTeacher");
-		String teacherName="黄老师";
+		String teacherName="";
 		if(cuTeacher!=null  && cuTeacher instanceof Teacher){
 			Teacher teacher=(Teacher)cuTeacher;
 			teacherName=teacher.getRealName();
