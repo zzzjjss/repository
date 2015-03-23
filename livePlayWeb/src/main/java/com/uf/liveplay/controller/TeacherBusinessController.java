@@ -32,8 +32,6 @@ public class TeacherBusinessController {
 			if(userService.teacherLogin(userName,password)){
 				Teacher teacher=userService.findTeacherByName(userName);
 				request.getSession().setAttribute("teacher", teacher);
-				request.getServletContext().setAttribute("currentTeacher", teacher);
-				socketIoServer.switchCurrentTeacher(teacher.getRealName());
 				return "ok";
 			}else{
 				return "用户名或密码错误！";

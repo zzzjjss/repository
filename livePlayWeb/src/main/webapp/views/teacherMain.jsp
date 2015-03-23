@@ -156,7 +156,7 @@
 			  enableAutoSave: false,maximumWords:20,enableAutoSave:false,saveInterval:5000000,enableContextMenu: false
 			});
 		
-		socket = io.connect("http://${socketIoAddress}?sessionId=teacher",{'reconnection delay' : 200000000000});
+		socket = io.connect("http://${socketIoAddress}?sessionId=teacher&name="+"${teacher.realName}",{'reconnection delay' : 200000000000});
 		socket.on('chatMessageEvent', function(data) {
 				onChatMessage(data);
 		  });	

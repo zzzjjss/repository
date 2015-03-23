@@ -15,6 +15,7 @@ import com.uf.liveplay.entity.User;
 import com.uf.liveplay.socketio.Events;
 import com.uf.liveplay.socketio.message.AllOnlineUsersMessage;
 import com.uf.liveplay.socketio.message.AllUnknowUserCountMessage;
+import com.uf.liveplay.socketio.message.CurrentTeacher;
 import com.uf.liveplay.socketio.message.UserOfflineMessage;
 import com.uf.liveplay.unit.SessionCache;
 
@@ -28,6 +29,11 @@ public class OnDisConnectListener implements DisconnectListener{
 	@Override
 	public void onDisconnect(SocketIOClient client) {
 		Object sessionId = client.get("sessionId");
+		if(client.get("teacherName")!=null){
+			CurrentTeacher teacher=new CurrentTeacher(); 
+			 teacher.setTeacherName("");
+			 server.getBroadcastOperations().sendEvent(Events.SWITCH_TEACHER, teacher);
+		}
 		User user = null;
 		if (sessionId != null) {
 			user = SessionCache.findUser((String) sessionId);

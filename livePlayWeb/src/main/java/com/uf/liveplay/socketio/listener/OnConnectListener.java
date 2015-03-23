@@ -15,6 +15,7 @@ import com.uf.liveplay.entity.User;
 import com.uf.liveplay.socketio.Events;
 import com.uf.liveplay.socketio.message.AllOnlineUsersMessage;
 import com.uf.liveplay.socketio.message.AllUnknowUserCountMessage;
+import com.uf.liveplay.socketio.message.CurrentTeacher;
 import com.uf.liveplay.socketio.message.UnknowUserOnlineMessage;
 import com.uf.liveplay.socketio.message.UserOnlineMessage;
 import com.uf.liveplay.unit.SessionCache;
@@ -27,6 +28,7 @@ public class OnConnectListener implements ConnectListener{
 	@Override
 	public void onConnect(SocketIOClient client) {
 		String sessionId = client.getHandshakeData().getSingleUrlParam("sessionId");
+		String name = client.getHandshakeData().getSingleUrlParam("name");
 		User user = SessionCache.findUser(sessionId);
 		AllOnlineUsersMessage allOnlineUsersMsg = new AllOnlineUsersMessage();
 		int unKnowCount=0;
@@ -43,6 +45,10 @@ public class OnConnectListener implements ConnectListener{
 				unKnowCount++;
 			}else if("teacher".equals(sessionId)){
 				client.set("sessionId", "teacher");
+				client.set("teacherName", name);
+				 CurrentTeacher teacher=new CurrentTeacher(); 
+				 teacher.setTeacherName(name);
+				 server.getBroadcastOperations().sendEvent(Events.SWITCH_TEACHER, teacher);
 			}
 		}
 			
@@ -55,6 +61,11 @@ public class OnConnectListener implements ConnectListener{
 						userNames.add(sessionUser.getName());
 					}else if("unknow".equals(clientSessionId)){
 						unKnowCount++;
+					}else if("teacher".equals(clientSessionId)){
+						String currentTeacherName=client.get("teacherName");
+						CurrentTeacher teacher=new CurrentTeacher(); 
+						 teacher.setTeacherName(currentTeacherName);
+						client.sendEvent(Events.SWITCH_TEACHER, teacher);
 					}
 				}
 			}
