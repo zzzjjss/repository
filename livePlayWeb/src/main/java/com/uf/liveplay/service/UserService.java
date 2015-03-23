@@ -15,6 +15,7 @@ public interface UserService {
 	
 	public User findUserByName(String userName);
 	public User findUserById(Integer userId);
+	public void resetUserPassword(Integer userId,String password);
 	public void saveUserInfo(User user);
 	public void vote(String voteItem);
 	

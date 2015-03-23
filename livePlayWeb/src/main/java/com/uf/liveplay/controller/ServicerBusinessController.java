@@ -22,7 +22,6 @@ import com.uf.liveplay.entity.User;
 import com.uf.liveplay.service.UserService;
 import com.uf.liveplay.socketio.SocketIoServer;
 import com.uf.liveplay.unit.ConfigVariable;
-import com.uf.liveplay.unit.ServletWebsocketBridge;
 
 @Controller
 public class ServicerBusinessController {
@@ -133,12 +132,22 @@ public class ServicerBusinessController {
 				obj.put("id", user.getId());
 				obj.put("name", user.getName()==null?" ":user.getName());
 				obj.put("phone", user.getPhone()==null?" ":user.getPhone());
-				SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH-mm-ss");
+				SimpleDateFormat formate=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 				obj.put("createTime", user.getCreateTime()==null?"":formate.format(user.getCreateTime()));
 				jsonArray.add(obj);
 			}
 		}
 		return jsonArray.toString();
+	}
+	
+	@RequestMapping("/servicer/control/resetUserPassword")
+	@ResponseBody
+	public String resetUserPassword(@RequestParam Map<String,String> allRequestParams, HttpServletRequest request) {
+		String userId=allRequestParams.get("userId");
+		if(userId!=null&&!userId.trim().equals("")){
+			userService.resetUserPassword(Integer.parseInt(userId), "123456");
+		}
+		return "ok";
 	}
 	
 	@RequestMapping("/servicer/control/shutupUserMouth")

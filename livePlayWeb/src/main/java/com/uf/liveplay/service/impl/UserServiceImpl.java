@@ -79,6 +79,13 @@ public class UserServiceImpl implements UserService{
 	public void registNewUser(User user)throws Exception{
 		userDao.insert(user);
 	}
+	public void resetUserPassword(Integer userId,String password){
+		User user=userDao.findById(User.class, userId);
+		if(user!=null){
+			user.setPassword(password);
+			userDao.update(user);
+		}
+	}
 	public void vote(String voteItem){
 		List<Vote> vote=voteDao.findByHql("select v from Vote v ");
 		Vote voteRecord=null;

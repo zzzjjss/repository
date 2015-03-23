@@ -303,7 +303,7 @@
 					{data:"name"},
 					{data:"phone"},
 					{data:"createTime"},
-					{data:"id",render:function(data, type, row, meta){ return buildOperationgCell(data);}}
+					{data:"id",render:function(data, type, row, meta){ return buildOperationgCell(data,row.name);}}
 				],
 				"rowCallback":function(row, data){
 					$(row).dblclick(function(){
@@ -364,8 +364,9 @@
                ]});
 	}
 	
-	function buildOperationgCell(userId){
-		return '<a class="btn" onclick="shutup('+userId+')"><span data-toggle="tooltip" data-placement="right" title="禁言" class="glyphicon glyphicon-volume-off" ></span></a>';
+	function buildOperationgCell(userId,userName){
+		return '<a class="btn" onclick="shutup('+userId+')"><span data-toggle="tooltip" data-placement="right" title="禁言" class="glyphicon glyphicon-volume-off" ></span></a>'+
+			   '<a class="btn" onclick="resetPassword('+userId+',\''+userName+'\')"><span data-toggle="tooltip" data-placement="right" title="重置密码" class="glyphicon glyphicon-wrench" ></span></a>';
 	}
 	function shutup(userId){
 		
@@ -381,7 +382,12 @@
 					function(result)
 					{   
 						if(result=="ok"){
-							alert("禁言成功！");	
+							easyDialog.open({
+								  container : {
+								    header : '成功',
+								    content : "禁言成功"
+								  }
+								});
 						}else{
 							alert(result);
 						}
@@ -395,6 +401,54 @@
 			}
 		);
 	}
+	
+	function resetPassword(userId,userName){
+		easyDialog.open({
+			  container : {
+			    header : '提醒',
+			    content : '确定重置用户  '+userName+'  的密码？',
+			    yesFn : function(){
+			    	var url="${context}/servicer/control/resetUserPassword.do";
+					$.ajax
+					(
+						{
+							type: "POST",
+							url: url+"?userId="+userId,
+							cache: false,
+							dataType: "text",
+							success: 
+								function(result)
+								{   
+									if(result=="ok"){
+										easyDialog.open({
+											  container : {
+											    header : '成功',
+											    content : "密码重置成功！"
+											  }
+											});
+									}else{
+										alert(result);
+									}
+												
+								},
+							error: 
+								function(jqXHR, textStatus, errorThrown )
+								{
+									alert(errorThrown); 
+								}
+						}
+					);
+			    	
+			    },
+			    noFn : true
+			  }
+			});
+		
+		
+		
+	}
+	
+	
 	
 </script>
 <!--<![endif]-->
