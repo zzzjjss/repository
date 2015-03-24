@@ -62,7 +62,7 @@ public class OnConnectListener implements ConnectListener{
 					}else if("unknow".equals(clientSessionId)){
 						unKnowCount++;
 					}else if("teacher".equals(clientSessionId)){
-						String currentTeacherName=client.get("teacherName");
+						String currentTeacherName=c.get("teacherName");
 						CurrentTeacher teacher=new CurrentTeacher(); 
 						 teacher.setTeacherName(currentTeacherName);
 						client.sendEvent(Events.SWITCH_TEACHER, teacher);
