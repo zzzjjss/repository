@@ -8,7 +8,7 @@
 <script type="text/javascript" src="../js/jquery.bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
 <link href="../js/bootstrap/css/bootstrap.css" type="text/css" rel="stylesheet">
-<title>西北大宗直播室</title>
+<title>西北大宗直播室，新华银直播室，贵金属直播室，贵金属，贵金属行情直播，贵金属直播，白银直播-剑海大宗商品有限公司</title>
 <style type="text/css">
 .qqLink {margin-top:5px;}
 

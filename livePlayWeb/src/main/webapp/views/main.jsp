@@ -19,7 +19,7 @@
 <script type="text/javascript" src="${context}/js/html5.js"></script>
 
 <link href="${context}/js/easydialog-v2.0/easydialog.css" type="text/css" rel="stylesheet">
-<title>西北大宗直播室</title>
+<title>西北大宗直播室，新华银直播室，贵金属直播室，贵金属，贵金属行情直播，贵金属直播，白银直播-剑海大宗商品有限公司</title>
 <style type="text/css">
 .qqLink {margin-top:30px;}
 
