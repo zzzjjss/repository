@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="description" content="剑海大宗商品直播室是西北大宗商品交易中心088号会员，是经宁夏自治区工商行政管理局批准并注册登记，受国家工商总局监管，实行自律性管理的有限公司，主要经营有色金属、矿产品、化工产品、农林产品等业务。财富热线:400-999-4986"/>
 <script type="text/javascript" src="../js/jquery-2.1.1.js"></script>
 <script type="text/javascript" src="../js/jquery.bootstrap.min.js"></script>
 <script type="text/javascript" src="../js/bootstrap/js/bootstrap.js"></script>
