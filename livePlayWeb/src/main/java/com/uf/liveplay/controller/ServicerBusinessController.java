@@ -150,6 +150,16 @@ public class ServicerBusinessController {
 		return "ok";
 	}
 	
+	@RequestMapping("/servicer/control/deleteUser")
+	@ResponseBody
+	public String deleteUser(@RequestParam Map<String,String> allRequestParams, HttpServletRequest request) {
+		String userId=allRequestParams.get("userId");
+		if(userId!=null&&!userId.trim().equals("")){
+			userService.deleteUserById(Integer.parseInt(userId));
+		}
+		return "ok";
+	}
+	
 	@RequestMapping("/servicer/control/shutupUserMouth")
 	@ResponseBody
 	public String shutupUserMouth(@RequestParam Map<String,String> allRequestParams, HttpServletRequest request) {

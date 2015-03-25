@@ -214,4 +214,10 @@ public class UserServiceImpl implements UserService{
 			return null;
 		}
 	}
+	
+	public void deleteUserById(Integer userId){
+		User user=new User();
+		user.setId(userId);
+		userDao.delete(user);
+	}
 }

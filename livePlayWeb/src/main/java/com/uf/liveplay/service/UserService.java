@@ -26,7 +26,7 @@ public interface UserService {
 	public void saveServicerInfo(Servicer servicer);
 	public Servicer findServicerByName(String userName);
 	public Servicer findServicerById(Integer userId);
-	
+	public void deleteUserById(Integer userId);
 	
 	public boolean teacherLogin(String userName,String password);
 	public void saveTeacherInfo(Teacher servicer);

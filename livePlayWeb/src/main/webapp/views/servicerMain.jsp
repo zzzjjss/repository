@@ -366,7 +366,8 @@
 	
 	function buildOperationgCell(userId,userName){
 		return '<a class="btn" onclick="shutup('+userId+')"><span data-toggle="tooltip" data-placement="right" title="禁言" class="glyphicon glyphicon-volume-off" ></span></a>'+
-			   '<a class="btn" onclick="resetPassword('+userId+',\''+userName+'\')"><span data-toggle="tooltip" data-placement="right" title="重置密码" class="glyphicon glyphicon-wrench" ></span></a>';
+			   '<a class="btn" onclick="resetPassword('+userId+',\''+userName+'\')"><span data-toggle="tooltip" data-placement="right" title="重置密码" class="glyphicon glyphicon-wrench" ></span></a>'+
+			   '<a class="btn" onclick="deleteUser('+userId+',\''+userName+'\')"><span data-toggle="tooltip" data-placement="right" title="删除用户" class="glyphicon glyphicon-remove" ></span></a>';
 	}
 	function shutup(userId){
 		
@@ -443,11 +444,51 @@
 			    noFn : true
 			  }
 			});
-		
-		
-		
 	}
 	
+	function deleteUser(userId,userName){
+		easyDialog.open({
+			  container : {
+			    header : '提醒',
+			    content : '确定删除用户  '+userName+'？',
+			    yesFn : function(){
+			    	var url="${context}/servicer/control/deleteUser.do";
+					$.ajax
+					(
+						{
+							type: "POST",
+							url: url+"?userId="+userId,
+							cache: false,
+							dataType: "text",
+							success: 
+								function(result)
+								{   
+									if(result=="ok"){
+										easyDialog.open({
+											  container : {
+											    header : '成功',
+											    content : "删除用户成功！"
+											  }
+											});
+										loadAllUser();
+									}else{
+										alert(result);
+									}
+												
+								},
+							error: 
+								function(jqXHR, textStatus, errorThrown )
+								{
+									alert(errorThrown); 
+								}
+						}
+					);
+			    	
+			    },
+			    noFn : true
+			  }
+			});
+	}
 	
 	
 </script>
