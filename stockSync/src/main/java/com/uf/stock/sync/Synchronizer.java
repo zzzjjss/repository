@@ -44,5 +44,15 @@ public class Synchronizer {
 		} 
 		
 	}
+	
+	public void syncStockTradeInfo(){
+		ExecutorService pool = Executors.newFixedThreadPool(50);
+		try {
+			pool.submit(new GetStockTradeInfoTask("600602", 2015, 1));
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} 
+	}
 
 }
