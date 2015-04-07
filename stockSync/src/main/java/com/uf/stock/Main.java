@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.uf.stock.analyse.Analyser;
 import com.uf.stock.sync.ConfigParser;
 import com.uf.stock.sync.Synchronizer;
 
@@ -14,11 +15,12 @@ public class Main {
 	//	System.out.println(basePath);
 		//File configFile = new File(basePath + "/conf/config.conf");
 		//ConfigParser.parseConfigFile(configFile);
-		Synchronizer syn = new Synchronizer();
+		//Synchronizer syn = new Synchronizer();
 		//syn.synStock();
-		syn.syncStockTradeInfo();
-
+		//syn.syncStockTradeInfo();
 		
+		Analyser anlyse=new Analyser();
+		anlyse.highestAnalyse();
 		
 	}
 
