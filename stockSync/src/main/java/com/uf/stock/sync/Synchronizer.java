@@ -49,14 +49,35 @@ public class Synchronizer {
 	}
 	
 	public boolean synStock(){
-		ExecutorService pool = Executors.newFixedThreadPool(1);
+		ExecutorService pool = Executors.newFixedThreadPool(30);
 		try {
-			Future<Boolean> future=pool.submit(new GetStockTask());
-			return future.get();
+			StockDao dao=DaoFactory.getDao(StockDao.class);
+			for(int i=600000;i<604000;i++){
+				List<Stock> stock=dao.findStockByCode(Integer.toString(i));
+				if(stock==null||stock.size()==0){
+					pool.submit(new GetStockTask("sh"+i));
+				}
+			}
+			for(int i=100001;i<=102750;i++){
+				String code=Integer.toString(i);
+				code=code.replaceFirst("1", "0");
+				List<Stock> stock=dao.findStockByCode(code);
+				if(stock==null||stock.size()==0){
+					pool.submit(new GetStockTask("sz"+code));
+				}
+				
+			}
+			for(int i=300001;i<=300190;i++){
+				List<Stock> stock=dao.findStockByCode(Integer.toString(i));
+				if(stock==null||stock.size()==0){
+					pool.submit(new GetStockTask("sz"+i));
+				}
+			}
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		} 
-		return false;
+		return true;
 	}
 	
 	public void syncStockTradeInfo(){

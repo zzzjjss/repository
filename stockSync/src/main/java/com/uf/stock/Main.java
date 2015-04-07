@@ -16,7 +16,6 @@ public class Main {
 		//ConfigParser.parseConfigFile(configFile);
 		Synchronizer syn = new Synchronizer();
 		//syn.synStock();
-		//syn.syncStockInfo();
 		syn.syncStockTradeInfo();
 
 		
