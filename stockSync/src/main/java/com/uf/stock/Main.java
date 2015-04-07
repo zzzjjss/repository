@@ -15,14 +15,10 @@ public class Main {
 		//File configFile = new File(basePath + "/conf/config.conf");
 		//ConfigParser.parseConfigFile(configFile);
 		Synchronizer syn = new Synchronizer();
+		//syn.synStock();
 		//syn.syncStockInfo();
 		syn.syncStockTradeInfo();
-//		String html="ababa<table id=\"FundHoldSharesTable\">hhelleo</table>fjdksfkskfjksdf";
-//		Pattern pattern = Pattern.compile("<table id=\"FundHoldSharesTable\">.*</table>");
-//		Matcher m = pattern.matcher(html);
-//		while(m.find()){
-//			System.out.println(m.group());
-//		}
+
 		
 		
 	}

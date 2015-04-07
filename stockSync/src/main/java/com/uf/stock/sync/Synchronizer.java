@@ -12,6 +12,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.uf.stock.bean.Stock;
+import com.uf.stock.dao.DaoFactory;
+import com.uf.stock.dao.StockDao;
 import com.uf.stock.util.HttpUnit;
 
 public class Synchronizer {
@@ -45,11 +48,31 @@ public class Synchronizer {
 		
 	}
 	
-	public void syncStockTradeInfo(){
-		ExecutorService pool = Executors.newFixedThreadPool(50);
+	public boolean synStock(){
+		ExecutorService pool = Executors.newFixedThreadPool(1);
 		try {
-			pool.submit(new GetStockTradeInfoTask("600602", 2015, 1));
-			
+			Future<Boolean> future=pool.submit(new GetStockTask());
+			return future.get();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		} 
+		return false;
+	}
+	
+	public void syncStockTradeInfo(){
+		ExecutorService pool = Executors.newFixedThreadPool(20);
+		StockDao dao=DaoFactory.getDao(StockDao.class);
+		try {
+			List<Stock> stocks=dao.findAll(Stock.class);
+			for(Stock stock:stocks){
+				for(int year=2014;year<=2015;year++){
+					for(int jidu=1;jidu<=4;jidu++){
+						pool.submit(new GetStockTradeInfoTask(stock, year, jidu));
+					}
+					
+				}
+				
+			}
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		} 
