@@ -17,7 +17,7 @@ public class Analyser {
 		try {
 			List<Stock> stocks=dao.findAll(Stock.class);
 			for(Stock stock:stocks){
-				pool.submit(new PriceAnalyseTask(stock, 0.4f));
+				pool.submit(new PriceAnalyseTask(stock, 0.8f,30));
 				
 			}
 			pool.shutdown();

@@ -7,6 +7,6 @@ import com.uf.stock.bean.StockTradeInfo;
 
 
 public interface StockTradeInfoDao extends CommonDao<StockTradeInfo>{
-	public StockTradeInfo findHighestClosePrice(Stock stock);
+	public StockTradeInfo findHighestClosePrice(Stock stock,int days);
 	public StockTradeInfo  findLatestDateStockTradeInfo(Stock stock);
 }

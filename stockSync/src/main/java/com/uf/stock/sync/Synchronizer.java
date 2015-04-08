@@ -67,12 +67,12 @@ public class Synchronizer {
 				}
 				
 			}
-			for(int i=300001;i<=300190;i++){
-				List<Stock> stock=dao.findStockByCode(Integer.toString(i));
-				if(stock==null||stock.size()==0){
-					pool.submit(new GetStockTask("sz"+i));
-				}
-			}
+//			for(int i=300001;i<=300190;i++){
+//				List<Stock> stock=dao.findStockByCode(Integer.toString(i));
+//				if(stock==null||stock.size()==0){
+//					pool.submit(new GetStockTask("sz"+i));
+//				}
+//			}
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -99,4 +99,6 @@ public class Synchronizer {
 		} 
 	}
 
+	
+	
 }

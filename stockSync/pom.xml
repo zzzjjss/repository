@@ -51,7 +51,7 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.8.1</version>
 		</dependency>
-<dependency>
+		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>4.3.0.Final</version>
@@ -61,7 +61,7 @@
 			<artifactId>mysql-connector-java</artifactId>
 			<version>5.1.27</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
@@ -82,11 +82,15 @@
 			<artifactId>aspectjweaver</artifactId>
 			<version>1.6.11</version>
 		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.1</version>
+		</dependency>
 	</dependencies>
 	<properties>
 		<targetProjectName>stock-syn</targetProjectName>
 	</properties>
-	<!-- 
 	<build>
 		<resources>
 			<resource>
@@ -130,5 +134,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	 -->
 </project>
