@@ -26,8 +26,10 @@ public class GetCurrentPriceTask implements Callable<Float>{
 			stockCode="sh"+stock.getStockCode();
 		}else if(stock.getStockCode().startsWith("00")){
 			stockCode="sz"+stock.getStockCode();
+		}else{
+			return null;
 		}
-		String url="http://finance.sina.com.cn/realstock/company/"+stockCode+"/nc.shtml";
+		String url="http://hq.sinajs.cn/?list="+stockCode;
 		HttpGet getMethod = new HttpGet(url);
 		CloseableHttpResponse responese = null;
 		CloseableHttpClient client=HttpUnit.createHttpClient();
@@ -36,17 +38,14 @@ public class GetCurrentPriceTask implements Callable<Float>{
 				responese = client.execute(getMethod);
 				HttpEntity entity = responese.getEntity();
 				String response=EntityUtils.toString(entity,Charset.forName("gb2312"));
-				int begin=response.indexOf("<div id=\"price\"");
-				
-				int end=response.indexOf("</div>", begin);
-				String content=response.substring(begin, end)+"</div>";
-				Document document=Jsoup.parse(content);
-				String price=document.text();
-				System.out.println(stock.getStockCode()+"--->"+price);
-				if(price!=null){
-					return Float.parseFloat(price);
+				String infos[]=response.split(",");
+				if(infos!=null&&infos.length>4){
+					
+					System.out.println(stock.getStockCode()+"--->"+infos[3]);
+					if(infos[3]!=null){
+						return Float.parseFloat(infos[3]);
+					}
 				}
-				
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
