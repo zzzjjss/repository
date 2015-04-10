@@ -1,13 +1,6 @@
 package com.uf.stock;
 
-import java.io.File;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import com.uf.stock.alarm.Alarmer;
-import com.uf.stock.analyse.Analyser;
-import com.uf.stock.sync.ConfigParser;
-import com.uf.stock.sync.Synchronizer;
+import com.uf.stock.alarm.MySchedule;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
@@ -22,8 +15,8 @@ public class Main {
 		
 		//Analyser anlyse=new Analyser();
 		//anlyse.highestAnalyse();
-		Alarmer alarmer=new Alarmer();
-		alarmer.startEmailAlarm();
+		MySchedule sch=new MySchedule();
+		sch.startSchedule();
 	}
 
 }
