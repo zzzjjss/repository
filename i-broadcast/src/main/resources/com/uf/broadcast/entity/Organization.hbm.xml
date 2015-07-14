@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
+<hibernate-mapping>
+    <class name="com.uf.broadcast.entity.Organization" table="organization" >
+        <id name="id" type="long">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <property name="locationX" type="float">
+            <column name="location_x"  />
+        </property>
+        <property name="locationY" type="float">
+            <column name="location_y"  />
+        </property>
+         <property name="pointAmount" type="int">
+            <column name="point_amount"  />
+        </property>
+          <property name="address" type="string">
+            <column name="address"  />
+        </property>
+          <property name="name" type="string">
+            <column name="name"  />
+        </property>
+    </class>
+</hibernate-mapping>
