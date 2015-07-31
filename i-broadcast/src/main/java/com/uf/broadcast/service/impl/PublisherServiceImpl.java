@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.broadcast.dao.MessageDao;
 import com.uf.broadcast.dao.OrganizationDao;
 import com.uf.broadcast.dao.PublisherDao;
 import com.uf.broadcast.entity.Message;
@@ -18,10 +19,17 @@ public class PublisherServiceImpl implements PublisherService{
     private OrganizationDao orgDao;
     @Autowired
     private PublisherDao publisherDao;
-	
+    @Autowired
+    private MessageDao  messageDao;
     
     
-	public OrganizationDao getOrgDao() {
+	public MessageDao getMessageDao() {
+      return messageDao;
+    }
+    public void setMessageDao(MessageDao messageDao) {
+      this.messageDao = messageDao;
+    }
+  public OrganizationDao getOrgDao() {
       return orgDao;
     }
     public void setOrgDao(OrganizationDao orgDao) {
@@ -34,10 +42,10 @@ public class PublisherServiceImpl implements PublisherService{
       this.publisherDao = publisherDao;
     }
 	public void publishOneMessage(Message message) {
-		
+	  messageDao.insert(message);
 		
 	}
-	public void registPublisher(Organization org,Publisher publisher)throws DataExistException, Exception{
+	public void registPublisher(Organization org,Publisher publisher)throws DataExistException{
 	  orgDao.insert(org);
 	  publisher.setOrg(org);
 	  List<Publisher> data=publisherDao.findByHql("from Publisher p where p.userName=?", publisher.getUserName());

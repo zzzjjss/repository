@@ -1,6 +1,8 @@
 package com.uf.broadcast.entity;
 
-public class Publisher {
+import java.io.Serializable;
+
+public class Publisher implements Serializable{
 	private Long id;
 	private Organization org;
 	private String userName;

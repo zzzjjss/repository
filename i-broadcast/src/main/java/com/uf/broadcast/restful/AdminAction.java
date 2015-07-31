@@ -7,7 +7,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.uf.broadcast.bean.Constant;
+import com.uf.broadcast.bean.ErrorInfo;
 import com.uf.broadcast.bean.request.AddOrganizationRequest;
 import com.uf.broadcast.bean.request.AddPublisherRequest;
 import com.uf.broadcast.bean.response.CommonResponse;
@@ -50,7 +50,7 @@ public class AdminAction {
 		} catch (DataExistException e) {
 			e.printStackTrace();
 			response.setResult(false);
-			response.setErrorCode(Constant.DATA_EXIST_CODE);
+			response.setErrorInfo(ErrorInfo.SYSTEM_EXCEPTION);
 			return response;
 		}
 		response.setResult(true);

@@ -1,19 +1,24 @@
 package com.uf.broadcast.bean.response;
 
+import com.uf.broadcast.bean.ErrorInfo;
+
+
 public class CommonResponse {
 	private Boolean result;
-	private String errorCode;
+	private ErrorInfo errorInfo;
 	public Boolean getResult() {
 		return result;
 	}
 	public void setResult(Boolean result) {
 		this.result = result;
 	}
-	public String getErrorCode() {
-		return errorCode;
-	}
-	public void setErrorCode(String errorCode) {
-		this.errorCode = errorCode;
-	}
+  public ErrorInfo getErrorInfo() {
+    return errorInfo;
+  }
+  public void setErrorInfo(ErrorInfo errorInfo) {
+    this.errorInfo = errorInfo;
+  }
+   
+	
 	
 }
