@@ -234,13 +234,15 @@ public class ProductAdminController {
       product.setUpdateTime(new  Date());
       
       List<ProductImage> proImages=new ArrayList<ProductImage>();
+      String contextPath=request.getServletContext().getContextPath();
       File realPath=new File(request.getServletContext().getRealPath("/"));
-      String parent=realPath.getParent();
+      
       if(!StringUtil.isNullOrEmpty(imgsPath)){
         String pathes[]=imgsPath.split(",");
         for(String path:pathes){
           ProductImage proImage=new ProductImage();
-          File imgFile=new File(parent,path);
+          path=path.replaceFirst(contextPath, "");
+          File imgFile=new File(realPath,path);
           proImage.setImage(FileUtil.readFileBytes(imgFile));
           proImage.setFileName(imgFile.getName());
           proImages.add(proImage);
@@ -248,6 +250,8 @@ public class ProductAdminController {
         }
       }
       productManageService.updateProduct(product, proImages);
+      File imgFolder=new File(request.getServletContext().getRealPath("/")+"img/"+product.getId());
+      FileUtil.deleteFolderRecusive(imgFolder);
       result.setResult("ok");
     }catch(Exception e){
       e.printStackTrace();

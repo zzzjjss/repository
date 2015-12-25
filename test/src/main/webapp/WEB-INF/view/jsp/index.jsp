@@ -131,7 +131,7 @@
 		var count=$("#buyProductAccount").val();
 		$.ajax({
 		    type: "POST",
-		    url: "customer/addProductToBuycar",
+		    url: "customer/auth/addProductToBuycar",
 		    data:{id:id,count:count},
 		    dataType: "json",
 		    success: 
@@ -218,7 +218,7 @@
 	function removeFromBuycar(id){
 		$.ajax({
 		    type: "POST",
-		    url: "customer/removeProductFromBuycar",
+		    url: "customer/auth/removeProductFromBuycar",
 		    dataType: "json",
 		    data:{id:id},
 		    success: 

@@ -61,7 +61,7 @@ public class CustomerActionController {
     
   }
   
-  @RequestMapping("/customer/addProductToBuycar")
+  @RequestMapping("/customer/auth/addProductToBuycar")
   @ResponseBody
   public String addProductToBuycar(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request){
     Gson gson=new Gson();
@@ -94,7 +94,7 @@ public class CustomerActionController {
     result.setResult("ok");
     return gson.toJson(result);
   }
-  @RequestMapping("/customer/removeProductFromBuycar")
+  @RequestMapping("/customer/auth/removeProductFromBuycar")
   @ResponseBody
   public String removeProductFromBuycar(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request){
     String id=allRequestParams.get("id");
