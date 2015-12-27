@@ -18,10 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import antlr.StringUtils;
-
 import com.google.gson.Gson;
 import com.uf.bean.Result;
+import com.uf.entity.Manager;
 import com.uf.entity.Product;
 import com.uf.entity.ProductImage;
 import com.uf.service.ProductManageService;
@@ -35,16 +34,39 @@ public class ProductAdminController {
   @Autowired
   private ProductManageService productManageService;
   
-  @RequestMapping("/productAdd")
+  @RequestMapping("/manager/loginPage")
+  public String managerLoginPage(){
+	  return "managerLogin";
+  }
+  
+  @RequestMapping("/manager/login")
+  @ResponseBody
+  public String managerLogin(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request){
+	  Result result=new Result();
+    String userName=allRequestParams.get("userName");
+    String password=allRequestParams.get("password");
+    Manager manager=productManageService.findManagerByName(userName);
+    if(manager!=null&&password.equals(manager.getPassword())){
+      request.getSession().setAttribute("manager", manager);
+      result.setResult("ok");
+    }else{
+      result.setResult("fail");
+      result.setMes("用户或密码错误");
+    }
+	    Gson gson=new Gson();
+	    return gson.toJson(result);
+  }
+  
+  @RequestMapping("/manager/auth/productAdd")
   public String productAdd(@RequestParam Map<String,String> allRequestParams,Model model) {
       return "productAdd";
   }
-  @RequestMapping("/productQuery")
+  @RequestMapping("/manager/auth/productQuery")
   public String productQuery(@RequestParam Map<String,String> allRequestParams,Model model) {
       return "productQuery";
   }
   
-  @RequestMapping("/productEdit")
+  @RequestMapping("/manager/auth/productEdit")
   public String productEdit(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
       String id=allRequestParams.get("id");
       Product pro=productManageService.findProductById(Integer.parseInt(id));
@@ -54,7 +76,7 @@ public class ProductAdminController {
       model.addAttribute("product", pro);
       return "productEdit";
   }
-  @RequestMapping("/productDetail")
+  @RequestMapping("/manager/auth/productDetail")
   public String productDetail(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
       String id=allRequestParams.get("id");
       Product pro=productManageService.findProductById(Integer.parseInt(id));
@@ -66,7 +88,7 @@ public class ProductAdminController {
   }
   
   
-  @RequestMapping("/deleteProduct")
+  @RequestMapping("/manager/auth/deleteProduct")
   @ResponseBody
   public String deleteProduct(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
     Result result=new Result();
@@ -86,7 +108,7 @@ public class ProductAdminController {
     Gson gson=new Gson();
     return gson.toJson(result);
   }
-  @RequestMapping("/queryProducts")
+  @RequestMapping("/manager/auth/queryProducts")
   @ResponseBody
   public String queryProducts(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
     String queryKeyword=allRequestParams.get("keyword");
@@ -128,7 +150,7 @@ public class ProductAdminController {
     }
     
   }
-  @RequestMapping("/uploadProductImg")
+  @RequestMapping("/manager/auth/uploadProductImg")
   @ResponseBody
   public String uploadProductImg(@RequestParam("imgFile") MultipartFile file,Model model,HttpServletRequest request) {
     UploadImgResult result=new UploadImgResult();
@@ -154,7 +176,7 @@ public class ProductAdminController {
     return gson.toJson(result);
   }
   
-  @RequestMapping("/addProduct")
+  @RequestMapping("/manager/auth/addProduct")
   @ResponseBody
   public String addProduct(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
     Result  result=new Result();
@@ -202,7 +224,7 @@ public class ProductAdminController {
     return gson.toJson(result);
   }
   
-  @RequestMapping("/saveProduct")
+  @RequestMapping("/manager/auth/saveProduct")
   @ResponseBody
   public String saveProduct(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
     Result  result=new Result();
@@ -219,7 +241,7 @@ public class ProductAdminController {
       Product product=productManageService.findProductById(Integer.valueOf(id));
       if(product==null){
         result.setResult("fail");
-        result.setMes("产品不存在");
+        result.setMes("浜у搧涓嶅瓨鍦�");
         return gson.toJson(result);
       }
       

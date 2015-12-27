@@ -7,8 +7,10 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.uf.dao.ManagerDao;
 import com.uf.dao.ProductDao;
 import com.uf.dao.ProductImgDao;
+import com.uf.entity.Manager;
 import com.uf.entity.Product;
 import com.uf.entity.ProductImage;
 import com.uf.searcher.SearchEngine;
@@ -23,6 +25,8 @@ public class ProductManageServiceImpl implements ProductManageService{
   private ProductImgDao  productImgDao;
   @Autowired
   private SearchEngine  sercherEngine;
+  @Autowired
+  private ManagerDao managerDao;
   public void addProduct(Product product,List<ProductImage>  imgs){
       productDao.insert(product);
       sercherEngine.addProductInfoToIndex(product);
@@ -32,6 +36,14 @@ public class ProductManageServiceImpl implements ProductManageService{
           productImgDao.insert(img);
         }
       }
+  }
+  public Manager findManagerByName(String userName){
+	  List<Manager> cus=managerDao.findByHql("select c from  Manager c  where c.userName=?", userName);
+	    if(cus!=null&&cus.size()>0){
+	      return cus.get(0);
+	    }else{
+	      return null;
+	    }
   }
   
   public void updateProduct(Product product,List<ProductImage>  imgs){

@@ -70,6 +70,7 @@
 				<value>com/uf/entity/ProductImage.hbm.xml</value>
 				<value>com/uf/entity/BuycarProductInfo.hbm.xml</value>
 				<value>com/uf/entity/Customer.hbm.xml</value>
+				<value>com/uf/entity/Manager.hbm.xml</value>
 			</list>
 		</property>
 		
@@ -92,7 +93,7 @@
 		</property>
 	</bean>
 	<bean id="searchEngine" class="com.uf.searcher.SearchEngine">
-		 <constructor-arg value="c:/jason/indexDir" /> 
+		 <constructor-arg value="e:/luceneIndex" /> 
 	</bean>
 
 	<aop:config>
