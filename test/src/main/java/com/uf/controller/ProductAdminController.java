@@ -38,6 +38,15 @@ public class ProductAdminController {
   public String managerLoginPage(){
 	  return "managerLogin";
   }
+  @RequestMapping("/manager/auth/logOut")
+  @ResponseBody
+  public String managerLogout(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request){
+    request.getSession().removeAttribute("manager");
+    Result result=new Result();
+    result.setResult("ok");
+    Gson gson=new Gson();
+    return gson.toJson(result);
+  }
   
   @RequestMapping("/manager/login")
   @ResponseBody
@@ -62,7 +71,11 @@ public class ProductAdminController {
       return "productAdd";
   }
   @RequestMapping("/manager/auth/productQuery")
-  public String productQuery(@RequestParam Map<String,String> allRequestParams,Model model) {
+  public String productQuery(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
+      Object manager=request.getSession().getAttribute("manager");
+      if(manager!=null&&manager instanceof Manager){
+        model.addAttribute("manager", manager);
+      }
       return "productQuery";
   }
   
@@ -241,7 +254,7 @@ public class ProductAdminController {
       Product product=productManageService.findProductById(Integer.valueOf(id));
       if(product==null){
         result.setResult("fail");
-        result.setMes("浜у搧涓嶅瓨鍦�");
+        result.setMes("请选择保存的产品");
         return gson.toJson(result);
       }
       

@@ -93,7 +93,7 @@
 		</property>
 	</bean>
 	<bean id="searchEngine" class="com.uf.searcher.SearchEngine">
-		 <constructor-arg value="e:/luceneIndex" /> 
+		 <constructor-arg value="C:/jason/indexDir" /> 
 	</bean>
 
 	<aop:config>

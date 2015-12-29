@@ -10,6 +10,7 @@
 <script type="text/javascript" src="<%=application.getContextPath() %>/js/ajaxfileupload.js"></script>
 <script type="text/javascript" src="<%=application.getContextPath() %>/js/jquery.simple.modal/js/jquery.modal.min.js"></script>
 <link rel="stylesheet" type="text/css" href="<%=application.getContextPath() %>/bootstrap-3.3.5/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="<%=application.getContextPath() %>/bootstrap-3.3.5/css/bootstrap-theme.min.css"/>
 <link rel="stylesheet" type="text/css" href="<%=application.getContextPath() %>/js/jquery.simple.modal/css/jquery.modal.css"/>
 </head>
 <body>

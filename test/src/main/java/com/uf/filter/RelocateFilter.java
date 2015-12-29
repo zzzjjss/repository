@@ -34,14 +34,9 @@ public class RelocateFilter implements Filter {
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-		HttpServletRequest  httpRequest=(HttpServletRequest)request;
 	     HttpServletResponse httpResponse = (HttpServletResponse)response;
-	     Object customer=httpRequest.getSession().getAttribute("customer");
-	     if(customer==null){
-	       httpResponse.sendRedirect("controller/manager/loginPage");
-	       return;
-	     }
-		chain.doFilter(request, response);
+	     httpResponse.sendRedirect("controller/manager/loginPage");
+         return;
 	}
 
 	/**

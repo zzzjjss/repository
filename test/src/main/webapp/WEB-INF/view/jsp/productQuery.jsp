@@ -16,7 +16,15 @@
 				</span>
 			</div>
 			</div>
-			<div class="col-md-4"></div>
+			<div class="col-md-4">
+					<div class="row" style="text-align: right;">
+						<c:if test="${!empty manager}">
+							 <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" data-placement="bottom" title="Popover title" data-content="注销" onclick="logOut()">
+							 ${manager.userName}
+							 </button>
+						</c:if>
+					</div>
+			</div>
 		</div>
 		<br>
 		<div class="row" id="products">
@@ -122,6 +130,31 @@
 			}
 		}
 	});
+	function logOut(){
+		$.ajax({
+		    type: "POST",
+		    url: "logOut",
+		    dataType: "json",
+		    success: 
+		    	function(data,status)
+		    	{   
+			    	if(data.result=="ok"){
+		    	 		window.location="auth/productQuery"
+		    	 	}else{
+		    	 		modal({
+		    				type: 'alert',
+		    				title: '提示',
+		    				text: data.mes
+		    			});	
+		    	 	}
+		    	},
+		    error: 
+		    	function(jqXHR, textStatus, errorThrown ){
+		    	    
+		    	}
+			}
+		);
+	}
 </script>
 
 

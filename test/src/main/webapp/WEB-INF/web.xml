@@ -23,7 +23,7 @@
     <servlet-name>springMVC</servlet-name>
     <url-pattern>/controller/*</url-pattern>
   </servlet-mapping>
-  <!-- 
+   
   <filter>
     <javaee:display-name>LoginFilter</javaee:display-name>
     <filter-name>LoginFilter</filter-name>
@@ -31,7 +31,7 @@
   </filter>
   <filter-mapping>
     <filter-name>LoginFilter</filter-name>
-    <url-pattern>/controller/customer/auth/*</url-pattern>
+    <url-pattern>/controller/manager/auth/*</url-pattern>
   </filter-mapping>
-   -->
+  
 </web-app>
