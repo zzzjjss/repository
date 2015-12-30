@@ -26,6 +26,7 @@ import com.uf.service.CustomerActionService;
 import com.uf.service.ProductManageService;
 import com.uf.util.FileUtil;
 import com.uf.util.GsonExcludeStrategy;
+import com.uf.util.PageQueryResult;
 
 @Controller
 public class CustomerActionController {
@@ -35,12 +36,12 @@ public class CustomerActionController {
   private CustomerActionService custermActionService;
   
   @RequestMapping("/index")
-  public String productAdd(HttpServletRequest request,Model model) {
+  public String indexPage(HttpServletRequest request,Model model) {
       Object obj=request.getSession().getAttribute("customer");
       if(obj==null&&obj instanceof Customer){
         model.addAttribute("customer", (Customer)obj);
       }
-      return "index";
+      return "customer/index";
   }
   @RequestMapping("/customer/login")
   @ResponseBody
@@ -60,6 +61,37 @@ public class CustomerActionController {
     return gson.toJson(result);
     
   }
+  @RequestMapping("/customer/productDetail")
+  public String productDetail(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
+      String id=allRequestParams.get("id");
+      Product pro=productManageService.findProductById(Integer.parseInt(id));
+      File imgFolder=new File(request.getServletContext().getRealPath("/")+"img");
+      String contextPath=request.getServletContext().getContextPath();
+      setImgPathToProduct(pro,imgFolder,contextPath);
+      model.addAttribute("product", pro);
+      return "customer/productDetail";
+  }
+  @RequestMapping("/customer/queryProducts")
+  @ResponseBody
+  public String queryProducts(@RequestParam Map<String,String> allRequestParams,HttpServletRequest request){
+    String queryKeyword=allRequestParams.get("keyword");
+    String pageIndex=allRequestParams.get("pageIndex");
+    String contextPath=request.getServletContext().getContextPath();
+    PageQueryResult<Product> products=productManageService.findProducsByKeyword(queryKeyword, 8, Integer.valueOf(pageIndex));
+    File imgFolder=new File(request.getServletContext().getRealPath("/")+"img");
+    if(!imgFolder.exists()){
+      imgFolder.mkdirs();
+    }
+    if(products!=null){
+      List<Product> pageProducts=products.getPageData();
+      for(Product p:pageProducts){
+        setImgPathToProduct(p,imgFolder,contextPath);
+      }
+    }
+    Gson gson=new GsonBuilder().setExclusionStrategies(new GsonExcludeStrategy()).create();
+    return gson.toJson(products);
+  }
+  
   
   @RequestMapping("/customer/auth/addProductToBuycar")
   @ResponseBody

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ include file="base.jsp"%>
+<%@ include file="../base.jsp"%>
 <div class="row">
 	<div class="col-md-1">
 		
@@ -92,7 +92,7 @@
 		keyword=queryKeyword;
 		$.ajax({
 		    type: "POST",
-		    url: "queryProducts",
+		    url: "customer/queryProducts",
 		    data:{keyword:queryKeyword,pageIndex:pageIndex},
 		    dataType: "json",
 		    success: 
@@ -104,7 +104,7 @@
 			    		var products=data.pageData;
 			    		for(var i=0;i<products.length;i++){
 			    			var pro=products[i];
-			    			$("#products").append('<div class="col-md-3"><div class="thumbnail"><a href="productDetail?id='+pro.id+'" target="_blank"><img src="'+pro.imgsPath[0]+'" alt="..."></a><div class="caption"><h3></h3><p>'+pro.name+'</p><p>￥'+pro.sellPrice+'</p><p>'+
+			    			$("#products").append('<div class="col-md-3"><div class="thumbnail"><a href="customer/productDetail?id='+pro.id+'" target="_blank"><img src="'+pro.imgsPath[0]+'" alt="..."></a><div class="caption"><h3></h3><p>'+pro.name+'</p><p>￥'+pro.sellPrice+'</p><p>'+
 									'<a onclick=buyProduct('+pro.id+',"'+pro.name+'") class="btn btn-primary" role="button">购买</a> '+
 									'</p></div></div></div>');
 			    		}	
@@ -256,4 +256,4 @@
 </script>
 
 
-<%@ include file="bottom.jsp"%>
+<%@ include file="../bottom.jsp"%>

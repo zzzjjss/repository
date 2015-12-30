@@ -36,7 +36,7 @@ public class ProductAdminController {
   
   @RequestMapping("/manager/loginPage")
   public String managerLoginPage(){
-	  return "managerLogin";
+	  return "manager/managerLogin";
   }
   @RequestMapping("/manager/auth/logOut")
   @ResponseBody
@@ -68,7 +68,7 @@ public class ProductAdminController {
   
   @RequestMapping("/manager/auth/productAdd")
   public String productAdd(@RequestParam Map<String,String> allRequestParams,Model model) {
-      return "productAdd";
+      return "manager/productAdd";
   }
   @RequestMapping("/manager/auth/productQuery")
   public String productQuery(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
@@ -76,7 +76,7 @@ public class ProductAdminController {
       if(manager!=null&&manager instanceof Manager){
         model.addAttribute("manager", manager);
       }
-      return "productQuery";
+      return "manager/productQuery";
   }
   
   @RequestMapping("/manager/auth/productEdit")
@@ -87,7 +87,7 @@ public class ProductAdminController {
       String contextPath=request.getServletContext().getContextPath();
       setImgPathToProduct(pro,imgFolder,contextPath);
       model.addAttribute("product", pro);
-      return "productEdit";
+      return "manager/productEdit";
   }
   @RequestMapping("/manager/auth/productDetail")
   public String productDetail(@RequestParam Map<String,String> allRequestParams,Model model,HttpServletRequest request) {
@@ -97,7 +97,7 @@ public class ProductAdminController {
       String contextPath=request.getServletContext().getContextPath();
       setImgPathToProduct(pro,imgFolder,contextPath);
       model.addAttribute("product", pro);
-      return "productDetail";
+      return "manager/productDetail";
   }
   
   

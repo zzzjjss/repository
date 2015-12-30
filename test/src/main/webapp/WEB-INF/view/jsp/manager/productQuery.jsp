@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="base.jsp"%>
-<div class="row">
+<%@ include file="../base.jsp"%>
+<%@ include file="navTop.jsp"%>
+<div class="row" style="margin-top: 60px;">
 	<div class="col-md-1">
 		<jsp:include page="navLeft.jsp">
 			<jsp:param value="1" name="index"/>
@@ -10,32 +11,22 @@
 		<div class="row">
 			<div class="col-md-4"></div>
 			<div class="col-md-4">
-			<div class="input-group input-group-lg">
+				<div class="input-group input-group-lg">
 				<input type="text" class="form-control" placeholder="Search for..." id="keyword"> <span class="input-group-btn">
-					<button class="btn btn-default" type="button" onclick="queryProductByKeyword()">Go!</button>
+					<button class="btn btn-default" type="button" onclick="queryProductByKeyword()">搜索	</button>
 				</span>
+				</div>			
 			</div>
-			</div>
-			<div class="col-md-4">
-					<div class="row" style="text-align: right;">
-						<c:if test="${!empty manager}">
-							 <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" data-placement="bottom" title="Popover title" data-content="注销" onclick="logOut()">
-							 ${manager.userName}
-							 </button>
-						</c:if>
-					</div>
-			</div>
+			<div class="col-md-4"></div>
 		</div>
+		
 		<br>
 		<div class="row" id="products">
-			
-			
 			
 		</div>
 	</div>
 	<div class="col-md-1"></div>
 </div>
-
 
 <script type="text/javascript">
 	
@@ -45,9 +36,6 @@
 	var keyword="";
 	function queryProductByKeyword(){
 		var  queryKeyword=$("#keyword").val();
-		if(queryKeyword.trim()==""){
-			return ;
-		}
 		$("#products").children().remove();
 		queryProduct(queryKeyword,1);
 	}
@@ -130,32 +118,14 @@
 			}
 		}
 	});
-	function logOut(){
-		$.ajax({
-		    type: "POST",
-		    url: "logOut",
-		    dataType: "json",
-		    success: 
-		    	function(data,status)
-		    	{   
-			    	if(data.result=="ok"){
-		    	 		window.location="auth/productQuery"
-		    	 	}else{
-		    	 		modal({
-		    				type: 'alert',
-		    				title: '提示',
-		    				text: data.mes
-		    			});	
-		    	 	}
-		    	},
-		    error: 
-		    	function(jqXHR, textStatus, errorThrown ){
-		    	    
-		    	}
-			}
-		);
-	}
+	$(document).keydown(function (event) {
+		switch (event.keyCode) {
+	    	case 13:
+	    		queryProductByKeyword();
+	    		break;
+		}
+	});
 </script>
 
 
-<%@ include file="bottom.jsp"%>
+<%@ include file="../bottom.jsp"%>

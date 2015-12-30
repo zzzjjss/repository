@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="base.jsp"%>
+<%@ include file="../base.jsp"%>
 <div class="col-md-4"></div>
 <div class="col-md-4">
 	<div class="panel panel-primary">
@@ -53,5 +53,12 @@ function login(){
 		}
 	);
 }
+$(document).keydown(function (event) {
+	switch (event.keyCode) {
+    	case 13:
+    		login();
+    		break;
+	}
+});
 </script>
-<%@ include file="bottom.jsp"%>
+<%@ include file="../bottom.jsp"%>

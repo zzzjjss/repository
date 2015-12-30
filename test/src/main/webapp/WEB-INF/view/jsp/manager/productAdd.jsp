@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="base.jsp"%>
-<div class="row">
+<%@ include file="../base.jsp"%>
+<%@ include file="navTop.jsp"%>
+<div class="row" style="margin-top: 60px;">
 	<div class="col-md-1">
 		<jsp:include page="navLeft.jsp">
 			<jsp:param value="0" name="index"/>
@@ -136,4 +137,4 @@
 </script>
 
 
-<%@ include file="bottom.jsp"%>
+<%@ include file="../bottom.jsp"%>
