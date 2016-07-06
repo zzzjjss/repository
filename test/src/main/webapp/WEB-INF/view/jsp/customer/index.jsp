@@ -9,7 +9,7 @@
 		<div class="row">
 			<div class="col-md-4">
 			<div class="input-group input-group-lg">
-				<input type="text" class="form-control" placeholder="Search for..." id="keyword"> <span class="input-group-btn">
+				<input type="text" class="form-control" placeholder="Search for..." id="keyword" value="${keyword}"> <span class="input-group-btn">
 					<button class="btn btn-default" type="button" onclick="queryProductByKeyword()">Go!</button>
 				</span>
 			</div>
@@ -117,7 +117,7 @@
 			}
 		);
 	}
-	queryProduct("",1);
+	queryProductByKeyword();
 	
 
 	function buyProduct(productId,productName){

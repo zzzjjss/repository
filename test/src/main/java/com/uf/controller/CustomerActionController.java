@@ -1,6 +1,7 @@
 package com.uf.controller;
 
 import java.io.File;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.gson.ExclusionStrategy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.uf.bean.Result;
@@ -39,9 +39,17 @@ public class CustomerActionController {
   @RequestMapping("/index")
   public String indexPage(HttpServletRequest request,Model model) {
       Object obj=request.getSession().getAttribute("customer");
-      if(obj==null&&obj instanceof Customer){
+      if(obj!=null&&obj instanceof Customer){
         model.addAttribute("customer", (Customer)obj);
       }
+      try {
+        request.setCharacterEncoding("UTF-8");
+      } catch (UnsupportedEncodingException e) {
+        // TODO Auto-generated catch block
+        e.printStackTrace();
+      }
+      String keyword=request.getParameter("keyword");
+      model.addAttribute("keyword",keyword);
       return "customer/index";
   }
   @RequestMapping("/customer/login")
