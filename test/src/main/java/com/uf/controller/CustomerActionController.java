@@ -27,6 +27,7 @@ import com.uf.service.ProductManageService;
 import com.uf.util.FileUtil;
 import com.uf.util.GsonExcludeStrategy;
 import com.uf.util.PageQueryResult;
+import com.uf.util.StringUtil;
 
 @Controller
 public class CustomerActionController {
@@ -77,6 +78,9 @@ public class CustomerActionController {
     String queryKeyword=allRequestParams.get("keyword");
     String pageIndex=allRequestParams.get("pageIndex");
     String contextPath=request.getServletContext().getContextPath();
+    if(StringUtil.isNullOrEmpty(pageIndex)){
+      pageIndex="1";
+    }
     PageQueryResult<Product> products=productManageService.findProducsByKeyword(queryKeyword, 8, Integer.valueOf(pageIndex));
     File imgFolder=new File(request.getServletContext().getRealPath("/")+"img");
     if(!imgFolder.exists()){
