@@ -37,7 +37,7 @@ import com.uf.ask.entity.Product;
 
 public class WechatService {
   public static final String WEB_SERVICE_ADDRESS="http://127.0.0.1";
-  public static final String WEB_SERVICE_PUBLIC_ADDRESS="http://52.26.58.43";
+  public static final String WEB_SERVICE_PUBLIC_ADDRESS="http://ec2-52-26-58-43.us-west-2.compute.amazonaws.com";
   public static final String DEFAULT_PIC_URL=WEB_SERVICE_PUBLIC_ADDRESS+"/test/pic/default.jpg";
   public static final String LINK=WEB_SERVICE_PUBLIC_ADDRESS+"/test/controller/index";
   private HttpClient client=HttpClientBuilder.create().build();
