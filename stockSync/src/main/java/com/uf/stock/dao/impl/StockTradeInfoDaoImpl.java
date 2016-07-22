@@ -24,6 +24,15 @@ public class StockTradeInfoDaoImpl  extends CommonRdbsDaoImpl<StockTradeInfo> im
 		}
 		return null;
 	}
+	public StockTradeInfo findLoweestClosePrice(Stock stock){
+	  HibernateTemplate temp=this.getHibernateTemplate();
+	  temp.setMaxResults(1);
+      List<StockTradeInfo> result=(List<StockTradeInfo>)temp.find("from StockTradeInfo s  where s.stock.id=? order by s.closePrice asc  ", stock.getId());
+      if(result!=null&&result.size()>0){
+          return result.get(0);
+      }
+      return null;
+	}
 	public StockTradeInfo  findLatestDateStockTradeInfo(Stock stock){
 		HibernateTemplate temp=this.getHibernateTemplate();
 		temp.setMaxResults(1);

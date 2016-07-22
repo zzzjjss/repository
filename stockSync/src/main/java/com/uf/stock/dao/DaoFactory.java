@@ -17,4 +17,8 @@ public class DaoFactory {
 	public static <T extends CommonDao> T getDao(String daoName) {
 		return (T) context.getBean(daoName);
 	}
+	
+	public static <T> T getBean(Class<T> bean){
+	  return context.getBean(bean);
+	}
 }

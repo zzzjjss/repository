@@ -23,7 +23,7 @@ public class GetStockTask implements Callable<Boolean>{
 		this.stockCode=stockCode;
 	}
 	public Boolean call() throws Exception {
-		String url="http://finance.sina.com.cn/realstock/company/"+stockCode+"/nc.shtml";
+		String url="http://hq.sinajs.cn/?func=getData._hq_cron();&list="+stockCode;
 		StockDao dao=DaoFactory.getDao(StockDao.class);
 		HttpGet getMethod = new HttpGet(url);
 		CloseableHttpResponse responese = null;

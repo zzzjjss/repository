@@ -5,6 +5,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -44,21 +45,27 @@ public class GetStockCurrrentPriceJob implements  Job{
 			}else{
 				return null;
 			}
-			String url="http://hq.sinajs.cn/?list="+stockCode;
+			String url="http://hq.sinajs.cn/?list=s_"+stockCode;
 			HttpGet getMethod = new HttpGet(url);
 			CloseableHttpResponse responese = null;
 			CloseableHttpClient client=HttpUnit.createHttpClient();
 			try {
 				responese = client.execute(getMethod);
-				HttpEntity entity = responese.getEntity();
-				String response=EntityUtils.toString(entity,Charset.forName("gb2312"));
-				String infos[]=response.split(",");
-				if(infos!=null&&infos.length>4){
-					System.out.println(stock.getStockCode()+"--->"+infos[3]);
-					if(infos[3]!=null){
-						return Float.parseFloat(infos[3]);
-					}
+				int status=responese.getStatusLine().getStatusCode();
+				if(status==HttpStatus.SC_OK){
+				  HttpEntity entity = responese.getEntity();
+	                String response=EntityUtils.toString(entity,Charset.forName("gb2312"));
+	                String infos[]=response.split(",");
+	                if(infos!=null&&infos.length>4){
+	                    System.out.println(stock.getStockCode()+"--->"+infos[1]);
+	                    if(infos[1]!=null){
+	                        return Float.parseFloat(infos[1]);
+	                    }
+	                }
+				}else{
+				  System.out.println("http response  status code is:"+status);
 				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			} finally {
@@ -71,4 +78,14 @@ public class GetStockCurrrentPriceJob implements  Job{
 			return null;
 			
 	}
+	
+	public static void main(String[] args) {
+	  GetStockCurrrentPriceJob  job=new GetStockCurrrentPriceJob();
+	  try {
+      job.execute(null);
+    } catch (JobExecutionException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    }
 }

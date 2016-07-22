@@ -27,4 +27,8 @@ public class Analyser {
 			e1.printStackTrace();
 		} 
 	}
+	public static void main(String[] args) {
+	  Analyser an=new Analyser();
+	  an.highestAnalyse();
+    }
 }

@@ -7,20 +7,23 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 
 import com.uf.stock.bean.ConfigInfo;
+import com.uf.stock.dao.DaoFactory;
 
 public class HttpUnit {
 	public static  CloseableHttpClient createHttpClient(){
+	    ConfigInfo config=DaoFactory.getBean(ConfigInfo.class);
 		HttpClientBuilder clientBuilder=HttpClients.custom().setDefaultSocketConfig(SocketConfig.custom().setSoTimeout(120*1000)
 				.build()).setMaxConnTotal(1000).setMaxConnPerRoute(800);
-		if (ConfigInfo.getInstance().isUseProxy()) {
-			clientBuilder.setProxy(new HttpHost(ConfigInfo.getInstance().getProxyAddress(), ConfigInfo.getInstance().getProxyPort()));
+		if (config.isUseProxy()) {
+			clientBuilder.setProxy(new HttpHost(config.getProxyAddress(), config.getProxyPort()));
 		}
 		return clientBuilder.build();
 	}
 	public static CloseableHttpClient createNotimeoutHttpClient(){
+	  ConfigInfo config=DaoFactory.getBean(ConfigInfo.class);
 		HttpClientBuilder clientBuilder=HttpClients.custom();
-		if (ConfigInfo.getInstance().isUseProxy()) {
-			clientBuilder.setProxy(new HttpHost(ConfigInfo.getInstance().getProxyAddress(), ConfigInfo.getInstance().getProxyPort()));
+		if (config.isUseProxy()) {
+			clientBuilder.setProxy(new HttpHost(config.getProxyAddress(), config.getProxyPort()));
 		}
 		return clientBuilder.build();
 	}

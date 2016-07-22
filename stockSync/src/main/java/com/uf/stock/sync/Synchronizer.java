@@ -67,12 +67,12 @@ public class Synchronizer {
 				}
 				
 			}
-//			for(int i=300001;i<=300190;i++){
-//				List<Stock> stock=dao.findStockByCode(Integer.toString(i));
-//				if(stock==null||stock.size()==0){
-//					pool.submit(new GetStockTask("sz"+i));
-//				}
-//			}
+			for(int i=300001;i<=300190;i++){
+				List<Stock> stock=dao.findStockByCode(Integer.toString(i));
+				if(stock==null||stock.size()==0){
+					pool.submit(new GetStockTask("sz"+i));
+				}
+			}
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -81,12 +81,12 @@ public class Synchronizer {
 	}
 	
 	public void syncStockTradeInfo(){
-		ExecutorService pool = Executors.newFixedThreadPool(20);
+		ExecutorService pool = Executors.newFixedThreadPool(40);
 		StockDao dao=DaoFactory.getDao(StockDao.class);
 		try {
 			List<Stock> stocks=dao.findAll(Stock.class);
 			for(Stock stock:stocks){
-				for(int year=2014;year<=2015;year++){
+				for(int year=2014;year<=2016;year++){
 					for(int jidu=1;jidu<=4;jidu++){
 						pool.submit(new GetStockTradeInfoTask(stock, year, jidu));
 					}
@@ -99,6 +99,9 @@ public class Synchronizer {
 		} 
 	}
 
-	
+	public static void main(String[] args) {
+	  Synchronizer  syn=new Synchronizer();
+	  syn.syncStockTradeInfo();
+    }
 	
 }

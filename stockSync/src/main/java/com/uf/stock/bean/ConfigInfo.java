@@ -4,13 +4,6 @@ public class ConfigInfo {
 	private boolean isUseProxy=false;
 	private String proxyAddress;
 	private int proxyPort;
-	private static ConfigInfo instance=new ConfigInfo();
-	private ConfigInfo(){
-		
-	}
-	public static ConfigInfo  getInstance(){
-		return instance;
-	}
 	public boolean isUseProxy() {
 		return isUseProxy;
 	}

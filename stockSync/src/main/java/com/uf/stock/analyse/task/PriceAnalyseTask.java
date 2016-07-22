@@ -20,9 +20,14 @@ public class PriceAnalyseTask implements Callable<Boolean>{
 		StockTradeInfoDao dao=DaoFactory.getDao(StockTradeInfoDao.class);
 		StockTradeInfo hightest=dao.findHighestClosePrice(stock,days);
 		StockTradeInfo latest=dao.findLatestDateStockTradeInfo(stock);
-		if(hightest!=null&&latest!=null&&latest.getTradeDate().getTime()!=hightest.getTradeDate().getTime()&&(latest.getClosePrice()/hightest.getClosePrice())<=percent){
-			System.out.println(stock.getCode()+":"+stock.getName());
+		StockTradeInfo lowest=dao.findLoweestClosePrice(stock);
+		if(lowest.getClosePrice()>=latest.getClosePrice()){
+		  System.out.println(stock.getCode()+":"+stock.getName());
 		}
+		
+//		if(hightest!=null&&latest!=null&&latest.getTradeDate().getTime()!=hightest.getTradeDate().getTime()&&(latest.getClosePrice()/hightest.getClosePrice())<=percent){
+//			System.out.println(stock.getCode()+":"+stock.getName());
+//		}
 		return null;
 	}
 
