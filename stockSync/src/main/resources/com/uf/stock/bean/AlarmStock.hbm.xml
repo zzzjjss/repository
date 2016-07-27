@@ -6,12 +6,20 @@
 			<column name="id" />
 			<generator class="identity" />
 		</id>
-		<property name="stockCode" type="string">
+		<property name="stockCode" type="int">
 			<column name="stock_code" />
 		</property>
-		<property name="alarmPrice" type="float">
-			<column name="alarm_price" />
+		<property name="stockName" type="string">
+			<column name="stock_name" />
 		</property>
-		
+		<property name="alarmBuyPrice" type="float">
+			<column name="alarm_buy_price" />
+		</property>
+		<property name="alarmSellPrice" type="float">
+			<column name="alarm_sell_price" />
+		</property>
+		<property name="downPercent" type="float">
+			<column name="down_percent" />
+		</property>
 	</class>
 </hibernate-mapping>

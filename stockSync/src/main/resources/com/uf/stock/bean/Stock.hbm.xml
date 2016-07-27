@@ -2,16 +2,15 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <hibernate-mapping>
 	<class name="com.uf.stock.bean.Stock" table="stock">
-		<id name="id" type="int">
-			<column name="id" />
-			<generator class="identity" />
-		</id>
-		<property name="code" type="string">
+		<id name="code" type="int">
 			<column name="code" />
-		</property>
+			<generator class="assigned" />
+		</id>
 		<property name="name" type="string">
 			<column name="name" />
 		</property>
-		
+		<property name="type" type="string">
+			<column name="type" />
+		</property>
 	</class>
 </hibernate-mapping>

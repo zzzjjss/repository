@@ -37,6 +37,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 			<list>
 				<value>com/uf/stock/bean/Stock.hbm.xml</value>
 				<value>com/uf/stock/bean/StockTradeInfo.hbm.xml</value>
+				<value>com/uf/stock/bean/BeforeFuQuanTradeInfo.hbm.xml</value>
 				<value>com/uf/stock/bean/AlarmStock.hbm.xml</value>
 			</list>
 		</property>
@@ -44,7 +45,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 			<value>
 				hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 				hibernate.hbm2ddl.auto=update
-				<!--  hibernate.show_sql=true-->
+				 hibernate.show_sql=true
 			</value>
 		</property>
 	</bean>
@@ -54,6 +55,8 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="proxyAddress" value="10.5.157.46"></property>
 		<property name="proxyPort" value="80"></property>
 	</bean>
+	<bean class="com.uf.stock.alarm.desktop.CmdAlarm"></bean>
+	
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
@@ -79,7 +82,9 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 	<bean name="stockTradeInfoDao" class="com.uf.stock.dao.impl.StockTradeInfoDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
-	
+	<bean name="beforeFuquanTradeInfoDao" class="com.uf.stock.dao.impl.BeforeFuQuanTradeInfoDaoImpl">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
 	<bean name="alarmStockDao" class="com.uf.stock.dao.impl.AlarmStockDaoImpl">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>

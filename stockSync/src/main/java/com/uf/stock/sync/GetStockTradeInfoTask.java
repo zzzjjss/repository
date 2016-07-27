@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.concurrent.Callable;
@@ -43,12 +44,14 @@ public class GetStockTradeInfoTask implements Callable<Object>{
 	}
 	
 	public Object call() throws Exception {
-		String url = "http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/"+stock.getCode()+".phtml?year="+year+"&jidu="+jidu;
+	    StockTradeInfoDao dao=DaoFactory.getDao(StockTradeInfoDao.class);
+	    DecimalFormat  codeformat=new DecimalFormat("000000");
+        String code=codeformat.format(stock.getCode());
+		String url = "http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/"+code+".phtml?year="+year+"&jidu="+jidu;
 		HttpGet getMethod = new HttpGet(url);
 		CloseableHttpResponse responese = null;
 		CloseableHttpClient client=HttpUnit.createHttpClient();
 		SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-		StockTradeInfoDao dao=DaoFactory.getDao(StockTradeInfoDao.class);
 		for(int i=0;i<3;i++){
 			try {
 				responese = client.execute(getMethod);
@@ -78,7 +81,11 @@ public class GetStockTradeInfoTask implements Callable<Object>{
 						col++;
 					}
 					if(col>0){
-						StockTradeInfo tradeInfo= new StockTradeInfo();
+					    StockTradeInfo tradeInfo=dao.findByTradeDate(stock.getCode(),format.parse(rowContent[0]));
+					    if(tradeInfo!=null){
+					      return null;
+					    }
+					    tradeInfo= new StockTradeInfo();
 						tradeInfo.setTradeDate(format.parse(rowContent[0]));
 						tradeInfo.setOpenPrice(Float.parseFloat(rowContent[1]));
 						tradeInfo.setHighestPrice(Float.parseFloat(rowContent[2]));

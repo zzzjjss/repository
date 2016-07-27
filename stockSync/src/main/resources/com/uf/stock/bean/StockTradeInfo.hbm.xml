@@ -29,7 +29,7 @@
 			<column name="trade_money" />
 		</property>
 		
-		<many-to-one name="stock" column="stockId" class="com.uf.stock.bean.Stock" lazy="false"></many-to-one>
+		<many-to-one name="stock" column="stock_code" class="com.uf.stock.bean.Stock" lazy="false"></many-to-one>
 		
 	</class>
 </hibernate-mapping>
