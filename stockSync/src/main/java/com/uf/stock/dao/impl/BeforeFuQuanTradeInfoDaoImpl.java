@@ -3,6 +3,8 @@ package com.uf.stock.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
 import com.uf.stock.bean.BeforeFuQuanTradeInfo;
@@ -53,5 +55,12 @@ public class BeforeFuQuanTradeInfoDaoImpl  extends CommonRdbsDaoImpl<BeforeFuQua
           return result.get(0);
       }
       return null;
+	}
+	public int deleteStockBeforeTradeInfoByCode(Integer stockCode){
+	  String hql="delete BeforeFuQuanTradeInfo s where s.stock.code=:code ";
+      Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+      Query q = session.createQuery(hql);
+      q.setInteger("code", stockCode);
+      return q.executeUpdate();
 	}
 }

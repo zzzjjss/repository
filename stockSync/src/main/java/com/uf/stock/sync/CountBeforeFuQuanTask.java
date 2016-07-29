@@ -47,6 +47,7 @@ public class CountBeforeFuQuanTask  implements Callable<String>{
           beforeTradeInfoe.add(temp);
           before=info.getClosePrice();
       }
+      fuquanDao.deleteStockBeforeTradeInfoByCode(stock.getCode());
       for(BeforeFuQuanTradeInfo beforInfo:beforeTradeInfoe ){
         fuquanDao.saveOrUpdate(beforInfo);
       }
@@ -63,15 +64,28 @@ public class CountBeforeFuQuanTask  implements Callable<String>{
      } 
   }
   public static void main(String[] args) {
-    ExecutorService pool = Executors.newFixedThreadPool(50);
     StockDao dao=DaoFactory.getDao(StockDao.class);
-    
-    List<Stock> stocks=dao.findAll(Stock.class);
-    for(Stock s:stocks){
-      CountBeforeFuQuanTask  task=new CountBeforeFuQuanTask(s);
-      pool.submit(task);
+    List<Stock> stocks=dao.findStockByCode(2002);
+    if(stocks!=null&&!stocks.isEmpty()){
+      Stock stock=stocks.get(0);
+      CountBeforeFuQuanTask  task=new CountBeforeFuQuanTask(stock);
+      try {
+        task.call();
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
-    pool.shutdown();
+    
+    
+//    ExecutorService pool = Executors.newFixedThreadPool(50);
+//    StockDao dao=DaoFactory.getDao(StockDao.class);
+//    
+//    List<Stock> stocks=dao.findAll(Stock.class);
+//    for(Stock s:stocks){
+//      CountBeforeFuQuanTask  task=new CountBeforeFuQuanTask(s);
+//      pool.submit(task);
+//    }
+//    pool.shutdown();
     
   }
 }

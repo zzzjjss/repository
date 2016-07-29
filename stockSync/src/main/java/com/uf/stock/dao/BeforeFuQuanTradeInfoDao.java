@@ -12,4 +12,5 @@ public interface BeforeFuQuanTradeInfoDao extends CommonDao<BeforeFuQuanTradeInf
 	public BeforeFuQuanTradeInfo  findLatestDateStockTradeInfo(Stock stock);
 	public BeforeFuQuanTradeInfo findLoweestClosePrice(Stock stock);
 	public BeforeFuQuanTradeInfo findByTradeDate(Integer stockCode,Date tradeDate);
+	public int deleteStockBeforeTradeInfoByCode(Integer stockCode);
 }

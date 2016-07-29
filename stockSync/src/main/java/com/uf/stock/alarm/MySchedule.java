@@ -19,7 +19,7 @@ public class MySchedule {
   private Siren alarm=DaoFactory.getBean(Siren.class);
 	public void startSchedule(){
 	  ExecutorService pool = Executors.newFixedThreadPool(4);
-	 // while(true){
+	  while(true){
 	    try {
 	      long begin=System.currentTimeMillis();
 	      List<AlarmStock> allStocks= dao.findAll(AlarmStock.class);
@@ -50,7 +50,7 @@ public class MySchedule {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-	  //}
+	  }
 		
 	}
 	public  void countAlarmPrice(){

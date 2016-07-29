@@ -3,6 +3,9 @@ package com.uf.stock.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
 import com.uf.stock.bean.Stock;
@@ -55,5 +58,14 @@ public class StockTradeInfoDaoImpl  extends CommonRdbsDaoImpl<StockTradeInfo> im
 	public List<StockTradeInfo> findOrderedByStock(Stock stock){
 	  HibernateTemplate temp=this.getHibernateTemplate();
       return (List<StockTradeInfo>)temp.find("from StockTradeInfo s  where s.stock.code=? order by s.tradeDate asc", stock.getCode());
+	}
+	public int deleteStockTradeInfoByCode(Integer stockCode){
+	  String hql="delete StockTradeInfo s where s.stock.code=:code ";
+	  Session session = getHibernateTemplate().getSessionFactory().getCurrentSession();
+      Query q = session.createQuery(hql);
+      q.setInteger("code", stockCode);
+      return q.executeUpdate();
+	  
+	  
 	}
 }

@@ -25,7 +25,7 @@ import com.uf.stock.util.HttpUnit;
 public class Synchronizer {
 	private Logger logger = LogManager.getLogger(Synchronizer.class);
 
-	public void syncStockInfo() {
+	public void syncAllStockInfo() {
 		CloseableHttpClient client = HttpUnit.createHttpClient();
 		ExecutorService pool = Executors.newFixedThreadPool(50);
 		Future<List<String>> result=pool.submit(new GetStockCodesTask(client));
@@ -105,7 +105,30 @@ public class Synchronizer {
 		return true;
 	}
 	
-  public void syncStockTradeInfo() {
+	public void resyncStrockTradeInfo(Integer stockCode){
+	  StockTradeInfoDao stockTradeDao = DaoFactory.getDao(StockTradeInfoDao.class);
+	  StockDao dao = DaoFactory.getDao(StockDao.class);
+	  stockTradeDao.deleteStockTradeInfoByCode(stockCode);
+	  Calendar calendar = Calendar.getInstance();
+      calendar.setTime(new Date());
+      List<Stock> stocks=dao.findStockByCode(stockCode);
+      if(stocks!=null&&!stocks.isEmpty()){
+        Stock stock=stocks.get(0);
+        int currentYear = calendar.get(Calendar.YEAR);
+        for (int year = 2014; year <= currentYear; year++) {
+          for (int jidu = 1; jidu <= 4; jidu++) {
+            try {
+              new GetStockTradeInfoTask(stock, year, jidu).call();
+            }catch (Exception e) {
+              e.printStackTrace();
+            }
+          }
+        }
+      }
+      
+	}
+	
+  public void syncAllStockTradeInfo() {
     ExecutorService pool = Executors.newFixedThreadPool(30);
     StockDao dao = DaoFactory.getDao(StockDao.class);
     StockTradeInfoDao stockTradeDao = DaoFactory.getDao(StockTradeInfoDao.class);
@@ -139,7 +162,8 @@ public class Synchronizer {
   }
 	public static void main(String[] args) {
 	  Synchronizer  syn=new Synchronizer();
-	  syn.syncStockTradeInfo();
+	  syn.resyncStrockTradeInfo(520);
+	  
     }
 	
 }

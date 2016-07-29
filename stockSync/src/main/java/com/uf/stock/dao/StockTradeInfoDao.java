@@ -13,5 +13,6 @@ public interface StockTradeInfoDao extends CommonDao<StockTradeInfo>{
 	public StockTradeInfo findLoweestClosePrice(Stock stock);
 	public List<StockTradeInfo> findOrderedByStock(Stock stock);
 	public StockTradeInfo findByTradeDate(Integer stockCode,Date tradeDate);
+	public int deleteStockTradeInfoByCode(Integer stockCode);
 	
 }

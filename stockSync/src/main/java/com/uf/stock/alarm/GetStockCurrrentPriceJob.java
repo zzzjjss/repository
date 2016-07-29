@@ -38,12 +38,13 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
 		Map<String, Float>  result=getStocksCurrentPrice();
 		if(alarmsSocks!=null&&alarmsSocks.size()>0){
 			for(AlarmStock stock:alarmsSocks){
-			    Float  price=result.get(codeformat.format(stock.getStockCode()));
+			    String code=codeformat.format(stock.getStockCode());
+			    Float  price=result.get(code);
 				if(price!=null&&price!=0.0f&&price.floatValue()<=stock.getAlarmBuyPrice()){
-				  alarmInfo.add(stock.getStockCode()+"  current price :"+price+"  <  "+stock.getAlarmBuyPrice()+"  please buy");
+				  alarmInfo.add(code+"  current price :"+price+"  <  "+stock.getAlarmBuyPrice()+"  please buy");
 				}
 				if(price!=null&&price!=0.0f&&stock.getAlarmSellPrice()!=null&&price.floatValue()>=stock.getAlarmSellPrice()){
-				  alarmInfo.add(stock.getStockCode()+"  current price :"+price+"  > "+stock.getAlarmSellPrice()+" please sell");
+				  alarmInfo.add(code+"  current price :"+price+"  > "+stock.getAlarmSellPrice()+" please sell");
 				}
 				if(price!=null&&price!=0.0f){
 				  stock.setDownPercent((price-stock.getAlarmBuyPrice())/price);
@@ -62,9 +63,9 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
   	        String code=codeformat.format(stock.getStockCode());
               String stockCode = "";
               if (code.startsWith("60")) {
-                stockCode = "s_sh" + stock.getStockCode();
+                stockCode = "s_sh" + code;
               } else if (code.startsWith("00") || code.startsWith("30")) {
-                stockCode = "s_sz" + stock.getStockCode();
+                stockCode = "s_sz" + code;
               }
               urlParam.add(stockCode);
               result.put(code, 0.0f);
