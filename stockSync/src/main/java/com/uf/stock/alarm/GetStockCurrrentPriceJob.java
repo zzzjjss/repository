@@ -46,13 +46,13 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
 			    Float percent=info[1];
 			    Float downPercent=(price-stock.getAlarmBuyPrice())/price;
 				if(price!=null&&price!=0.0f&&price.floatValue()<=stock.getAlarmBuyPrice()){
-				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  <  "+stock.getAlarmBuyPrice());
+				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  <  alarm price:"+stock.getAlarmBuyPrice());
 				}
 				if(price!=null&&price!=0.0f&&stock.getAlarmSellPrice()!=null&&price.floatValue()>=stock.getAlarmSellPrice()){
 				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  > "+stock.getAlarmSellPrice()+" please sell");
 				}
 				if(percent!=null&&percent.floatValue()>=2&&downPercent<=0.2){
-				  alarmInfo.add(code+stock.getStockName()+" ------> "+percent);
+				  alarmInfo.add(code+stock.getStockName()+" ------> "+percent+"%");
 				}
 				ca.setTime(new Date());
 				int house=ca.get(Calendar.HOUR_OF_DAY);
