@@ -4,6 +4,7 @@ public class ConfigInfo {
 	private boolean isUseProxy=false;
 	private String proxyAddress;
 	private int proxyPort;
+	
 	public boolean isUseProxy() {
 		return isUseProxy;
 	}

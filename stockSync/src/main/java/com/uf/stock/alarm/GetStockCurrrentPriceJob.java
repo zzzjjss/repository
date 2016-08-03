@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,30 +35,38 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
 	
 	public List<String> call()  throws Exception{
 	    DecimalFormat  codeformat=new DecimalFormat("000000");
-        
+        Calendar ca=Calendar.getInstance();
 		List<String>  alarmInfo=new ArrayList<String>();
-		Map<String, Float>  result=getStocksCurrentPrice();
+		Map<String, Float[]>  result=getStocksCurrentInfo();
 		if(alarmsSocks!=null&&alarmsSocks.size()>0){
 			for(AlarmStock stock:alarmsSocks){
 			    String code=codeformat.format(stock.getStockCode());
-			    Float  price=result.get(code);
+			    Float  info[]=result.get(code);
+			    Float price=info[0];
+			    Float percent=info[1];
+			    Float downPercent=(price-stock.getAlarmBuyPrice())/price;
 				if(price!=null&&price!=0.0f&&price.floatValue()<=stock.getAlarmBuyPrice()){
-				  alarmInfo.add(code+"  current price :"+price+"  <  "+stock.getAlarmBuyPrice()+"  please buy");
+				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  <  "+stock.getAlarmBuyPrice());
 				}
 				if(price!=null&&price!=0.0f&&stock.getAlarmSellPrice()!=null&&price.floatValue()>=stock.getAlarmSellPrice()){
-				  alarmInfo.add(code+"  current price :"+price+"  > "+stock.getAlarmSellPrice()+" please sell");
+				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  > "+stock.getAlarmSellPrice()+" please sell");
 				}
-				if(price!=null&&price!=0.0f){
+				if(percent!=null&&percent.floatValue()>=2&&downPercent<=0.2){
+				  alarmInfo.add(code+stock.getStockName()+" ------> "+percent);
+				}
+				ca.setTime(new Date());
+				int house=ca.get(Calendar.HOUR_OF_DAY);
+				int minute=ca.get(Calendar.MINUTE);
+				if(price!=null&&price!=0.0f&&house>=15&&minute<=5){
 				  stock.setDownPercent((price-stock.getAlarmBuyPrice())/price);
 				  dao.update(stock);
 				}
-				
 			}
 		}
 		return alarmInfo;
 	}
-	private Map<String, Float> getStocksCurrentPrice(){
-	      Map<String,Float> result=new HashMap<String, Float>();
+	private Map<String, Float[]> getStocksCurrentInfo(){
+	      Map<String,Float[]> result=new HashMap<String, Float[]>();
   	      List<String> urlParam=new ArrayList<String>();
   	      for(AlarmStock stock:alarmsSocks){
   	        DecimalFormat  codeformat=new DecimalFormat("000000");
@@ -68,7 +78,7 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
                 stockCode = "s_sz" + code;
               }
               urlParam.add(stockCode);
-              result.put(code, 0.0f);
+              result.put(code, new Float[]{0.0f,0.0f});
   	      }
     	 
 			String url="http://hq.sinajs.cn/?list="+StringUtils.join(urlParam, ",");
@@ -87,11 +97,15 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
   	                    if(StringUtils.isNotBlank(stockInfo)&&stockInfo.contains("=")){
   	                        String keyValue[]=stockInfo.split("=");
                             String code=keyValue[0].substring(keyValue[0].length()-6);
-                            Float  price=0.0f;
+                            Float  price[]=new Float[]{0.0f,0.0f};
+                            
                             String infos[]=keyValue[1].replace("\"", "").split(",");
                             if (infos != null && infos.length > 4) {
                               if (!infos[0].contains("ST") && infos[1] != null) {
-                                price = Float.parseFloat(infos[1]);
+                                price[0] = Float.parseFloat(infos[1]);
+                              }
+                              if (!infos[0].contains("ST") && infos[3] != null) {
+                                price[1] = Float.parseFloat(infos[3]);
                               }
                             }
                             result.put(code, price);  

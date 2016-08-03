@@ -21,7 +21,6 @@ public class MySchedule {
 	  ExecutorService pool = Executors.newFixedThreadPool(4);
 	  while(true){
 	    try {
-	      long begin=System.currentTimeMillis();
 	      List<AlarmStock> allStocks= dao.findAll(AlarmStock.class);
 	      List<AlarmStock> temp=null;
 	      List<Future<List<String>>> futures=new ArrayList<Future<List<String>>>();
@@ -46,7 +45,6 @@ public class MySchedule {
 	      if(!alarms.isEmpty()){
 	        alarm.alarm(alarms);
 	      }
-	      System.out.println((System.currentTimeMillis()-begin)/1000);
         } catch (Throwable e) {
             e.printStackTrace();
         }
