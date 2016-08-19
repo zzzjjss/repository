@@ -7,7 +7,7 @@ public class AlarmStock {
   private Float alarmBuyPrice;
   private Float alarmSellPrice;
   private Float downPercent;
-
+  private Float priceProfit;
   public Integer getId() {
     return id;
   }
@@ -56,6 +56,14 @@ public class AlarmStock {
 
   public void setDownPercent(Float downPercent) {
     this.downPercent = downPercent;
+  }
+
+  public Float getPriceProfit() {
+    return priceProfit;
+  }
+
+  public void setPriceProfit(Float priceProfit) {
+    this.priceProfit = priceProfit;
   }
 
 }

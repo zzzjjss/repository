@@ -1,6 +1,8 @@
 package com.uf.stock.alarm;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -19,8 +21,21 @@ public class MySchedule {
   private Siren alarm=DaoFactory.getBean(Siren.class);
 	public void startSchedule(){
 	  ExecutorService pool = Executors.newFixedThreadPool(4);
+	  Calendar ca=Calendar.getInstance();
+	  boolean firstTime=true;
 	  while(true){
 	    try {
+	      boolean updateStock=false;
+	      ca.setTime(new Date());
+          int house=ca.get(Calendar.HOUR_OF_DAY);
+          int minute=ca.get(Calendar.MINUTE);
+          if(house>=15&&minute<=5){
+            updateStock=true;
+          }
+          if(firstTime){
+            updateStock=true;
+            firstTime=false;
+          }
 	      List<AlarmStock> allStocks= dao.findAll(AlarmStock.class);
 	      List<AlarmStock> temp=null;
 	      List<Future<List<String>>> futures=new ArrayList<Future<List<String>>>();
@@ -31,7 +46,7 @@ public class MySchedule {
 	        }
 	        temp.add(allStocks.get(i));
 	        if((i%subSize==(subSize-1))||i==(allStocks.size()-1)){
-	          Future<List<String>> result=pool.submit(new GetStockCurrrentPriceJob(temp));
+	          Future<List<String>> result=pool.submit(new GetStockCurrrentPriceJob(temp,updateStock));
 	          futures.add(result);
 	        }
 	      }

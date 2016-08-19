@@ -29,13 +29,14 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
 	private AlarmStockDao dao=DaoFactory.getDao(AlarmStockDao.class);
 	
 	private List<AlarmStock> alarmsSocks=new ArrayList<AlarmStock>();
-	public GetStockCurrrentPriceJob(List<AlarmStock> alarmsSocks){
+	private boolean updateStock=false;
+	public GetStockCurrrentPriceJob(List<AlarmStock> alarmsSocks,boolean updateStock){
 	  this.alarmsSocks=alarmsSocks;
+	  this.updateStock=updateStock;
 	}
 	
 	public List<String> call()  throws Exception{
 	    DecimalFormat  codeformat=new DecimalFormat("000000");
-        Calendar ca=Calendar.getInstance();
 		List<String>  alarmInfo=new ArrayList<String>();
 		Map<String, Float[]>  result=getStocksCurrentInfo();
 		if(alarmsSocks!=null&&alarmsSocks.size()>0){
@@ -45,21 +46,23 @@ public class GetStockCurrrentPriceJob implements  Callable<List<String>>{
 			    Float price=info[0];
 			    Float percent=info[1];
 			    Float downPercent=(price-stock.getAlarmBuyPrice())/price;
-				if(price!=null&&price!=0.0f&&price.floatValue()<=stock.getAlarmBuyPrice()){
+			    Float profit=stock.getPriceProfit()==null?0f:stock.getPriceProfit();
+				if(price!=null&&price!=0.0f&&price.floatValue()<=stock.getAlarmBuyPrice()&&profit>0&&profit<=80){
 				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  <  alarm price:"+stock.getAlarmBuyPrice());
 				}
 				if(price!=null&&price!=0.0f&&stock.getAlarmSellPrice()!=null&&price.floatValue()>=stock.getAlarmSellPrice()){
 				  alarmInfo.add(code+stock.getStockName()+"  current price :"+price+"  > "+stock.getAlarmSellPrice()+" please sell");
 				}
-				if(percent!=null&&percent.floatValue()>=2&&downPercent<=0.2){
+				if(percent!=null&&percent.floatValue()>=2&&downPercent<=0.2&&profit>0&&profit<=80){
 				  alarmInfo.add(code+stock.getStockName()+" ------> "+percent+"%");
 				}
-				ca.setTime(new Date());
-				int house=ca.get(Calendar.HOUR_OF_DAY);
-				int minute=ca.get(Calendar.MINUTE);
-				if(price!=null&&price!=0.0f&&house>=15&&minute<=5){
+				if(percent!=null&&percent.floatValue()<=-2&&downPercent<=0.3&&profit>0&&profit<=80){
+                  alarmInfo.add(code+stock.getStockName()+" ------> "+percent+"%  make a T ");
+                }
+				if(price!=null&&price!=0.0f&&updateStock){
 				  stock.setDownPercent((price-stock.getAlarmBuyPrice())/price);
 				  dao.update(stock);
+				  System.out.println("update "+stock.getStockCode());
 				}
 			}
 		}

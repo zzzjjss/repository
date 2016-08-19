@@ -21,5 +21,8 @@
 		<property name="downPercent" type="float">
 			<column name="down_percent" />
 		</property>
+		<property name="priceProfit" type="float">
+			<column name="price_profit" />
+		</property>
 	</class>
 </hibernate-mapping>
