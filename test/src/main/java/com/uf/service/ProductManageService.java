@@ -5,6 +5,7 @@ import java.util.List;
 import com.uf.entity.Manager;
 import com.uf.entity.Product;
 import com.uf.entity.ProductImage;
+import com.uf.entity.Word;
 import com.uf.util.PageQueryResult;
 
 public interface ProductManageService {
@@ -15,4 +16,5 @@ public interface ProductManageService {
     public void deleteProductById(Integer productId);
     public Product findProductById(Integer productId);
     public Manager findManagerByName(String userName);
+    public void saveWord(Word word);
 }

@@ -56,7 +56,7 @@
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://127.0.0.1:3306/test?characterEncoding=UTF-8" />
+		<property name="url" value="jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
 		<property name="password" value="root" />
 	</bean>
@@ -71,6 +71,7 @@
 				<value>com/uf/entity/BuycarProductInfo.hbm.xml</value>
 				<value>com/uf/entity/Customer.hbm.xml</value>
 				<value>com/uf/entity/Manager.hbm.xml</value>
+				<value>com/uf/entity/Word.hbm.xml</value>
 			</list>
 		</property>
 		

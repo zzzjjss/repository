@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 import com.uf.dao.ManagerDao;
 import com.uf.dao.ProductDao;
 import com.uf.dao.ProductImgDao;
+import com.uf.dao.WordDao;
 import com.uf.entity.Manager;
 import com.uf.entity.Product;
 import com.uf.entity.ProductImage;
+import com.uf.entity.Word;
 import com.uf.searcher.SearchEngine;
 import com.uf.service.ProductManageService;
 import com.uf.util.PageQueryResult;
@@ -27,6 +29,8 @@ public class ProductManageServiceImpl implements ProductManageService{
   private SearchEngine  sercherEngine;
   @Autowired
   private ManagerDao managerDao;
+  @Autowired
+  private WordDao wordDao;
   public void addProduct(Product product,List<ProductImage>  imgs){
       productDao.insert(product);
       sercherEngine.addProductInfoToIndex(product);
@@ -84,5 +88,8 @@ public class ProductManageServiceImpl implements ProductManageService{
     productDao.executeUpdateHql("delete from Product p where p.id=?", productId);
     sercherEngine.deleteProductFromIndexById(productId);
     
+  }
+  public void saveWord(Word word){
+    wordDao.saveOrUpdate(word);
   }
 }
