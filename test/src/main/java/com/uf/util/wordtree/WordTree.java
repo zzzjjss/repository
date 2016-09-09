@@ -1,7 +1,11 @@
 package com.uf.util.wordtree;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,15 +33,9 @@ public class WordTree {
     
       //tree.printAllWord();
       long begin=System.currentTimeMillis();
-      String st="IK Analyzer 是一个开源的，基于java语言开发的轻量级的中文分词工具包。" +
-          "从2006年12月推出1.0版开始， IKAnalyzer已经推出了4个大版本。" +
-          "最初，它是以开源项目Luence为应用主体的，" +
-          "结合词典分词和文法分析算法的中文分词组件。从3.0版本开始，" +
-          "IK发展为面向Java的公用分词组件，独立于Lucene项目，" +
-          "同时提供了对Lucene的默认优化实现。在2012版本中，" +
-          "IK实现了简单的分词歧义排除算法，" +
-          "标志着IK分词器从单纯的词典分词向模拟黄道益语义分词衍化龟背。";
-      List<String> result= tree.parseWords(st);
+      String st="厕所";
+      //List<String> result= tree.parseWords(st);
+      List<String> result=tree.parseWords(new FileInputStream("C:\\jason\\temp\\news.txt"), "UTF-8");
       System.out.println((System.currentTimeMillis()-begin));
       for(String r:result){
         System.out.println(r);
@@ -79,12 +77,29 @@ public class WordTree {
    if(!StringUtil.isNullOrEmpty(input)){
      for(int i=0;i<input.length();i++){
        String subInput=input.substring(i);
+       //TODO May use  Threadpool  to optimize
        List<String> result=parseOnePathWords(subInput);
        results.addAll(result);
      }
    }
    return results;
   }
+  
+  public List<String> parseWords(InputStream input,String charsetName) throws UnsupportedEncodingException{
+    StopWordReader reader=new StopWordReader(new InputStreamReader(input,charsetName));
+    List<String>  results=new ArrayList<String>();
+    String segment=null;
+    try{
+      while((segment=reader.readSegmentation())!=null){
+        List<String> parsedWords=parseWords(segment);
+        results.addAll(parsedWords);
+      }
+    }catch(IOException e){
+      e.printStackTrace();
+    }
+    return results;
+  }
+  
   
   private List<String> parseOnePathWords(String input){
     List<String> result=new ArrayList<String>();
