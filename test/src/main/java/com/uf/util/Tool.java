@@ -28,10 +28,10 @@ public class Tool {
 				}
 			}
 		}
-		word.forEach(item->{
-			Word w=new Word();
-			w.setWord(item);
-			service.saveWord(w);
-		});
+//		word.forEach(item->{
+//			Word w=new Word();
+//			w.setWord(item);
+//			service.saveWord(w);
+//		});
 	}
 }
