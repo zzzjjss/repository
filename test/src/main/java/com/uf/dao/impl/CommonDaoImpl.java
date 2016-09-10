@@ -72,7 +72,7 @@ public class CommonDaoImpl<T> implements CommonDao<T> {
           }
       });
 	}
-	protected PageQueryResult<T> queryPageEntity(final int pageSize,final int pageIndex, final String hql,final Map<String, Object> paramValue) {
+	public PageQueryResult<T> queryPageEntity(final int pageSize,final int pageIndex, final String hql,final Map<String, Object> paramValue) {
       final String countHql = parseCountHql(hql);
       final PageQueryResult<T> result = new PageQueryResult<T>();
       hibernateTemplate.execute(new HibernateCallback<Object>() {

@@ -17,4 +17,6 @@ public interface ProductManageService {
     public Product findProductById(Integer productId);
     public Manager findManagerByName(String userName);
     public void saveWord(Word word);
+    public PageQueryResult<Product> findPagedProducts(int pageSize,int pageIndex);
+    public PageQueryResult<Word> findPagedWords(int pageSize,int pageIndex);
 }

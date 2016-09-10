@@ -4,7 +4,7 @@
 <!-- Generated 2013-10-10 21:40:33 by Hibernate Tools 3.4.0.CR1 -->
 <hibernate-mapping>
     <class name="com.uf.entity.Word" table="word" >
-        <id name="id" type="string">
+        <id name="word" type="string">
             <column name="word" />
             <generator class="assigned" />
         </id>

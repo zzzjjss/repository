@@ -52,13 +52,14 @@
     
     <context:component-scan base-package="com.uf.service"></context:component-scan>
 	<context:component-scan base-package="com.uf.dao"></context:component-scan>
-
+	<context:component-scan base-package="com.uf.springbean"></context:component-scan>
+	
 	<bean id="myDataSource" class="org.apache.commons.dbcp.BasicDataSource"
 		destroy-method="close">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/test?characterEncoding=UTF-8" />
+		<property name="url" value="jdbc:mysql://sav-nova-test.cjhssfjyj8vz.us-west-2.rds.amazonaws.com:3306/test?characterEncoding=UTF-8" />
 		<property name="username" value="root" />
-		<property name="password" value="root" />
+		<property name="password" value="savadmin" />
 	</bean>
 	
 	<bean id="sessionFactory"
@@ -94,7 +95,8 @@
 		</property>
 	</bean>
 	<bean id="searchEngine" class="com.uf.searcher.SearchEngine">
-		 <constructor-arg value="C:/jason/indexDir" /> 
+		 <constructor-arg value="E:/luceneIndex" name="indexDir"/>
+		  <constructor-arg value="false" name="rebuildIndex"/>
 	</bean>
 
 	<aop:config>
@@ -109,5 +111,4 @@
 			<tx:method name="find*" propagation="SUPPORTS" read-only="true" />
 		</tx:attributes>
 	</tx:advice>
-    
 </beans>

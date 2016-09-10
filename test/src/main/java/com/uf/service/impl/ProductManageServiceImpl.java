@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
+import com.google.common.base.Strings;
 import com.uf.dao.ManagerDao;
 import com.uf.dao.ProductDao;
 import com.uf.dao.ProductImgDao;
@@ -17,6 +20,8 @@ import com.uf.entity.ProductImage;
 import com.uf.entity.Word;
 import com.uf.searcher.SearchEngine;
 import com.uf.service.ProductManageService;
+import com.uf.springbean.ProductEventBus;
+import com.uf.springbean.ProductSearchTool;
 import com.uf.util.PageQueryResult;
 import com.uf.util.StringUtil;
 @Service("productManageService")
@@ -31,6 +36,8 @@ public class ProductManageServiceImpl implements ProductManageService{
   private ManagerDao managerDao;
   @Autowired
   private WordDao wordDao;
+  @Autowired
+  private ProductSearchTool searchTool;
   public void addProduct(Product product,List<ProductImage>  imgs){
       productDao.insert(product);
       sercherEngine.addProductInfoToIndex(product);
@@ -40,6 +47,16 @@ public class ProductManageServiceImpl implements ProductManageService{
           productImgDao.insert(img);
         }
       }
+      if(!Strings.isNullOrEmpty(product.getSearchKeywords())){
+    	  List<String> words=Splitter.on(' ').trimResults().omitEmptyStrings().splitToList(product.getSearchKeywords());
+			for(String word:words){
+				Word w=new Word();
+				w.setWord(word.trim());
+				System.out.println("----"+word.trim());
+				this.saveWord(w);
+				searchTool.addWordToTree(word.trim());
+			}
+		}
   }
   public Manager findManagerByName(String userName){
 	  List<Manager> cus=managerDao.findByHql("select c from  Manager c  where c.userName=?", userName);
@@ -65,6 +82,11 @@ public class ProductManageServiceImpl implements ProductManageService{
      if(StringUtil.isNullOrEmpty(keyword)){
        return productDao.findPagedProductByHql("select p from Product p ",null, pageSize, pageIndex);
      }else{
+       List<String> words=searchTool.parseWords(keyword);
+       if(words==null||words.size()<=0)
+    	   return null;
+       keyword=Joiner.on(" ").join(words);
+       System.out.println("after parse the keyword is ->"+keyword);
        List<Integer> ids=sercherEngine.searchProductIds(keyword);
        if(ids!=null&&ids.size()>0){
          Map<String, Object> idsParam=new HashMap<String,Object>();
@@ -91,5 +113,11 @@ public class ProductManageServiceImpl implements ProductManageService{
   }
   public void saveWord(Word word){
     wordDao.saveOrUpdate(word);
+  }
+  public PageQueryResult<Word> findPagedWords(int pageSize,int pageIndex){
+	  return wordDao.queryPageEntity(pageSize, pageIndex, "select w from Word w ", null);
+  }
+  public PageQueryResult<Product> findPagedProducts(int pageSize,int pageIndex){
+	  return productDao.findPagedProductByHql("select p from Product p ",null, pageSize, pageIndex);
   }
 }
