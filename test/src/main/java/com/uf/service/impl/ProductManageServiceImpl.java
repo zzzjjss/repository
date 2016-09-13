@@ -1,5 +1,6 @@
 package com.uf.service.impl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +21,6 @@ import com.uf.entity.ProductImage;
 import com.uf.entity.Word;
 import com.uf.searcher.SearchEngine;
 import com.uf.service.ProductManageService;
-import com.uf.springbean.ProductEventBus;
 import com.uf.springbean.ProductSearchTool;
 import com.uf.util.PageQueryResult;
 import com.uf.util.StringUtil;
@@ -89,14 +89,29 @@ public class ProductManageServiceImpl implements ProductManageService{
        System.out.println("after parse the keyword is ->"+keyword);
        List<Integer> ids=sercherEngine.searchProductIds(keyword);
        if(ids!=null&&ids.size()>0){
+         ids=getPageIndexIds(pageIndex,pageSize,ids);
          Map<String, Object> idsParam=new HashMap<String,Object>();
          idsParam.put("ids", ids);
-         return productDao.findPagedProductByHql("select p from Product p where p.id in (:ids) ", idsParam,pageSize, pageIndex);
+         return productDao.findPagedProductByHql("select p from Product p where p.id in (:ids) order by field(p.id,:ids) ", idsParam,pageSize, pageIndex);
        }else{
          return null;
        }
        
      }
+  }
+  private List<Integer> getPageIndexIds(int pageIndex,int pageSize,List<Integer> allIds){
+    List<Integer> result=new  ArrayList<Integer>();
+    if(allIds!=null&&allIds.size()>0){
+      int start=pageSize*(pageIndex-1);
+      int end=start+(pageSize-1);
+      if(end>(allIds.size()-1)){
+        end=(allIds.size()-1);
+      }
+      for(int i=start;i<=end;i++){
+        result.add(allIds.get(i));
+      }
+    }
+    return result;
   }
   public List<ProductImage> findProductImages(Integer productId){
     return productImgDao.findByHql("select pi from  ProductImage pi  where pi.product.id=?", productId);

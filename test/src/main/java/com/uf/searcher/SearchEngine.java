@@ -26,9 +26,11 @@ import org.apache.lucene.index.MultiFields;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.index.Terms;
 import org.apache.lucene.index.TermsEnum;
+import org.apache.lucene.queryparser.xml.builders.MatchAllDocsQueryBuilder;
 import org.apache.lucene.search.BooleanClause.Occur;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
@@ -38,6 +40,7 @@ import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.google.common.base.Splitter;
 import com.uf.entity.Product;
 import com.uf.service.ProductManageService;
 import com.uf.util.FileUtil;
@@ -110,7 +113,24 @@ public class SearchEngine {
 		}
 
 	}
-
+	public void listAllDocuments(){
+	  try{
+	    DirectoryReader ireader = DirectoryReader.open(directory);
+	      IndexSearcher isearcher = new IndexSearcher(ireader);
+	      MatchAllDocsQuery query=new MatchAllDocsQuery();
+	      TopDocs docs=isearcher.search(query, Integer.MAX_VALUE);
+	      for (ScoreDoc sdoc : docs.scoreDocs) {
+            System.out.println("score:-->"+sdoc.score);
+            Document searcheddoc = isearcher.doc(sdoc.doc);
+            System.out.println(searcheddoc.getField("id").stringValue()+"---->>>"+searcheddoc.getField("product").stringValue());
+        }
+	  }catch(Exception e){
+	    e.printStackTrace();
+	  }
+	  
+	  
+	  
+	}
 	public List<Integer> searchProductIds(String keyword) {
 		List<Integer> ids = new ArrayList<Integer>();
 		try {
@@ -121,17 +141,25 @@ public class SearchEngine {
 			BooleanQuery.Builder builder = new BooleanQuery.Builder();
 
 			if (!StringUtil.isNullOrEmpty(keyword)) {
-				String keywords[] = StringUtil.splitStringByEmptySpace(keyword);
+			    List<String> keywords=Splitter.on(" ").omitEmptyStrings().trimResults().splitToList(keyword);
 				for (String key : keywords) {
 					Query query = new TermQuery(new Term("product", key));
-					builder.add(query, Occur.MUST);
+					builder.add(query, Occur.SHOULD);
 				}
-				TopDocs topDocs = isearcher.search(builder.build(),
-						Integer.MAX_VALUE);
+				TopDocs topDocs = isearcher.search(builder.build(),Integer.MAX_VALUE);
+//				if(topDocs.scoreDocs==null||topDocs.scoreDocs.length<=0){
+//				  builder = new BooleanQuery.Builder();
+//				  for (String key : keywords) {
+//                    Query query = new TermQuery(new Term("product", key));
+//                    builder.add(query, Occur.SHOULD);
+//                  }
+//				  topDocs=isearcher.search(builder.build(),Integer.MAX_VALUE);
+//				}
 				for (ScoreDoc sdoc : topDocs.scoreDocs) {
+				    System.out.println("score:-->"+sdoc.score);
 					Document searcheddoc = isearcher.doc(sdoc.doc);
-					ids.add(Integer.parseInt(searcheddoc.getField("id")
-							.stringValue()));
+					ids.add(Integer.parseInt(searcheddoc.getField("id").stringValue()));
+					System.out.println(searcheddoc.getField("id").stringValue()+"---->>>"+searcheddoc.getField("product").stringValue());
 				}
 			}
 
@@ -204,8 +232,7 @@ public class SearchEngine {
 				BytesRef byteRef = null;
 				System.out.println("field : " + field);
 				while ((byteRef = termsEnums.next()) != null) {
-					String term = new String(byteRef.bytes, byteRef.offset,
-							byteRef.length);
+					String term = new String(byteRef.bytes, byteRef.offset,byteRef.length);
 					System.out.println("term is : " + term);
 				}
 			}
@@ -217,7 +244,11 @@ public class SearchEngine {
 	}
 
 	public static void main(String[] args) {
-		// SearchEngine engi=new SearchEngine("c:/jason/indexDir");
+		 SearchEngine engi=new SearchEngine("C:\\jason\\luceneIndex",false);
+		 engi.init();
+		 engi.listAllTerm();
+		 List<Integer> result=engi.searchProductIds("肌肉疼痛 安美露");
+		 System.out.println(result);
 		// Product p=new Product();
 		// p.setId(5);
 		// p.setSearchKeywords("a b");

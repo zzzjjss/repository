@@ -12,8 +12,6 @@ import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
 import org.apache.lucene.analysis.util.CharArraySet;
 
-import com.sun.xml.internal.fastinfoset.util.CharArrayString;
-
 public class TestAnalyzer {
   private static String chinese = "余仁生香砂六君丸  功效  ：益气健脾，和胃。用于脾虚气滞，消化不良，嗳气食少，脘腹胀满，大便溏泄。。主治  ：脾胃气虚，痰阻气滞所致脘腹胀痛，消瘦倦怠，不思饮食，呕吐，偶发性腹泻，气逆，嗳气食少"+
                                   "主要成份 ：炙甘草，茯苓，白朮，砂仁，党参，木香，法半夏，陈皮。 包裝  ：每盒18包，每包7.5克。";  
