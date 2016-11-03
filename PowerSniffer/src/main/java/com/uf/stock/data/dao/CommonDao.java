@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.data.dao;
+package com.uf.stock.data.dao;
 
 import java.io.Serializable;
 import java.util.List;

@@ -34,7 +34,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="dataSource" ref="dataSource" />
 		<property name="mappingResources">
 			<list>
-				<value>com/uf/stock/sniffer/data/bean/StockInfo.hbm.xml</value>
+				<value>com/uf/stock/data/bean/StockInfo.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -46,13 +46,13 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		</property>
 	</bean>
 	
-	<bean class="com.uf.stock.sniffer.data.bean.ConfigInfo">
+	<bean class="com.uf.stock.data.bean.ConfigInfo">
 		<property name="isUseProxy" value="true"></property>
 		<property name="proxyAddress" value="10.5.157.46"></property>
 		<property name="proxyPort" value="80"></property>
 	</bean>
 	
-	<bean id="stockDataSynchronizer" class="com.uf.stock.sniffer.data.sync.SinaStockDataSynchronizer"></bean>
+	<bean id="stockDataSynchronizer" class="com.uf.stock.data.sync.SinaStockDataSynchronizer"></bean>
 	
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory"></property>
@@ -63,7 +63,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 	</bean>
 
 	<aop:config>
-		<aop:pointcut expression="execution(* com.uf.stock.sniffer.service.impl.*.*(..))"
+		<aop:pointcut expression="execution(* com.uf.stock.service.impl.*.*(..))"
 			id="txMethods" />
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="txMethods" />
 	</aop:config>
@@ -74,8 +74,8 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		</tx:attributes>
 	</tx:advice>
 	
-	<context:component-scan base-package="com.uf.stock.sniffer.data.dao" />
-	<context:component-scan base-package="com.uf.stock.sniffer.service" />
+	<context:component-scan base-package="com.uf.stock.data.dao" />
+	<context:component-scan base-package="com.uf.stock.service" />
 	
 
 </beans>

@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.data.bean;
+package com.uf.stock.data.bean;
 
 public class ConfigInfo {
 	private boolean isUseProxy=false;

@@ -1,9 +1,9 @@
-package com.uf.stock.sniffer.data.sync;
+package com.uf.stock.data.sync;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,9 +28,9 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.uf.stock.sniffer.data.bean.StockInfo;
-import com.uf.stock.sniffer.data.bean.StockTradeInfo;
-import com.uf.stock.sniffer.util.HttpUnit;
+import com.uf.stock.data.bean.StockInfo;
+import com.uf.stock.data.bean.StockTradeInfo;
+import com.uf.stock.util.HttpUnit;
 
 public class SinaStockDataSynchronizer implements StockDataSynchronizer {
 
@@ -111,9 +111,9 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
     return null;
   }
 
-  public StockTradeInfo syncStockCurrentTradeInfo(String stockCode) {
-    // TODO Auto-generated method stub
-    return null;
+  public StockTradeInfo syncStockCurrentTradeInfo(String stockSymbol) {
+    Map<String,StockTradeInfo> result=syncStocksCurrentTradeInfo(Arrays.asList(stockSymbol));
+    return result.get(stockSymbol);
   }
 
   public Map<String, StockTradeInfo> syncStocksCurrentTradeInfo(List<String> stockSymbol) {

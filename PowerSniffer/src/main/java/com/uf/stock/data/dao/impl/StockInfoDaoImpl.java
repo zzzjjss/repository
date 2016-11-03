@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.data.dao.impl;
+package com.uf.stock.data.dao.impl;
 
 import java.util.List;
 
@@ -8,8 +8,8 @@ import org.hibernate.Session;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.stereotype.Component;
 
-import com.uf.stock.sniffer.data.bean.StockInfo;
-import com.uf.stock.sniffer.data.dao.StockInfoDao;
+import com.uf.stock.data.bean.StockInfo;
+import com.uf.stock.data.dao.StockInfoDao;
 
 
 @Component("stockInfoDao")

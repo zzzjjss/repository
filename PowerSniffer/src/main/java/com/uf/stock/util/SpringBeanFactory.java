@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.util;
+package com.uf.stock.util;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;

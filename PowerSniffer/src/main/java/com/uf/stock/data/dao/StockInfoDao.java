@@ -1,6 +1,6 @@
-package com.uf.stock.sniffer.data.dao;
+package com.uf.stock.data.dao;
 
-import com.uf.stock.sniffer.data.bean.StockInfo;
+import com.uf.stock.data.bean.StockInfo;
 
 
 public interface StockInfoDao extends CommonDao<StockInfo>{

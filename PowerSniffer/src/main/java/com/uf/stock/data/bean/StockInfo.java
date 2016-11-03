@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.data.bean;
+package com.uf.stock.data.bean;
 
 public class StockInfo {
   public static final String STOCK_TYPE_SHANG_HAI = "sh";

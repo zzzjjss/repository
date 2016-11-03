@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.data.dao.impl;
+package com.uf.stock.data.dao.impl;
 
 import java.io.Serializable;
 import java.util.List;
@@ -6,7 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 
-import com.uf.stock.sniffer.data.dao.CommonDao;
+import com.uf.stock.data.dao.CommonDao;
 
 
 public class CommonRdbsDaoImpl<T>  implements CommonDao<T> {

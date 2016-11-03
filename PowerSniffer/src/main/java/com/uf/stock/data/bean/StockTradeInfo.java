@@ -1,4 +1,4 @@
-package com.uf.stock.sniffer.data.bean;
+package com.uf.stock.data.bean;
 
 import java.util.Date;
 
