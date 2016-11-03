@@ -55,7 +55,7 @@ public class BS_PowerSniffer {
         }
         tradeInfo.setTurnoverRate(((float)(tradeInfo.getTradeAmount()/stock.getTotalAAmount()))*100);
         float power=tradeInfo.getUpDownRate()/tradeInfo.getTurnoverRate();
-        if(power>0&&stock.getPeRatio()<40&&stock.getPeRatio()>0){
+        if(power>0&&stock.getPeRatio()<40&&stock.getPeRatio()>0&&tradeInfo.getUpDownRate()>1){
           Power powerObj=new Power();
           powerObj.setPowerValue(power);
           powerObj.setSymbol(stock.getName());
