@@ -133,7 +133,7 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
       if (status == HttpStatus.SC_OK) {
         HttpEntity entity = responese.getEntity();
         String response = EntityUtils.toString(entity, Charset.forName("gb2312"));
-        System.out.println(response);
+        //System.out.println(response);
         List<String> stocksPrice = Splitter.on(";").splitToList(response);
         if (stocksPrice != null) {
           for (String stockInfo : stocksPrice) {
