@@ -145,18 +145,22 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
               StockTradeInfo currentInfo = new StockTradeInfo();
               currentInfo.setStock(stock);
                String infos[]=keyValue[1].replace("\"", "").split(",");
-               if (infos != null && infos.length > 4) {
+               if (infos != null && infos.length > 5) {
                if (infos[1] != null) {
                  currentInfo.setClosePrice(Float.parseFloat(infos[1]));
                }
                if (infos[2] != null) {
-                 currentInfo.setUpDownRate(Float.parseFloat(infos[2]));
+                 currentInfo.setUpDownPrice(Float.parseFloat(infos[2]));
                }
                if (infos[3] != null) {
-                 currentInfo.setUpDownPrice(Float.parseFloat(infos[3]));
+                 currentInfo.setUpDownRate(Float.parseFloat(infos[3]));
                }
+               
                if (infos[4] != null) {
                  currentInfo.setTradeAmount(Long.parseLong(infos[4]));
+               }
+               if (infos[5] != null) {
+                 currentInfo.setTradeMoney(Long.parseLong(infos[5]));
                }
                }
               result.put(symbol, currentInfo);
