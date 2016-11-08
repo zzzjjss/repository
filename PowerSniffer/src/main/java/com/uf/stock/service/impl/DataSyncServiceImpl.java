@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.uf.stock.bean.UpDownPower;
+import com.uf.stock.data.bean.AlarmStock;
 import com.uf.stock.data.bean.StockInfo;
 import com.uf.stock.data.bean.StockTradeInfo;
+import com.uf.stock.data.dao.AlarmStockDao;
 import com.uf.stock.data.dao.StockInfoDao;
 import com.uf.stock.data.sync.StockDataSynchronizer;
 import com.uf.stock.service.DataSyncService;
@@ -27,7 +29,8 @@ public class DataSyncServiceImpl implements DataSyncService {
   private StockInfoDao stockInfoDao;
   @Autowired
   private StockDataSynchronizer dataSyncher;
-
+  @Autowired
+  private AlarmStockDao  alarmStockDao;
   public int syncAllStocksBaseInfo() {
     List<StockInfo> stockInfo = dataSyncher.syncAllStocksInfo();
     stockInfoDao.deleteAll();
@@ -37,11 +40,12 @@ public class DataSyncServiceImpl implements DataSyncService {
     return stockInfo.size();
   }
 
-  public List<UpDownPower> calculateAllStocksCurrentPower() {
+  public List<UpDownPower> calculateStocksCurrentPower(List<StockInfo> stocks) {
     List<UpDownPower> result = new LinkedList<UpDownPower>();
-    List<StockInfo> allStocks = stockInfoDao.findAll(StockInfo.class);
+    if(stocks==null||stocks.size()==0)
+      return result;
     Map<String, StockInfo> cache = new HashMap<String, StockInfo>();
-    for (StockInfo stock : allStocks) {
+    for (StockInfo stock : stocks) {
       cache.put(stock.getSymbol(), stock);
     }
 
@@ -57,7 +61,6 @@ public class DataSyncServiceImpl implements DataSyncService {
       }
       Future<Map<String, StockTradeInfo>> syncResult = pool.submit(new SyncStockTradeInfoTask(symbols.subList(begin, end)));
       futures.add(syncResult);
-
       begin = begin + syncStockNum;
     }
     pool.shutdown();
@@ -85,7 +88,8 @@ public class DataSyncServiceImpl implements DataSyncService {
       }
       UpDownPower powerObj = new UpDownPower();
       powerObj.setPowerValue(power);
-      powerObj.setSymbol(stock.getName());
+      powerObj.setStockName(stock.getName());
+      powerObj.setTradeInfo(tradeInfo);
       upPowerList.add(powerObj);
       result.add(powerObj);
     }
@@ -103,5 +107,24 @@ public class DataSyncServiceImpl implements DataSyncService {
     public Map<String, StockTradeInfo> call() throws Exception {
       return dataSyncher.syncStocksCurrentTradeInfo(stockSymbol);
     }
+  }
+
+  @Override
+  public List<StockInfo> findStocksPeRatioBetween(Float min,Float max) {
+    return (List<StockInfo>)stockInfoDao.findByHql("from StockInfo  s where  s.peRatio<? and s.peRatio>?",max,min);
+  }
+
+  @Override
+  public AlarmStock findAlarmStockInfoByStockCode(Integer stockCode) {
+    AlarmStock  alarm=alarmStockDao.findByStockCode(stockCode);
+    if(alarm==null){
+      StockInfo stock=stockInfoDao.findStockByStockCode(stockCode);
+      if(stock!=null){
+        alarm=new AlarmStock();
+        alarm.setStockCode(stockCode);
+        alarmStockDao.insert(alarm);
+      }
+    }
+    return alarm;
   }
 }

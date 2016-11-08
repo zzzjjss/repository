@@ -35,6 +35,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="mappingResources">
 			<list>
 				<value>com/uf/stock/data/bean/StockInfo.hbm.xml</value>
+				<value>com/uf/stock/data/bean/AlarmStock.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">

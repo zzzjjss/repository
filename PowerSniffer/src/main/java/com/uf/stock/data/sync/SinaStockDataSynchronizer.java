@@ -140,10 +140,8 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
             if (!Strings.isNullOrEmpty(stockInfo) && stockInfo.contains("=")) {
               String keyValue[] = stockInfo.split("=");
               String symbol = keyValue[0].substring(keyValue[0].length() - 8);
-              StockInfo stock=new StockInfo();
-              stock.setSymbol(symbol);
               StockTradeInfo currentInfo = new StockTradeInfo();
-              currentInfo.setStock(stock);
+              currentInfo.setStockSymbol(symbol);
                String infos[]=keyValue[1].replace("\"", "").split(",");
                if (infos != null && infos.length > 5) {
                if (infos[1] != null) {

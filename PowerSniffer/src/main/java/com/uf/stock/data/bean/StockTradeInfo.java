@@ -14,7 +14,7 @@ public class StockTradeInfo {
   private Float turnoverRate;
   private Float upDownPrice;
   private Float upDownRate;
-  private StockInfo stock;
+  private String stockSymbol;
 
 
 
@@ -42,12 +42,13 @@ public class StockTradeInfo {
     this.turnoverRate = turnoverRate;
   }
 
-  public StockInfo getStock() {
-    return stock;
+
+  public String getStockSymbol() {
+    return stockSymbol;
   }
 
-  public void setStock(StockInfo stock) {
-    this.stock = stock;
+  public void setStockSymbol(String stockSymbol) {
+    this.stockSymbol = stockSymbol;
   }
 
   public Long getId() {

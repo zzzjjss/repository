@@ -1,10 +1,22 @@
 package com.uf.stock.bean;
 
+import com.uf.stock.data.bean.StockTradeInfo;
+
 
 
 public class UpDownPower implements Comparable<UpDownPower> {
   private Float powerValue;
-  private String symbol;
+  private String stockName;
+  private StockTradeInfo tradeInfo;
+  
+  
+  public StockTradeInfo getTradeInfo() {
+    return tradeInfo;
+  }
+
+  public void setTradeInfo(StockTradeInfo tradeInfo) {
+    this.tradeInfo = tradeInfo;
+  }
 
   public Float getPowerValue() {
     return powerValue;
@@ -15,12 +27,14 @@ public class UpDownPower implements Comparable<UpDownPower> {
   }
 
 
-  public String getSymbol() {
-    return symbol;
+ 
+
+  public String getStockName() {
+    return stockName;
   }
 
-  public void setSymbol(String symbol) {
-    this.symbol = symbol;
+  public void setStockName(String stockName) {
+    this.stockName = stockName;
   }
 
   @Override
@@ -30,6 +44,7 @@ public class UpDownPower implements Comparable<UpDownPower> {
 
   @Override
   public String toString() {
-    return symbol+ ":" + powerValue.toString();
+    return stockName+ ":" + powerValue.toString()+":  "+tradeInfo.getUpDownRate()+"%";
   }
+  
 }
