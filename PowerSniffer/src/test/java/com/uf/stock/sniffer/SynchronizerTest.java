@@ -16,15 +16,18 @@ public class SynchronizerTest {
 
   @Test
   public void test() {
+     float minPeRatio=0f,maxPeRation=200;
+     float maxDownPercent=30;
+    
     DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class);
-    List<StockInfo> stocks=service.findStocksPeRatioBetween(0f,100f);
+    List<StockInfo> stocks=service.findStocksPeRatioBetween(minPeRatio,maxPeRation);
     List<UpDownPower> powers=service.calculateStocksCurrentPower(stocks);
     Collections.sort(powers);
     for(UpDownPower power:powers){
       
       AlarmStock alarm=service.findAlarmStockInfoByStockCode(StockUtil.parseStockSymbolToStockCode(power.getTradeInfo().getStockSymbol()));
       float  downPercent=((power.getTradeInfo().getClosePrice()-alarm.getAlarmBuyPrice())/power.getTradeInfo().getClosePrice())*100;
-      if(power.getTradeInfo().getUpDownRate()<1){
+      if(power.getTradeInfo().getUpDownRate()<1||downPercent>maxDownPercent){
         continue;
       }
         
