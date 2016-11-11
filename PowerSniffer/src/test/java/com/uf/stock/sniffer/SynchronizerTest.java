@@ -16,11 +16,13 @@ public class SynchronizerTest {
 
   @Test
   public void test() {
-     float minPeRatio=0f,maxPeRation=200;
+     float minPeRatio=0f,maxPeRation=100;
      float maxDownPercent=30;
     
     DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class);
     List<StockInfo> stocks=service.findStocksPeRatioBetween(minPeRatio,maxPeRation);
+    stocks=service.findStocksPeRatioBetween(minPeRatio,maxPeRation);
+    
     List<UpDownPower> powers=service.calculateStocksCurrentPower(stocks);
     Collections.sort(powers);
     for(UpDownPower power:powers){

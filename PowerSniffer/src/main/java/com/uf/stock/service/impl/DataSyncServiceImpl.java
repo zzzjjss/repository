@@ -31,6 +31,8 @@ public class DataSyncServiceImpl implements DataSyncService {
   private StockDataSynchronizer dataSyncher;
   @Autowired
   private AlarmStockDao  alarmStockDao;
+  private Map<Integer,AlarmStock> alarmStockCache=new HashMap<Integer, AlarmStock>();
+  
   public int syncAllStocksBaseInfo() {
     List<StockInfo> stockInfo = dataSyncher.syncAllStocksInfo();
     stockInfoDao.deleteAll();
@@ -88,6 +90,7 @@ public class DataSyncServiceImpl implements DataSyncService {
       }
       UpDownPower powerObj = new UpDownPower();
       powerObj.setPowerValue(power);
+      powerObj.setStockPeRatio(stock.getPeRatio());
       powerObj.setStockName(stock.getName());
       powerObj.setTradeInfo(tradeInfo);
       upPowerList.add(powerObj);
@@ -116,7 +119,13 @@ public class DataSyncServiceImpl implements DataSyncService {
 
   @Override
   public AlarmStock findAlarmStockInfoByStockCode(Integer stockCode) {
-    AlarmStock  alarm=alarmStockDao.findByStockCode(stockCode);
+    AlarmStock  alarm=alarmStockCache.get(stockCode);
+    if(alarm==null){
+      alarm=alarmStockDao.findByStockCode(stockCode);
+      if(alarm!=null){
+        alarmStockCache.put(stockCode, alarm);
+      }
+    }
     if(alarm==null){
       StockInfo stock=stockInfoDao.findStockByStockCode(stockCode);
       if(stock!=null){

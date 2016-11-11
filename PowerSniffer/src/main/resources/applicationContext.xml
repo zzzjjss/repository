@@ -42,7 +42,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 			<value>
 				hibernate.dialect=org.hibernate.dialect.MySQL5InnoDBDialect
 				hibernate.hbm2ddl.auto=update
-				 <!--  hibernate.show_sql=true-->
+				<!--  hibernate.show_sql=true-->
 			</value>
 		</property>
 	</bean>

@@ -31,18 +31,28 @@
 	</div>
 </body>
 <script type="text/javascript">
+var restfulContext="/PowerSniffer/rest";
+
 $(document).ready(function() {
-	$('#upPowerTable').DataTable( {
-        columns: [
-            { title: "Name" },
-            { title: "Position" },
-            { title: "Office" },
-            { title: "Extn." },
-            { title: "Start date" },
-            { title: "Salary" }
-        ]
-    } );
+	fetchUpstockData();
+	setInterval(fetchUpstockData,1000*60);
 });
+function fetchUpstockData(){
+	var table=$('#upPowerTable').DataTable( {
+		"ajax":restfulContext+"/goUpStrategy/getGoUpStockInfo?minPeRatio=0&maxPeRatio=100&maxDownPercent=30",
+	    "columns": [
+	        { title: "股票名称",data:"stockName"},
+	        { name:"power",title: "上涨力道",data:"power" },
+	        { title: "涨幅" ,data:"upDownRate"},
+	        { title: "市盈率" ,data:"peRatio"},
+	        { name:"downPercent",title: "底价跌幅",data:"downPercent" }
+	    ],
+	    destroy:true
+	} );
+	table.column(["power:name","downPercent:name"]).order("desc").draw();
+}
+
+
 
 </script>
 </html>

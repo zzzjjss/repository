@@ -6,25 +6,27 @@ import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate4.HibernateCallback;
 import org.springframework.orm.hibernate4.HibernateTemplate;
+import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
 
 import com.uf.stock.data.dao.CommonDao;
 
 
-public class CommonRdbsDaoImpl<T> implements CommonDao<T> {
+public class CommonRdbsDaoImpl<T>  implements CommonDao<T> {
+  private HibernateTemplate  hibernateTemplate;
   @Autowired
-  private HibernateTemplate hibernateTemplate;
+  private SessionFactory sessionFactory;
+  
 
-  public HibernateTemplate getHibernateTemplate() {
+  public HibernateTemplate  getHibernateTemplate(){
+    if (this.hibernateTemplate == null || sessionFactory != this.hibernateTemplate.getSessionFactory()) {
+      this.hibernateTemplate = new HibernateTemplate(sessionFactory);
+    }
     return hibernateTemplate;
   }
-
-  public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
-    this.hibernateTemplate = hibernateTemplate;
-  }
-
   public void insert(T obj) {
     getHibernateTemplate().save(obj);
   }
@@ -50,11 +52,11 @@ public class CommonRdbsDaoImpl<T> implements CommonDao<T> {
   }
 
   public List<T> findByHql(String hql, Object... paramValues) {
-    return (List<T>) hibernateTemplate.find(hql, paramValues);
+    return (List<T>) this.getHibernateTemplate().find(hql, paramValues);
   }
 
   public Integer executeUpdateHql(final String hql, final Object... paramValues) {
-    return hibernateTemplate.execute(new HibernateCallback<Integer>() {
+    return getHibernateTemplate().execute(new HibernateCallback<Integer>() {
       public Integer doInHibernate(Session session) throws HibernateException {
         Query query = session.createQuery(hql);
         for (int i = 0; i < paramValues.length; i++) {
