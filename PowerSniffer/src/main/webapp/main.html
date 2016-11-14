@@ -16,18 +16,34 @@
 		<li><a href="#lowPrice" data-toggle="tab">低价抄底</a></li>
 		<li><a href="#downMakeT" data-toggle="tab">大跌做T</a></li>
 	</ul>
-
+	<br>
 	<div class="tab-content">
 		<div class="tab-pane active" id="upPower">
+			<div class="row">
+				<div class=col-lg-6>
+					<div class="input-group">
+						<span class="input-group-addon">市营率范围</span> 
+						<input type="text" class="form-control" placeholder="MinPE" value="1" id="minPeRatio">
+						<input type="text" class="form-control" placeholder="MaxPE" value="100" id="maxPeRatio">
+					</div>
+				</div>
+				<div class=col-lg-6>
+						<div class="input-group">
+						<span class="input-group-addon">目标价最大跌幅</span> 
+						<input type="text" class="form-control" placeholder="MaxDownPercent" value="30" id="maxDownPercent">
+					</div>
+					<button type="button" class="btn btn-default " id="queryPowerBtn">查询</button>
+				</div>
+
+			</div>
+
+	<br>
+
 			<table id="upPowerTable" class="display" width="100%"></table>
-			
+
 		</div>
-		<div class="tab-pane" id="lowPrice">
-		
-		</div>
-		<div class="tab-pane" id="downMakeT">
-		
-		</div>
+		<div class="tab-pane" id="lowPrice"></div>
+		<div class="tab-pane" id="downMakeT"></div>
 	</div>
 </body>
 <script type="text/javascript">
@@ -35,11 +51,19 @@ var restfulContext="/PowerSniffer/rest";
 
 $(document).ready(function() {
 	fetchUpstockData();
-	setInterval(fetchUpstockData,1000*60);
+	$("#queryPowerBtn").on("click",function(){
+			$("#queryPowerBtn").prop('disabled', true);
+			fetchUpstockData()
+			
+		});
+	
 });
 function fetchUpstockData(){
+	var minPeRatio=$("#minPeRatio").val();
+	var maxPeRatio=$("#maxPeRatio").val();
+	var maxDownPercent=$("#maxDownPercent").val();
 	var table=$('#upPowerTable').DataTable( {
-		"ajax":restfulContext+"/goUpStrategy/getGoUpStockInfo?minPeRatio=0&maxPeRatio=100&maxDownPercent=30",
+		"ajax":restfulContext+"/goUpStrategy/getGoUpStockInfo?minPeRatio="+minPeRatio+"&maxPeRatio="+maxPeRatio+"&maxDownPercent="+maxDownPercent,
 	    "columns": [
 	        { title: "股票名称",data:"stockName"},
 	        { name:"power",title: "上涨力道",data:"power" },
@@ -50,6 +74,9 @@ function fetchUpstockData(){
 	    destroy:true
 	} );
 	table.column(["power:name","downPercent:name"]).order("desc").draw();
+	table.on( 'xhr.dt', function () {
+		$("#queryPowerBtn").prop('disabled', false);
+	} );
 }
 
 
