@@ -49,7 +49,6 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
         stockSymbols.add(stock.getSymbol());
       }
       Map<String,StockTradeInfo> tradeInfo=service.getCurrentStocksTradeInfo(stockSymbols);
-      DecimalFormat format=new DecimalFormat("000.00");
       for(String symbol:tradeInfo.keySet()){
         StockTradeInfo info=tradeInfo.get(symbol);
         LowPriceBuyStrategyResponseData rsData=new LowPriceBuyStrategyResponseData();
@@ -82,7 +81,31 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
     gb.serializeSpecialFloatingPointValues();
     Gson gson=gb.create();
     return gson.toJson(response);
-    
-    
+  }
+  @Produces(MediaType.TEXT_PLAIN)
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @GET
+  @Path("/getAlarmStocks")
+  public String getAlarmStocks(){
+    StringBuilder alarmInfo=new StringBuilder();
+    try{
+      List<StockInfo> stocks=service.findStocksPeRatioBetween(Float.MIN_VALUE, Float.MAX_VALUE);
+      List<String> stockSymbols=new ArrayList<String>();
+      for(StockInfo stock:stocks){
+        stockSymbols.add(stock.getSymbol());
+      }
+      Map<String,StockTradeInfo> tradeInfo=service.getCurrentStocksTradeInfo(stockSymbols);
+      
+      for(String symbol:tradeInfo.keySet()){
+        StockTradeInfo info=tradeInfo.get(symbol);
+        AlarmStock alarm=service.findAlarmStockInfoByStockCode(Integer.parseInt(symbol.substring(2)));
+        if(info.getClosePrice()!=0&&info.getClosePrice()<=alarm.getAlarmBuyPrice()){
+          alarmInfo.append(symbol+":"+info.getClosePrice()+"\n");
+        }
+      }
+    }catch(Exception e){
+      e.printStackTrace();
+    }
+    return alarmInfo.toString();
   }
 }
