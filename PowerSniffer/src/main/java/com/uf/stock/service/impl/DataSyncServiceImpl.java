@@ -136,4 +136,40 @@ public class DataSyncServiceImpl implements DataSyncService {
     }
     return alarm;
   }
+
+  @Override
+  public List<AlarmStock> findAllAlarmStocks() {
+    return alarmStockDao.findAll(AlarmStock.class);
+  }
+
+  @Override
+  public Map<String, StockTradeInfo> getCurrentStocksTradeInfo(List<String> stockSymbols) {
+    Map<String, StockTradeInfo> allStockTradeInfos = new HashMap<String, StockTradeInfo>();
+    if(stockSymbols==null||stockSymbols.size()==0)
+      return allStockTradeInfos;
+   
+    List<Future<Map<String, StockTradeInfo>>> futures = new ArrayList<Future<Map<String, StockTradeInfo>>>();
+    ExecutorService pool = Executors.newCachedThreadPool();
+    int begin = 0, syncStockNum = 20;
+    while (begin <= stockSymbols.size()) {
+      int end = begin + syncStockNum;
+      if (end > stockSymbols.size()) {
+        end = stockSymbols.size();
+      }
+      Future<Map<String, StockTradeInfo>> syncResult = pool.submit(new SyncStockTradeInfoTask(stockSymbols.subList(begin, end)));
+      futures.add(syncResult);
+      begin = begin + syncStockNum;
+    }
+    pool.shutdown();
+    for (Future<Map<String, StockTradeInfo>> future : futures) {
+      Map<String, StockTradeInfo> tradeInfos;
+      try {
+        tradeInfos = future.get();
+        allStockTradeInfos.putAll(tradeInfos);
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    return allStockTradeInfos;
+  }
 }

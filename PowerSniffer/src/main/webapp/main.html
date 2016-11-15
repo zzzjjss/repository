@@ -42,7 +42,12 @@
 			<table id="upPowerTable" class="display" width="100%"></table>
 
 		</div>
-		<div class="tab-pane" id="lowPrice"></div>
+		<div class="tab-pane" id="lowPrice">
+			<div class="row">
+				<button type="button" class="btn btn-default " id="getDownPercentBtn">查询</button>
+			</div>
+			<table id="lowPriceBuyTb" class="display" width="100%"></table>
+		</div>
 		<div class="tab-pane" id="downMakeT"></div>
 	</div>
 </body>
@@ -57,7 +62,29 @@ $(document).ready(function() {
 			
 		});
 	
+	$("#getDownPercentBtn").on("click",function(){
+		$("#getDownPercentBtn").prop('disabled', true);
+		fetchDownPercentData();
+	});
+	
 });
+function fetchDownPercentData(){
+	var table=$('#lowPriceBuyTb').DataTable( {
+		"ajax":restfulContext+"/lowPriceBuyStrategy/getStocksDownPercent",
+	    "columns": [
+	        { title: "股票名称",data:"stockName"},
+	        { title: "买价",data:"alarmBuyPrice" },
+	        { title: "卖价" ,data:"alarmSellPrice"},
+	        { name:"downPercent",title: "底价跌幅",data:"downPercent" }
+	    ],
+	    destroy:true
+	} );
+	table.column(["downPercent:name"]).order("desc").draw();
+	table.on( 'xhr.dt', function () {
+		$("#getDownPercentBtn").prop('disabled', false);
+	} );
+	
+}
 function fetchUpstockData(){
 	var minPeRatio=$("#minPeRatio").val();
 	var maxPeRatio=$("#maxPeRatio").val();
