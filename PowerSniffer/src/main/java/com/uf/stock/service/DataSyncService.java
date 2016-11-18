@@ -15,4 +15,5 @@ public interface DataSyncService {
     public List<AlarmStock> findAllAlarmStocks();
     public List<UpDownPower> calculateStocksCurrentPower(List<StockInfo> stocks);
     public Map<String, StockTradeInfo> getCurrentStocksTradeInfo(List<String> stockSymbols);
+    public int syncStockTradeInfos(String stockSymbol);
 }

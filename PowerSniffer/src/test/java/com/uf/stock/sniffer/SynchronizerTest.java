@@ -1,5 +1,8 @@
 package com.uf.stock.sniffer;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
 import java.util.List;
 
@@ -7,7 +10,10 @@ import org.junit.Test;
 
 import com.uf.stock.bean.UpDownPower;
 import com.uf.stock.data.bean.AlarmStock;
+import com.uf.stock.data.bean.ConfigInfo;
 import com.uf.stock.data.bean.StockInfo;
+import com.uf.stock.data.bean.StockTradeInfo;
+import com.uf.stock.data.sync.SoHuDataSynchronizer;
 import com.uf.stock.service.DataSyncService;
 import com.uf.stock.util.SpringBeanFactory;
 import com.uf.stock.util.StockUtil;
@@ -39,6 +45,19 @@ public class SynchronizerTest {
     //syn.syncStocksCurrentTradeInfo(Arrays.asList("603005"));
     //List<StockInfo> result=syn.syncAllStocksInfo();
     //System.out.println(result.size());
+  }
+  @Test
+  public void testSoHuSync(){
+    ConfigInfo config=SpringBeanFactory.getBean(ConfigInfo.class);
+    SoHuDataSynchronizer syn=new SoHuDataSynchronizer(config);
+    DateFormat format = new SimpleDateFormat("yyyyMMdd");
+    try {
+      List<StockTradeInfo> datas=syn.syncStockDateTradeInfos("sh600030", format.parse("20161116"), format.parse("20161116"));
+      System.out.println(datas.size());
+    } catch (Exception e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
   }
 
 }

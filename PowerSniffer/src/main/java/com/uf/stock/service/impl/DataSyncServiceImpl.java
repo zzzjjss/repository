@@ -1,6 +1,11 @@
 package com.uf.stock.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,6 +25,8 @@ import com.uf.stock.data.bean.StockInfo;
 import com.uf.stock.data.bean.StockTradeInfo;
 import com.uf.stock.data.dao.AlarmStockDao;
 import com.uf.stock.data.dao.StockInfoDao;
+import com.uf.stock.data.dao.StockTradeInfoDao;
+import com.uf.stock.data.exception.DataSyncException;
 import com.uf.stock.data.sync.StockDataSynchronizer;
 import com.uf.stock.service.DataSyncService;
 
@@ -30,9 +37,11 @@ public class DataSyncServiceImpl implements DataSyncService {
   @Autowired
   private StockDataSynchronizer dataSyncher;
   @Autowired
-  private AlarmStockDao  alarmStockDao;
-  private Map<Integer,AlarmStock> alarmStockCache=new HashMap<Integer, AlarmStock>();
-  
+  private AlarmStockDao alarmStockDao;
+  @Autowired
+  private StockTradeInfoDao tradeInfoDao;
+  private Map<Integer, AlarmStock> alarmStockCache = new HashMap<Integer, AlarmStock>();
+
   public int syncAllStocksBaseInfo() {
     List<StockInfo> stockInfo = dataSyncher.syncAllStocksInfo();
     stockInfoDao.deleteAll();
@@ -44,7 +53,7 @@ public class DataSyncServiceImpl implements DataSyncService {
 
   public List<UpDownPower> calculateStocksCurrentPower(List<StockInfo> stocks) {
     List<UpDownPower> result = new LinkedList<UpDownPower>();
-    if(stocks==null||stocks.size()==0)
+    if (stocks == null || stocks.size() == 0)
       return result;
     Map<String, StockInfo> cache = new HashMap<String, StockInfo>();
     for (StockInfo stock : stocks) {
@@ -84,9 +93,9 @@ public class DataSyncServiceImpl implements DataSyncService {
         continue;
       }
       tradeInfo.setTurnoverRate(((float) (tradeInfo.getTradeAmount() / stock.getTotalAAmount())) * 100);
-      float power =0f;
-      if(tradeInfo.getTurnoverRate()!=0){
-        power=tradeInfo.getUpDownRate() / tradeInfo.getTurnoverRate();
+      float power = 0f;
+      if (tradeInfo.getTurnoverRate() != 0) {
+        power = tradeInfo.getUpDownRate() / tradeInfo.getTurnoverRate();
       }
       UpDownPower powerObj = new UpDownPower();
       powerObj.setPowerValue(power);
@@ -113,23 +122,23 @@ public class DataSyncServiceImpl implements DataSyncService {
   }
 
   @Override
-  public List<StockInfo> findStocksPeRatioBetween(Float min,Float max) {
-    return (List<StockInfo>)stockInfoDao.findByHql("from StockInfo  s where  s.peRatio<? and s.peRatio>?",max,min);
+  public List<StockInfo> findStocksPeRatioBetween(Float min, Float max) {
+    return (List<StockInfo>) stockInfoDao.findByHql("from StockInfo  s where  s.peRatio<? and s.peRatio>?", max, min);
   }
 
   @Override
   public AlarmStock findAlarmStockInfoByStockCode(Integer stockCode) {
-    AlarmStock  alarm=alarmStockCache.get(stockCode);
-    if(alarm==null){
-      alarm=alarmStockDao.findByStockCode(stockCode);
-      if(alarm!=null){
+    AlarmStock alarm = alarmStockCache.get(stockCode);
+    if (alarm == null) {
+      alarm = alarmStockDao.findByStockCode(stockCode);
+      if (alarm != null) {
         alarmStockCache.put(stockCode, alarm);
       }
     }
-    if(alarm==null){
-      StockInfo stock=stockInfoDao.findStockByStockCode(stockCode);
-      if(stock!=null){
-        alarm=new AlarmStock();
+    if (alarm == null) {
+      StockInfo stock = stockInfoDao.findStockByStockCode(stockCode);
+      if (stock != null) {
+        alarm = new AlarmStock();
         alarm.setStockCode(stockCode);
         alarmStockDao.insert(alarm);
       }
@@ -145,9 +154,9 @@ public class DataSyncServiceImpl implements DataSyncService {
   @Override
   public Map<String, StockTradeInfo> getCurrentStocksTradeInfo(List<String> stockSymbols) {
     Map<String, StockTradeInfo> allStockTradeInfos = new HashMap<String, StockTradeInfo>();
-    if(stockSymbols==null||stockSymbols.size()==0)
+    if (stockSymbols == null || stockSymbols.size() == 0)
       return allStockTradeInfos;
-   
+
     List<Future<Map<String, StockTradeInfo>>> futures = new ArrayList<Future<Map<String, StockTradeInfo>>>();
     ExecutorService pool = Executors.newCachedThreadPool();
     int begin = 0, syncStockNum = 20;
@@ -171,5 +180,53 @@ public class DataSyncServiceImpl implements DataSyncService {
       }
     }
     return allStockTradeInfos;
+  }
+
+  @Override
+  public int syncStockTradeInfos(String stockSymbol) {
+    int totalRecord = 0;
+    try {
+      StockTradeInfo latestTi = tradeInfoDao.findLatestDateStockTradeInfo(stockSymbol);
+      DateFormat format = new SimpleDateFormat("yyyyMMdd");
+      Date startDate = null;
+      Date today = new Date();
+      if (latestTi == null) {
+        try {
+          startDate = format.parse("20130101");
+        } catch (ParseException e) {
+          e.printStackTrace();
+        }
+      } else {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(latestTi.getTradeDate());
+        calendar.add(Calendar.DATE, 1);
+        startDate = calendar.getTime();
+      }
+      Calendar calendar = Calendar.getInstance();
+      while (true) {
+        calendar.setTime(startDate);
+        calendar.add(Calendar.MONTH, 1);
+        Date temp = calendar.getTime();
+        if (temp.getTime() >= today.getTime()) {
+          temp = today;
+        }
+        List<StockTradeInfo> tradeInfos;
+        tradeInfos = dataSyncher.syncStockDateTradeInfos(stockSymbol, startDate, temp);
+
+        if (tradeInfos != null && tradeInfos.size() > 0) {
+          for (StockTradeInfo info : tradeInfos) {
+            tradeInfoDao.insert(info);
+            totalRecord++;
+          }
+        }
+        if (temp.getTime() == today.getTime()) {
+          break;
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      throw new RuntimeException();
+    }
+    return totalRecord;
   }
 }

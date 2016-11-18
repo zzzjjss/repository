@@ -2,22 +2,8 @@ package com.uf.stock.restful.bean;
 
 import java.util.List;
 
-public class LowPriceBuyStrategyResponse {
-  private boolean success;
-  private ResponseError error;
+public class LowPriceBuyStrategyResponse extends RestfulResponse{
   private List<LowPriceBuyStrategyResponseData> data;
-  public boolean isSuccess() {
-    return success;
-  }
-  public void setSuccess(boolean success) {
-    this.success = success;
-  }
-  public ResponseError getError() {
-    return error;
-  }
-  public void setError(ResponseError error) {
-    this.error = error;
-  }
   public List<LowPriceBuyStrategyResponseData> getData() {
     return data;
   }

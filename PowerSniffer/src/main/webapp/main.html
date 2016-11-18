@@ -66,6 +66,9 @@ $(document).ready(function() {
 		$("#getDownPercentBtn").prop('disabled', true);
 		fetchDownPercentData();
 	});
+	$("#sycTradeInfoBtn").on("click",function(){
+		
+	});
 	setInterval(function(){fetchAlarmStocks();}, 3000);
 });
 function fetchDownPercentData(){
@@ -96,7 +99,11 @@ function fetchUpstockData(){
 	        { name:"power",title: "上涨力道",data:"power" },
 	        { title: "涨幅" ,data:"upDownRate"},
 	        { title: "市盈率" ,data:"peRatio"},
-	        { name:"downPercent",title: "底价跌幅",data:"downPercent" }
+	        { name:"downPercent",title: "底价跌幅",data:"downPercent" },
+	        {title : "操作","orderable" : false,render : function(cellData, type, rowData,meta) {
+					return '<button name="sycTradeInfoBtn" id="'+rowData.stockSymbol+'" onclick="syncStockTradeInfo(this)">同步数据</button>';
+				}
+			}
 	    ],
 	    destroy:true
 	} );
@@ -105,7 +112,17 @@ function fetchUpstockData(){
 		$("#queryPowerBtn").prop('disabled', false);
 	} );
 }
-
+function syncStockTradeInfo(btn){
+	var stockSymbol=$(btn).prop("id")
+	$.ajax({
+		url:restfulContext+"/goUpStrategy/syncStockTradeInfo?stockSymbol="+stockSymbol,
+	}).done(function(data){
+		if(!data.success){
+			alert(data.error.msg);
+		}
+	});
+		
+}
 function fetchAlarmStocks(){
 	$.ajax({
 		url:restfulContext+"/lowPriceBuyStrategy/getAlarmStocks",

@@ -3,7 +3,6 @@ package com.uf.stock.data.sync;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -28,20 +27,21 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.uf.stock.data.bean.ConfigInfo;
 import com.uf.stock.data.bean.StockInfo;
 import com.uf.stock.data.bean.StockTradeInfo;
 import com.uf.stock.util.HttpUnit;
 
-public class SinaStockDataSynchronizer implements StockDataSynchronizer {
-
-
+public class SinaDataSynchronizer {
+  private CloseableHttpClient client ;
+  private  ConfigInfo configInfo; 
+  public SinaDataSynchronizer(ConfigInfo configInfo){
+    this.configInfo=configInfo;
+    client=HttpUnit.createHttpClient(configInfo);
+  }
   public List<StockInfo> syncAllStocksInfo() {
-
     List<StockInfo> all = new LinkedList<StockInfo>();
-
-    CloseableHttpClient client = HttpUnit.createHttpClient();
     int pageIndex = 1, totalPage = Integer.MAX_VALUE;
-
     String url = "http://screener.finance.sina.com.cn/znxg/data/json.php/SSCore.doView";
     while (pageIndex <= totalPage) {
       try {
@@ -72,68 +72,52 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
           JsonParser parser = new JsonParser();
           JsonElement root = parser.parse(jsonStr);
           JsonArray items = root.getAsJsonObject().get("items").getAsJsonArray();
-          Iterator<JsonElement> iterator=items.iterator();
-          while(iterator.hasNext()){
-            JsonObject stockData=iterator.next().getAsJsonObject();
-            StockInfo stockInfo=new StockInfo();
+          Iterator<JsonElement> iterator = items.iterator();
+          while (iterator.hasNext()) {
+            JsonObject stockData = iterator.next().getAsJsonObject();
+            StockInfo stockInfo = new StockInfo();
             stockInfo.setName(stockData.get("name").getAsString());
             stockInfo.setSymbol(stockData.get("symbol").getAsString());
-            try{
+            try {
               stockInfo.setCode(Integer.parseInt(stockData.get("symbol").getAsString().substring(2)));
-            }catch(NumberFormatException exception){
+            } catch (NumberFormatException exception) {
               exception.printStackTrace();
             }
-            stockInfo.setTotalAAmount((stockData.get("ltag").getAsFloat())*100);
+            stockInfo.setTotalAAmount((stockData.get("ltag").getAsFloat()) * 100);
             stockInfo.setPeRatio(stockData.get("dtsyl").getAsFloat());
             all.add(stockInfo);
           }
           totalPage = root.getAsJsonObject().get("page_total").getAsInt();
           pageIndex++;
-          //System.out.println(jsonStr);
-        }else{
+          // System.out.println(jsonStr);
+        } else {
           break;
         }
       } catch (Exception e) {
         e.printStackTrace();
       }
     }
-
     return all;
   }
 
-  public StockInfo syncStockInfo(String stockCode) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public Map<String, StockInfo> syncStocksInfo(List<String> stockCodes) {
-    // TODO Auto-generated method stub
-    return null;
-  }
-
-  public StockTradeInfo syncStockCurrentTradeInfo(String stockSymbol) {
-    Map<String,StockTradeInfo> result=syncStocksCurrentTradeInfo(Arrays.asList(stockSymbol));
-    return result.get(stockSymbol);
-  }
 
   public Map<String, StockTradeInfo> syncStocksCurrentTradeInfo(List<String> stockSymbol) {
     Map<String, StockTradeInfo> result = new HashMap<String, StockTradeInfo>();
     List<String> urlParam = new ArrayList<String>();
     for (String symbol : stockSymbol) {
-      urlParam.add("s_"+symbol);
+      urlParam.add("s_" + symbol);
     }
     long time = System.currentTimeMillis();
     String url = "http://hq.sinajs.cn/?rn=" + time + "&list=" + Joiner.on(",").join(urlParam);
     HttpGet getMethod = new HttpGet(url);
     CloseableHttpResponse responese = null;
-    CloseableHttpClient client = HttpUnit.createHttpClient();
     try {
       responese = client.execute(getMethod);
       int status = responese.getStatusLine().getStatusCode();
       if (status == HttpStatus.SC_OK) {
         HttpEntity entity = responese.getEntity();
         String response = EntityUtils.toString(entity, Charset.forName("gb2312"));
-        //System.out.println(response);
+        // System.out.println(response);
         List<String> stocksPrice = Splitter.on(";").splitToList(response);
         if (stocksPrice != null) {
           for (String stockInfo : stocksPrice) {
@@ -142,25 +126,25 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
               String symbol = keyValue[0].substring(keyValue[0].length() - 8);
               StockTradeInfo currentInfo = new StockTradeInfo();
               currentInfo.setStockSymbol(symbol);
-               String infos[]=keyValue[1].replace("\"", "").split(",");
-               if (infos != null && infos.length > 5) {
-               if (infos[1] != null) {
-                 currentInfo.setClosePrice(Float.parseFloat(infos[1]));
-               }
-               if (infos[2] != null) {
-                 currentInfo.setUpDownPrice(Float.parseFloat(infos[2]));
-               }
-               if (infos[3] != null) {
-                 currentInfo.setUpDownRate(Float.parseFloat(infos[3]));
-               }
-               
-               if (infos[4] != null) {
-                 currentInfo.setTradeAmount(Long.parseLong(infos[4]));
-               }
-               if (infos[5] != null) {
-                 currentInfo.setTradeMoney(Long.parseLong(infos[5]));
-               }
-               }
+              String infos[] = keyValue[1].replace("\"", "").split(",");
+              if (infos != null && infos.length > 5) {
+                if (infos[1] != null) {
+                  currentInfo.setClosePrice(Float.parseFloat(infos[1]));
+                }
+                if (infos[2] != null) {
+                  currentInfo.setUpDownPrice(Float.parseFloat(infos[2]));
+                }
+                if (infos[3] != null) {
+                  currentInfo.setUpDownRate(Float.parseFloat(infos[3]));
+                }
+
+                if (infos[4] != null) {
+                  currentInfo.setTradeAmount(Long.parseLong(infos[4]));
+                }
+                if (infos[5] != null) {
+                  currentInfo.setTradeMoney(Long.parseLong(infos[5]));
+                }
+              }
               result.put(symbol, currentInfo);
             }
           }
@@ -181,7 +165,4 @@ public class SinaStockDataSynchronizer implements StockDataSynchronizer {
     }
     return result;
   }
-
-
-
 }

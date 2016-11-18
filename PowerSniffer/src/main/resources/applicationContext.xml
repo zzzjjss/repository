@@ -36,6 +36,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 			<list>
 				<value>com/uf/stock/data/bean/StockInfo.hbm.xml</value>
 				<value>com/uf/stock/data/bean/AlarmStock.hbm.xml</value>
+				<value>com/uf/stock/data/bean/StockTradeInfo.hbm.xml</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -53,7 +54,7 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 		<property name="proxyPort" value="80"></property>
 	</bean>
 	
-	<bean id="stockDataSynchronizer" class="com.uf.stock.data.sync.SinaStockDataSynchronizer"></bean>
+	<bean id="stockDataSynchronizer" class="com.uf.stock.data.sync.StockDataSynchronizerImpl"></bean>
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>

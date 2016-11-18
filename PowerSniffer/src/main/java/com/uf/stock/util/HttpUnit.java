@@ -8,8 +8,7 @@ import org.apache.http.impl.client.HttpClients;
 
 import com.uf.stock.data.bean.ConfigInfo;
 public class HttpUnit {
-	public static  CloseableHttpClient createHttpClient(){
-	    ConfigInfo config=SpringBeanFactory.getBean(ConfigInfo.class);
+	public static  CloseableHttpClient createHttpClient(ConfigInfo config){
 		HttpClientBuilder clientBuilder=HttpClients.custom().setDefaultSocketConfig(SocketConfig.custom().setSoTimeout(120*1000)
 				.build()).setMaxConnTotal(1000).setMaxConnPerRoute(800);
 		if (config.isUseProxy()) {

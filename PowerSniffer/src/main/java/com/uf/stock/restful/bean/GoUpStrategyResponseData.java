@@ -6,6 +6,7 @@ public class GoUpStrategyResponseData {
     private float peRatio;
     private float upDownRate;
     private float downPercent;
+    private String stockSymbol;
     public String getStockName() {
       return stockName;
     }
@@ -35,6 +36,12 @@ public class GoUpStrategyResponseData {
     }
     public void setPeRatio(float peRatio) {
       this.peRatio = peRatio;
+    }
+    public String getStockSymbol() {
+      return stockSymbol;
+    }
+    public void setStockSymbol(String stockSymbol) {
+      this.stockSymbol = stockSymbol;
     }
     
     

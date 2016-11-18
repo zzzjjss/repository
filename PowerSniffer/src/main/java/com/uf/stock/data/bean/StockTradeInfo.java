@@ -15,8 +15,7 @@ public class StockTradeInfo {
   private Float upDownPrice;
   private Float upDownRate;
   private String stockSymbol;
-
-
+  private StockInfo stock;
 
   public Float getUpDownPrice() {
     return upDownPrice;
@@ -115,5 +114,12 @@ public class StockTradeInfo {
     this.tradeMoney = tradeMoney;
   }
 
+  public StockInfo getStock() {
+    return stock;
+  }
+
+  public void setStock(StockInfo stock) {
+    this.stock = stock;
+  }
 
 }
