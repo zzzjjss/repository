@@ -2,11 +2,15 @@
 <html>
 <head>
 <script type="text/javascript" src="jquery/jquery-3.1.1.min.js"></script>
-<script type="text/javascript" src="jquery/jquery.dataTables/jquery.dataTables.min.js"></script>
+<script type="text/javascript"
+	src="jquery/jquery.dataTables/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="bootstrap-3.3.5/js/bootstrap.min.js"></script>
-<link rel="stylesheet" type="text/css" href="jquery/jquery.dataTables/jquery.dataTables.min.css" />
-<link rel="stylesheet" type="text/css" href="bootstrap-3.3.5/css/bootstrap.min.css" />
-<link rel="stylesheet" type="text/css" href="bootstrap-3.3.5/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="jquery/jquery.dataTables/jquery.dataTables.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="bootstrap-3.3.5/css/bootstrap.min.css" />
+<link rel="stylesheet" type="text/css"
+	href="bootstrap-3.3.5/css/bootstrap-theme.min.css" />
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
@@ -22,116 +26,216 @@
 			<div class="row">
 				<div class=col-lg-6>
 					<div class="input-group">
-						<span class="input-group-addon">市营率范围</span> 
-						<input type="text" class="form-control" placeholder="MinPE" value="1" id="minPeRatio">
-						<input type="text" class="form-control" placeholder="MaxPE" value="100" id="maxPeRatio">
+						<span class="input-group-addon">市营率范围</span> <input type="text"
+							class="form-control" placeholder="MinPE" value="1"
+							id="minPeRatio"> <input type="text" class="form-control"
+							placeholder="MaxPE" value="100" id="maxPeRatio">
 					</div>
 				</div>
 				<div class=col-lg-6>
-						<div class="input-group">
-						<span class="input-group-addon">目标价最大跌幅</span> 
-						<input type="text" class="form-control" placeholder="MaxDownPercent" value="30" id="maxDownPercent">
+					<div class="input-group">
+						<span class="input-group-addon">目标价最大跌幅</span> <input type="text"
+							class="form-control" placeholder="MaxDownPercent" value="30"
+							id="maxDownPercent">
 					</div>
 					<button type="button" class="btn btn-default " id="queryPowerBtn">查询</button>
+					<button type="button" class="btn btn-default " data-toggle="modal"
+						data-target="#myModal">同步每天交易</button>
 				</div>
 
 			</div>
 
-	<br>
+			<br>
 
 			<table id="upPowerTable" class="display" width="100%"></table>
 
 		</div>
 		<div class="tab-pane" id="lowPrice">
 			<div class="row">
-				<button type="button" class="btn btn-default " id="getDownPercentBtn">查询</button>
+				<button type="button" class="btn btn-default "
+					id="getDownPercentBtn">查询</button>
+				<button type="button" class="btn btn-default " id="syncAllStocksBtn">同步所有股票</button>
 			</div>
 			<table id="lowPriceBuyTb" class="display" width="100%"></table>
 		</div>
 		<div class="tab-pane" id="downMakeT"></div>
 	</div>
+
+
+
+	<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">同步股票每天交易数据</h4>
+				</div>
+				<div class="modal-body">
+					<div class="input-group">
+						<span class="input-group-addon">同步所有</span> <input type="checkbox"
+							id="isSyncAll" >
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">股票代码</span> <input type="text"
+							class="form-control" placeholder="股票代码" id="stockCode">
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="syncTradeInfoBtn">同步</button>
+				</div>
+			</div>
+		</div>
+		<!-- /.modal -->
+	</div>
+
+
 </body>
 <script type="text/javascript">
-var restfulContext="/PowerSniffer/rest";
+	var restfulContext = "/PowerSniffer/rest";
 
-$(document).ready(function() {
-	fetchUpstockData();
-	$("#queryPowerBtn").on("click",function(){
-			$("#queryPowerBtn").prop('disabled', true);
+	$(document).ready(function() {
+		fetchUpstockData();
+		$("#queryPowerBtn").on("click", function() {
+			$(this).prop('disabled', true);
 			fetchUpstockData()
-			
+
 		});
-	
-	$("#getDownPercentBtn").on("click",function(){
-		$("#getDownPercentBtn").prop('disabled', true);
-		fetchDownPercentData();
+
+		$("#getDownPercentBtn").on("click", function() {
+			$(this).prop('disabled', true);
+			fetchDownPercentData();
+		});
+		$("#syncAllStocksBtn").on("click", function() {
+			var btn = $(this);
+			$(this).prop('disabled', true);
+
+			$.ajax({
+				url : restfulContext + "/lowPriceBuyStrategy/syncAllStock"
+			}).done(function(data) {
+				btn.prop('disabled', false);
+				alertCommonResponse(data);
+			});
+		});
+		$("#syncTradeInfoBtn").on("click", function() {
+			var btn = $(this);
+			$(this).prop('disabled', true);
+			var stockCode=$("#stockCode").val();		
+			var isSyncAll=$("#isSyncAll").is(':checked');
+			$.ajax({
+				url : restfulContext + "/goUpStrategy/syncStockTradeInfo?isSyncAll="+isSyncAll+"&stockCode="+stockCode
+			}).done(function(data) {
+				btn.prop('disabled', false);
+				alertCommonResponse(data);
+			});
+		});
+		//setInterval(function(){fetchAlarmStocks();}, 3000);
 	});
-	$("#sycTradeInfoBtn").on("click",function(){
-		
-	});
-	setInterval(function(){fetchAlarmStocks();}, 3000);
-});
-function fetchDownPercentData(){
-	var table=$('#lowPriceBuyTb').DataTable( {
-		"ajax":restfulContext+"/lowPriceBuyStrategy/getStocksDownPercent",
-	    "columns": [
-	        { title: "股票名称",data:"stockName"},
-	        { title: "买价",data:"alarmBuyPrice" },
-	        { title: "卖价" ,data:"alarmSellPrice"},
-	        { name:"downPercent",title: "底价跌幅",data:"downPercent" }
-	    ],
-	    destroy:true
-	} );
-	table.column(["downPercent:name"]).order("desc").draw();
-	table.on( 'xhr.dt', function () {
-		$("#getDownPercentBtn").prop('disabled', false);
-	} );
-	
-}
-function fetchUpstockData(){
-	var minPeRatio=$("#minPeRatio").val();
-	var maxPeRatio=$("#maxPeRatio").val();
-	var maxDownPercent=$("#maxDownPercent").val();
-	var table=$('#upPowerTable').DataTable( {
-		"ajax":restfulContext+"/goUpStrategy/getGoUpStockInfo?minPeRatio="+minPeRatio+"&maxPeRatio="+maxPeRatio+"&maxDownPercent="+maxDownPercent,
-	    "columns": [
-	        { title: "股票名称",data:"stockName"},
-	        { name:"power",title: "上涨力道",data:"power" },
-	        { title: "涨幅" ,data:"upDownRate"},
-	        { title: "市盈率" ,data:"peRatio"},
-	        { name:"downPercent",title: "底价跌幅",data:"downPercent" },
-	        {title : "操作","orderable" : false,render : function(cellData, type, rowData,meta) {
-					return '<button name="sycTradeInfoBtn" id="'+rowData.stockSymbol+'" onclick="syncStockTradeInfo(this)">同步数据</button>';
-				}
+	function fetchDownPercentData() {
+		var table = $('#lowPriceBuyTb').DataTable(
+				{
+					"ajax" : restfulContext
+							+ "/lowPriceBuyStrategy/getStocksDownPercent",
+					"columns" : [ {
+						title : "股票名称",
+						data : "stockName"
+					}, {
+						title : "买价",
+						data : "alarmBuyPrice"
+					}, {
+						title : "卖价",
+						data : "alarmSellPrice"
+					}, {
+						name : "downPercent",
+						title : "底价跌幅",
+						data : "downPercent"
+					} ],
+					destroy : true
+				});
+		table.column([ "downPercent:name" ]).order("desc").draw();
+		table.on('xhr.dt', function() {
+			$("#getDownPercentBtn").prop('disabled', false);
+		});
+
+	}
+	function fetchUpstockData() {
+		var minPeRatio = $("#minPeRatio").val();
+		var maxPeRatio = $("#maxPeRatio").val();
+		var maxDownPercent = $("#maxDownPercent").val();
+		var table = $('#upPowerTable')
+				.DataTable(
+						{
+							"ajax" : restfulContext+ "/goUpStrategy/getGoUpStockInfo?minPeRatio="+ minPeRatio + "&maxPeRatio=" + maxPeRatio
+									+ "&maxDownPercent=" + maxDownPercent,
+							"columns" : [
+									{
+										title : "股票名称",
+										data : "stockName"
+									},
+									{
+										name : "power",
+										title : "上涨力道",
+										data : "power"
+									},
+									{
+										title : "涨幅",
+										data : "upDownRate"
+									},
+									{
+										title : "市盈率",
+										data : "peRatio"
+									},
+									{
+										name : "downPercent",
+										title : "底价跌幅",
+										data : "downPercent"
+									},
+									{
+										title : "操作",
+										"orderable" : false,
+										render : function(cellData, type,
+												rowData, meta) {
+											return '<button name="sycTradeInfoBtn" id="'
+													+ rowData.stockSymbol
+													+ '" onclick="syncStockTradeInfo(this)">同步数据</button>';
+										}
+									} ],
+							destroy : true
+						});
+		table.column([ "power:name", "downPercent:name" ]).order("desc").draw();
+		table.on('xhr.dt', function() {
+			$("#queryPowerBtn").prop('disabled', false);
+		});
+	}
+	function syncStockTradeInfo(btn) {
+		var stockSymbol = $(btn).prop("id")
+		$.ajax(
+				{
+					url : restfulContext+ "/goUpStrategy/syncStockTradeInfo?stockSymbol="+ stockSymbol,
+				}).done(function(data) {
+			if (!data.success) {
+				alert(data.error.msg);
 			}
-	    ],
-	    destroy:true
-	} );
-	table.column(["power:name","downPercent:name"]).order("desc").draw();
-	table.on( 'xhr.dt', function () {
-		$("#queryPowerBtn").prop('disabled', false);
-	} );
-}
-function syncStockTradeInfo(btn){
-	var stockSymbol=$(btn).prop("id")
-	$.ajax({
-		url:restfulContext+"/goUpStrategy/syncStockTradeInfo?stockSymbol="+stockSymbol,
-	}).done(function(data){
-		if(!data.success){
+		});
+	}
+	function alertCommonResponse(data) {
+		if (data.success == true) {
+			alert(data.msg);
+		} else {
 			alert(data.error.msg);
 		}
-	});
-		
-}
-function fetchAlarmStocks(){
-	$.ajax({
-		url:restfulContext+"/lowPriceBuyStrategy/getAlarmStocks",
-	}).done(function(data){
-		if(data!=""){
-			alert(data);
-		}
-	});
-}
-
+	}
+	function fetchAlarmStocks() {
+		$.ajax({
+			url : restfulContext + "/lowPriceBuyStrategy/getAlarmStocks",
+		}).done(function(data) {
+			if (data != "") {
+				alert(data);
+			}
+		});
+	}
 </script>
 </html>

@@ -48,6 +48,9 @@ public class SoHuDataSynchronizer {
       if (status == HttpStatus.SC_OK) {
         HttpEntity entity = response.getEntity();
         String responseContent = EntityUtils.toString(entity, Charset.forName("gb2312"));
+        if(StringUtils.isBlank(responseContent)||"{}".equals(StringUtils.reverseDelimited(responseContent,'\n'))){
+        	return result;
+        }
         JsonParser parser=new JsonParser();
         JsonObject jsonObj=parser.parse(responseContent.subSequence(1, responseContent.length()-2).toString()).getAsJsonObject();
         DateFormat  format2=new SimpleDateFormat("yyyy-MM-dd"); 
@@ -60,6 +63,7 @@ public class SoHuDataSynchronizer {
             stock.setSymbol(stockSymbol);
             stock.setCode(Integer.parseInt(stockCode));
             info.setStock(stock);
+            info.setStockSymbol(stockSymbol);
             for(int j=0;j<oneDayData.size();j++){
               String data=oneDayData.get(j).getAsString();
               switch(j){
@@ -72,7 +76,7 @@ public class SoHuDataSynchronizer {
                 case 6:info.setHighestPrice(Float.parseFloat(data));break;
                 case 7:info.setTradeAmount(Long.parseLong(data));break;
                 case 8:Float money=(Float.parseFloat(data))*10000;info.setTradeMoney(money.longValue());break;
-                case 9:info.setTurnoverRate(Float.parseFloat(data.substring(0, data.length()-1)));break;
+                case 9:if(!StringUtils.isBlank(data)&&!StringUtils.isBlank(data.substring(0, data.length()-1))){info.setTurnoverRate(Float.parseFloat(data.substring(0, data.length()-1)));}break;
               }
             }
             result.add(info);

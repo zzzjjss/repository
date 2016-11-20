@@ -15,6 +15,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,7 +28,6 @@ import com.uf.stock.data.bean.StockTradeInfo;
 import com.uf.stock.data.dao.AlarmStockDao;
 import com.uf.stock.data.dao.StockInfoDao;
 import com.uf.stock.data.dao.StockTradeInfoDao;
-import com.uf.stock.data.exception.DataSyncException;
 import com.uf.stock.data.sync.StockDataSynchronizer;
 import com.uf.stock.service.DataSyncService;
 
@@ -41,7 +42,8 @@ public class DataSyncServiceImpl implements DataSyncService {
   @Autowired
   private StockTradeInfoDao tradeInfoDao;
   private Map<Integer, AlarmStock> alarmStockCache = new HashMap<Integer, AlarmStock>();
-
+  private Map<Integer,String> codeToSymbol=new HashMap<Integer, String>();
+  private Logger logger = LogManager.getLogger(DataSyncServiceImpl.class);
   public int syncAllStocksBaseInfo() {
     List<StockInfo> stockInfo = dataSyncher.syncAllStocksInfo();
     stockInfoDao.deleteAll();
@@ -140,6 +142,8 @@ public class DataSyncServiceImpl implements DataSyncService {
       if (stock != null) {
         alarm = new AlarmStock();
         alarm.setStockCode(stockCode);
+        alarm.setAlarmBuyPrice(0.0f);
+        alarm.setStockName(stock.getName());
         alarmStockDao.insert(alarm);
       }
     }
@@ -190,13 +194,18 @@ public class DataSyncServiceImpl implements DataSyncService {
       DateFormat format = new SimpleDateFormat("yyyyMMdd");
       Date startDate = null;
       Date today = new Date();
+      today=format.parse(format.format(today));
       if (latestTi == null) {
         try {
+          logger.info("no tradeinfo ,the stockSymbol is "+stockSymbol);
           startDate = format.parse("20130101");
         } catch (ParseException e) {
           e.printStackTrace();
         }
       } else {
+    	 if(format.format(today).equals(latestTi.getTradeDate())){
+    		 return totalRecord;
+    	 }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(latestTi.getTradeDate());
         calendar.add(Calendar.DATE, 1);
@@ -204,29 +213,76 @@ public class DataSyncServiceImpl implements DataSyncService {
       }
       Calendar calendar = Calendar.getInstance();
       while (true) {
-        calendar.setTime(startDate);
+    	calendar.setTime(startDate);
+    	Date start=calendar.getTime();
         calendar.add(Calendar.MONTH, 1);
-        Date temp = calendar.getTime();
-        if (temp.getTime() >= today.getTime()) {
-          temp = today;
+        Date end = calendar.getTime();
+        calendar.add(Calendar.DATE, 1);
+        startDate=calendar.getTime();
+        if (end.getTime() >= today.getTime()) {
+          end = today;
         }
         List<StockTradeInfo> tradeInfos;
-        tradeInfos = dataSyncher.syncStockDateTradeInfos(stockSymbol, startDate, temp);
-
+        tradeInfos = dataSyncher.syncStockDateTradeInfos(stockSymbol, start, end);
+        logger.info("start:"+startDate.toString()+" to  end:"+end.toString()+" ,result:"+tradeInfos.size()+" stockSymbol:"+stockSymbol);
         if (tradeInfos != null && tradeInfos.size() > 0) {
           for (StockTradeInfo info : tradeInfos) {
             tradeInfoDao.insert(info);
             totalRecord++;
           }
         }
-        if (temp.getTime() == today.getTime()) {
+        if (end.getTime() >= today.getTime()) {
           break;
         }
       }
     } catch (Exception e) {
       e.printStackTrace();
+      logger.info("sync :"+stockSymbol+" trade info  has exception");
       throw new RuntimeException();
     }
     return totalRecord;
   }
+
+@Override
+public String transToStockSymbolFromStockCode(Integer stockCode) {
+	String symbol=codeToSymbol.get(stockCode);
+	if(symbol==null){
+		StockInfo stock=stockInfoDao.findStockByStockCode(stockCode);
+		if(stock!=null){
+			symbol=stock.getSymbol();
+			codeToSymbol.put(stockCode, symbol);
+		}
+	}
+	return symbol;
+}
+
+@Override
+public int syncAllStocksTradeInfo() {
+	
+	int syncTotalCount=0;
+//	List<StockInfo> allStocks=stockInfoDao.findAll(StockInfo.class);
+//	ExecutorService pool = Executors.newCachedThreadPool();
+//	List<Future<Integer>> results=new ArrayList<Future<Integer>>(); 
+//	for(StockInfo stock:allStocks){
+//		final String stockSymbol=stock.getSymbol();
+//		Future<Integer> future=pool.submit(new Callable<Integer>() {
+//			public Integer  call(){
+//				return syncStockTradeInfos(stockSymbol);
+//			}
+//		});	
+//		results.add(future);
+//	}
+//	pool.shutdown();
+//	for(Future<Integer> result:results){
+//		try {
+//			Integer syncCount=result.get();
+//			logger.info("sync tradeInfor coutn:"+syncCount);
+//			syncTotalCount=syncTotalCount+syncCount;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		} 
+//	}
+	return syncTotalCount;
+}
+
 }

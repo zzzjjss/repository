@@ -2,8 +2,16 @@ package com.uf.stock.restful.bean;
 
 public class RestfulResponse {
   private boolean success;
+  private String msg;
   private ResponseError error;
-  public boolean isSuccess() {
+  
+  public String getMsg() {
+	return msg;
+}
+public void setMsg(String msg) {
+	this.msg = msg;
+}
+public boolean isSuccess() {
     return success;
   }
   public void setSuccess(boolean success) {

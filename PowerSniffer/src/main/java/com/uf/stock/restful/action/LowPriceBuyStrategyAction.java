@@ -28,6 +28,7 @@ import com.uf.stock.data.sync.StockDataSynchronizer;
 import com.uf.stock.restful.bean.LowPriceBuyStrategyResponse;
 import com.uf.stock.restful.bean.LowPriceBuyStrategyResponseData;
 import com.uf.stock.restful.bean.ResponseError;
+import com.uf.stock.restful.bean.RestfulResponse;
 import com.uf.stock.service.DataSyncService;
 import com.uf.stock.util.SpringBeanFactory;
 
@@ -43,7 +44,7 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
     LowPriceBuyStrategyResponse response=new LowPriceBuyStrategyResponse(); 
     try{
       List<LowPriceBuyStrategyResponseData> data=new LinkedList<LowPriceBuyStrategyResponseData>();
-      List<StockInfo> stocks=service.findStocksPeRatioBetween(Float.MIN_VALUE, Float.MAX_VALUE);
+      List<StockInfo> stocks=service.findStocksPeRatioBetween(-1f, Float.MAX_VALUE);
       List<String> stockSymbols=new ArrayList<String>();
       for(StockInfo stock:stocks){
         stockSymbols.add(stock.getSymbol());
@@ -89,7 +90,7 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
   public String getAlarmStocks(){
     StringBuilder alarmInfo=new StringBuilder();
     try{
-      List<StockInfo> stocks=service.findStocksPeRatioBetween(Float.MIN_VALUE, Float.MAX_VALUE);
+      List<StockInfo> stocks=service.findStocksPeRatioBetween(-1f, Float.MAX_VALUE);
       List<String> stockSymbols=new ArrayList<String>();
       for(StockInfo stock:stocks){
         stockSymbols.add(stock.getSymbol());
@@ -108,4 +109,26 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
     }
     return alarmInfo.toString();
   }
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @GET
+  @Path("/syncAllStock")
+  public String syncAllStock(){
+	  RestfulResponse response=new RestfulResponse();
+	    try{
+	      int count=service.syncAllStocksBaseInfo();
+	      response.setSuccess(true);
+	      response.setMsg("total sync "+count+" stocks");
+	    }catch(Exception e){
+	      e.printStackTrace();
+	      ResponseError error=new ResponseError();
+	      error.setCode("1");
+	      error.setMsg(e.getMessage());
+	      response.setError(error);
+	      response.setSuccess(false);
+	    }
+	    Gson gson=new Gson();
+	    return gson.toJson(response);
+  }
+  
 }

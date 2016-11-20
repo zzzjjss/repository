@@ -52,7 +52,7 @@ public class SynchronizerTest {
     SoHuDataSynchronizer syn=new SoHuDataSynchronizer(config);
     DateFormat format = new SimpleDateFormat("yyyyMMdd");
     try {
-      List<StockTradeInfo> datas=syn.syncStockDateTradeInfos("sh600030", format.parse("20161116"), format.parse("20161116"));
+      List<StockTradeInfo> datas=syn.syncStockDateTradeInfos("sz300146", format.parse("20140214"), format.parse("20140314"));
       System.out.println(datas.size());
     } catch (Exception e) {
       // TODO Auto-generated catch block

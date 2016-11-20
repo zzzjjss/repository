@@ -30,6 +30,7 @@ import com.google.gson.JsonParser;
 import com.uf.stock.data.bean.ConfigInfo;
 import com.uf.stock.data.bean.StockInfo;
 import com.uf.stock.data.bean.StockTradeInfo;
+import com.uf.stock.data.exception.DataSyncException;
 import com.uf.stock.util.HttpUnit;
 
 public class SinaDataSynchronizer {
@@ -103,6 +104,8 @@ public class SinaDataSynchronizer {
 
   public Map<String, StockTradeInfo> syncStocksCurrentTradeInfo(List<String> stockSymbol) {
     Map<String, StockTradeInfo> result = new HashMap<String, StockTradeInfo>();
+    if(stockSymbol==null||stockSymbol.size()==0)
+    	return result;
     List<String> urlParam = new ArrayList<String>();
     for (String symbol : stockSymbol) {
       urlParam.add("s_" + symbol);
@@ -158,7 +161,9 @@ public class SinaDataSynchronizer {
       e.printStackTrace();
     } finally {
       try {
-        responese.close();
+    	  if(responese!=null){
+    		  responese.close();
+    	  }
       } catch (IOException e) {
         e.printStackTrace();
       }
