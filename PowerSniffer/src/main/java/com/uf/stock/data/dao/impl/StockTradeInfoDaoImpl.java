@@ -1,7 +1,10 @@
 package com.uf.stock.data.dao.impl;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.SQLQuery;
 import org.springframework.orm.hibernate4.HibernateTemplate;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +24,14 @@ public class StockTradeInfoDaoImpl extends CommonRdbsDaoImpl<StockTradeInfo> imp
       }
       return null;
   }
+
+@Override
+public Float calculateAveragePriceBeforeDate(int limit, Date date,Integer stockCode) {
+	HibernateTemplate temp=this.getHibernateTemplate();
+	SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+	SQLQuery query=temp.getSessionFactory().getCurrentSession().createSQLQuery("select avg(close_price) from (select * from sniffer.stock_trade_info where  stock_code="+stockCode+" and trade_date <='"+format.format(date)+"' order by trade_date desc  limit "+limit+") as a;");
+	Double avg=(Double)query.uniqueResult();
+	return avg.floatValue();
+}
 
 }

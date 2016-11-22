@@ -41,6 +41,8 @@
 					<button type="button" class="btn btn-default " id="queryPowerBtn">查询</button>
 					<button type="button" class="btn btn-default " data-toggle="modal"
 						data-target="#myModal">同步每天交易</button>
+					<button type="button" class="btn btn-default " data-toggle="modal"
+						data-target="#avgAnalyseModal">分析日均线</button>
 				</div>
 
 			</div>
@@ -48,6 +50,15 @@
 			<br>
 
 			<table id="upPowerTable" class="display" width="100%"></table>
+			<br>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title">Console</h3>
+				</div>
+				<div class="panel-body" id="console">
+				fff
+				</div>
+			</div>
 
 		</div>
 		<div class="tab-pane" id="lowPrice">
@@ -89,7 +100,35 @@
 				</div>
 			</div>
 		</div>
-		<!-- /.modal -->
+		</div>
+		
+		
+		
+		<div class="modal fade" id="avgAnalyseModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">均线分析</h4>
+				</div>
+				<div class="modal-body">
+					
+					<div class="input-group">
+						<span class="input-group-addon">日周期</span>
+						 <input type="text" class="form-control" placeholder="" id="shortTerm">
+						 <input type="text" class="form-control" placeholder="" id="mediumTerm">
+						 <input type="text" class="form-control" placeholder="" id="longTerm">
+					</div>
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="analyseBtn">开始分析</button>
+				</div>
+			</div>
+		</div>
 	</div>
 
 
@@ -130,6 +169,19 @@
 			}).done(function(data) {
 				btn.prop('disabled', false);
 				alertCommonResponse(data);
+			});
+		});
+		$("#analyseBtn").on("click",function(){
+			var btn = $(this);
+			$(this).prop('disabled', true);
+			var shortTerm=$("#shortTerm").val();
+			var mediumTerm=$("#mediumTerm").val();
+			var longTerm=$("#longTerm").val()
+			$.ajax({
+				url : restfulContext + "/goUpStrategy/analyseAvgPrice?shortTerm="+shortTerm+"&mediumTerm="+mediumTerm+"&longTerm="+longTerm
+			}).done(function(data) {
+				btn.prop('disabled', false);
+				$("#console").append(data);
 			});
 		});
 		//setInterval(function(){fetchAlarmStocks();}, 3000);

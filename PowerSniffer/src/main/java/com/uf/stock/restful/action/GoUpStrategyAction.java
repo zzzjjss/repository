@@ -26,6 +26,7 @@ import com.uf.stock.restful.bean.GoUpStrategyResponseData;
 import com.uf.stock.restful.bean.ResponseError;
 import com.uf.stock.restful.bean.RestfulResponse;
 import com.uf.stock.service.DataSyncService;
+import com.uf.stock.service.DayAverageAnalysisService;
 import com.uf.stock.util.SpringBeanFactory;
 import com.uf.stock.util.StockUtil;
 
@@ -33,7 +34,7 @@ import com.uf.stock.util.StockUtil;
 @Path("/goUpStrategy")
 public class GoUpStrategyAction {
   private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class);
-  
+  private DayAverageAnalysisService analyseService=SpringBeanFactory.getBean(DayAverageAnalysisService.class);
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @GET
@@ -124,5 +125,37 @@ public class GoUpStrategyAction {
     }
     Gson gson=new Gson();
     return gson.toJson(response);
+  }
+  
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @GET
+  @Path("/analyseAvgPrice")
+  public String analyseAvgPrice(@QueryParam("shortTerm")final int shortTerm,@QueryParam("mediumTerm")final int mediumTerm,@QueryParam("longTerm")final int longTerm){
+	  List<StockInfo> stocks=new ArrayList<StockInfo>();
+	  List<StockInfo> allStocks=service.findStocksPeRatioBetween(-1f, Float.MAX_VALUE);
+		ExecutorService pool = Executors.newCachedThreadPool();
+		List<Future<StockInfo>> results=new ArrayList<Future<StockInfo>>(); 
+		for(final StockInfo stock:allStocks){
+			Future<StockInfo> future=pool.submit(new Callable<StockInfo>() {
+				public StockInfo call(){
+					return analyseService.calculateStockIsDayAverageGoldX(stock,shortTerm, mediumTerm, longTerm);
+				}
+			});	
+			results.add(future);
+		}
+		pool.shutdown();
+		for(Future<StockInfo> result:results){
+			try {
+				StockInfo info=result.get();
+				if(info!=null){
+					stocks.add(info);
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			} 
+		}
+	  Gson gson=new Gson();
+	  return gson.toJson(stocks);
   }
 }
