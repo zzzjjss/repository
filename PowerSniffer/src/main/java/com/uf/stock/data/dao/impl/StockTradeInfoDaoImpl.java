@@ -29,9 +29,35 @@ public class StockTradeInfoDaoImpl extends CommonRdbsDaoImpl<StockTradeInfo> imp
 public Float calculateAveragePriceBeforeDate(int limit, Date date,Integer stockCode) {
 	HibernateTemplate temp=this.getHibernateTemplate();
 	SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-	SQLQuery query=temp.getSessionFactory().getCurrentSession().createSQLQuery("select avg(close_price) from (select * from sniffer.stock_trade_info where  stock_code="+stockCode+" and trade_date <='"+format.format(date)+"' order by trade_date desc  limit "+limit+") as a;");
+	SQLQuery query=temp.getSessionFactory().getCurrentSession().createSQLQuery("select avg(close_price) from (select * from stock_trade_info where  stock_code="+stockCode+" and trade_date <='"+format.format(date)+"' order by trade_date desc  limit "+limit+") as a;");
 	Double avg=(Double)query.uniqueResult();
 	return avg.floatValue();
 }
+
+@Override
+public List<StockTradeInfo> findLatestDaysStockTradeInfos(String stockSymbol, int days) {
+  HibernateTemplate temp=this.getHibernateTemplate();
+  temp.setMaxResults(days);
+  return (List<StockTradeInfo>)temp.find("from StockTradeInfo s  where s.stockSymbol=? order by s.tradeDate desc ", stockSymbol);
+}
+
+@Override
+public Float calculateDaysHighestPriceBeforeDate(int limit, Date date, Integer stockCode) {
+  HibernateTemplate temp=this.getHibernateTemplate();
+  SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+  SQLQuery query=temp.getSessionFactory().getCurrentSession().createSQLQuery("select max(highest_price) from (select * from stock_trade_info where  stock_code="+stockCode+" and trade_date <='"+format.format(date)+"' order by trade_date desc  limit "+limit+") as a;");
+  return (Float)query.uniqueResult();
+}
+
+@Override
+public Float calculateDaysLowestPriceBeforeDate(int limit, Date date, Integer stockCode) {
+  HibernateTemplate temp=this.getHibernateTemplate();
+  SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+  SQLQuery query=temp.getSessionFactory().getCurrentSession().createSQLQuery("select min(lowest_price) from (select * from stock_trade_info where  stock_code="+stockCode+" and trade_date <='"+format.format(date)+"' order by trade_date desc  limit "+limit+") as a;");
+  return (Float)query.uniqueResult();
+}
+
+
+
 
 }

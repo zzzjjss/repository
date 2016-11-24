@@ -26,7 +26,7 @@ import com.uf.stock.restful.bean.GoUpStrategyResponseData;
 import com.uf.stock.restful.bean.ResponseError;
 import com.uf.stock.restful.bean.RestfulResponse;
 import com.uf.stock.service.DataSyncService;
-import com.uf.stock.service.DayAverageAnalysisService;
+import com.uf.stock.service.StockAnalysisService;
 import com.uf.stock.util.SpringBeanFactory;
 import com.uf.stock.util.StockUtil;
 
@@ -34,7 +34,7 @@ import com.uf.stock.util.StockUtil;
 @Path("/goUpStrategy")
 public class GoUpStrategyAction {
   private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class);
-  private DayAverageAnalysisService analyseService=SpringBeanFactory.getBean(DayAverageAnalysisService.class);
+  private StockAnalysisService analyseService=SpringBeanFactory.getBean(StockAnalysisService.class);
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @GET

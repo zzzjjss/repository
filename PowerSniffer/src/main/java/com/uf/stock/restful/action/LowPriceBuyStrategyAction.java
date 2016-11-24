@@ -59,7 +59,7 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
         rsData.setAlarmBuyPrice(buyPrice);
         rsData.setAlarmSellPrice(sellPrice);
         float  downPercent=0f;
-        if(info.getClosePrice()!=0){
+        if(info.getClosePrice()!=null&&info.getClosePrice()!=0){
           downPercent=((info.getClosePrice()-buyPrice)/info.getClosePrice())*100;
           BigDecimal bd = new BigDecimal(downPercent);
           bd = bd.setScale(2, RoundingMode.HALF_UP);

@@ -46,9 +46,8 @@ public class DataSyncServiceImpl implements DataSyncService {
   private Logger logger = LogManager.getLogger(DataSyncServiceImpl.class);
   public int syncAllStocksBaseInfo() {
     List<StockInfo> stockInfo = dataSyncher.syncAllStocksInfo();
-    stockInfoDao.deleteAll();
     for (StockInfo info : stockInfo) {
-      stockInfoDao.insert(info);
+      stockInfoDao.saveOrUpdate(info);
     }
     return stockInfo.size();
   }
@@ -143,6 +142,7 @@ public class DataSyncServiceImpl implements DataSyncService {
         alarm = new AlarmStock();
         alarm.setStockCode(stockCode);
         alarm.setAlarmBuyPrice(0.0f);
+        alarm.setAlarmSellPrice(0.0f);
         alarm.setStockName(stock.getName());
         alarmStockDao.insert(alarm);
       }
