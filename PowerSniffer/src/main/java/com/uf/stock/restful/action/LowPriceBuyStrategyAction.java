@@ -8,6 +8,10 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 import javax.inject.Singleton;
 import javax.ws.rs.Consumes;
@@ -30,12 +34,18 @@ import com.uf.stock.restful.bean.LowPriceBuyStrategyResponseData;
 import com.uf.stock.restful.bean.ResponseError;
 import com.uf.stock.restful.bean.RestfulResponse;
 import com.uf.stock.service.DataSyncService;
+import com.uf.stock.service.StockAnalysisService;
+import com.uf.stock.service.bean.StableStage;
+import com.uf.stock.service.bean.StableStageDefinition;
+import com.uf.stock.service.bean.StageDefinition;
+import com.uf.stock.service.bean.StockStage;
 import com.uf.stock.util.SpringBeanFactory;
 
 @Singleton
 @Path("/lowPriceBuyStrategy")
 public class LowPriceBuyStrategyAction {
 private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class);
+private StockAnalysisService analyseService=SpringBeanFactory.getBean(StockAnalysisService.class);
   @Produces(MediaType.APPLICATION_JSON)
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @GET
@@ -130,5 +140,44 @@ private DataSyncService service=SpringBeanFactory.getBean(DataSyncService.class)
 	    Gson gson=new Gson();
 	    return gson.toJson(response);
   }
+  
+  
+  @Produces(MediaType.APPLICATION_JSON)
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  @GET
+  @Path("/calculatePeriodicLowPriceStocks")
+  public String calculatePeriodicLowPriceStocks(@QueryParam("periodicDays") final int periodicDays, @QueryParam("maxDownPercentToLowest") final float maxDownPercentToLowest) {
+    List<StockInfo> stocks = new ArrayList<StockInfo>();
+    List<StockInfo> allStocks = service.findStocksPeRatioBetween(1f, Float.MAX_VALUE);
+    ExecutorService pool = Executors.newCachedThreadPool();
+    List<Future<StockInfo>> results = new ArrayList<Future<StockInfo>>();
+    for (final StockInfo stock : allStocks) {
+      Future<StockInfo> future = pool.submit(new Callable<StockInfo>() {
+        public StockInfo call() {
+          Float downPercent = analyseService.calculateStockPeriodicToLowestPriceDownPercent(stock, periodicDays);
+          if (downPercent != null && downPercent.floatValue() <= maxDownPercentToLowest) {
+            return stock;
+          }
+          return null;
+        }
+      });
+      results.add(future);
+    }
+    pool.shutdown();
+    for (Future<StockInfo> result : results) {
+      try {
+        StockInfo info = result.get();
+        if (info != null) {
+          stocks.add(info);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    Gson gson = new Gson();
+    return gson.toJson(stocks);
+  }
+  
+  
   
 }

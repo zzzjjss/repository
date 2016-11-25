@@ -27,6 +27,10 @@ import com.uf.stock.restful.bean.ResponseError;
 import com.uf.stock.restful.bean.RestfulResponse;
 import com.uf.stock.service.DataSyncService;
 import com.uf.stock.service.StockAnalysisService;
+import com.uf.stock.service.bean.StableStage;
+import com.uf.stock.service.bean.StableStageDefinition;
+import com.uf.stock.service.bean.StageDefinition;
+import com.uf.stock.service.bean.StockStage;
 import com.uf.stock.util.SpringBeanFactory;
 import com.uf.stock.util.StockUtil;
 
@@ -131,15 +135,27 @@ public class GoUpStrategyAction {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @GET
   @Path("/analyseAvgPrice")
-  public String analyseAvgPrice(@QueryParam("shortTerm")final int shortTerm,@QueryParam("mediumTerm")final int mediumTerm,@QueryParam("longTerm")final int longTerm){
+  public String analyseAvgPrice(@QueryParam("stableDays")final int stableDays,@QueryParam("stableAmplitude")final float stableAmplitude,
+      @QueryParam("shortTerm")final int shortTerm,@QueryParam("mediumTerm")final int mediumTerm,@QueryParam("longTerm")final int longTerm){
 	  List<StockInfo> stocks=new ArrayList<StockInfo>();
-	  List<StockInfo> allStocks=service.findStocksPeRatioBetween(-1f, Float.MAX_VALUE);
+	  final List<StageDefinition> stageDefi=new ArrayList<StageDefinition>();
+      StableStageDefinition stable=new StableStageDefinition(stableDays, stableAmplitude/100);
+      stageDefi.add(stable);
+	  List<StockInfo> allStocks=service.findStocksPeRatioBetween(1f, Float.MAX_VALUE);
 		ExecutorService pool = Executors.newCachedThreadPool();
+		
 		List<Future<StockInfo>> results=new ArrayList<Future<StockInfo>>(); 
 		for(final StockInfo stock:allStocks){
 			Future<StockInfo> future=pool.submit(new Callable<StockInfo>() {
 				public StockInfo call(){
-					return analyseService.calculateStockIsDayAverageGoldX(stock,shortTerm, mediumTerm, longTerm);
+				    StockStage stage=analyseService.analyseStockStage(stageDefi, stock);
+				    if(stage !=null&&stage instanceof StableStage){
+				      Boolean isUpPower=analyseService.calculateStockIsDayAverageGoldX(stock,shortTerm, mediumTerm, longTerm);
+				      if(isUpPower){
+				        return stock;
+				      }
+				    }
+					return null;
 				}
 			});	
 			results.add(future);
