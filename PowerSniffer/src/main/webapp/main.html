@@ -56,7 +56,7 @@
 			<div class="row">
 				<button type="button" class="btn btn-default " id="getDownPercentBtn">查询</button>
 				<button type="button" class="btn btn-default " id="syncAllStocksBtn">同步所有股票</button>
-				
+				<button type="button" class="btn btn-default " data-toggle="modal" data-target="#periodLowestModal">阶段性底价</button>
 			</div>
 			<table id="lowPriceBuyTb" class="display" width="100%"></table>
 		</div>
@@ -137,6 +137,36 @@
 	</div>
 
 
+		<div class="modal fade" id="periodLowestModal" tabindex="-1" role="dialog"
+		aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<h4 class="modal-title" id="myModalLabel">阶段性底价参数</h4>
+				</div>
+				<div class="modal-body">
+					
+					<div class="input-group">
+						<span class="input-group-addon">周期(天)</span>
+						<input type="text" class="form-control" placeholder="" id="periodicDays" value="30">
+					</div>
+
+					<div class="input-group">
+						<span class="input-group-addon">到最低价最大跌幅</span>
+						<input type="text" class="form-control" placeholder="" id="maxDownPercentToLowest" value="1">
+						<span class="input-group-addon">%</span>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" id="calculatePeriodLowestPriceBtn">开始分析</button>
+				</div>
+			</div>
+		</div>
+	</div>
+
 </body>
 <script type="text/javascript">
 	var restfulContext = "/PowerSniffer/rest";
@@ -196,6 +226,25 @@
 				
 			});
 		});
+		
+		$("#calculatePeriodLowestPriceBtn").on("click",function(){
+			var btn = $(this);
+			$(this).prop('disabled', true);
+			var periodicDays=$("#periodicDays").val();
+			var maxDownPercentToLowest=$("#maxDownPercentToLowest").val();
+			$.ajax({
+				url : restfulContext + "/lowPriceBuyStrategy/calculatePeriodicLowPriceStocks?periodicDays="+periodicDays+"&maxDownPercentToLowest="+maxDownPercentToLowest
+			}).done(function(data) {
+				btn.prop('disabled', false);
+				appendToConsole("阶段性底价--分析结果");
+				for(var i=0;i<data.length;i++){
+					var stock=data[i];
+					appendToConsole(stock.name+"-->"+stock.peRatio+"  toLowestDown:"+stock.downPercentToLowest);
+				}
+				
+			});			
+		});
+		
 		//setInterval(function(){fetchAlarmStocks();}, 3000);
 	});
 	function fetchDownPercentData() {

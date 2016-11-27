@@ -155,7 +155,9 @@ private StockAnalysisService analyseService=SpringBeanFactory.getBean(StockAnaly
       Future<StockInfo> future = pool.submit(new Callable<StockInfo>() {
         public StockInfo call() {
           Float downPercent = analyseService.calculateStockPeriodicToLowestPriceDownPercent(stock, periodicDays);
-          if (downPercent != null && downPercent.floatValue() <= maxDownPercentToLowest) {
+          System.out.println(downPercent);
+          if (downPercent != null && downPercent.floatValue() <= maxDownPercentToLowest/100) {
+        	  stock.setDownPercentToLowest(downPercent.floatValue());
             return stock;
           }
           return null;
