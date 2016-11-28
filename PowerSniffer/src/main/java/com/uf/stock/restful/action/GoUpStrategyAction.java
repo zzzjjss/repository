@@ -135,43 +135,39 @@ public class GoUpStrategyAction {
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   @GET
   @Path("/analyseAvgPrice")
-  public String analyseAvgPrice(@QueryParam("stableDays")final int stableDays,@QueryParam("stableAmplitude")final float stableAmplitude,
-      @QueryParam("shortTerm")final int shortTerm,@QueryParam("mediumTerm")final int mediumTerm,@QueryParam("longTerm")final int longTerm){
-	  List<StockInfo> stocks=new ArrayList<StockInfo>();
-	  final List<StageDefinition> stageDefi=new ArrayList<StageDefinition>();
-      StableStageDefinition stable=new StableStageDefinition(stableDays, stableAmplitude/100);
-      stageDefi.add(stable);
-	  List<StockInfo> allStocks=service.findStocksPeRatioBetween(1f, Float.MAX_VALUE);
-		ExecutorService pool = Executors.newCachedThreadPool();
-		
-		List<Future<StockInfo>> results=new ArrayList<Future<StockInfo>>(); 
-		for(final StockInfo stock:allStocks){
-			Future<StockInfo> future=pool.submit(new Callable<StockInfo>() {
-				public StockInfo call(){
-				    StockStage stage=analyseService.analyseStockStage(stageDefi, stock);
-				    if(stage !=null&&stage instanceof StableStage){
-				      Boolean isUpPower=analyseService.calculateStockIsDayAverageGoldX(stock,shortTerm, mediumTerm, longTerm);
-				      if(isUpPower){
-				        return stock;
-				      }
-				    }
-					return null;
-				}
-			});	
-			results.add(future);
-		}
-		pool.shutdown();
-		for(Future<StockInfo> result:results){
-			try {
-				StockInfo info=result.get();
-				if(info!=null){
-					stocks.add(info);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			} 
-		}
-	  Gson gson=new Gson();
-	  return gson.toJson(stocks);
+  public String analyseAvgPrice(@QueryParam("analysicDays") final int analysicDays, @QueryParam("downPercentToLowestPrice") final float downPercentToLowestPrice, @QueryParam("shortTerm") final int shortTerm, @QueryParam("mediumTerm") final int mediumTerm, @QueryParam("longTerm") final int longTerm) {
+    List<StockInfo> stocks = new ArrayList<StockInfo>();
+    List<StockInfo> allStocks = service.findStocksPeRatioBetween(1f, Float.MAX_VALUE);
+    ExecutorService pool = Executors.newCachedThreadPool();
+    List<Future<StockInfo>> results = new ArrayList<Future<StockInfo>>();
+    for (final StockInfo stock : allStocks) {
+      Future<StockInfo> future = pool.submit(new Callable<StockInfo>() {
+        public StockInfo call() {
+          Float downPercent = analyseService.calculateStockPeriodicToLowestPriceDownPercent(stock, analysicDays);
+          if (downPercent != null && downPercent.floatValue() <= downPercentToLowestPrice / 100) {
+            Boolean isUpPower = analyseService.calculateStockIsDayAverageGoldX(stock, shortTerm, mediumTerm, longTerm);
+            if (isUpPower) {
+              stock.setDownPercentToLowest(downPercent);
+              return stock;
+            }
+          }
+          return null;
+        }
+      });
+      results.add(future);
+    }
+    pool.shutdown();
+    for (Future<StockInfo> result : results) {
+      try {
+        StockInfo info = result.get();
+        if (info != null) {
+          stocks.add(info);
+        }
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+    Gson gson = new Gson();
+    return gson.toJson(stocks);
   }
 }
