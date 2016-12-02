@@ -49,12 +49,22 @@ http://www.springframework.org/schema/aop/spring-aop.xsd">
 	</bean>
 	
 	<bean class="com.uf.stock.data.bean.ConfigInfo">
-		<property name="isUseProxy" value="false"></property>
+		<property name="isUseProxy" value="true"></property>
 		<property name="proxyAddress" value="10.5.157.46"></property>
 		<property name="proxyPort" value="80"></property>
 	</bean>
 	
 	<bean id="stockDataSynchronizer" class="com.uf.stock.data.sync.StockDataSynchronizerImpl"></bean>
+	<bean id="monitor" class="com.uf.stock.sniffer.Monitor">
+		<property name="alarms">
+			<list>
+				<!--  <ref bean="emailAlarm"/>-->
+				<ref bean="webAlarm"/>
+			</list>
+		</property>
+	</bean>
+	<bean id="emailAlarm" class="com.uf.stock.sniffer.alarm.email.EmailAlarm"></bean>
+	<bean id="webAlarm" class="com.uf.stock.sniffer.alarm.websocket.WebAlarm"></bean>
 	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate4.HibernateTemplate">
 		<property name="sessionFactory" ref="sessionFactory"></property>
 	</bean>
